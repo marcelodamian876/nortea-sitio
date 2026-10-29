@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /herramientas/
+
+Sitemap: https://nortea.mx/sitemap.xml

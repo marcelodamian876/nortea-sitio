@@ -1,0 +1,169 @@
+{
+    "obras":  [
+                  {
+                      "id":  "adecuaciones-edificio-san-nicolas",
+                      "nombre":  "Fachadas y acabados · San Nicolás de los Garza",
+                      "categorias":  [
+                                         "Fachadas",
+                                         "Acabados",
+                                         "Obra civil"
+                                     ],
+                      "tipoTrabajo":  "Adecuaciones para edificio",
+                      "ubicacion":  "San Nicolás de los Garza, N.L.",
+                      "descripcion":  "Trabajos varios de adecuación para edificio: fachadas, recubrimientos de mármol y porcelanato, muros, cajillos, estuco, armados y zarpeos.",
+                      "partidas":  [
+                                       "Fachadas",
+                                       "Mármol",
+                                       "Muros",
+                                       "Cajillos",
+                                       "Estuco",
+                                       "Baldosas",
+                                       "Porcelanatos",
+                                       "Armados",
+                                       "Zarpeos"
+                                   ],
+                      "fotos":  [
+                                    {
+                                        "src":  "obras/adecuaciones-edificio-san-nicolas/01.webp",
+                                        "alt":  "Fachada con jardineras y recubrimiento en tono madera"
+                                    },
+                                    {
+                                        "src":  "obras/adecuaciones-edificio-san-nicolas/02.webp",
+                                        "alt":  "Fachada de edificio durante la obra"
+                                    }
+                                ]
+                  },
+                  {
+                      "id":  "hotel-san-pedro",
+                      "nombre":  "Acabados de hotel · San Pedro Garza García",
+                      "categorias":  [
+                                         "Acabados",
+                                         "Tablaroca",
+                                         "Comercial"
+                                     ],
+                      "tipoTrabajo":  "Habilitado de habitaciones",
+                      "ubicacion":  "San Pedro Garza García, N.L.",
+                      "descripcion":  "Habilitado de habitaciones de hotel con acabados de lujo: muros, plafones, cajillos y nichos de panel de yeso, empastados, pintura y porcelanato de gran formato.",
+                      "partidas":  [
+                                       "Muros, plafones, cajillos y nichos de panel de yeso",
+                                       "Pintura",
+                                       "Empastados",
+                                       "Porcelanatos de gran formato"
+                                   ],
+                      "fotos":  [
+                                    {
+                                        "src":  "obras/hotel-san-pedro/01.webp",
+                                        "alt":  "Habitación de hotel con plafón y muros terminados"
+                                    }
+                                ]
+                  },
+                  {
+                      "id":  "muros-20m-apodaca",
+                      "nombre":  "Muros de 20 m de altura · Apodaca",
+                      "categorias":  [
+                                         "Tablaroca",
+                                         "Industrial"
+                                     ],
+                      "tipoTrabajo":  "Habilitado de espacio de trabajo",
+                      "ubicacion":  "Apodaca, N.L.",
+                      "descripcion":  "Habilitado de espacio de trabajo: muros y columnas de panel de yeso de 20 m de altura y adaptaciones varias.",
+                      "partidas":  [
+                                       "Muros y columnas de panel de yeso de 20 m de altura",
+                                       "Adaptaciones varias"
+                                   ],
+                      "fotos":  [
+                                    {
+                                        "src":  "obras/muros-20m-apodaca/01.webp",
+                                        "alt":  "Trabajador en plataforma de elevación junto a un muro de panel de yeso de gran altura"
+                                    }
+                                ]
+                  },
+                  {
+                      "id":  "obra-civil-particulares",
+                      "nombre":  "Obra civil · Monterrey",
+                      "categorias":  [
+                                         "Obra civil"
+                                     ],
+                      "tipoTrabajo":  "Obra civil",
+                      "ubicacion":  "Monterrey, N.L.",
+                      "descripcion":  "Obra civil para clientes particulares: construcción de naves, firmes y losas, demoliciones y albañilería en general.",
+                      "partidas":  [
+                                       "Naves",
+                                       "Firmes",
+                                       "Losas",
+                                       "Demoliciones",
+                                       "Albañilerías en general"
+                                   ],
+                      "fotos":  [
+                                    {
+                                        "src":  "obras/obra-civil-particulares/02.webp",
+                                        "alt":  "Estructura metálica de nave con firme de concreto"
+                                    },
+                                    {
+                                        "src":  "obras/obra-civil-particulares/01.webp",
+                                        "alt":  "Colado con camión revolvedor en obra civil"
+                                    },
+                                    {
+                                        "src":  "obras/obra-civil-particulares/03.webp",
+                                        "alt":  "Compactación de terreno para firme"
+                                    }
+                                ]
+                  },
+                  {
+                      "id":  "fachada-residencial-monterrey",
+                      "nombre":  "Adecuación de fachada residencial · Monterrey",
+                      "categorias":  [
+                                         "Fachadas",
+                                         "Acabados",
+                                         "Ampliaciones y remodelaciones"
+                                     ],
+                      "tipoTrabajo":  "Adecuaciones en fachada",
+                      "ubicacion":  "Monterrey, N.L.",
+                      "descripcion":  "Adecuaciones en fachada residencial: volúmenes ligeros en altura, porcelanatos, jardineras, herrería, pintura y albañilería.",
+                      "partidas":  [
+                                       "Volúmenes ligeros en altura",
+                                       "Porcelanatos",
+                                       "Jardineras",
+                                       "Herrerías",
+                                       "Pinturas",
+                                       "Albañilerías"
+                                   ],
+                      "fotos":  [
+                                    {
+                                        "src":  "obras/fachada-residencial-monterrey/01.webp",
+                                        "alt":  "Fachada residencial con andamios durante la obra"
+                                    },
+                                    {
+                                        "src":  "obras/fachada-residencial-monterrey/02.webp",
+                                        "alt":  "Fachada con andamios y volumen ligero en altura"
+                                    }
+                                ]
+                  },
+                  {
+                      "id":  "oficinas-edificio-medico",
+                      "nombre":  "Habilitado de oficinas · San Nicolás de los Garza",
+                      "categorias":  [
+                                         "Tablaroca",
+                                         "Acabados",
+                                         "Ampliaciones y remodelaciones"
+                                     ],
+                      "tipoTrabajo":  "Habilitado de oficinas",
+                      "ubicacion":  "San Nicolás de los Garza, N.L.",
+                      "descripcion":  "Habilitado de oficinas en edificio médico: muros, plafones registrables, cajillos y nichos de panel de yeso, con empastado, pintura y refuerzos.",
+                      "partidas":  [
+                                       "Muros",
+                                       "Plafones registrables",
+                                       "Cajillos y nichos de panel de yeso",
+                                       "Pintura",
+                                       "Empastados",
+                                       "Refuerzos"
+                                   ],
+                      "fotos":  [
+                                    {
+                                        "src":  "obras/oficinas-edificio-medico/01.webp",
+                                        "alt":  "Oficina con plafón registrable en proceso y muros de panel de yeso"
+                                    }
+                                ]
+                  }
+              ]
+}
