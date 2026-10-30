@@ -175,10 +175,23 @@
   var cierre = document.getElementById("cotizar");
   // Sin requestAnimationFrame a propósito: si el navegador pausa las animaciones,
   // la barra y el contenido igual reaccionan al scroll.
+  // La barra se esconde al bajar y reaparece al subir. Nunca se esconde arriba
+  // del todo, con el menú abierto ni si tiene el foco del teclado.
+  var ultimoY = window.scrollY;
   function onScroll() {
-    header.classList.toggle("is-solid", window.scrollY > 0);
+    var y = window.scrollY;
+    header.classList.toggle("is-solid", y > 0);
+    var delta = y - ultimoY;
+    if (Math.abs(delta) > 6) {
+      var esconder = delta > 0 && y > header.offsetHeight &&
+        !header.classList.contains("is-open") && !header.contains(document.activeElement);
+      header.classList.toggle("is-hidden", esconder);
+      ultimoY = y;
+    }
+    if (y <= 0) header.classList.remove("is-hidden");
     liberarPendientes();
   }
+  header.addEventListener("focusin", function () { header.classList.remove("is-hidden"); });
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
   // El botón flotante se esconde cuando la sección de cierre (con su botón grande) está a la vista.

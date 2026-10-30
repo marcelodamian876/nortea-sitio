@@ -110,7 +110,10 @@ address { font-style: normal; }
   height: var(--header-h);
   background: rgba(11, 29, 47, .0);
   border-bottom: 1px solid transparent;
+  transition: transform .3s var(--ease);
 }
+/* Se esconde al bajar y regresa al subir (ver main.js) */
+.site-header.is-hidden { transform: translateY(-100%); }
 /* Fondo sólido desde el primer pixel de scroll, sin transición de color:
    así el logo claro nunca queda sobre fondo crema. */
 .site-header.is-solid, .site-header.is-open {
