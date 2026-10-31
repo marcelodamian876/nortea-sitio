@@ -959,12 +959,16 @@ function aplicar(f) {
   if (pf > 0) construirLineas();
   gLineas.visible = pf > 0 && pl < 1;
   lineaFinal.opacity = Math.min(1, pf * 1.6) * (1 - pl);
+  // opacidad deseada por material; "transparent" solo cambia cuando hace falta y
+  // entonces se recompila el material (si no, el shader opaco ignora la opacidad)
   const k = 1 - Math.min(1, pf * 1.3);
-  for (const m of todosMats) { m.opacity = m.userData.op0 * k; m.transparent = m.userData.tr0 || k < 1; m.depthWrite = m.userData.dw0 && k >= 1; }
-  M.terreno.opacity = 0.62 * suave((f - (TL.topo[0] + 40)) / 20) * (1 - pf);
-  {
-    const pr = suave((f - TL.relleno[0]) / (TL.relleno[1] - TL.relleno[0]));
-    if (pr > 0) { M.concretoFresco.transparent = true; M.concretoFresco.opacity = 1 - pr; M.concretoFresco.depthWrite = pr < 0.5; }
+  const pr = suave((f - TL.relleno[0]) / (TL.relleno[1] - TL.relleno[0]));
+  for (const m of todosMats) {
+    let op = m.userData.op0 * k, tr = m.userData.tr0 || k < 1, dw = m.userData.dw0 && k >= 1;
+    if (m === M.terreno) op = 0.62 * suave((f - (TL.topo[0] + 40)) / 20) * (1 - pf);
+    if (m === M.concretoFresco && pr > 0) { op *= 1 - pr; tr = true; dw = dw && pr < 0.5; }   // zapatas bajo el relleno
+    m.opacity = op; m.depthWrite = dw;
+    if (m.transparent !== tr) { m.transparent = tr; m.needsUpdate = true; }
   }
   casa.visible = pf < 0.999;
   lineaOroTenue.opacity *= (1 - pf);
