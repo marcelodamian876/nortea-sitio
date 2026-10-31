@@ -342,10 +342,18 @@ const gExc = grupo("excavacion"), gArmZ = grupo("armadoZap"), gZap = grupo("zapa
 const exc = [], armZ = [], zap = [], dad = [], ct = [];
 for (const x of EX) for (const z of EZ) {
   exc.push(caja(gExc, x - 0.85, x + 0.85, PISO + 0.002, PISO + 0.012, z - 0.85, z + 0.85, M.excavacion, false));
-  const p = [];
-  for (let k = -0.6; k <= 0.61; k += 0.2) p.push(x + k, PISO + 0.1, z - 0.6, x + k, PISO + 0.1, z + 0.6, x - 0.6, PISO + 0.12, z + k, x + 0.6, PISO + 0.12, z + k);
-  for (const [dx, dz] of [[-0.12, -0.12], [0.12, -0.12], [-0.12, 0.12], [0.12, 0.12]]) p.push(x + dx, PISO + 0.1, z + dz, x + dx, NIV[0] + 0.9, z + dz);
-  const a = lineas(gArmZ, p, lineaVarilla); a.userData.ocultaEn = TL.armado1[0] + 4; armZ.push(a);
+  // parrilla de la zapata (queda ahogada al colarla), arranques dentro del dado y arranques sobre el terreno
+  const parrilla = [], dado = [], arranque = [];
+  for (let k = -0.6; k <= 0.61; k += 0.2) parrilla.push(x + k, PISO + 0.1, z - 0.6, x + k, PISO + 0.1, z + 0.6, x - 0.6, PISO + 0.12, z + k, x + 0.6, PISO + 0.12, z + k);
+  for (const [dx, dz] of [[-0.12, -0.12], [0.12, -0.12], [-0.12, 0.12], [0.12, 0.12]]) {
+    parrilla.push(x + dx, PISO + 0.1, z + dz, x + dx, PISO + 0.3, z + dz);
+    dado.push(x + dx, PISO + 0.3, z + dz, x + dx, 0, z + dz);
+    arranque.push(x + dx, 0, z + dz, x + dx, NIV[0] + 0.9, z + dz);
+  }
+  const a1 = lineas(gArmZ, parrilla, lineaVarilla); a1.userData.ocultaEn = TL.zapatas[1];
+  const a2 = lineas(gArmZ, dado, lineaVarilla); a2.userData.ocultaEn = TL.dados[1];
+  const a3 = lineas(gArmZ, arranque, lineaVarilla); a3.userData.ocultaEn = TL.armado1[0] + 4;
+  armZ.push(a1, a2, a3);
   zap.push(caja(gZap, x - 0.7, x + 0.7, PISO, PISO + 0.3, z - 0.7, z + 0.7, M.concretoFresco));
   dad.push(caja(gDad, x - 0.25, x + 0.25, PISO + 0.3, 0, z - 0.25, z + 0.25, M.concretoFresco));
 }
