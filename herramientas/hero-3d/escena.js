@@ -1,11 +1,11 @@
 /* =====================================================================
-   NORTEA · Hero 3D v10 — animación cuadro por cuadro
+   NORTEA · Hero 3D v12 — animación cuadro por cuadro
    ---------------------------------------------------------------------
    Un solo modelo de la vivienda (render original "opción 4" del propietario).
    Cada pieza tiene su ventana de tiempo; window.cuadro(f) deja la escena
    en el cuadro f (30 fps). Al final la casa se vuelve líneas doradas en
-   3D; esas líneas forman una sola línea continua que se enrolla en caracol
-   y se abre en el contorno del isotipo. En el cuadro LOGO el sitio sigue
+   3D; esas líneas se corren, como liga, y se juntan en el contorno del
+   isotipo. En el cuadro LOGO el sitio sigue
    encima del video con ese mismo contorno (cierre-*.json): rellena el
    logo y escribe NORTEA · INGENIERÍA Y CONSTRUCCIÓN.
 
@@ -32,8 +32,8 @@ const ANCHO = +params.get("w") || window.innerWidth;
 const ALTO = +params.get("h") || window.innerHeight;
 const MOVIL = ALTO > ANCHO;
 if (params.has("captura")) document.body.classList.add("captura");
-const LOGO = 992;                 // cuadro en que la línea dorada ya es el contorno del logo y el sitio sigue encima
-const TOTAL = LOGO + 112;         // 1104 cuadros = 36.8 s (el sitio dibuja 112 cuadros: relleno, nombre y salida)
+const LOGO = 977;                 // cuadro en que la línea dorada ya es el contorno del logo y el sitio sigue encima
+const TOTAL = LOGO + 112;         // 1089 cuadros = 36.3 s (el sitio dibuja 112 cuadros: relleno, nombre y salida)
 
 /* ---------- Azar con semilla: el mismo resultado en cada render ---------- */
 let semilla = 20261031;
@@ -47,6 +47,7 @@ renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 0.95;
 renderer.shadowMap.enabled = true;
+renderer.localClippingEnabled = true;   // armado de columnas recortado a la altura del colado
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.body.appendChild(renderer.domElement);
 
@@ -173,18 +174,19 @@ const texLargo = lienzo(512, 256, (g, w, h) => {
   }
   g.globalAlpha = 1; g.strokeStyle = "rgba(60,50,40,.22)"; g.lineWidth = 2; g.strokeRect(1, 1, w - 2, h - 2);
 });
-// duela de encino natural: tablas de 19 cm con cabezas cuatrapeadas, tono parejo y junta fina (textura que se repite)
+// duela de roble en café medio (del tono de las puertas): tablas de 19 cm con cabezas cuatrapeadas, veta suave y
+// junta fina (textura que se repite)
 const texDuela = lienzo(512, 512, (g, w, h) => {
   const n = 8, q = h / n;
-  g.fillStyle = "#c9a57c"; g.fillRect(0, 0, w, h);
+  g.fillStyle = "#7c4e2e"; g.fillRect(0, 0, w, h);
   for (let j = 0; j < n; j++) {
     const off = rnd() * w;
     for (let k = -1; k < 2; k++) {
-      const x0 = off + k * w * 0.62, v = (rnd() - 0.5) * 16;
-      g.fillStyle = `rgb(${201 + v | 0},${165 + v * 0.9 | 0},${124 + v * 0.8 | 0})`; g.fillRect(x0, j * q, w * 0.62, q);
+      const x0 = off + k * w * 0.62, v = (rnd() - 0.5) * 22;
+      g.fillStyle = `rgb(${124 + v | 0},${78 + v * 0.75 | 0},${46 + v * 0.55 | 0})`; g.fillRect(x0, j * q, w * 0.62, q);
     }
-    for (let i = 0; i < 22; i++) { g.strokeStyle = `rgba(120,88,58,${0.07 + rnd() * 0.1})`; g.lineWidth = 0.7 + rnd(); const y = j * q + rnd() * q; g.beginPath(); g.moveTo(0, y); g.bezierCurveTo(w * .3, y + 2, w * .6, y - 2, w, y + 1); g.stroke(); }
-    g.fillStyle = "rgba(96,70,46,.35)"; g.fillRect(0, j * q, w, 1);
+    for (let i = 0; i < 22; i++) { g.strokeStyle = `rgba(62,36,18,${0.08 + rnd() * 0.14})`; g.lineWidth = 0.7 + rnd() * 1.4; const y = j * q + rnd() * q; g.beginPath(); g.moveTo(0, y); g.bezierCurveTo(w * .3, y + 2, w * .6, y - 2, w, y + 1); g.stroke(); }
+    g.fillStyle = "rgba(38,22,10,.45)"; g.fillRect(0, j * q, w, 1);
     g.fillRect(off % w, j * q, 1, q); g.fillRect((off + w * 0.62) % w, j * q, 1, q);
   }
 }, true);
@@ -604,8 +606,7 @@ const TL = {
   forro: [784, 802], cubierta3: [800, 810], impermeable: [810, 816], ventanas3: [814, 822],
   terraza: [828, 874],
   dorado: [902, 926],                      // la casa se vuelve líneas doradas (de abajo hacia arriba)
-  caracol: [934, 968],                     // las líneas se vuelven una sola línea continua que se enrolla en caracol
-  logo: [966, LOGO],                       // el caracol se abre en el contorno del isotipo
+  junta: [934, LOGO - 2],                  // las líneas del plano se corren, como liga, y se juntan en el contorno del isotipo
 };
 
 /* =====================================================================
@@ -740,26 +741,28 @@ function losa(g, a, b, conTapa = false) {
 }
 const TAPA = [];
 const lineaBaston = new THREE.LineBasicMaterial({ color: 0xf2c766 });   // acero adicional del volado: un dorado más claro
+const ARMADO_COL = [];   // armado de cada columna (se recorta a la altura del concreto mientras se cuela)
 function estructura(n) {
   const k = n + 1;
   const gA = grupo("armado" + k), gC = grupo("columnas" + k), gV = grupo("armadoLosa" + k), gL = grupo("losa" + k);
   const y0 = NIV[n], yl = TECHO(n), yt = yl + LOSA;
   const [a0, a1] = TL["armadoLosa" + k], [l0, l1] = TL["losa" + k];
-  // columnas: armado (4 varillas y estribos) y colado; las varillas siguen dentro de la losa y, en planta baja,
-  // salen 15 cm arriba como varillas de espera para el 2º nivel
+  // columnas: armado (4 varillas y estribos) y colado. El concreto tapa el armado conforme sube (el armado se
+  // recorta a la altura del colado) y, ya colada cada columna, no queda ninguna varilla a la vista
   const arm = [], col = [];
   for (const [x, z] of COL) {
-    const p = [], q = [], tope = n === 0 ? yt + 0.15 : yt - 0.03;
-    for (const [dx, dz] of [[-0.12, -0.12], [0.12, -0.12], [-0.12, 0.12], [0.12, 0.12]]) { p.push(x + dx, y0, z + dz, x + dx, yl, z + dz); q.push(x + dx, yl, z + dz, x + dx, tope, z + dz); }
+    const p = [];
+    for (const [dx, dz] of [[-0.12, -0.12], [0.12, -0.12], [-0.12, 0.12], [0.12, 0.12]]) p.push(x + dx, y0, z + dz, x + dx, yl, z + dz);
     for (let y = y0 + 0.15; y < yl; y += 0.3) p.push(x - 0.13, y, z - 0.13, x + 0.13, y, z - 0.13, x + 0.13, y, z - 0.13, x + 0.13, y, z + 0.13, x + 0.13, y, z + 0.13, x - 0.13, y, z + 0.13, x - 0.13, y, z + 0.13, x - 0.13, y, z - 0.13);
-    const a = lineas(gA, p, lineaVarilla); a.userData.ocultaEn = TL["columnas" + k][1] + 2; arm.push(a);
-    const e = lineas(gA, q, lineaVarilla); e.userData.ocultaEn = n === 0 ? TL.armado2[0] + 2 : l1 + 1; a.userData.espera = e;
+    const a = lineas(gA, p, lineaVarilla.clone()); arm.push(a);
+    a.material.clippingPlanes = [new THREE.Plane(new THREE.Vector3(0, 1, 0), 1e3)];
     const c = plano1(caja(gC, x - h, x + h, y0, yl + 0.002, z - h, z + h, M.concreto)), cc = carasPerimetro(c);
     col.push(acabado(c, cc, M.concreto, { cantos: [0, 1, 2, 3, 4, 5].filter(i => i === 2 || i === 3 || cc[i] !== "e") }));
+    a.userData.columna = c; ARMADO_COL.push(a);
   }
   secuencia(arm, "sube", ...TL["armado" + k], 8);
-  for (const a of arm) { const z = anims.find(x => x.o === a); anima(a.userData.espera, "sube", z.t1 - 1, z.t1 + 2); }
   secuencia(col, "sube", ...TL["columnas" + k], 10, o => o.position.x - o.position.z);
+  for (const a of arm) { const z = anims.find(x => x.o === a.userData.columna); a.userData.colado = z; a.userData.ocultaEn = Math.ceil(z.t1); }
   // trabes: jaula de 4 varillas con estribos a cada 20 cm (a cada 10 cm en el volado), dentro del peralte de la losa;
   // en el volado (esquina 5, 5 sin columna) dos bastones arriba que entran 1.5 m al claro vecino
   const jaulas = [], bastones = [];
@@ -989,7 +992,7 @@ function porcelanatoLargo(g, x0, x1, z0, z1, y, m = M.pieza, largo = 1.2, ancho 
   }
   return out;
 }
-// piso de duela de encino: una pieza por local, con la escala de las tablas según su tamaño
+// piso de duela de roble: una pieza por local, con la escala de las tablas según su tamaño
 function duela(g, x0, x1, z0, z1, y) {
   const m = M.duela.clone(); todosMats.add(m); m.map = texDuela.clone(); m.map.needsUpdate = true; m.map.repeat.set((x1 - x0) / 2.4, (z1 - z0) / 1.6);
   const o = caja(g, x0, x1, y, y + 0.02, z0, z1, m, false); o.userData.sinLinea = true; return o;
@@ -1594,9 +1597,9 @@ function hojas(g, eje, fijo, a0, a1, y0, y1, vanos, off, e, m, sinJunta = false)
 
 /* =====================================================================
    LÍNEAS DORADAS DEL FINAL (capa 2D encima del render, proyectada desde 3D):
-   la casa se vuelve líneas doradas de abajo hacia arriba. Esas líneas son una sola línea continua (un recorrido
-   que pasa por todas las aristas, ida y vuelta): se va enrollando en caracol, sin deshacerse, y el caracol se
-   abre en el contorno del isotipo justo donde el sitio lo sigue dibujando encima del video (cierre-*.json).
+   la casa se vuelve líneas doradas de abajo hacia arriba (plano 3D). Luego esas líneas se corren en línea recta,
+   como liga, y se juntan en el contorno del isotipo justo donde el sitio lo sigue dibujando encima del video
+   (cierre-*.json). Sin giros ni caracol: cada línea va directo a su tramo del contorno.
    ===================================================================== */
 const DPR = +params.get("dpr") || 1;
 const capa2d = document.createElement("canvas");
@@ -1698,65 +1701,84 @@ const RED = (() => {
   const s = nodos.map(barrido);
   return { nodos, aristas, raiz, smin: Math.min(...s), stope: Math.max(...s) };
 })();
-/* Una sola línea: recorrido en profundidad desde la raíz que pasa por cada arista de ida y de regreso.
-   Se muestrea a cada 10 cm; u = largo recorrido / largo total (0 a 1). Para cada arista se guarda en qué
-   momentos del recorrido pasa la línea por ella (la arista fija se apaga cuando su línea ya se movió). */
-const LINEA = (() => {
-  const { nodos, aristas, raiz } = RED, ady = nodos.map(() => []);
-  aristas.forEach((e, k) => { ady[e.i].push([e.j, k]); ady[e.j].push([e.i, k]); });
-  // primero lo más alto y lo del frente: el caracol empieza a enrollarse desde la azotea
-  for (const l of ady) l.sort((a, b) => barrido(nodos[b[0]]) - barrido(nodos[a[0]]));
-  const usada = aristas.map(() => false), ptr = nodos.map(() => 0), pila = [raiz], pilaK = [], pasos = [];
-  while (pila.length) {
-    const u = pila[pila.length - 1]; let sig = null;
-    while (ptr[u] < ady[u].length) { const [v, k] = ady[u][ptr[u]++]; if (!usada[k]) { usada[k] = true; sig = [v, k]; break; } }
-    if (sig) { pasos.push([u, sig[0], sig[1]]); pila.push(sig[0]); pilaK.push(sig[1]); }
-    else { pila.pop(); const k = pilaK.pop(); if (pila.length) pasos.push([u, pila[pila.length - 1], k]); }
-  }
-  const pts = [], largo = [0], paso = 0.1, porArista = aristas.map(() => []);
-  pts.push(nodos[raiz].clone());
-  for (const [a, b, k] of pasos) {
-    const A3 = nodos[a], B3 = nodos[b], L = A3.distanceTo(B3), n = Math.max(1, Math.ceil(L / paso)), i0 = pts.length - 1;
-    for (let i = 1; i <= n; i++) { pts.push(A3.clone().lerp(B3, i / n)); largo.push(largo[largo.length - 1] + L / n); }
-    porArista[k].push((i0 + pts.length - 1) / 2);
-  }
-  const total = largo[largo.length - 1], u = largo.map(x => x / total);
-  for (const l of porArista) for (let i = 0; i < l.length; i++) l[i] = u[Math.round(l[i])];
-  return { pts, u, porArista, total, n: pts.length };
-})();
-/* Destinos en pantalla (píxeles del lienzo): caracol centrado en el isotipo y contorno del isotipo.
-   El caracol crece desde su centro hacia afuera (u = 0 en el centro), con dos vueltas y media, un poco
-   achatado como el logo; luego se abre en el contorno, que empieza abajo a la izquierda del isotipo. */
-const DESTINO = (() => {
-  const k = ESC2D * DPR, C = CIERRE.pts.map(([x, y]) => [x * k, y * k]);
-  const xs = C.map(p => p[0]), ys = C.map(p => p[1]);
-  const cx = (Math.min(...xs) + Math.max(...xs)) / 2, cy = (Math.min(...ys) + Math.max(...ys)) / 2 + (Math.max(...ys) - Math.min(...ys)) * 0.06;
-  const rx = (Math.max(...xs) - Math.min(...xs)) * 0.36, ry = (Math.max(...ys) - Math.min(...ys)) * 0.46;
-  // ángulo de arranque: el final del caracol (afuera) queda del lado del inicio del contorno
-  const a1 = Math.atan2((C[0][1] - cy) / ry, (C[0][0] - cx) / rx), vueltas = 2.5, a0 = a1 - vueltas * 2 * Math.PI;
-  const espiral = [], n = 1200;
-  for (let i = 0; i <= n; i++) { const t = i / n, a = a0 + (a1 - a0) * t, r = 0.08 + 0.92 * t; espiral.push([cx + rx * r * Math.cos(a), cy + ry * r * Math.sin(a)]); }
-  // remuestreo por largo de arco a los mismos u de la línea
-  const muestrea = poli => {
-    const acc = [0];
-    for (let i = 1; i < poli.length; i++) acc.push(acc[i - 1] + Math.hypot(poli[i][0] - poli[i - 1][0], poli[i][1] - poli[i - 1][1]));
-    const L = acc[acc.length - 1], out = new Float32Array(LINEA.n * 2);
-    let j = 1;
-    for (let i = 0; i < LINEA.n; i++) {
-      const s = LINEA.u[i] * L;
-      while (j < poli.length - 1 && acc[j] < s) j++;
-      const t = acc[j] > acc[j - 1] ? Math.min(1, Math.max(0, (s - acc[j - 1]) / (acc[j] - acc[j - 1]))) : 0;
-      out[2 * i] = poli[j - 1][0] + (poli[j][0] - poli[j - 1][0]) * t; out[2 * i + 1] = poli[j - 1][1] + (poli[j][1] - poli[j - 1][1]) * t;
-    }
-    return out;
+/* Contorno del isotipo en píxeles del lienzo, con su largo acumulado (el último punto regresa al primero) */
+const CONT = (() => {
+  const k = ESC2D * DPR, C = CIERRE.pts.map(([x, y]) => [x * k, y * k]), acc = [0];
+  for (let i = 1; i < C.length; i++) acc.push(acc[i - 1] + Math.hypot(C[i][0] - C[i - 1][0], C[i][1] - C[i - 1][1]));
+  const L = acc[acc.length - 1];
+  // punto del contorno a la fracción v de su largo (v se toma módulo 1)
+  const en = v => {
+    const s = (((v % 1) + 1) % 1) * L;
+    let lo = 1, hi = C.length - 1;
+    while (lo < hi) { const m = (lo + hi) >> 1; if (acc[m] < s) lo = m + 1; else hi = m; }
+    const d = acc[lo] - acc[lo - 1], t = d > 0 ? (s - acc[lo - 1]) / d : 0;
+    return [C[lo - 1][0] + (C[lo][0] - C[lo - 1][0]) * t, C[lo - 1][1] + (C[lo][1] - C[lo - 1][1]) * t];
   };
-  return { espiral: muestrea(espiral), logo: muestrea(C), contorno: C, cx, cy, rx, ry };
+  // fracción del punto del contorno más cercano a (x, y)
+  const cercano = (x, y) => {
+    let mejor = Infinity, v = 0;
+    for (let i = 1; i < C.length; i++) {
+      const ax = C[i - 1][0], ay = C[i - 1][1], dx = C[i][0] - ax, dy = C[i][1] - ay, l2 = dx * dx + dy * dy;
+      const t = l2 > 0 ? Math.min(1, Math.max(0, ((x - ax) * dx + (y - ay) * dy) / l2)) : 0;
+      const d = (ax + dx * t - x) ** 2 + (ay + dy * t - y) ** 2;
+      if (d < mejor) { mejor = d; v = (acc[i - 1] + t * Math.sqrt(l2)) / L; }
+    }
+    return v;
+  };
+  return { C, acc, L, en, cercano };
 })();
-// avance local de cada punto: los primeros puntos de la línea empiezan antes (la línea se va enrollando, no salta)
-const avance = (t, u, retraso) => suave(Math.min(1, Math.max(0, (t - retraso * u) / (1 - retraso))));
+/* Reparto del contorno entre las líneas del plano (fijo: se calcula una vez, con la cámara quieta del cierre).
+   Cada arista se queda con un tramo del contorno junto al lugar que le toca (la casa en pantalla se lleva al
+   tamaño del isotipo sólo para elegir lugares), en el mismo orden en que las aristas rodean el logo; los tramos
+   se suceden sin huecos: cuando todas llegan, son exactamente el contorno. Las cercanas salen primero y las
+   lejanas después, más rápido: la casa se recoge como liga, sin giros. */
+const JUNTA = { tramos: null, R: 0.22, J: 0.08 };
+function prepararJunta() {
+  poseCamara(TL.junta[0]);
+  const { nodos, aristas } = RED, P = nodos.map(p => aPantalla(p));
+  const lista = aristas.filter(e => !e.puente).map(e => {
+    const a = P[e.i], b = P[e.j];
+    return { A: nodos[e.i], B: nodos[e.j], a, b, m: [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2], l: Math.max(1, Math.hypot(b[0] - a[0], b[1] - a[1])) };
+  });
+  const media = (v, w) => { let s = 0, W = 0; v.forEach((x, i) => { s += x * w[i]; W += w[i]; }); return s / W; };
+  const desv = (v, w, m) => Math.sqrt(media(v.map(x => (x - m) ** 2), w));
+  const C = CONT.C, sx = [], sy = [], sw = [];
+  for (let i = 1; i < C.length; i++) { sx.push((C[i][0] + C[i - 1][0]) / 2); sy.push((C[i][1] + C[i - 1][1]) / 2); sw.push(CONT.acc[i] - CONT.acc[i - 1]); }
+  const hx = lista.map(o => o.m[0]), hy = lista.map(o => o.m[1]), hw = lista.map(o => o.l);
+  const mhx = media(hx, hw), mhy = media(hy, hw), mcx = media(sx, sw), mcy = media(sy, sw);
+  const kx = desv(sx, sw, mcx) / desv(hx, hw, mhx), ky = desv(sy, sw, mcy) / desv(hy, hw, mhy);
+  const lugar = ([x, y]) => CONT.cercano(mcx + (x - mhx) * kx, mcy + (y - mhy) * ky);
+  for (const o of lista) {
+    o.v = lugar(o.m);
+    let d = lugar(o.b) - lugar(o.a); d -= Math.round(d);          // la arista corre en el sentido del contorno
+    if (d < 0) { [o.A, o.B, o.a, o.b] = [o.B, o.A, o.b, o.a]; }
+    o.w = Math.pow(o.l, 0.7);
+  }
+  // orden alrededor del contorno y tramos consecutivos; el desfase deja a cada una lo más cerca de su lugar
+  lista.sort((p, q) => p.v - q.v);
+  const W = lista.reduce((s, o) => s + o.w, 0);
+  let c = 0, ax = 0, ay = 0;
+  for (const o of lista) { o.c0 = c / W; c += o.w; o.c1 = c / W; const g = 2 * Math.PI * (o.v - (o.c0 + o.c1) / 2); ax += o.w * Math.cos(g); ay += o.w * Math.sin(g); }
+  const desfase = Math.atan2(ay, ax) / (2 * Math.PI);
+  const n = C.length - 1, L = CONT.L;
+  let dmax = 0;
+  const tramos = lista.map((o, i) => {
+    const c0 = o.c0 + desfase, c1 = o.c1 + desfase, s0 = c0 * L, s1 = c1 * L, fr = [0], meta = [CONT.en(c0)];
+    // las esquinas del logo que caen dentro del tramo entran como puntos propios (el contorno queda exacto)
+    for (let r = Math.floor(s0 / L); r <= Math.floor(s1 / L); r++)
+      for (let j = 0; j < n; j++) { const s = CONT.acc[j] + r * L; if (s > s0 + 1e-6 && s < s1 - 1e-6) { fr.push((s - s0) / (s1 - s0)); meta.push(C[j]); } }
+    fr.push(1); meta.push(CONT.en(c1));
+    const fuente = fr.map(t => o.A.clone().lerp(o.B, t));
+    const mm = CONT.en((c0 + c1) / 2), dist = Math.hypot(mm[0] - o.m[0], mm[1] - o.m[1]);
+    dmax = Math.max(dmax, dist);
+    const azar = (Math.sin((i + 1) * 12.9898) * 43758.5453) % 1;
+    return { fuente, meta, dist, azar: Math.abs(azar), centro: o.A.clone().add(o.B).multiplyScalar(0.5) };
+  });
+  for (const t of tramos) t.retraso = JUNTA.R * Math.pow(t.dist / dmax, 0.8) + JUNTA.J * t.azar;
+  JUNTA.tramos = tramos;
+}
 const _pp = new THREE.Vector3(), _pm = new THREE.Vector3();
 function aPantalla(p) { _pp.copy(p).project(camara); return [(_pp.x + 1) / 2 * ANCHO * DPR, (1 - _pp.y) / 2 * ALTO * DPR, _pp.z]; }
-const _sx = new Float32Array(LINEA.n), _sy = new Float32Array(LINEA.n), _pv = new Float32Array(LINEA.n);
 function trazoBrillante(dibuja, alfa = 1) {
   // misma medida que la línea del logo en el sitio: halo difuso, línea clara
   const e2 = ESC2D * DPR;
@@ -1768,90 +1790,55 @@ function dibujarLineas(f) {
   const apaga = 1 - suave((f - (LOGO + 24)) / 12);                 // ya con el sitio encima, el video suelta el contorno
   capaActiva = f >= TL.dorado[0] && apaga > 0;
   if (!capaActiva) return;
+  if (!JUNTA.tramos) { prepararJunta(); camaraEn(f); }
   texCapa.needsUpdate = true;
   g2.lineCap = "round"; g2.lineJoin = "round";
-  const t1 = (f - TL.caracol[0]) / (TL.caracol[1] - TL.caracol[0]), t2 = (f - TL.logo[0]) / (TL.logo[1] - TL.logo[0]);
-  const { nodos, aristas } = RED, { espiral, logo } = DESTINO;
-  // 1) líneas doradas fijas de la casa (finas, con profundidad), hasta donde llegó el barrido; se apagan arista por
-  //    arista cuando la línea que pasa por ellas ya se movió hacia el caracol
-  if (t1 < 1) {
-    const yScan = nivelBarrido(suave((f - TL.dorado[0]) / (TL.dorado[1] - TL.dorado[0])));
-    const tramos = [];
-    for (let k = 0; k < aristas.length; k++) {
-      const e = aristas[k]; if (e.puente) continue;
-      const al = t1 > 0 ? 1 - Math.min(1, 3 * Math.max(...LINEA.porArista[k].map(u => avance(t1, u, 0.6)))) : 1;
-      if (al <= 0.01) continue;
-      let a = nodos[e.i].clone(), b = nodos[e.j].clone();
+  const yScan = nivelBarrido(suave((f - TL.dorado[0]) / (TL.dorado[1] - TL.dorado[0])));
+  const t = (f - TL.junta[0]) / (TL.junta[1] - TL.junta[0]), R = JUNTA.R + JUNTA.J;
+  // cada arista: quieta en la casa (fina, con profundidad, hasta donde llegó el barrido) o corriéndose en línea
+  // recta a su tramo del contorno; al correrse se enciende con el trazo brillante del logo
+  const finas = [], brillan = [];
+  for (const tr of JUNTA.tramos) {
+    const p = t <= 0 ? 0 : suave(Math.min(1, Math.max(0, (t - tr.retraso) / (1 - R))));
+    const s = suave(p / 0.45);
+    let pts, d = 0;
+    if (p <= 0) {
+      let a = tr.fuente[0], b = tr.fuente[tr.fuente.length - 1];
       const sa = barrido(a), sb = barrido(b);
       if (sa > yScan && sb > yScan) continue;
-      if (sa > yScan) a.lerp(b, (sa - yScan) / (sa - sb)); else if (sb > yScan) b.lerp(a, (sb - yScan) / (sb - sa));
-      tramos.push([a, b, al]);
-    }
-    const cam = camara.position, dists = tramos.map(([a, b]) => _pm.copy(a).add(b).multiplyScalar(0.5).distanceTo(cam));
-    const dmin = Math.min(...dists, 1e9), dmax = Math.max(...dists, -1e9);
+      if (sa > yScan) a = a.clone().lerp(b, (sa - yScan) / (sa - sb)); else if (sb > yScan) b = b.clone().lerp(a, (sb - yScan) / (sb - sa));
+      pts = [aPantalla(a), aPantalla(b)]; d = _pm.copy(a).add(b).multiplyScalar(0.5).distanceTo(camara.position);
+    } else if (p >= 1) pts = tr.meta;
+    else pts = tr.fuente.map((q, k) => { const P = aPantalla(q), M2 = tr.meta[k]; return [P[0] + (M2[0] - P[0]) * p, P[1] + (M2[1] - P[1]) * p]; });
+    if (s < 0.97) finas.push([pts, 1 - s, d || _pm.copy(tr.centro).distanceTo(camara.position)]);
+    if (s > 0.02) brillan.push([pts, s]);
+  }
+  const traza = pts => { g2.moveTo(pts[0][0], pts[0][1]); for (let k = 1; k < pts.length; k++) g2.lineTo(pts[k][0], pts[k][1]); };
+  // 1) líneas finas con profundidad (las de atrás más tenues), por capas de tono para no trazar línea por línea
+  if (finas.length) {
+    // tono por profundidad: durante el barrido, con lo que ya se ve; al juntarse, con toda la casa (no cambia de un cuadro a otro)
+    let dmin = Infinity, dmax = -Infinity;
+    if (t > 0) for (const tr of JUNTA.tramos) { const d = _pm.copy(tr.centro).distanceTo(camara.position); dmin = Math.min(dmin, d); dmax = Math.max(dmax, d); }
+    else for (const x of finas) { dmin = Math.min(dmin, x[2]); dmax = Math.max(dmax, x[2]); }
     g2.lineWidth = 1.35 * DPR * Math.max(ESC2D, 0.8);
-    // por capas de tono (de atrás hacia adelante) para no trazar línea por línea
     for (let c = 0; c < 6; c++) {
       for (const al of [1, 0.66, 0.33]) {
         g2.beginPath(); let hay = false;
-        tramos.forEach(([a, b, alfa], i) => {
-          const kk = dmax > dmin ? (dists[i] - dmin) / (dmax - dmin) : 0;
-          if (Math.min(5, Math.floor((1 - kk) * 6)) !== c || (alfa > 0.83 ? 1 : alfa > 0.5 ? 0.66 : 0.33) !== al) return;
-          const A2 = aPantalla(a), B2 = aPantalla(b); g2.moveTo(A2[0], A2[1]); g2.lineTo(B2[0], B2[1]); hay = true;
-        });
+        for (const [pts, alfa, d] of finas) {
+          const kk = dmax > dmin ? (d - dmin) / (dmax - dmin) : 0;
+          if (Math.min(5, Math.floor((1 - kk) * 6)) !== c || (alfa > 0.83 ? 1 : alfa > 0.5 ? 0.66 : 0.33) !== al) continue;
+          traza(pts); hay = true;
+        }
         if (!hay) continue;
         const kk = 1 - (c + 0.5) / 6;
         g2.strokeStyle = `rgba(214,174,92,${(0.95 - 0.55 * kk) * al})`; g2.stroke();
       }
     }
   }
-  if (t1 <= 0) return;
-  // 2) la línea continua: cada punto va de su lugar en la casa al caracol y del caracol al contorno del logo
-  const N = LINEA.n;
-  for (let i = 0; i < N; i++) {
-    const u = LINEA.u[i], p1 = avance(t1, u, 0.6), p2 = t2 > 0 ? avance(t2, u, 0.25) : 0;
-    let x, y;
-    if (p1 < 1) {
-      const P = aPantalla(LINEA.pts[i]);
-      if (p1 <= 0) { x = P[0]; y = P[1]; }
-      else {
-        // en coordenadas del caracol (elipse normalizada): el ángulo avanza en el sentido del caracol y el radio se cierra
-        const { cx, cy, rx, ry } = DESTINO;
-        const ax = (P[0] - cx) / rx, ay = (P[1] - cy) / ry, bx = (espiral[2 * i] - cx) / rx, by = (espiral[2 * i + 1] - cy) / ry;
-        const ra = Math.hypot(ax, ay), rb = Math.hypot(bx, by), ta = Math.atan2(ay, ax);
-        let dt = Math.atan2(by, bx) - ta; while (dt < 0) dt += 2 * Math.PI;
-        const t = ta + dt * p1, r = ra + (rb - ra) * p1;
-        const xr = cx + rx * r * Math.cos(t), yr = cy + ry * r * Math.sin(t);
-        const xl = P[0] + (espiral[2 * i] - P[0]) * p1, yl = P[1] + (espiral[2 * i + 1] - P[1]) * p1;
-        const w = Math.sin(Math.PI * p1) * 0.85;        // a media carrera gira; al llegar cae justo en su lugar
-        x = xl + (xr - xl) * w; y = yl + (yr - yl) * w;
-      }
-    } else { x = espiral[2 * i]; y = espiral[2 * i + 1]; }
-    if (p2 > 0) { x += (logo[2 * i] - x) * p2; y += (logo[2 * i + 1] - y) * p2; }
-    _sx[i] = x; _sy[i] = y; _pv[i] = p1;
-  }
-  // trazos sin puntos amontonados: un vértice cada ~0.8 px (el lienzo no se confunde con trazos de miles de puntos)
-  const paso2 = 0.8 * DPR;
-  if (t1 >= 1) {
-    trazoBrillante(() => {
-      let lx = _sx[0], ly = _sy[0]; g2.moveTo(lx, ly);
-      for (let i = 1; i < N; i++) if (i === N - 1 || Math.abs(_sx[i] - lx) + Math.abs(_sy[i] - ly) >= paso2) { lx = _sx[i]; ly = _sy[i]; g2.lineTo(lx, ly); }
-    }, apaga);
-    return;
-  }
-  // mientras se enrolla: solo lo que ya se movió se ve brillante (por tramos de intensidad)
-  for (const [lo, hi, al] of [[0.001, 0.12, 0.35], [0.12, 0.3, 0.7], [0.3, 2, 1]]) {
-    trazoBrillante(() => {
-      let dentro = false, lx = 0, ly = 0;
-      for (let i = 1; i < N; i++) {
-        const p = Math.max(_pv[i - 1], _pv[i]);
-        if (p > lo && p <= hi) {
-          if (!dentro) { lx = _sx[i - 1]; ly = _sy[i - 1]; g2.moveTo(lx, ly); dentro = true; }
-          const sigue = i + 1 < N && Math.max(_pv[i], _pv[i + 1]) > lo && Math.max(_pv[i], _pv[i + 1]) <= hi;
-          if (!sigue || Math.abs(_sx[i] - lx) + Math.abs(_sy[i] - ly) >= paso2) { lx = _sx[i]; ly = _sy[i]; g2.lineTo(lx, ly); }
-        } else dentro = false;
-      }
-    }, al);
+  // 2) las que ya se corren, con el trazo del logo; al llegar todas son el contorno exacto que sigue el sitio
+  for (const [lo, hi, al] of [[0.02, 0.17, 0.12], [0.17, 0.33, 0.25], [0.33, 0.5, 0.42], [0.5, 0.67, 0.58], [0.67, 0.83, 0.75], [0.83, 0.97, 0.9], [0.97, 2, 1]]) {
+    const grupo = brillan.filter(x => x[1] > lo && x[1] <= hi);
+    if (grupo.length) trazoBrillante(() => { for (const [pts] of grupo) traza(pts); }, al * apaga);
   }
 }
 
@@ -1911,7 +1898,7 @@ const LLAVES = [
   [874, [7.7, 22.5, 18.2], [1.3, 9.2, 2.6], 31],
   [894, [24, 18, 33], [0.4, 4.6, 0.8], 28],      // casa terminada
   [904, [24, 18, 33], [0.4, 4.6, 0.8], 28],
-  [934, [19, 14.5, 36], [0.3, 4.7, 0.85], 30.5], // líneas doradas: giro lento; luego quieta mientras se enrolla el caracol
+  [934, [19, 14.5, 36], [0.3, 4.7, 0.85], 30.5], // líneas doradas: giro lento; luego quieta mientras se juntan en el logo
   [TOTAL, [19, 14.5, 36], [0.3, 4.7, 0.85], 30.5],
 ];
 const DESPL = MOVIL ? 0 : -0.19;
@@ -2009,6 +1996,11 @@ function aplicar(f) {
     if (d.funde && p < 1) fundir.push([o, suave(p)]);
     if (o.userData.ocultaEn !== undefined && f >= o.userData.ocultaEn) o.visible = false;
   }
+  // armado de columnas: sólo se ve lo que queda arriba del concreto que se está colando
+  for (const a of ARMADO_COL) {
+    const c = a.userData.columna;
+    a.material.clippingPlanes[0].constant = f > a.userData.colado.t0 ? -(c.position.y + alto(c) * c.scale.y / 2 + 0.005) : 1e3;
+  }
   // relleno: la plataforma sube del fondo de excavación al nivel de terreno; las zapatas siguen a la vista
   // a través del terreno hasta el primer corte, donde se desvanecen sin llamar la atención
   {
@@ -2096,7 +2088,7 @@ window.cuadro = f => {
 };
 window.TOTAL = TOTAL; window.TL = TL; window.LOGO = LOGO; window.__casa = casa; window.__camara = camara; window.__render = () => renderer.render(scene, camara);
 window.RED = RED;
-window.LINEA = { n: LINEA.n, total: LINEA.total };
+window.JUNTA = JUNTA;
 // QA de encuadre: caja en pantalla (0..1, y hacia abajo) de todo lo visible en el cuadro f
 window.encuadre = (f, sinPlano = false, sinCortes = false) => {
   aplicar(f); scene.updateMatrixWorld(true); camara.updateMatrixWorld(true);
@@ -2116,7 +2108,7 @@ window.encuadre = (f, sinPlano = false, sinCortes = false) => {
     for (const x of [box.min.x, box.max.x]) for (const y of [box.min.y, box.max.y]) for (const z of [box.min.z, box.max.z]) suma(new THREE.Vector3(x, y, z));
   };
   if (casa.visible) casa.traverse(mide);
-  if (f >= TL.dorado[0] && f < TL.caracol[0]) for (const p of RED.nodos) suma(p);
+  if (f >= TL.dorado[0] && f < TL.junta[0]) for (const p of RED.nodos) suma(p);
   return r.map(x => +x.toFixed(3));
 };
 window.cuadro(+params.get("f") || 898);
