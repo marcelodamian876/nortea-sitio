@@ -235,7 +235,7 @@
     if (!pendientes.length) clearInterval(vigilante);
   }, 400);
 
-  /* ---------- Video de portada (v10) ----------
+  /* ---------- Video de portada (v11) ----------
      · A todo lo ancho, sin sonido, en bucle y automático, como un GIF (escritorio 16:9, celular 9:16).
      · El cierre lo dibuja el navegador en vector encima del video, sincronizado con su tiempo: en el video la casa
        dorada se vuelve una sola línea que llega como contorno del logo; desde ahí el sitio sigue con ese mismo
