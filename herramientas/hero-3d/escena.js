@@ -713,9 +713,10 @@ const gTabla = grupo("tablaroca"), gDurock = grupo("durock"), gDeck = grupo("dec
   forma.lineTo(ancho, -0.003); forma.lineTo(0, -0.003); forma.closePath();
   const geo = new THREE.ExtrudeGeometry(forma, { depth: largo, bevelEnabled: false });
   geo.translate(0, 0, -largo);
-  const laminas = [];
-  for (let x = A.x0 - 0.15; x < A.x1 + 0.1; x += ancho) {
+  const laminas = [], x0d = A.x0 - 0.15, x1d = A.x1 + 0.15;
+  for (let x = x0d; x < x1d - 0.01; x += ancho) {
     const d = new THREE.Mesh(geo, M.deck); d.position.set(x, A.y1 + 0.39, A.z1 + 0.15);
+    d.scale.x = Math.min(ancho, x1d - x) / ancho;   // la última lámina se corta a la medida
     d.castShadow = d.receiveShadow = true; d.userData.m0 = M.deck; gDeck.add(d); laminas.push(d);
   }
   secuencia(laminas, "desliza", ...TL.deck, 6, o => o.position.x, { dz: -6 });
@@ -916,7 +917,7 @@ for (const m of todosMats) { m.userData.op0 = m.opacity; m.userData.tr0 = m.tran
 // versión transparente (en caché) de un material, para fundidos de grupo
 const cacheTransparente = new Map();
 const transparente = m => { let t = cacheTransparente.get(m); if (!t) { t = m.clone(); t.transparent = true; cacheTransparente.set(m, t); } return t; };
-const levante = f => salida((f - TL.levanta[0]) / (TL.levanta[1] - TL.levanta[0])) * (1 - suave((f - TL.baja[0]) / (TL.baja[1] - TL.baja[0])));
+const levante = f => suave((f - TL.levanta[0]) / (TL.levanta[1] - TL.levanta[0])) * (1 - suave((f - TL.baja[0]) / (TL.baja[1] - TL.baja[0])));
 function aplicar(f) {
   // topografía: se dibuja de izquierda a derecha y se nivela
   {
@@ -962,6 +963,8 @@ function aplicar(f) {
     // la cimentación sigue en su lugar, ya cubierta por el relleno
     for (const n of ["zapatas", "dados", "contratrabes"]) G[n].visible = f < TL.relleno[1];
   }
+  // la estructura de la ampliación queda encerrada por el acabado: se oculta al terminarlo
+  for (const n of ["acero", "tablaroca", "durock", "deck", "triplay"]) G[n].visible = f < TL.pintura[1] + 5;
   // materiales: base, cambios (block → aplanado blanco) y fantasma de los niveles levantados
   casa.traverse(o => { if (o.isMesh && o.userData.m0) o.material = o.userData.m0; });
   for (const c of cambios) if (f >= c.t) c.o.material = c.m;
