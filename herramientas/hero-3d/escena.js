@@ -130,6 +130,15 @@ const texBlock = lienzo(256, 256, (g, w, h) => {
   for (let j = 0; j < 8; j++) for (let i = 0; i <= 4; i++) { const x = (i + (j % 2) * 0.5) * w / 4; g.beginPath(); g.moveTo(x, j * h / 8); g.lineTo(x, (j + 1) * h / 8); g.stroke(); }
 });
 texBlock.wrapS = texBlock.wrapT = THREE.RepeatWrapping;
+// triplay: chapa clara con veta suave
+const texTriplay = lienzo(256, 128, (g, w, h) => {
+  g.fillStyle = "#d6b98a"; g.fillRect(0, 0, w, h);
+  for (let i = 0; i < 90; i++) {
+    g.strokeStyle = `rgba(${150 + Math.random() * 30 | 0},${110 + Math.random() * 20 | 0},60,${0.12 + Math.random() * 0.12})`;
+    g.lineWidth = 1 + Math.random() * 2;
+    const y = Math.random() * h; g.beginPath(); g.moveTo(0, y); g.bezierCurveTo(w * .3, y + 3, w * .6, y - 3, w, y + 1); g.stroke();
+  }
+});
 
 /* ---------- Materiales ---------- */
 const todosMats = new Set();
@@ -151,7 +160,7 @@ const M = {
   maderaPuerta: mat({ color: 0xd9a676, map: texMadera, roughness: 0.45 }),
   galvanizado: mat({ color: 0xc3c9cf, roughness: 0.35, metalness: 0.8 }),
   tablaroca: mat({ color: 0xe9e8e3, roughness: 0.95 }),
-  triplay: mat({ color: 0xc9a777, map: texMadera, roughness: 0.8 }),
+  triplay: mat({ color: 0xffffff, map: texTriplay, roughness: 0.85 }),
   durock: mat({ color: 0xa9a69e, roughness: 0.95 }),
   deck: mat({ color: 0xaab0b6, roughness: 0.35, metalness: 0.75, side: THREE.DoubleSide }),
   cocina: mat({ color: 0x2f3338, roughness: 0.5 }),
