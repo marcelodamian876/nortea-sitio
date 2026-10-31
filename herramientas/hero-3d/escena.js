@@ -172,7 +172,7 @@ const ORO = 0xd2a955;
 const lineaOro = new THREE.LineBasicMaterial({ color: ORO, transparent: true });
 const lineaOroTenue = new THREE.LineBasicMaterial({ color: ORO, transparent: true, opacity: 0.4 });
 const lineaVarilla = new THREE.LineBasicMaterial({ color: 0xc8933f });
-const lineaTopo = new THREE.LineBasicMaterial({ color: 0x9fb4cc, transparent: true, opacity: 0.55 });
+const lineaTopo = new THREE.LineBasicMaterial({ color: 0xaec2d8, transparent: true, opacity: 0.72 });
 
 /* ---------- Animación: cada pieza con su ventana de tiempo ---------- */
 const anims = [];        // { o, tipo, t0, t1, d }
@@ -314,7 +314,7 @@ const topoGeo = new THREE.BufferGeometry();
   topoGeo.setAttribute("position", new THREE.Float32BufferAttribute(plano, 3));
   topoGeo.userData.base = Float32Array.from(plano);
 }
-const topoLineas = new THREE.LineSegments(topoGeo, lineaTopo); topoLineas.position.set(0, PISO, 0.5); topo.add(topoLineas);
+const topoLineas = new THREE.LineSegments(topoGeo, lineaTopo); topoLineas.position.set(0, PISO + 0.02, 0.5); topoLineas.renderOrder = 2; topo.add(topoLineas);
 const placa = new THREE.Mesh(new THREE.BoxGeometry(24, 0.04, 22), M.terreno);
 placa.position.set(0, PISO - 0.02, 0.5); placa.receiveShadow = true; topo.add(placa);
 const marcoPlaca = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(24, 0.001, 22)), lineaOroTenue);
@@ -336,7 +336,7 @@ for (const x of EX) for (const z of EZ) {
   const p = [];
   for (let k = -0.6; k <= 0.61; k += 0.2) p.push(x + k, PISO + 0.1, z - 0.6, x + k, PISO + 0.1, z + 0.6, x - 0.6, PISO + 0.12, z + k, x + 0.6, PISO + 0.12, z + k);
   for (const [dx, dz] of [[-0.12, -0.12], [0.12, -0.12], [-0.12, 0.12], [0.12, 0.12]]) p.push(x + dx, PISO + 0.1, z + dz, x + dx, NIV[0] + 0.9, z + dz);
-  const a = lineas(gArmZ, p, lineaVarilla); a.userData.ocultaEn = TL.dados[1]; armZ.push(a);
+  const a = lineas(gArmZ, p, lineaVarilla); a.userData.ocultaEn = TL.armado1[0] + 4; armZ.push(a);
   zap.push(caja(gZap, x - 0.7, x + 0.7, PISO, PISO + 0.3, z - 0.7, z + 0.7, M.concretoFresco));
   dad.push(caja(gDad, x - 0.25, x + 0.25, PISO + 0.3, 0, z - 0.25, z + 0.25, M.concretoFresco));
 }
@@ -863,7 +863,7 @@ const LLAVES = [
   [210, [22, 15, 30], [0, 0.6, 0.5], 26],
   [300, [23, 17, 32], [0, 2.4, 0.3], 26],
   [396, [24, 20, 33], [0, 3.6, 0.0], 26],
-  [430, [23, 26, 30], [0, 4.6, 0.0], 29],
+  [430, [23, 26, 30], [0, 5.4, 0.0], 30],
   [488, [21, 20, 33], [0, 3.6, 0.3], 25],
   [520, [9, 7.5, 40], [0.3, 3.8, 0.0], 21],
   [566, [11, 8.5, 40], [0.3, 3.8, 0.0], 21],
@@ -903,7 +903,7 @@ function aplicar(f) {
     }
     pos.needsUpdate = true;
     topoGeo.setDrawRange(0, Math.floor(pos.count * suave((f - t0) / 28) / 2) * 2);
-    lineaTopo.opacity = 0.55 * (1 - suave((f - (t1 - 4)) / 30));
+    lineaTopo.opacity = 0.72 * (1 - suave((f - (TL.plano[0] + 22)) / 34));
     topoLineas.visible = lineaTopo.opacity > 0.01;
     lineaOroTenue.opacity = 0.42 * suave((f - (t0 + 40)) / 20);
     estacas.forEach((e, i) => { const p = suave((f - (t0 + 18 + i * 3)) / 8) * (1 - suave((f - (t1 - 6)) / 10)); e.visible = p > 0; e.scale.y = Math.max(0.001, p); });
@@ -932,14 +932,14 @@ function aplicar(f) {
     topo.position.y = -PISO * p; plano.position.y = -PISO * p;
     G.excavacion.visible = p < 0.99;
     // la cimentación sigue en su lugar, ya cubierta por el relleno
-    for (const n of ["armadoZap", "zapatas", "dados", "contratrabes"]) G[n].visible = f < TL.relleno[1];
+    for (const n of ["zapatas", "dados", "contratrabes"]) G[n].visible = f < TL.relleno[1];
   }
   // materiales: base, cambios (block → aplanado blanco) y fantasma de los niveles levantados
   casa.traverse(o => { if (o.isMesh && o.userData.m0) o.material = o.userData.m0; });
   for (const c of cambios) if (f >= c.t) c.o.material = c.m;
   const lv = levante(f), activo = lv > 0.001;
   for (const n of LEVANTE) {
-    const g = G[n]; g.position.y = lv * 7.5;
+    const g = G[n]; g.position.y = lv * 6.2;
     g.userData.aristas.visible = activo;
     if (activo) for (const o of g.children) if (o.isMesh) o.material = fantasma;
     for (const l of g.userData.aristas.children) { const s = l.userData.fuente; l.visible = s.visible; l.position.copy(s.position); l.scale.copy(s.scale); }
@@ -953,6 +953,10 @@ function aplicar(f) {
   const k = 1 - Math.min(1, pf * 1.3);
   for (const m of todosMats) { m.opacity = m.userData.op0 * k; m.transparent = m.userData.tr0 || k < 1; m.depthWrite = m.userData.dw0 && k >= 1; }
   M.terreno.opacity = 0.62 * suave((f - (TL.topo[0] + 40)) / 20) * (1 - pf);
+  {
+    const pr = suave((f - TL.relleno[0]) / (TL.relleno[1] - TL.relleno[0]));
+    if (pr > 0) { M.concretoFresco.transparent = true; M.concretoFresco.opacity = 1 - pr; M.concretoFresco.depthWrite = pr < 0.5; }
+  }
   casa.visible = pf < 0.999;
   lineaOroTenue.opacity *= (1 - pf);
   sombraSuelo.material.opacity = 0.32 * (1 - pf);
