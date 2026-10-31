@@ -563,7 +563,7 @@ secuencia(zap, "sube", ...TL.zapatas, 8, o => o.position.x - o.position.z);
 secuencia(dad, "sube", ...TL.dados, 8, o => o.position.x - o.position.z);
 secuencia(ct, "desliza", ...TL.contratrabes, 9, null, { dy: 1.2, funde: true });
 secuencia(dalas, "sube", TL.relleno[0] + 4, TL.relleno[0] + 12, 5);
-secuencia(capasRelleno, "desliza", TL.relleno[0] + 6, TL.relleno[1], 10, o => o.position.y, { dy: 0.5, funde: true });
+secuencia(capasRelleno, "vierte", TL.relleno[0] + 6, TL.relleno[1], 8, o => o.position.y);   // cada capa se tiende en barrido
 secuencia(firmes, "vierte", ...TL.firme, 18);   // colado del firme en barrido sobre el relleno
 
 /* =====================================================================
