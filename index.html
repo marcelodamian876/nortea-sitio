@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@500;600;700&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@500;600;700&display=swap"></noscript>
 
-  <link rel="preload" as="image" href="assets/video/v8/portada-v8-1920x1080.jpg?v=1" media="(min-aspect-ratio: 4/5) and (min-width: 640px)" fetchpriority="high">
-  <link rel="preload" as="image" href="assets/video/v8/portada-v8-movil-720x1280.jpg?v=1" media="(max-aspect-ratio: 4/5), (max-width: 639px)" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/video/v9/portada-v9-1920x1080.jpg?v=1" media="(min-aspect-ratio: 4/5) and (min-width: 640px)" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/video/v9/portada-v9-movil-720x1280.jpg?v=1" media="(max-aspect-ratio: 4/5), (max-width: 639px)" fetchpriority="high">
   <link rel="stylesheet" href="assets/css/styles.css?v=20261030a">
   <link rel="stylesheet" href="assets/css/rediseno.css?v=1">
   <script src="assets/js/rediseno.js?v=1" defer></script>
@@ -111,21 +111,21 @@
   <main id="contenido">
     <!-- 2. HERO -->
     <section class="hero" id="inicio" aria-labelledby="hero-title">
-      <!-- VIDEO DE PORTADA v8 a todo lo ancho (proyecto editable en herramientas/hero-3d/: escena 3D cuadro por cuadro)
+      <!-- VIDEO DE PORTADA v9 a todo lo ancho (proyecto editable en herramientas/hero-3d/: escena 3D cuadro por cuadro)
            · Sin sonido, en bucle y automático, como un GIF. El texto HTML va encima, en la zona que el video deja libre
              (izquierda en escritorio, abajo en celular).
            · Imagen estática: se ve al cargar, con "reducir movimiento", ahorro de datos y si el video no puede reproducirse.
-           · Para cambiarlo, reemplaza los archivos de assets/video/v8/ (las versiones anteriores siguen en assets/video/v7/ y v5/). -->
+           · Para cambiarlo, reemplaza los archivos de assets/video/v9/ (las versiones anteriores siguen en assets/video/v8/, v7/ y v5/). -->
       <div class="hero__media" aria-hidden="true">
         <picture>
-          <source media="(max-aspect-ratio: 4/5), (max-width: 639px)" srcset="assets/video/v8/portada-v8-movil-720x1280.jpg?v=1" width="720" height="1280">
-          <img class="hero__img" src="assets/video/v8/portada-v8-1920x1080.jpg?v=1" alt="" width="1920" height="1080" fetchpriority="high">
+          <source media="(max-aspect-ratio: 4/5), (max-width: 639px)" srcset="assets/video/v9/portada-v9-movil-720x1280.jpg?v=1" width="720" height="1280">
+          <img class="hero__img" src="assets/video/v9/portada-v9-1920x1080.jpg?v=1" alt="" width="1920" height="1080" fetchpriority="high">
         </picture>
         <video class="hero__video" muted loop playsinline autoplay preload="none" tabindex="-1"
-               data-escritorio-mp4="assets/video/v8/web-v8-1920x1080.mp4?v=1"
-               data-movil-mp4="assets/video/v8/web-v8-movil-720x1280.mp4?v=1"
-               data-escritorio-cierre="assets/video/v8/cierre-escritorio.json?v=1"
-               data-movil-cierre="assets/video/v8/cierre-movil.json?v=1"></video>
+               data-escritorio-mp4="assets/video/v9/web-v9-1920x1080.mp4?v=1"
+               data-movil-mp4="assets/video/v9/web-v9-movil-720x1280.mp4?v=1"
+               data-escritorio-cierre="assets/video/v9/cierre-escritorio.json?v=1"
+               data-movil-cierre="assets/video/v9/cierre-movil.json?v=1"></video>
         <svg class="hero__cierre" aria-hidden="true" focusable="false"></svg>
       </div>
       <div class="container hero__content">

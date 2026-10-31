@@ -1121,7 +1121,8 @@ const RV = {
   const esc = [caja(g, -1.45, 1.5, 0, 0.15, 5.18, 6.28, M.cubierta), caja(g, -1.45, 1.5, 0.15, 0.3, 5.18, 5.93, M.cubierta), caja(g, -1.45, 1.5, 0.3, 0.45, 5.18, 5.58, M.cubierta)];
   const tierra = caja(g, -5.48, -1.57, 0.5, 0.53, 5.3, 6.58, M.tierra, false);
   const pisoCochera = revestida(g, 1.6, 5.75, 0, 0.04, 3.0, CZ + 0.8, placas("#cfccc6", "#a8a49c", 2, 2, 1.2, 1.2, 0.4, 0.4));
-  secuencia([...esc, tierra, pisoCochera], "sube", t0 + 70, t0 + 82, 6);
+  secuencia([...esc, tierra], "sube", t0 + 70, t0 + 80, 6);
+  anima(pisoCochera, "vierte", t0 + 66, t0 + 82);                      // el piso de la cochera se tiende en barrido
   // luces: resplandor de lamas, empotrados redondos, tiras LED de escalones, spots al pie de la piedra
   const fin = t1 - 6, enciende = (o, d = {}) => anima(o, "aparece", fin - 4, fin + 4, d);
   anima(caja(luces, -0.58, 1.53, 3.95, NIV[2] - 0.55, 5.205, 5.21, M.calido, false), "aparece", fin - 6, fin);
@@ -1494,6 +1495,10 @@ const WIRE = [];
   cj(-1.45, 1.5, 0, 0.15, 5.18, 6.28); cj(-1.45, 1.5, 0.15, 0.3, 5.18, 5.93); cj(-1.45, 1.5, 0.3, 0.45, 5.18, 5.58);   // escalones
   cj(-5.6, -1.45, 0, 0.55, 5.18, 6.7);                                                        // jardinera
 }
+// altura de barrido: el plano que convierte la casa en líneas va un poco inclinado hacia el frente
+const INCL = 0.3, NORMAL_BARRIDO = new THREE.Vector3(0, 1, INCL).normalize();
+const barrido = p => p.y + INCL * p.z;
+const nivelBarrido = pd => (RED.smin - 0.3) + pd * (RED.stope - RED.smin + 0.6);
 /* Grafo de aristas: vértices unidos a 1 cm, aristas partidas donde otra llega a media arista,
    piezas sueltas unidas a la principal por su puente más corto; distancia por aristas al ANCLA */
 const RED = (() => {
@@ -1535,7 +1540,8 @@ const RED = (() => {
     if (u < 0 || dist[u] === Infinity) break; hecho[u] = true;
     for (const [w, L] of ady[u]) if (dist[u] + L < dist[w]) dist[w] = dist[u] + L;
   }
-  return { nodos, aristas, dist, rmax: Math.max(...dist), ytope: Math.max(...nodos.map(p => p.y)) };
+  const s = nodos.map(barrido);
+  return { nodos, aristas, dist, rmax: Math.max(...dist), smin: Math.min(...s), stope: Math.max(...s) };
 })();
 const LARGO_GUSANO = [1.4, 6.0];   // metros de línea brillante: crece mientras se van juntando
 /* Recogida: arranca suave, las ramas lejanas corren rápido y el gusano ya junto llega al ancla en LOGO
@@ -1555,7 +1561,7 @@ function dibujarLineas(f) {
   if (!capaActiva) return;
   texCapa.needsUpdate = true;
   const pd = suave((f - TL.dorado[0]) / (TL.dorado[1] - TL.dorado[0]));
-  const yScan = -0.3 + pd * (RED.ytope + 0.6);
+  const yScan = nivelBarrido(pd);
   const pj = Math.min(1, Math.max(0, (f - TL.junta[0]) / (LOGO - TL.junta[0])));
   const R = radio(f);
   if (R <= 0) return;                                  // el gusano ya entró completo al trazo del logo
@@ -1573,9 +1579,10 @@ function dibujarLineas(f) {
       for (const [s0, s1] of vis) {
         if (s1 - s0 < 0.005) continue;
         let a = punto(e, s0), b = punto(e, s1);
-        if (a.y > yScan && b.y > yScan) continue;
-        if (a.y > yScan) a = a.lerp(b, (a.y - yScan) / (a.y - b.y));
-        else if (b.y > yScan) b = b.lerp(a, (b.y - yScan) / (b.y - a.y));
+        const sa = barrido(a), sb = barrido(b);
+        if (sa > yScan && sb > yScan) continue;
+        if (sa > yScan) a = a.lerp(b, (sa - yScan) / (sa - sb));
+        else if (sb > yScan) b = b.lerp(a, (sb - yScan) / (sb - sa));
         tramos.push([a, b]);
       }
     }
@@ -1802,28 +1809,28 @@ function aplicar(f) {
   sol.intensity = 2.1 - 0.95 * noche; cielo.intensity = 1.0 - 0.45 * noche; scene.environmentIntensity = 0.42 - 0.16 * noche; luzRelleno.intensity = 0.55 - 0.25 * noche;
   // final: la casa desaparece de abajo hacia arriba mientras se dibujan sus líneas doradas (capa 2D)
   const pd = suave((f - TL.dorado[0]) / (TL.dorado[1] - TL.dorado[0]));
-  const yScan = -0.3 + pd * (RED.ytope + 0.6);
+  const yScan = nivelBarrido(pd);
   const corta = f >= TL.dorado[0];
-  if (corta) planoBarrido.constant = -yScan;
+  if (corta) planoBarrido.constant = -yScan * NORMAL_BARRIDO.y;
   if ((renderer.clippingPlanes.length > 0) !== corta) renderer.clippingPlanes = corta ? [planoBarrido] : [];
   // opacidad deseada por material; "transparent" solo cambia cuando hace falta y entonces se recompila
   const pr = suave((f - TL.relleno[0]) / 10);
   const pc = suave((f - TL.corte1[0]) / (TL.corte1[1] - TL.corte1[0]));
   for (const m of todosMats) {
     let op = m.userData.op0, tr = m.userData.tr0, dw = m.userData.dw0;
-    if (m === M.terreno) op = 0.62 * suave((f - (TL.topo[0] + 26)) / 16) * (1 - pd);
+    if (m === M.terreno) op = 0.62 * suave((f - (TL.topo[0] + 26)) / 16) * (1 - suave((f - (TL.dorado[0] - 6)) / 9));   // el terreno se va antes del barrido
     if (m === M.excavacion) op *= 1 - pr;
     if (m === M.concretoFresco && pc > 0) { op *= 1 - pc; tr = true; dw = dw && pc < 0.5; }   // zapatas: se van en el corte
     m.opacity = op; m.depthWrite = dw;
     if (m.transparent !== tr) { m.transparent = tr; m.needsUpdate = true; }
   }
-  casa.visible = yScan < RED.ytope + 0.25;
+  casa.visible = yScan < RED.stope + 0.25;
   lineaOroTenue.opacity *= (1 - pd);
-  sombraSuelo.material.opacity = 0.32 * (1 - pd);
+  sombraSuelo.material.opacity = 0.32 * (1 - suave((f - (TL.dorado[0] - 6)) / 9));
   camaraEn(f);
   dibujarLineas(f);
 }
-const planoBarrido = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0.3);
+const planoBarrido = new THREE.Plane(NORMAL_BARRIDO.clone(), 0.3);
 
 window.cuadro = f => {
   aplicar(f); renderer.render(scene, camara);
@@ -1834,7 +1841,7 @@ window.cuadro = f => {
   }
   return true;
 };
-window.TOTAL = TOTAL; window.TL = TL; window.LOGO = LOGO;
+window.TOTAL = TOTAL; window.TL = TL; window.LOGO = LOGO; window.__casa = casa; window.__camara = camara; window.__render = () => renderer.render(scene, camara);
 window.RED = RED;
 window.tronco = () => {
   aplicar(LOGO);
