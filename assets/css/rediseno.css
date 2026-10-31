@@ -1,0 +1,63 @@
+/* Rediseño V2: reglas limitadas a secciones fuera de la portada. */
+#obras, #servicios, #proceso { background: #f8f7f3; }
+#obras .section-title, #nosotros .section-title, #servicios .section-title, #proceso .section-title { max-width: 21ch; font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -.035em; line-height: 1.15; }
+#obras .section-head { max-width: 790px; }
+#obras .works { grid-template-columns: 1fr; gap: 42px 30px; }
+#obras .work { background: transparent; box-shadow: none; border-radius: 0; }
+#obras .work:hover { transform: none; box-shadow: none; }
+#obras .work__media { aspect-ratio: 4/3; border-radius: 2px; }
+#obras .work__body { padding: 22px 0 10px; }
+#obras .work__title { font-size: clamp(1.2rem, 2vw, 1.6rem); letter-spacing: -.025em; }
+#obras .work__summary { margin-top: 14px; color: var(--ink-soft); max-width: 62ch; font-size: .94rem; line-height: 1.65; }
+.work__explore { display: inline-block; margin-top: 16px; padding-bottom: 6px; border-bottom: 1px solid #947138; font-size: .8rem; font-weight: 600; letter-spacing: .06em; color: var(--navy); }
+#obras .filter { min-height: 44px; border-radius: 2px; letter-spacing: .04em; }
+#obras .work__btn { text-decoration: none; color: inherit; }
+#nosotros { background: #eeeae2; }
+#nosotros .about { display: block; max-width: 960px; }
+#nosotros .about__text { display: grid; gap: 26px; }
+.audiences { display: grid; gap: 1px; margin-top: 48px; background: #cec9bd; border: 1px solid #cec9bd; }
+.audiences a { padding: clamp(24px, 4vw, 44px); background: #eeeae2; text-decoration: none; color: var(--navy); }
+.audiences a:hover { background: #f8f7f3; }
+.audiences span:first-child { text-transform: uppercase; letter-spacing: .1em; font-size: .72rem; color: #705421; }
+.audiences h3 { margin: 16px 0; max-width: 23ch; font-size: clamp(1.3rem, 2.5vw, 1.8rem); line-height: 1.3; }
+.audiences p { color: var(--ink-soft); }
+.audiences__link { display: inline-block; margin-top: 25px; font-size: .85rem; font-weight: 600; }
+#servicios .services { display: grid; grid-template-columns: 1fr; gap: 48px; }
+#servicios .service { border: 0; border-radius: 0; box-shadow: none; background: transparent; }
+#servicios .service:hover { transform: none; }
+#servicios .service::after { display: none; }
+#servicios .service__media { aspect-ratio: 16/10; }
+#servicios .service__body { padding: 26px 0 0; }
+#servicios .service h3 { font-size: 1.5rem; }
+.execution__grid { display: grid; gap: 44px; align-items: start; }
+.execution .section-title { max-width: 19ch; line-height: 1.2; font-size: clamp(2rem, 3.6vw, 3rem); letter-spacing: -.03em; }
+.execution__lead { margin: 25px 0 30px; color: #d6dde3; max-width: 44ch; }
+.execution__photo { width: 100%; aspect-ratio: 16/10; object-fit: cover; }
+.execution__facts { margin-top: 24px; }
+.execution__facts div { padding: 18px 0; border-bottom: 1px solid #475664; }
+.execution__facts dt { font-weight: 600; }
+.execution__facts dd { color: #d6dde3; font-size: .93rem; margin: 6px 0 0; }
+#proceso .timeline { gap: 24px; }
+#proceso .step { box-shadow: none; border-radius: 0; border-top: 1px solid #c7b894; padding-top: 20px; }
+#cotizar .cta__inner { max-width: 950px; }
+.quote-form { text-align: left; display: none; gap: 22px; margin: 36px 0; padding: clamp(20px, 4vw, 40px); border: 1px solid #53616c; }
+.js .quote-form { display: grid; }
+.quote-form label { display: block; color: #fff; margin-bottom: 9px; font-size: .92rem; }
+.quote-form input, .quote-form select, .quote-form textarea { display: block; width: 100%; min-height: 48px; background: #fff; border: 1px solid #b5bdc4; border-radius: 2px; color: #0b1d2f; padding: 12px; font: inherit; font-size: 1rem; }
+.quote-form textarea { resize: vertical; }
+.quote-form .cta__note { margin: 0; color: #d6dde3; }
+.quote-form .cta__note a { color: #fff; text-decoration: underline; }
+.quote-form button { white-space: normal; }
+@media (min-width: 760px) {
+  #obras .works { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #obras .work:first-child { grid-column: 1/-1; }
+  #obras .work:first-child .work__media { aspect-ratio: 2/1; }
+  .audiences { grid-template-columns: 1fr 1fr; }
+  #servicios .services { grid-template-columns: 1fr 1fr; gap: 64px 36px; }
+  .execution__grid { grid-template-columns: 1fr 1fr; gap: 70px; }
+  .quote-form { grid-template-columns: 1fr 1fr; }
+  .quote-form > :nth-child(n+3) { grid-column: 1/-1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #obras .work__media img, #servicios .service__media img { transition: none; transform: none; }
+}
