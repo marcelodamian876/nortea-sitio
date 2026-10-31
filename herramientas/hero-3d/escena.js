@@ -25,8 +25,8 @@ const ANCHO = +params.get("w") || window.innerWidth;
 const ALTO = +params.get("h") || window.innerHeight;
 const MOVIL = ALTO > ANCHO;
 if (params.has("captura")) document.body.classList.add("captura");
-const LOGO = 880;                 // cuadro en que el sitio empieza a trazar el logo
-const TOTAL = LOGO + 135;         // 1015 cuadros = 33.8 s
+const LOGO = 900;                 // cuadro en que el sitio empieza a trazar el logo
+const TOTAL = LOGO + 135;         // 1035 cuadros = 34.5 s
 
 /* ---------- Azar con semilla: el mismo resultado en cada render ---------- */
 let semilla = 20261031;
@@ -465,7 +465,7 @@ const TL = {
   topo: [0, 40], plano: [36, 90],
   // cimentación con su tiempo: excavación, armado, zapatas, dados, contratrabes, relleno compactado y colado del firme
   excavacion: [90, 102], armadoZap: [98, 112], zapatas: [106, 122], dados: [116, 130], contratrabes: [126, 146],
-  relleno: [144, 162], firme: [160, 184],
+  relleno: [144, 168], firme: [166, 190],
   armado1: [184, 194], columnas1: [190, 208], trabes1: [206, 220], losa1: [218, 234],
   muros1: [232, 256],
   armado2: [254, 262], columnas2: [260, 276], trabes2: [274, 288],
@@ -484,9 +484,9 @@ const TL = {
   bloqueo: [692, 700], contraviento: [698, 704],
   forro: [704, 722],                       // Durock por fuera y tablaroca por dentro, de una sola
   armaduras: [720, 730], polines: [728, 734], deck: [734, 742], cubierta3: [742, 748], ventanas3: [744, 752],
-  terraza: [752, 796],
-  dorado: [816, 840],                      // la casa se vuelve líneas doradas (de abajo hacia arriba)
-  junta: [838, LOGO + 6],                  // las líneas corren por las aristas y se juntan en un punto
+  terraza: [762, 808],
+  dorado: [838, 862],                      // la casa se vuelve líneas doradas (de abajo hacia arriba)
+  junta: [860, LOGO + 6],                  // las líneas corren por las aristas y se juntan en un punto
 };
 
 /* =====================================================================
@@ -563,7 +563,7 @@ secuencia(zap, "sube", ...TL.zapatas, 8, o => o.position.x - o.position.z);
 secuencia(dad, "sube", ...TL.dados, 8, o => o.position.x - o.position.z);
 secuencia(ct, "desliza", ...TL.contratrabes, 9, null, { dy: 1.2, funde: true });
 secuencia(dalas, "sube", TL.relleno[0] + 4, TL.relleno[0] + 12, 5);
-secuencia(capasRelleno, "desliza", TL.relleno[0] + 8, TL.relleno[1], 6, null, { dy: 0.5, funde: true });
+secuencia(capasRelleno, "desliza", TL.relleno[0] + 6, TL.relleno[1], 10, o => o.position.y, { dy: 0.5, funde: true });
 secuencia(firmes, "vierte", ...TL.firme, 18);   // colado del firme en barrido sobre el relleno
 
 /* =====================================================================
@@ -1144,9 +1144,16 @@ function hojas(g, eje, fijo, a0, a1, y0, y1, vanos, off, e, m, sinJunta = false)
 const DPR = +params.get("dpr") || 1;
 const capa2d = document.createElement("canvas");
 capa2d.width = ANCHO * DPR; capa2d.height = ALTO * DPR;
-Object.assign(capa2d.style, { position: "fixed", left: "0", top: "0", width: ANCHO + "px", height: ALTO + "px", pointerEvents: "none" });
-document.body.appendChild(capa2d);
 const g2 = capa2d.getContext("2d");
+// se pinta en 2D y se compone encima del render como textura de pantalla completa
+const texCapa = new THREE.CanvasTexture(capa2d);
+texCapa.colorSpace = THREE.SRGBColorSpace; texCapa.generateMipmaps = false; texCapa.minFilter = THREE.LinearFilter;
+const escenaCapa = new THREE.Scene(), camCapa = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+{
+  const q = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.MeshBasicMaterial({ map: texCapa, transparent: true, depthTest: false, depthWrite: false, toneMapped: false }));
+  q.position.z = -0.5; escenaCapa.add(q);
+}
+let capaActiva = false;
 const CIERRE = MOVIL ? { W: 1080, x: 460.7, y: 347.61 } : { W: 1920, x: 1224.03, y: 371.1 };   // camino[0] del cierre
 const ESC2D = ANCHO / CIERRE.W;
 const ANCLA = new THREE.Vector3(A.x0 - 0.09, Y_PRE + 0.05, A.z1 + 0.09);
@@ -1240,7 +1247,9 @@ const _pa = new THREE.Vector3(), _pb = new THREE.Vector3(), _pp = new THREE.Vect
 function aPantalla(p) { _pp.copy(p).project(camara); return [(_pp.x + 1) / 2 * ANCHO * DPR, (1 - _pp.y) / 2 * ALTO * DPR, _pp.z]; }
 function dibujarLineas(f) {
   g2.setTransform(1, 0, 0, 1, 0, 0); g2.clearRect(0, 0, capa2d.width, capa2d.height);
-  if (f < TL.dorado[0] || f > TL.junta[1] + 2) return;
+  capaActiva = f >= TL.dorado[0] && f <= TL.junta[1] + 2;
+  if (!capaActiva) return;
+  texCapa.needsUpdate = true;
   const pd = suave((f - TL.dorado[0]) / (TL.dorado[1] - TL.dorado[0]));
   const yScan = -0.3 + pd * (RED.ytope + 0.6);
   const pj = (f - TL.junta[0]) / (TL.junta[1] - TL.junta[0]);
@@ -1342,11 +1351,11 @@ const LLAVES = [
   [648, [8.7, 7.8, 38], [-1.0, 3.9, 0.4], 21],
   [666, [20, 19, 27], [0.3, 3.7, -1.0], 30.5],   // ampliación en steel frame
   [750, [21, 21, 27], [0.3, 4.3, -0.6], 32],
-  [764, [8.4, 22.1, 17.6], [1.0, 8.8, 2.6], 31],  // área de asador de cerca y desde arriba
-  [796, [7.4, 22.1, 18.2], [1.0, 8.8, 2.6], 31],
-  [810, [24, 18, 32], [0.4, 4.6, 0.2], 27.5],    // casa terminada
-  [818, [24, 18, 32], [0.4, 4.6, 0.2], 27.5],
-  [862, [17, 13, 37], [0.2, 4.8, 0.3], 31.5],    // líneas doradas: giro lento para que se lea en 3D
+  [778, [8.4, 22.1, 17.6], [1.0, 8.8, 2.6], 31],  // área de asador de cerca y desde arriba
+  [808, [7.4, 22.1, 18.2], [1.0, 8.8, 2.6], 31],
+  [830, [24, 18, 32], [0.4, 4.6, 0.2], 27.5],    // casa terminada
+  [840, [24, 18, 32], [0.4, 4.6, 0.2], 27.5],
+  [884, [17, 13, 37], [0.2, 4.8, 0.3], 31.5],    // líneas doradas: giro lento para que se lea en 3D
   [TOTAL, [17, 13, 37], [0.2, 4.8, 0.3], 31.5],
 ];
 const DESPL = MOVIL ? 0 : -0.19;
@@ -1383,6 +1392,14 @@ function camaraEn(f) {
 for (const m of todosMats) { m.userData.op0 = m.opacity; m.userData.tr0 = m.transparent; m.userData.dw0 = m.depthWrite; Object.assign(m, { polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 }); }
 const cacheTransparente = new Map();
 const transparente = m => { let t = cacheTransparente.get(m); if (!t) { t = m.clone(); t.transparent = true; cacheTransparente.set(m, t); } return t; };
+// estuco que entra fundiéndose desde el tono del zarpeo (cada pieza en 8 cuadros)
+const FUNDE_ESTUCO = 8, TONO_ZARPEO = new THREE.Color(0x918b86), BLANCO = new THREE.Color(0xffffff);
+function estucoEn(o, dt) {
+  if (dt >= FUNDE_ESTUCO) return M.estuco;
+  const m = o.userData.mEst || (o.userData.mEst = M.estuco.clone());
+  m.color.copy(TONO_ZARPEO).lerp(BLANCO, suave(dt / FUNDE_ESTUCO));
+  return m;
+}
 function aplicar(f) {
   // topografía: se dibuja de izquierda a derecha, con lomas que se nivelan
   {
@@ -1438,11 +1455,11 @@ function aplicar(f) {
   casa.traverse(o => { if (o.isMesh && o.userData.m0) o.material = o.userData.m0; });
   for (const o of murosBlock) {
     const s = o.userData.muro;
-    const ext = f >= s.te ? M.estuco : f >= s.tz ? M.zarpeo : s.blk;
+    const ext = f >= s.te ? estucoEn(o, f - s.te) : f >= s.tz ? M.zarpeo : s.blk;
     const int = f >= s.ty ? M.yeso : s.blk;
     o.material = caras(s.eje, s.ext, ext, int);
   }
-  for (const c of cambios) if (f >= c.t) c.o.material = c.m;
+  for (const c of cambios) if (f >= c.t) c.o.material = c.m === M.estuco ? estucoEn(c.o, f - c.t) : c.m;
   // cortes en fantasma
   for (const c of CORTES) {
     const { y, gf } = estadoCorte(c, f);
@@ -1495,7 +1512,15 @@ function aplicar(f) {
 }
 const planoBarrido = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0.3);
 
-window.cuadro = f => { aplicar(f); renderer.render(scene, camara); return true; };
+window.cuadro = f => {
+  aplicar(f); renderer.render(scene, camara);
+  if (capaActiva) {   // líneas doradas encima, sin el plano de barrido
+    const cp = renderer.clippingPlanes; renderer.clippingPlanes = []; renderer.autoClear = false;
+    renderer.render(escenaCapa, camCapa);
+    renderer.autoClear = true; renderer.clippingPlanes = cp;
+  }
+  return true;
+};
 window.TOTAL = TOTAL; window.TL = TL; window.LOGO = LOGO;
 window.ancla = f => { aplicar(f); const p = aPantalla(ANCLA); return [p[0] / DPR / ESC2D, p[1] / DPR / ESC2D]; };   // QA: punto de arranque del logo
 // QA de encuadre: caja en pantalla (0..1, y hacia abajo) de todo lo visible en el cuadro f
@@ -1520,5 +1545,5 @@ window.encuadre = (f, sinPlano = false, sinCortes = false) => {
   if (f >= TL.dorado[0] && f <= TL.junta[1]) for (const p of RED.nodos) suma(p);
   return r.map(x => +x.toFixed(3));
 };
-window.cuadro(+params.get("f") || 808);
+window.cuadro(+params.get("f") || 834);
 window.listo = true;
