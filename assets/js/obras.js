@@ -80,7 +80,7 @@
 
       var media = document.createElement("div");
       media.className = "work__media";
-      if (o.fotos[0]) media.appendChild(crearImg(o.fotos[0], o.nombre, "(min-width: 900px) 33vw, (min-width: 640px) 50vw, 100vw", true));
+      if (o.fotos[0]) media.appendChild(crearImg(o.fotos[0], o.nombre, "(min-width: 900px) 50vw, (min-width: 640px) 50vw, 100vw", true));
       if (o.ejemplo) media.insertAdjacentHTML("beforeend", '<span class="work__badge work__badge--ejemplo">Ejemplo</span>');
       if (o.estado === "en proceso") media.insertAdjacentHTML("beforeend", '<span class="work__badge">En proceso</span>');
       if (o.fotos.length > 1) {
@@ -97,7 +97,9 @@
       var loc = document.createElement("p"); loc.className = "work__loc";
       loc.innerHTML = '<svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>';
       loc.appendChild(document.createTextNode(o.ubicacion));
-      body.append(tipo, h, loc);
+      var summary = document.createElement("p"); summary.className = "work__summary"; summary.textContent = o.descripcion;
+      var explore = document.createElement("span"); explore.className = "work__explore"; explore.textContent = "Explorar proyecto ↗";
+      body.append(tipo, h, loc, summary, explore);
 
       btn.append(media, body);
       li.appendChild(btn);
@@ -227,7 +229,7 @@
     })
     .catch(function (err) {
       console.error("No se pudieron cargar las obras:", err);
-      vacio.textContent = "No pudimos cargar el catálogo en este momento. Escríbenos por WhatsApp y te mandamos fotos de obras similares.";
+      vacio.textContent = "Mostramos la selección de obras disponible. Puedes abrir cada fotografía o pedir más información por WhatsApp.";
       vacio.hidden = false;
     });
 })();
