@@ -365,7 +365,7 @@ secuencia(armZ, "sube", ...TL.armadoZap, 8);
 secuencia(zap, "sube", ...TL.zapatas, 8, o => o.position.x - o.position.z);
 secuencia(dad, "sube", ...TL.dados, 8, o => o.position.x - o.position.z);
 secuencia(ct, "desliza", ...TL.contratrabes, 10, null, { dy: 1.2 });
-anima(firme, "sube", ...TL.firme);
+anima(firme, "vierte", ...TL.firme);   // colado del firme en barrido
 
 /* =====================================================================
    4. ESTRUCTURA por nivel: armado, columnas, trabes y losa (hueco de escalera)
@@ -391,7 +391,7 @@ function estructura(n) {
   secuencia(arm, "sube", ...TL["armado" + k], 8);
   secuencia(col, "sube", ...TL["columnas" + k], 12, o => o.position.x - o.position.z);
   secuencia(tr, "desliza", ...TL["trabes" + k], 10, null, { dy: 1.5 });
-  secuencia(lo, "desliza", ...TL["losa" + k], 12, null, { dy: 2.0 });
+  secuencia(lo, "desliza", ...TL["losa" + k], 12, null, { dy: 2.0, funde: true });
 }
 estructura(0); estructura(1);
 
@@ -464,8 +464,11 @@ const LEVANTE = ["losa1", "columnas2", "trabes2", "escalera2", "losa2", "muros2"
 const fraccion = o => (ordenMuro(o) + Math.PI) / (2 * Math.PI);
 for (const o of muros1) cambia(o, TL.blanco1[0] + fraccion(o) * (TL.blanco1[1] - TL.blanco1[0]), M.blanco);
 for (const o of muros2) cambia(o, TL.blanco2[0] + fraccion(o) * (TL.blanco2[1] - TL.blanco2[0]), M.blanco);
-for (const n of ["losa1", "losa2", "trabes1", "trabes2", "columnas1", "columnas2"]) for (const o of G[n].children) cambia(o, n.endsWith("1") ? TL.blanco1[1] : TL.blanco2[1], M.blanco);
-for (const o of pretil) cambia(o, TL.blanco2[1], M.blanco);
+for (const n of ["losa1", "losa2", "trabes1", "trabes2", "columnas1", "columnas2"]) for (const o of G[n].children) {
+  const [t0, t1] = n.endsWith("1") ? TL.blanco1 : TL.blanco2;
+  cambia(o, t0 + fraccion(o) * (t1 - t0), M.blanco);
+}
+for (const o of pretil) cambia(o, TL.blanco2[0] + fraccion(o) * (TL.blanco2[1] - TL.blanco2[0]), M.blanco);
 {
   const g = grupo("interior1"), y = NIV[0];
   const pisos = [];
@@ -908,7 +911,11 @@ function camaraEn(f) {
 /* =====================================================================
    CUADRO f: aplica tiempos, materiales, fantasma, desvanecido y cámara
    ===================================================================== */
-for (const m of todosMats) { m.userData.op0 = m.opacity; m.userData.tr0 = m.transparent; m.userData.dw0 = m.depthWrite; }
+// todas las superficies se recorren un poco hacia atrás en profundidad: así las líneas que coinciden con sus aristas se ven
+for (const m of todosMats) { m.userData.op0 = m.opacity; m.userData.tr0 = m.transparent; m.userData.dw0 = m.depthWrite; Object.assign(m, { polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 }); }
+// versión transparente (en caché) de un material, para fundidos de grupo
+const cacheTransparente = new Map();
+const transparente = m => { let t = cacheTransparente.get(m); if (!t) { t = m.clone(); t.transparent = true; cacheTransparente.set(m, t); } return t; };
 const levante = f => salida((f - TL.levanta[0]) / (TL.levanta[1] - TL.levanta[0])) * (1 - suave((f - TL.baja[0]) / (TL.baja[1] - TL.baja[0])));
 function aplicar(f) {
   // topografía: se dibuja de izquierda a derecha y se nivela
@@ -927,6 +934,7 @@ function aplicar(f) {
     estacas.forEach((e, i) => { const p = suave((f - (t0 + 18 + i * 3)) / 8) * (1 - suave((f - (t1 - 6)) / 10)); e.visible = p > 0; e.scale.y = Math.max(0.001, p); });
   }
   // piezas
+  const fundir = [];
   for (const { o, tipo, t0, t1, d } of anims) {
     const p = t1 > t0 ? (f - t0) / (t1 - t0) : (f >= t0 ? 1 : 0), q = salida(p);
     const b = o.userData.base;
@@ -942,6 +950,8 @@ function aplicar(f) {
     else if (tipo === "traza") o.scale.y = Math.max(0.001, q);
     else if (tipo === "aparece") o.scale.copy(b.s).multiplyScalar(0.7 + 0.3 * q);
     else if (tipo === "trazo") { const n = o.geometry.attributes.position.count; o.geometry.setDrawRange(0, Math.floor(n * suave(p) / 2) * 2); }
+    else if (tipo === "vierte") { const w = o.geometry.parameters.width; o.scale.x = Math.max(0.001, q) * b.s.x; o.position.x = b.p.x - w * b.s.x / 2 * (1 - q); }
+    if (d.funde && p < 1) fundir.push([o, suave(p)]);
     if (o.userData.ocultaEn !== undefined && f >= o.userData.ocultaEn) o.visible = false;
   }
   // relleno: la plataforma sube del fondo de excavación al nivel de terreno y cubre las zapatas
@@ -955,14 +965,21 @@ function aplicar(f) {
   // materiales: base, cambios (block → aplanado blanco) y fantasma de los niveles levantados
   casa.traverse(o => { if (o.isMesh && o.userData.m0) o.material = o.userData.m0; });
   for (const c of cambios) if (f >= c.t) c.o.material = c.m;
-  const lv = levante(f), activo = lv > 0.001;
+  const lv = levante(f);
+  // gf: 0 sólido → 1 fantasma, con fundido de 10 cuadros al subir y al bajar
+  const gf = suave((f - TL.levanta[0]) / 10) * (1 - suave((f - (TL.baja[1] - 10)) / 10));
   for (const n of LEVANTE) {
     const g = G[n]; g.position.y = lv * 6.2;
-    g.userData.aristas.visible = activo;
-    if (activo) for (const o of g.children) if (o.isMesh) o.material = fantasma;
+    g.userData.aristas.visible = gf > 0.001;
+    for (const o of g.children) if (o.isMesh) {
+      if (gf >= 0.999) o.material = fantasma;
+      else if (gf > 0.001) { const t = transparente(o.material); t.opacity = 1 - 0.94 * gf; t.depthWrite = gf < 0.5; o.material = t; }
+    }
     for (const l of g.userData.aristas.children) { const s = l.userData.fuente; l.visible = s.visible; l.position.copy(s.position); l.scale.copy(s.scale); }
   }
-  lineaFantasma.opacity = 0.45 * Math.min(1, lv * 3); fantasma.opacity = 0.06 * Math.min(1, lv * 3);
+  lineaFantasma.opacity = 0.45 * gf;
+  // piezas que entran fundiéndose (losas que bajan)
+  for (const [o, a] of fundir) { const t = o.userData.fm || (o.userData.fm = Object.assign(o.material.clone(), { transparent: true })); t.opacity = a; t.depthWrite = a > 0.5; o.material = t; }
   // final: la casa se convierte en líneas doradas y luego se desvanecen para el logo
   const pf = suave((f - TL.dorado[0]) / (TL.dorado[1] - TL.dorado[0])), pl = suave((f - TL.desvanece[0]) / (TL.desvanece[1] - TL.desvanece[0]));
   if (pf > 0) construirLineas();
@@ -973,7 +990,7 @@ function aplicar(f) {
   const k = 1 - Math.min(1, pf * 1.3);
   const pr = suave((f - TL.relleno[0]) / (TL.relleno[1] - TL.relleno[0]));
   for (const m of todosMats) {
-    let op = m.userData.op0 * k, tr = m.userData.tr0 || k < 1, dw = m.userData.dw0 && k >= 1;
+    let op = m.userData.op0 * k, tr = m.userData.tr0 || k < 1, dw = m.userData.dw0 && k > 0.15;
     if (m === M.terreno) op = 0.62 * suave((f - (TL.topo[0] + 40)) / 20) * (1 - pf);
     if (m === M.concretoFresco && pr > 0) { op *= 1 - pr; tr = true; dw = dw && pr < 0.5; }   // zapatas bajo el relleno
     m.opacity = op; m.depthWrite = dw;
