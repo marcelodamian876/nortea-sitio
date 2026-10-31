@@ -880,13 +880,14 @@ const LLAVES = [
   [210, [22, 15, 30], [0, 0.6, 0.5], 26],
   [300, [23, 17, 32], [0, 2.4, 0.3], 26],
   [396, [24, 20, 33], [0, 3.6, 0.0], 26],
-  [430, [23, 26, 30], [0, 5.4, 0.0], 30],
+  [430, [23, 26, 30], [0, 5.4, 0.0], 31.5],
+  [468, [23, 26, 30], [0, 5.4, 0.0], 31.5],
   [488, [21, 20, 33], [0, 3.6, 0.3], 25],
   [520, [9, 7.5, 40], [0.3, 3.8, 0.0], 21],
   [566, [11, 8.5, 40], [0.3, 3.8, 0.0], 21],
-  [600, [21, 20, 28], [0.3, 4.8, -0.8], 25],
-  [700, [22, 19, 29.5], [0.3, 4.6, -0.6], 25],
-  [760, [25, 19, 33], [0.4, 5.0, 0.0], 26],
+  [600, [21, 20, 28], [0.3, 2.8, -0.8], 29.5],
+  [700, [22, 19, 29.5], [0.3, 2.9, -0.6], 29],
+  [760, [25, 19, 33], [0.4, 3.8, 0.0], 27.5],
   [800, [0.01, 5.6, 96], [0.0, 5.3, 0.0], 11.5],
   [940, [0.01, 5.6, 96], [0.0, 5.3, 0.0], 11.5],
 ];
@@ -986,5 +987,25 @@ function aplicar(f) {
 
 window.cuadro = f => { aplicar(f); usarAO ? composer.render() : renderer.render(scene, camara); return true; };
 window.TOTAL = TOTAL; window.TL = TL;
+// QA de encuadre: caja en pantalla (0..1, y hacia abajo) de todo lo visible en el cuadro f
+window.encuadre = f => {
+  aplicar(f); scene.updateMatrixWorld(true); camara.updateMatrixWorld(true);
+  const v = new THREE.Vector3(), r = [1e9, -1e9, 1e9, -1e9], box = new THREE.Box3();
+  const mide = o => {
+    if (!(o.isMesh || o.isLineSegments) || o === sombraSuelo || o === placa) return;
+    for (let p = o; p; p = p.parent) if (!p.visible) return;
+    if (o.material === M.terreno || o.material === lineaOroTenue) return;
+    if (!o.geometry.boundingBox) o.geometry.computeBoundingBox();
+    box.copy(o.geometry.boundingBox).applyMatrix4(o.matrixWorld);
+    for (const x of [box.min.x, box.max.x]) for (const y of [box.min.y, box.max.y]) for (const z of [box.min.z, box.max.z]) {
+      v.set(x, y, z).project(camara);
+      if (!Number.isFinite(v.x) || !Number.isFinite(v.y)) continue;
+      const sx = (v.x + 1) / 2, sy = (1 - v.y) / 2;
+      r[0] = Math.min(r[0], sx); r[1] = Math.max(r[1], sx); r[2] = Math.min(r[2], sy); r[3] = Math.max(r[3], sy);
+    }
+  };
+  casa.traverse(mide); gLineas.traverse(mide);
+  return r.map(x => +x.toFixed(3));
+};
 window.cuadro(+params.get("f") || 740);
 window.listo = true;
