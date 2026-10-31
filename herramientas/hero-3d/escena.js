@@ -743,7 +743,7 @@ const luces = grupo("luces");
   // 4. volado gris oscuro de la cochera con plafón de madera y luminarias
   const vol = [caja(g, -1.1, 5.75, 3.2, 3.7, 5.18, 7.0, M.grisOscuro), caja(g, 1.6, 5.75, 3.2, 3.7, 3.0, 5.18, M.grisOscuro),
     caja(g, -1.0, 5.65, 3.17, 3.2, 5.2, 6.9, M.madera, false), caja(g, 1.6, 5.65, 3.17, 3.2, 3.05, 5.2, M.madera, false)];
-  pasos.push(["desliza", vol, { dz: 1.0 }]);
+  pasos.push(["desliza", vol, { dz: 1.0, funde: true }]);
   // 5. barandal de cristal del balcón y plafón de madera
   pasos.push(["crece", [...barandalVidrio(g, "x", 5.3, -4.85, -1.15, NIV[1] + 0.15, 0.95), caja(g, -4.85, -0.65, NIV[2] - 0.47, NIV[2] - 0.45, 3.6, 5.45, M.madera, false)]]);
   // 6. jardinera de piedra, escalones con luz, piso de cochera
