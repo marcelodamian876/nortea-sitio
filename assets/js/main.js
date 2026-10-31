@@ -235,11 +235,11 @@
     if (!pendientes.length) clearInterval(vigilante);
   }, 400);
 
-  /* ---------- Video de portada (v11) ----------
+  /* ---------- Video de portada (v12) ----------
      · A todo lo ancho, sin sonido, en bucle y automático, como un GIF (escritorio 16:9, celular 9:16).
-     · El cierre lo dibuja el navegador en vector encima del video, sincronizado con su tiempo: en el video la casa
-       dorada se vuelve una sola línea que llega como contorno del logo; desde ahí el sitio sigue con ese mismo
-       contorno, rellena el isotipo y escribe el nombre. Nítido en cualquier pantalla. Datos: cierre-*.json.
+     · El cierre lo dibuja el navegador en vector encima del video, sincronizado con su tiempo: en el video las
+       líneas doradas de la casa se corren, como liga, y se juntan en el contorno del logo; desde ahí el sitio sigue
+       con ese mismo contorno, rellena el isotipo y escribe el nombre. Nítido en cualquier pantalla. Datos: cierre-*.json.
      · Corre siempre (decisión del dueño, también con "reducir movimiento": es un movimiento lento, sin destellos).
        Solo con ahorro de datos o conexión 2G se queda la imagen estática.
      · Si el navegador bloquea el arranque automático (ahorro de batería), arranca con el primer toque, clic o scroll.
