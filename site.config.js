@@ -70,7 +70,7 @@ window.SITE = {
       tablaroca: "Hola, vi su página de NORTEA y quiero cotizar un trabajo de tablaroca o Durock (muros, plafones, cajillos o nichos).",
       fachadas: "Hola, vi su página de NORTEA y quiero cotizar un trabajo de fachada (volúmenes, recubrimientos, jardineras o pintura).",
       ampliacion: "Hola, vi su página de NORTEA y quiero cotizar una ampliación o remodelación para mi casa o negocio.",
-      negocio: "Hola, vi su página de NORTEA y quiero cotizar la adecuación de mi local o una construcción en mi terreno.",
+      negocio: "Hola, vi su página de NORTEA y quiero cotizar la adecuación de mi local comercial u oficina.",
       subcontratacion: "Hola, vi su página de NORTEA y quiero cotizar partidas para mi constructora, desarrolladora o despacho.",
     },
     // Mensaje para una obra en particular (hoy el portafolio cotiza por categoría con los mensajes de arriba).
