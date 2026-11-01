@@ -243,6 +243,9 @@
      · Corre siempre (decisión del dueño, también con "reducir movimiento": es un movimiento lento, sin destellos).
        Solo con ahorro de datos o conexión 2G se queda la imagen estática.
      · Si el navegador bloquea el arranque automático (ahorro de batería), arranca con el primer toque, clic o scroll.
+     · Nunca hace falta recargar la página: se reanuda solo al volver a la pestaña, al regresar con "atrás", al
+       recuperar la red o el foco; si la descarga falla lo vuelve a intentar, y si se queda congelado lo recarga
+       desde donde iba. Fuera de pantalla se pausa (ahorra batería) y sigue al volver a verse.
      · La versión se elige con el mismo criterio que la imagen estática del <picture>. */
   (function () {
     var v = document.querySelector(".hero__video");
@@ -250,28 +253,80 @@
     var conn = navigator.connection || {};
     var lento = conn.saveData || /(^|-)2g$/.test(conn.effectiveType || "");
     if (lento) { v.removeAttribute("autoplay"); return; }
-    function reproducir() { v.muted = true; var p = v.play(); if (p && p.catch) p.catch(function () {}); }
-    ["pointerdown", "touchstart", "scroll", "keydown"].forEach(function (ev) {
-      window.addEventListener(ev, function () { if (v.paused) reproducir(); }, { passive: true, once: true });
-    });
-    document.addEventListener("visibilitychange", function () { if (!document.hidden && v.paused) reproducir(); });
     var mqMovil = window.matchMedia("(max-aspect-ratio: 4/5), (max-width: 639px)");
-    var modo = "";
+    var modo = "", enPantalla = true, ultimoT = -1, ultimoBuf = -1, quieto = 0, reintentos = 0, esperaReintento = 0;
+    function activo() { return !document.hidden && enPantalla; }
+    function reproducir() { if (!modo) return; v.muted = true; var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+    function bufferFin() { try { var b = v.buffered; return b.length ? b.end(b.length - 1) : 0; } catch (e) { return 0; } }
+    // vuelve a cargar el mismo archivo (desde la caché del navegador) y sigue donde iba
+    function recargar() {
+      if (!modo) return;
+      var t = v.currentTime || 0, src = v.dataset[modo + "Mp4"];
+      v.classList.remove("is-playing");
+      if (v.getAttribute("src") !== src) v.src = src; else v.load();
+      if (t > 0) v.addEventListener("loadedmetadata", function seguir() {
+        v.removeEventListener("loadedmetadata", seguir);
+        try { if (t < v.duration) v.currentTime = t; } catch (e) {}
+      });
+      reproducir();
+    }
+    // si la descarga falló: reintenta con espera creciente (2, 4, 8 … hasta 30 s)
+    function programarReintento() {
+      if (esperaReintento) return;
+      var ms = Math.min(30000, 2000 * Math.pow(2, reintentos++));
+      esperaReintento = setTimeout(function () { esperaReintento = 0; recargar(); }, ms);
+    }
+    function revisar() {
+      if (!modo || !activo()) return;
+      if (v.error) programarReintento(); else if (v.paused) reproducir();
+    }
     function cargar() {
       var nuevo = mqMovil.matches ? "movil" : "escritorio";
       if (nuevo === modo) return;
-      modo = nuevo;
+      modo = nuevo; reintentos = 0;
       v.classList.remove("is-playing");
       v.src = v.dataset[modo + "Mp4"];
       reproducir();
       cargarCierre(v.dataset[modo + "Cierre"]);
     }
-    v.addEventListener("playing", function () { v.classList.add("is-playing"); });
+    v.addEventListener("playing", function () { v.classList.add("is-playing"); reintentos = 0; quieto = 0; });
+    v.addEventListener("error", programarReintento);
+    v.addEventListener("ended", function () { try { v.currentTime = 0; } catch (e) {} reproducir(); });   // por si no respeta "loop"
+    // cualquier toque, clic, tecla o scroll lo reanuda si el navegador lo detuvo (no solo la primera vez)
+    ["pointerdown", "touchstart", "scroll", "keydown"].forEach(function (ev) {
+      window.addEventListener(ev, function () { if (v.paused && activo()) reproducir(); }, { passive: true });
+    });
+    document.addEventListener("visibilitychange", revisar);                         // volver a la pestaña
+    window.addEventListener("pageshow", function (e) { if (e.persisted) { reintentos = 0; revisar(); } });   // regresar con "atrás"
+    window.addEventListener("focus", revisar);
+    window.addEventListener("online", function () {                                 // regresó la conexión
+      reintentos = 0;
+      if (v.error) recargar(); else revisar();
+      if (svg && !datos && urlCierre) cargarCierre(urlCierre);
+    });
+    // fuera de pantalla se pausa; al volver a verse sigue
+    var hero = document.querySelector(".hero");
+    if ("IntersectionObserver" in window && hero) {
+      new IntersectionObserver(function (entries) {
+        enPantalla = entries[0].isIntersecting;
+        if (enPantalla) revisar(); else if (!v.paused) v.pause();
+      }).observe(hero);
+    }
+    // vigilante: si debería correr y no avanza ni descarga en ~10 s, lo recarga desde donde iba
+    setInterval(function () {
+      if (!modo || !activo()) { quieto = 0; return; }
+      if (v.error) { programarReintento(); return; }
+      if (v.paused) { reproducir(); quieto = 0; return; }
+      var t = v.currentTime, b = bufferFin();
+      if (t !== ultimoT || b > ultimoBuf + 0.01) quieto = 0; else quieto++;
+      ultimoT = t; ultimoBuf = b;
+      if (quieto >= 5) { quieto = 0; recargar(); }
+    }, 2000);
 
     // ----- cierre vectorial sincronizado con el video -----
     var svg = document.querySelector(".hero__cierre");
     var NS = "http://www.w3.org/2000/svg";
-    var datos = null, el = {}, pedido = 0;
+    var datos = null, el = {}, pedido = 0, urlCierre = "", reintentosCierre = 0;
     function nodo(tag, attrs, padre) {
       var n = document.createElementNS(NS, tag);
       for (var k in attrs) n.setAttribute(k, attrs[k]);
@@ -280,12 +335,18 @@
     }
     function cargarCierre(url) {
       if (!svg || !url) return;
+      urlCierre = url;
       var este = ++pedido;
       datos = null; svg.style.opacity = 0;
-      fetch(url).then(function (r) { return r.json(); }).then(function (d) {
+      fetch(url).then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); }).then(function (d) {
         if (este !== pedido) return;
+        reintentosCierre = 0;
         datos = d; construir(d);
-      }).catch(function () {});
+      }).catch(function () {
+        // sin datos del logo no se dibuja el cierre: se reintenta solo (2, 4, 8 … hasta 30 s)
+        if (este !== pedido) return;
+        setTimeout(function () { if (este === pedido && !datos) cargarCierre(url); }, Math.min(30000, 2000 * Math.pow(2, reintentosCierre++)));
+      });
     }
     function construir(d) {
       svg.textContent = "";
