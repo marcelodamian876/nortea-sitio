@@ -143,7 +143,7 @@
     if (NORTEA.prepararEnlaceWa) NORTEA.prepararEnlaceWa(wa, c.wa);
     wa.dataset.obraId = c.id;
     var waTexto = document.getElementById("obra-wa-texto");
-    if (waTexto) waTexto.textContent = "Cotizar " + c.nombre.toLowerCase();
+    if (waTexto) waTexto.textContent = "Cotizar " + c.nombre.charAt(0).toLowerCase() + c.nombre.slice(1);   // respeta nombres como Durock
 
     if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", "");
     document.body.style.overflow = "hidden";

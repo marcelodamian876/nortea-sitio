@@ -167,15 +167,16 @@
           "srcset": "assets/img/servicios/tablaroca-480.webp 480w, assets/img/servicios/tablaroca.webp 960w"
         },
         {
-          "src": "obras/tablaroca-durock/durock.webp",
-          "srcset": "obras/tablaroca-durock/durock-480.webp 480w, obras/tablaroca-durock/durock-960.webp 960w, obras/tablaroca-durock/durock.webp 1200w",
-          "alt": "Muros forrados con placas de Durock y andamio",
-          "pie": "Muros de Durock"
+          "src": "obras/tablaroca-durock/muro-curvo-local.webp",
+          "srcset": "obras/tablaroca-durock/muro-curvo-local-480.webp 480w, obras/tablaroca-durock/muro-curvo-local-960.webp 960w, obras/tablaroca-durock/muro-curvo-local.webp 1200w",
+          "alt": "Local comercial con muro curvo, nicho circular y plafón de tablaroca con juntas empastadas",
+          "pie": "Muro curvo y plafón de tablaroca en local comercial"
         },
         {
-          "src": "obras/oficinas-edificio-medico/01.webp",
-          "alt": "Oficina con plafón registrable en proceso y muros de panel de yeso",
-          "pie": "Habilitado de oficinas · San Nicolás de los Garza"
+          "src": "obras/tablaroca-durock/plafon-ventanal.webp",
+          "srcset": "obras/tablaroca-durock/plafon-ventanal-480.webp 480w, obras/tablaroca-durock/plafon-ventanal-960.webp 960w, obras/tablaroca-durock/plafon-ventanal.webp 1200w",
+          "alt": "Plafón y muro de tablaroca terminados junto a un ventanal con vista a la ciudad",
+          "pie": "Plafón y muros de tablaroca terminados"
         }
       ]
     },
