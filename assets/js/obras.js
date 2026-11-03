@@ -5,7 +5,8 @@
    abrirla se ven sus fotografías (con su pie: obra y municipio), lo que
    incluye y el botón para cotizar por WhatsApp.
    Los datos salen de data/obras.json → "categorias". Para agregar fotos,
-   súmalas a la lista "fotos" de la categoría (la primera es la portada).
+   súmalas a la lista "fotos" de la categoría (la primera es la portada; su
+   "foco", p. ej. "50% 30%", indica qué parte de la foto se ve en la tarjeta).
    ===================================================================== */
 (function () {
   "use strict";
@@ -71,7 +72,11 @@
 
       var media = document.createElement("div");
       media.className = "work__media";
-      if (c.fotos[0]) media.appendChild(crearImg(c.fotos[0], c.nombre, "(min-width: 1000px) 33vw, (min-width: 640px) 50vw, 100vw", true));
+      if (c.fotos[0]) {
+        var portada = crearImg(c.fotos[0], c.nombre, "(min-width: 1000px) 33vw, (min-width: 640px) 50vw, 100vw", true);
+        if (c.fotos[0].foco) portada.style.objectPosition = c.fotos[0].foco;   // encuadre de la portada (lo importante de la foto)
+        media.appendChild(portada);
+      }
       var num = document.createElement("span");
       num.className = "work__num"; num.setAttribute("aria-hidden", "true");
       num.textContent = String(i + 1).padStart(2, "0");

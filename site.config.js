@@ -27,6 +27,10 @@ window.SITE = {
   // todas las solicitudes llegan solas. Mientras no esté activado, el sitio ofrece mandarla por WhatsApp.
   // (Opcional) Ya activado, FormSubmit da un código para no mostrar el correo: puede ponerse en "destino".
   formulario: {
+    // Web3Forms (web3forms.com, gratuito): la llave se crea con el correo nortea.ic@gmail.com y llega a ese
+    // mismo correo. Es pública por diseño (va en la página). Con llave, éste es el envío principal.
+    web3formsKey: "",
+    // FormSubmit (respaldo): envía directo a este correo; la primera vez pide activarlo desde ese correo.
     destino: "nortea.ic@gmail.com",
     asunto: "Nueva solicitud de cotización · NORTEA",
   },

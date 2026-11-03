@@ -15,9 +15,11 @@
       "wa": "proyectoEjecutivo",
       "fotos": [
         {
-          "src": "obras/proyectos-ejecutivos/01.webp",
-          "alt": "Plano ejecutivo de una casa trazado sobre el terreno nivelado",
-          "pie": "Proyecto ejecutivo · imagen ilustrativa"
+          "src": "obras/proyectos-ejecutivos/levantamiento-topografico.webp",
+          "srcset": "obras/proyectos-ejecutivos/levantamiento-topografico-480.webp 480w, obras/proyectos-ejecutivos/levantamiento-topografico-960.webp 960w, obras/proyectos-ejecutivos/levantamiento-topografico.webp 1200w",
+          "alt": "Equipo de topografía en tripié con perforadora de mecánica de suelos al fondo",
+          "pie": "Levantamiento topográfico y mecánica de suelos",
+          "foco": "50% 30%"
         }
       ]
     },
@@ -56,11 +58,6 @@
           "src": "obras/obra-civil-particulares/03.webp",
           "alt": "Compactación de terreno para firme",
           "pie": "Compactación para firme · Monterrey"
-        },
-        {
-          "src": "obras/adecuaciones-edificio-san-nicolas/02.webp",
-          "alt": "Fachada de edificio durante la obra",
-          "pie": "Adecuaciones para edificio · San Nicolás de los Garza"
         }
       ]
     },
@@ -80,9 +77,11 @@
       "wa": "acabados",
       "fotos": [
         {
-          "src": "obras/hotel-san-pedro/01.webp",
-          "alt": "Habitación de hotel con plafón y muros terminados",
-          "pie": "Acabados de hotel · San Pedro Garza García"
+          "src": "obras/acabados/aplicacion-estuco.webp",
+          "srcset": "obras/acabados/aplicacion-estuco-480.webp 480w, obras/acabados/aplicacion-estuco-960.webp 960w, obras/acabados/aplicacion-estuco.webp 1200w",
+          "alt": "Dos trabajadores con casco aplicando estuco en la fachada de un edificio",
+          "pie": "Aplicación de estuco en fachada",
+          "foco": "50% 42%"
         },
         {
           "src": "assets/img/servicios/acabados.webp",
@@ -91,10 +90,16 @@
           "srcset": "assets/img/servicios/acabados-480.webp 480w, assets/img/servicios/acabados.webp 960w"
         },
         {
-          "src": "assets/img/servicios/constructoras.webp",
-          "alt": "Cuadrilla con casco aplicando acabado sobre la fachada de un edificio",
-          "pie": "Aplicación de acabado en fachada",
-          "srcset": "assets/img/servicios/constructoras-480.webp 480w, assets/img/servicios/constructoras.webp 960w"
+          "src": "obras/acabados/marmol-muro.webp",
+          "srcset": "obras/acabados/marmol-muro-480.webp 480w, obras/acabados/marmol-muro-960.webp 960w, obras/acabados/marmol-muro.webp 1200w",
+          "alt": "Muro con recubrimiento de mármol recién instalado",
+          "pie": "Muro de mármol"
+        },
+        {
+          "src": "obras/acabados/marmol-instalacion.webp",
+          "srcset": "obras/acabados/marmol-instalacion-480.webp 480w, obras/acabados/marmol-instalacion-960.webp 960w, obras/acabados/marmol-instalacion.webp 1200w",
+          "alt": "Placas de mármol en muro con niveladores durante la instalación",
+          "pie": "Instalación de mármol en muro"
         }
       ]
     },
@@ -162,6 +167,12 @@
           "srcset": "assets/img/servicios/tablaroca-480.webp 480w, assets/img/servicios/tablaroca.webp 960w"
         },
         {
+          "src": "obras/tablaroca-durock/durock.webp",
+          "srcset": "obras/tablaroca-durock/durock-480.webp 480w, obras/tablaroca-durock/durock-960.webp 960w, obras/tablaroca-durock/durock.webp 1200w",
+          "alt": "Muros forrados con placas de Durock y andamio",
+          "pie": "Muros de Durock"
+        },
+        {
           "src": "obras/oficinas-edificio-medico/01.webp",
           "alt": "Oficina con plafón registrable en proceso y muros de panel de yeso",
           "pie": "Habilitado de oficinas · San Nicolás de los Garza"
@@ -171,21 +182,41 @@
     {
       "id": "remodelaciones",
       "nombre": "Remodelaciones y adecuaciones",
-      "resumen": "Ampliaciones y remodelaciones de casas, adecuación de locales y oficinas.",
-      "descripcion": "Ampliaciones y remodelaciones para tu casa, adecuación de locales comerciales y oficinas, y habilitado de espacios de trabajo, de la obra negra al acabado.",
+      "resumen": "Remodelación y adecuación de casas, locales comerciales y oficinas.",
+      "descripcion": "Ampliaciones y remodelaciones para tu casa, y adecuación de locales comerciales y oficinas: muros, plafones, instalaciones eléctricas, pisos, acabados y pintura, de la obra negra a la entrega.",
       "partidas": [
         "Ampliaciones",
         "Remodelaciones",
         "Locales comerciales",
         "Oficinas",
-        "Cierres de terraza"
+        "Instalaciones eléctricas",
+        "Pisos y pintura"
       ],
       "wa": "ampliacion",
       "fotos": [
         {
+          "src": "obras/remodelaciones/casa-terminada.webp",
+          "srcset": "obras/remodelaciones/casa-terminada-480.webp 480w, obras/remodelaciones/casa-terminada-960.webp 960w, obras/remodelaciones/casa-terminada.webp 1200w",
+          "alt": "Fachada residencial terminada con celosía de madera, piedra y puerta de madera",
+          "pie": "Adecuación de fachada residencial terminada · Monterrey",
+          "foco": "50% 45%"
+        },
+        {
           "src": "obras/fachada-residencial-monterrey/02.webp",
           "alt": "Fachada con andamios y volumen ligero en altura",
-          "pie": "Adecuación residencial · Monterrey"
+          "pie": "La misma fachada durante la obra · Monterrey"
+        },
+        {
+          "src": "obras/locales-comerciales/local-tablaroca.webp",
+          "srcset": "obras/locales-comerciales/local-tablaroca-480.webp 480w, obras/locales-comerciales/local-tablaroca-960.webp 960w, obras/locales-comerciales/local-tablaroca.webp 1280w",
+          "alt": "Local comercial con muros y plafón de tablaroca en proceso",
+          "pie": "Adecuación de local comercial: muros y plafón"
+        },
+        {
+          "src": "obras/locales-comerciales/local-piso-marmol.webp",
+          "srcset": "obras/locales-comerciales/local-piso-marmol-480.webp 480w, obras/locales-comerciales/local-piso-marmol-960.webp 960w, obras/locales-comerciales/local-piso-marmol.webp 1200w",
+          "alt": "Local comercial con muros de tablaroca, iluminación colgante y piso de mármol",
+          "pie": "Adecuación de local comercial: muros, iluminación y piso"
         },
         {
           "src": "obras/oficinas-edificio-medico/01.webp",

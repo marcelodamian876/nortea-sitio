@@ -25,7 +25,9 @@
 .audiences h3 { margin: 16px 0; max-width: 23ch; font-size: clamp(1.3rem, 2.5vw, 1.8rem); line-height: 1.3; }
 .audiences p { color: var(--ink-soft); }
 .audiences__link { display: inline-block; margin-top: auto; padding-top: 25px; font-size: .85rem; font-weight: 600; }
-#servicios .services { display: grid; grid-template-columns: 1fr; gap: 48px; }
+#servicios .services { display: grid; grid-template-columns: 1fr; grid-auto-rows: auto; gap: 48px; }
+/* el acomodo de las tarjetas lo da esta hoja (styles.css traía uno de 6 columnas que las estiraba a todo lo ancho) */
+#servicios .service { grid-column: auto; width: auto; justify-self: stretch; }
 #servicios .service { border: 0; border-radius: 0; box-shadow: none; background: transparent; }
 #servicios .service:hover { transform: none; }
 #servicios .service::after { display: none; }
@@ -62,6 +64,9 @@
 @media (min-width: 760px) {
   #obras .works { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   #servicios .services { grid-template-columns: 1fr 1fr; gap: 64px 36px; }
+  /* con un número non de especialidades, la última ocupa todo el ancho (más panorámica) */
+  #servicios .service:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  #servicios .service:last-child:nth-child(odd) .service__media { aspect-ratio: 21 / 9; }
   .execution__grid { grid-template-columns: 1fr 1fr; gap: 70px; }
   .quote-form { grid-template-columns: 1fr 1fr; }
   .quote-form__full { grid-column: 1/-1; }
