@@ -482,7 +482,8 @@ const Datos = (() => {
     const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), ms || 20000);
     try {
       const r = await fetch(url, { method: "POST", body: JSON.stringify({ ...cuerpo, llave }), headers: { "Content-Type": "text/plain;charset=utf-8" }, signal: ctl.signal, redirect: "follow" });
-      return await r.json();
+      const t = await r.text();
+      try { return JSON.parse(t); } catch { const e = new Error("html"); e.html = true; e.texto = t.slice(0, 400); throw e; }
     } finally { clearTimeout(t); }
   }
   async function refrescar() {
@@ -515,12 +516,24 @@ const Datos = (() => {
       document.body.appendChild(v);
       v.querySelector("form").addEventListener("submit", async (e) => {
         e.preventDefault();
-        const f = e.target; url = f.u.value.trim(); llave = f.k.value.trim();
+        const f = e.target, err = f.querySelector(".e");
+        url = (f.u.value.match(/https:\/\/script\.google\.com\/[^\s"'<>]+/) || [f.u.value.trim()])[0].replace(/[?#].*$/, "");
+        llave = f.k.value.trim().replace(/^.*llave:\s*/i, "").replace(/\s+/g, "");
+        f.u.value = url; f.k.value = llave;
+        if (!/^https:\/\/script\.google\.com\/(a\/[^/]+\/)?macros\/s\/[^/]+\/exec$/.test(url)) {
+          err.textContent = /\/dev$/.test(url) ? "Esa es la dirección de prueba (/dev). Usa la de la implementación, la que termina en /exec." : "La dirección debe empezar con https://script.google.com/macros/s/ y terminar en /exec.";
+          return;
+        }
         f.querySelector(".e").textContent = "Probando…";
         try {
           const r = await api({ accion: "leer", cols: ["obras"] }, 30000);
-          if (!r || !r.ok) { f.querySelector(".e").textContent = r && r.error === "llave" ? "La llave no coincide." : "No contestó la hoja. Revisa la dirección."; return; }
-        } catch { f.querySelector(".e").textContent = "No hay conexión con la hoja. Revisa la dirección o tu señal."; return; }
+          if (!r || !r.ok) { err.textContent = r && r.error === "llave" ? "La llave no coincide. Cópiala otra vez del «Registro de ejecución» (solo las letras y números)." : "La hoja contestó con un error: " + ((r && r.error) || "sin detalle"); return; }
+        } catch (x) {
+          if (!navigator.onLine) err.textContent = "No tienes señal. Inténtalo cuando tengas internet.";
+          else if (x && x.html) err.textContent = /doGet|doPost|funci[oó]n/i.test(x.texto || "") ? "Google no encuentra el código. En Apps Script guarda el código y vuelve a implementar (Administrar implementaciones → ✏️ → Nueva versión)." : "Google contestó con una página en vez de datos. En Apps Script: Implementar → Administrar implementaciones → ✏️ → «Ejecutar como: Yo» y «Quién tiene acceso: Cualquier usuario» → Nueva versión → Implementar.";
+          else err.textContent = "Google no dejó entrar a la app. En Apps Script: Implementar → Administrar implementaciones → ✏️ → «Quién tiene acceso: Cualquier usuario» (no «con cuenta de Google») → Nueva versión → Implementar. Prueba: abre tu dirección /exec en Safari; debe salir {\"ok\":true…}.";
+          return;
+        }
         ls.set("nortea_api", url); ls.set("nortea_llave", llave); v.remove(); res(); refrescar();
       });
     });
