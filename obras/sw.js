@@ -1,11 +1,16 @@
 // Obras NORTEA · guarda la app para abrir sin señal. Los datos no pasan por aquí (van a la hoja de Google).
-const V = "obras-b4924f7eae";
+const V = "obras-a48733e6dc";
 const APP = ["/obras/", "/obras/manifest.webmanifest", "/assets/img/marca/icon-192.png", "/assets/img/marca/apple-touch-icon.png"];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(V).then((c) => c.addAll(APP)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== V).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener("fetch", (e) => {
   const u = new URL(e.request.url);
-  if (e.request.method !== "GET" || u.origin !== location.origin) return;           // la hoja de Google y las fuentes, directo
-  if (!u.pathname.startsWith("/obras/") || /\.(webp|jpg|png)$/.test(u.pathname) && !APP.includes(u.pathname)) return;  // fotos del portafolio: no se tocan
-  e.respondWith(fetch(e.request).then((r) => { const c = r.clone(); caches.open(V).then((k) => k.put(e.request, c)); return r; }).catch(() => caches.match(e.request).then((r) => r || caches.match("/obras/"))));
+  if (e.request.method !== "GET" || u.origin !== location.origin) return;            // la hoja de Google y las fuentes van directo
+  const nav = e.request.mode === "navigate" && u.pathname.startsWith("/obras/");
+  if (!nav && !APP.includes(u.pathname)) return;                                      // fotos del portafolio y lo demás del sitio: no se tocan
+  const clave = nav ? "/obras/" : u.pathname;
+  // primero lo guardado (abre al instante y sin señal); por detrás baja la versión nueva para la siguiente vez
+  const red = fetch(e.request).then((r) => r && r.ok ? caches.open(V).then((c) => c.put(clave, r.clone())).then(() => r) : r).catch(() => null);
+  e.waitUntil(red.then(() => {}));
+  e.respondWith(caches.match(clave).then((g) => g || red.then((r) => r || new Response("Sin conexión", { status: 503, headers: { "Content-Type": "text/plain; charset=utf-8" } }))));
 });
