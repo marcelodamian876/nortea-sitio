@@ -31,7 +31,7 @@
   --f-display: "Montserrat", "Segoe UI", system-ui, sans-serif;
   --f-body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
   --ease: cubic-bezier(0.23, 1, 0.32, 1); --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
-  --bar-h: 76px; --logo: none;
+  --bar-h: 76px; --logo: none; --sab: max(8px, calc(env(safe-area-inset-bottom, 0px) - 16px));
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -69,7 +69,7 @@ svg { flex: 0 0 auto; }
 .pant { position: absolute; inset: 0; display: flex; flex-direction: column; background: var(--bg); overflow: hidden; }
 .pant:not([data-t="home"]) { box-shadow: -10px 0 30px rgba(0, 0, 0, .14); }
 .pant.oculta { visibility: hidden; }
-.nav { flex: 0 0 auto; padding-top: env(safe-area-inset-top, 0px); background: var(--nav-bg); -webkit-backdrop-filter: blur(18px) saturate(1.4); backdrop-filter: blur(18px) saturate(1.4); border-bottom: 1px solid transparent; transition: border-color 160ms; position: relative; z-index: 2; }
+.nav { flex: 0 0 auto; padding-top: env(safe-area-inset-top, 0px); background: var(--bg); border-bottom: 1px solid transparent; transition: border-color 160ms; position: relative; z-index: 2; }
 .nav.sc { border-bottom-color: var(--line); }
 .nav-in { max-width: 560px; margin: 0 auto; min-height: 52px; display: flex; align-items: center; gap: 4px; padding: 0 max(8px, env(safe-area-inset-right, 0px)) 0 max(12px, env(safe-area-inset-left, 0px)); }
 .logo { flex: 0 0 auto; min-height: 44px; min-width: 52px; display: grid; place-items: center; border-radius: 10px; }
@@ -84,7 +84,7 @@ svg { flex: 0 0 auto; }
 .nav-r .mas { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px; color: var(--accent-text); }
 .nav-r .mas svg { width: 24px; height: 24px; }
 .demo { font: 600 11px/1 var(--f-body); background: var(--accent); color: var(--accent-ink); padding: 6px 9px; border-radius: 999px; white-space: nowrap; }
-.cuerpo { flex: 1 1 auto; overflow-y: auto; overflow-x: hidden; overscroll-behavior-y: contain; -webkit-overflow-scrolling: touch; padding-bottom: calc(var(--bar-h) + env(safe-area-inset-bottom, 0px) + 28px); }
+.cuerpo { flex: 1 1 auto; overflow-y: auto; overflow-x: hidden; overscroll-behavior-y: contain; -webkit-overflow-scrolling: touch; padding-bottom: calc(var(--bar-h) + var(--sab) + 24px); }
 .cuerpo, .cuerpo * { touch-action: pan-y; }
 .sin-bar-pant .cuerpo { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 28px); }
 .in { max-width: 560px; margin: 0 auto; padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px)); }
@@ -93,7 +93,7 @@ svg { flex: 0 0 auto; }
 .titulo { font: 700 34px/1.05 var(--f-display); letter-spacing: -0.03em; margin: 6px 0 18px; overflow-wrap: anywhere; }
 .titulo.m { font-size: 28px; }
 .sec { font: 600 11.5px/1 var(--f-body); text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); margin: 28px 2px 10px; display: flex; justify-content: space-between; gap: 8px; }
-.pie-pant { flex: 0 0 auto; background: var(--bg); border-top: 1px solid var(--line); padding: 10px 0 calc(10px + env(safe-area-inset-bottom, 0px)); }
+.pie-pant { flex: 0 0 auto; background: var(--bg); border-top: 1px solid var(--line); padding: 8px 0 var(--sab); }
 
 /* avisos */
 .note { margin: 10px 0 0; padding: 12px 14px; background: var(--chip); border-radius: 12px; font-size: 14px; display: flex; gap: 10px; align-items: center; justify-content: space-between; }
@@ -135,6 +135,13 @@ svg { flex: 0 0 auto; }
 .bar > i { display: block; height: 100%; background: var(--accent); border-radius: 99px; }
 .bar > i.over { background: var(--bad); }
 .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+.card.activa { box-shadow: inset 0 0 0 1.25px var(--accent); }
+.ley { display: flex; justify-content: space-between; gap: 8px; margin-top: 12px; font-size: 12.5px; color: var(--muted); }
+.ley + .bar { margin-top: 5px; }
+.bar.cobro > i { background: var(--ok); }
+.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.trio .big { font-size: 17px; }
+.trio .sub { font-size: 11.5px; }
 .big { display: block; font: 700 21px/1.15 var(--f-display); letter-spacing: -0.02em; margin-top: 3px; overflow-wrap: anywhere; }
 .util { display: block; margin-top: 10px; font-size: 14px; font-weight: 600; overflow-wrap: anywhere; }
 .linea { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 8px; min-height: 56px; margin-top: 12px; padding: 0 16px; border-radius: 16px; background: var(--panel); font-weight: 600; }
@@ -178,6 +185,18 @@ details.real[open] > summary svg { transform: rotate(180deg); }
 /* paneles y renglones */
 .panel { background: var(--panel); border-radius: 18px; padding: 6px 16px 10px; margin-top: 12px; }
 .panel h3 { font: 600 11.5px/1.2 var(--f-body); text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); margin: 14px 0 4px; overflow-wrap: anywhere; }
+.tiles { display: grid; gap: 8px; margin: 8px 0 4px; }
+.tiles.t3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.tiles.t2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.tile { background: var(--bg); border-radius: 14px; padding: 10px 11px; min-width: 0; }
+.tile .lbl { display: block; font-size: 12px; color: var(--muted); }
+.tile b { display: block; font: 700 18px/1.15 var(--f-display); letter-spacing: -0.02em; margin-top: 3px; overflow-wrap: anywhere; }
+.tile.pos b { color: var(--ok); } .tile.neg b { color: var(--bad); }
+.ley1 { display: block; font-size: 12.5px; color: var(--muted); margin: 4px 0 6px; }
+.hero { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding: 6px 0 10px; }
+.hero b { font: 700 28px/1.1 var(--f-display); letter-spacing: -0.03em; color: var(--ok); }
+.hero.neg b { color: var(--bad); }
+.hero span { color: var(--muted); font-size: 14px; }
 .row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 11px 0; border-top: 1px solid var(--line); }
 .row:first-of-type { border-top: 0; }
 .row > span:first-child { color: var(--muted); font-size: 14px; flex: 1; }
@@ -261,6 +280,9 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
 .cpart-h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 0 2px 8px; }
 .cpart-h h3 { font: 700 15px/1.25 var(--f-display); margin: 0; overflow-wrap: anywhere; flex: 1; }
 .cpart-h span { font-weight: 600; font-size: 14px; }
+.cpart-h { position: sticky; top: 0; z-index: 2; background: var(--bg); padding-top: 8px; }
+.rubro { margin: 0; padding: 12px 14px 4px; font: 700 11.5px/1.2 var(--f-body); letter-spacing: .08em; text-transform: uppercase; color: var(--accent-text); border-left: 3px solid var(--accent); background: var(--panel); }
+.list > .rubro-g:first-child .rubro { border-top-left-radius: 0; }
 .cpt { padding: 13px 16px; border-top: 1px solid var(--line); }
 .cpt:first-child { border-top: 0; }
 .clave { font: 600 11.5px/1 var(--f-body); letter-spacing: .06em; color: var(--accent-text); text-transform: uppercase; overflow-wrap: anywhere; }
@@ -283,7 +305,22 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
 .pct-in:focus-within { outline: 2px solid var(--accent-text); }
 .cpt-out { flex: 1; font-size: 13px; color: var(--muted); text-align: right; overflow-wrap: anywhere; }
 .cpt-out b { display: block; color: var(--fg); font-size: 15px; font-weight: 600; }
-.qch { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
+.qch { display: grid; grid-template-columns: repeat(4, 1fr) auto; gap: 6px; margin-top: 10px; }
+.acc.hold { position: relative; overflow: hidden; touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.acc.hold .hold-f { position: absolute; inset: 0; width: 0; background: rgba(255, 255, 255, .35); }
+.acc.hold.cargando .hold-f { width: 100%; transition: width var(--hold, 3000ms) linear; }
+.acc.hold .hold-t { position: relative; }
+.libs { display: grid; gap: 2px; }
+.lib { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); }
+.libs .lib:first-child { border-top: 0; }
+.lib .chk { flex: 0 0 auto; width: 28px; height: 28px; margin-top: 2px; border-radius: 50%; border: 2px solid var(--accent); display: grid; place-items: center; font-weight: 700; color: var(--accent-ink); background: transparent; }
+.lib.hecho .chk { background: var(--accent); }
+.lib .t { flex: 1; min-width: 0; text-align: left; display: grid; gap: 2px; }
+.lib .t b { font-weight: 600; overflow-wrap: anywhere; }
+.lib .t small { color: var(--muted); font-size: 12.5px; overflow-wrap: anywhere; }
+.lib .t small.obs { color: var(--fg); opacity: .8; }
+.lib.hecho .t b { text-decoration: line-through; color: var(--muted); }
+.qch .qprev { padding: 0 10px; font-size: 13px; color: var(--muted); background: transparent; border: 1px solid var(--line); white-space: nowrap; }
 .qch button { min-height: 44px; border-radius: 12px; background: var(--chip); font-weight: 600; font-size: 14px; text-align: center; }
 .qch button[disabled], .pct-in input[disabled] { opacity: .45; pointer-events: none; }
 .av-c { margin: 8px 0 0; font-size: 13px; color: var(--warn); background: var(--warn-bg); border-radius: 10px; padding: 7px 10px; }
@@ -295,7 +332,7 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
 .fld { display: block; width: 100%; min-height: 48px; border-radius: 12px; border: 0; background: var(--panel); padding: 12px 14px; }
 
 /* barra fija */
-.bar-fija { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--nav-bg); -webkit-backdrop-filter: blur(18px) saturate(1.4); backdrop-filter: blur(18px) saturate(1.4); border-top: 1px solid var(--line); padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); transition: transform 280ms var(--ease-sheet); }
+.bar-fija { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--bg); border-top: 1px solid var(--line); padding: 8px max(16px, env(safe-area-inset-right, 0px)) var(--sab) max(16px, env(safe-area-inset-left, 0px)); transition: transform 280ms var(--ease-sheet); }
 .bar-fija.off { transform: translateY(110%); pointer-events: none; }
 .bar-in { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: 1.25fr 1fr; gap: 10px; }
 .btn { min-height: 56px; border-radius: 16px; font-weight: 600; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 0 14px; }
@@ -339,7 +376,7 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
 .sw-t i::after { content: ""; position: absolute; top: 3px; left: 3px; width: 26px; height: 26px; border-radius: 50%; background: var(--fg); transition: transform 180ms var(--ease); opacity: .85; }
 .sw-t[aria-checked="true"] i { background: var(--accent); }
 .sw-t[aria-checked="true"] i::after { transform: translateX(20px); background: var(--accent-ink); opacity: 1; }
-.foot { flex: 0 0 auto; background: var(--panel); padding: 10px max(18px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px)); display: grid; gap: 8px; border-top: 1px solid var(--line); }
+.foot { flex: 0 0 auto; background: var(--panel); padding: 10px max(18px, env(safe-area-inset-right, 0px)) var(--sab) max(18px, env(safe-area-inset-left, 0px)); display: grid; gap: 8px; border-top: 1px solid var(--line); }
 .foot .btn { width: 100%; }
 .btn.del { background: none; color: var(--bad); min-height: 48px; }
 .err { color: var(--bad); font-size: 13.5px; margin: 0; }
@@ -374,7 +411,7 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
 .pit .m { font-weight: 600; flex: 0 0 auto; }
 
 /* aviso con deshacer */
-.toast { position: fixed; z-index: 60; left: 50%; bottom: calc(var(--bar-h) + env(safe-area-inset-bottom, 0px) + 8px); width: min(calc(100% - 32px), 528px); background: var(--fg); color: var(--bg); border-radius: 14px; padding: 4px 6px 4px 16px; display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 52px; transform: translate(-50%, 16px); opacity: 0; transition: transform 240ms var(--ease), opacity 240ms var(--ease), bottom 240ms var(--ease); pointer-events: none; }
+.toast { position: fixed; z-index: 60; left: 50%; bottom: calc(var(--bar-h) + var(--sab) + 8px); width: min(calc(100% - 32px), 528px); background: var(--fg); color: var(--bg); border-radius: 14px; padding: 4px 6px 4px 16px; display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 52px; transform: translate(-50%, 16px); opacity: 0; transition: transform 240ms var(--ease), opacity 240ms var(--ease), bottom 240ms var(--ease); pointer-events: none; }
 .sin-bar .toast { bottom: calc(env(safe-area-inset-bottom, 0px) + 100px); }
 .toast.on { transform: translate(-50%, 0); opacity: 1; pointer-events: auto; }
 .toast span { overflow-wrap: anywhere; }
@@ -469,10 +506,12 @@ const slug = (s) => String(s ?? "").replace(/[^A-Za-z0-9]+/g, "-").replace(/^-+|
 // Colecciones: obras, gastos, pagos, estimaciones.
 // ============================================================
 const Datos = (() => {
-  const COLS = ["obras", "gastos", "pagos", "estimaciones"];
+  const COLS = ["obras", "gastos", "pagos", "estimaciones", "pendientes"], BASE = ["obras", "gastos", "pagos", "estimaciones"];
   const mem = {}, subs = {};
   COLS.forEach((c) => { mem[c] = {}; subs[c] = new Set(); });
-  let lentoFn = null, url = ls.get("nortea_api"), llave = ls.get("nortea_llave"), ultimo = 0, leyendo = null;
+  let lentoFn = null, url = ls.get("nortea_api"), llave = ls.get("nortea_llave"), ultimo = 0, leyendo = null, servidor = Number(ls.get("nortea_srv") || 1);
+  // versión del código de la hoja: la 1 solo guarda las cuatro colecciones de base; desde la 2, cualquiera (p. ej. pendientes)
+  const soporta = (col) => BASE.includes(col) || servidor >= 2;
   const emitir = (c) => subs[c].forEach((s) => s.ok({ ...mem[c] }));
   function cargarCache() {
     try { const c = JSON.parse(localStorage.getItem("nortea_cache") || "null"); if (c) COLS.forEach((k) => (mem[k] = c[k] || {})); return !!c; } catch { return false; }
@@ -490,8 +529,9 @@ const Datos = (() => {
     if (leyendo) return leyendo;
     leyendo = (async () => {
       try {
-        const r = await api({ accion: "leer" }, 30000);
+        const r = await api({ accion: "leer" }, 60000);
         if (!r || !r.ok) { if (r && r.error === "llave") pedirConfig("La llave ya no es válida. Escríbela otra vez."); return false; }
+        servidor = Number(r.version || 1); ls.set("nortea_srv", String(servidor));
         COLS.forEach((c) => { const m = {}; Object.entries((r.datos || {})[c] || {}).forEach(([id, d]) => (m[id] = { ...d, id })); mem[c] = m; });
         guardarCache(); ultimo = Date.now(); COLS.forEach(emitir); if (lentoFn) lentoFn(false);
         return true;
@@ -556,6 +596,7 @@ const Datos = (() => {
   const nuevoId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
   async function escribir(op, col, id, data) {
     if (!url || !llave) return "sin_senal";
+    if (!soporta(col)) return "error";
     try {
       const r = await api({ accion: "escribir", ops: [{ op, col, id, data }] }, 20000);
       if (!r || !r.ok) { if (r && r.error === "llave") { pedirConfig("La llave ya no es válida. Escríbela otra vez."); return "denegado"; } return "error"; }
@@ -569,7 +610,7 @@ const Datos = (() => {
   return {
     get modo() { return "real"; }, get soloLectura() { return false; },
     alLento(fn) { lentoFn = fn; },
-    iniciar, suscribir, nuevoId, refrescar,
+    iniciar, suscribir, nuevoId, refrescar, soporta,
     crear: (col, id, datos) => escribir("set", col, id, datos),
     actualizar: (col, id, campos) => escribir("update", col, id, campos),
     borrar: (col, id) => escribir("del", col, id, null),
@@ -583,8 +624,8 @@ document.addEventListener("touchmove", (e) => { if (e.touches && e.touches.lengt
 
 // ---------- estado ----------
 const S = {
-  obras: {}, gastos: {}, pagos: {}, estimaciones: {},
-  loaded: { obras: false, gastos: false, pagos: false, estimaciones: false }, slow: false, sinCuenta: false,
+  obras: {}, gastos: {}, pagos: {}, estimaciones: {}, pendientes: {},
+  loaded: { obras: false, gastos: false, pagos: false, estimaciones: false, pendientes: false }, slow: false, sinCuenta: false,
   pend: [], tabs: {}, tscroll: {}, gfs: {}, gvista: ls.get("nortea_gvista") === "tabla" ? "tabla" : "lista",
   editCosto: null, costoErr: null, archivoAbierto: false,
 };
@@ -1045,33 +1086,104 @@ function pantHome(p) {
   if (porPagar || meDeben) h += `<div class="mini-row">${porPagar ? `<span class="pill warn">Le debo <b class="num">${money0(porPagar)}</b></span>` : ""}${meDeben ? `<span class="pill bad">Me deben <b class="num">${money0(meDeben)}</b></span>` : ""}</div>`;
   h += `<h2 class="sec">Obras activas</h2>`;
   h += act.length ? `<div class="cards">${act.map((o, i) => cardHTML(o, cs[i])).join("")}</div>` : `<p class="msg" style="margin:16px 0">No hay obras activas.</p>`;
-  const np = pendientesLista().length;
-  if (np) h += `<button class="linea press" data-act="pendientes"><span>Pendientes <span class="n num">· ${np}</span></span>${IC_RIGHT}</button>`;
-  h += `<button class="linea press" data-act="todos"><span>Todos los gastos</span>${IC_RIGHT}</button>`;
-  const rs = os.filter(esTerminada);
+  const np = pendientesLista().length + libresAbiertos().length;
+  h += `<button class="linea press" data-act="pendientes"><span>Pendientes${np ? ` <span class="n num">· ${np}</span>` : ""}</span>${IC_RIGHT}</button>`;
+  const rs = os.filter(esTerminada).sort((a, b) => String(b.entrega || b.cerrada || b.inicio || "").localeCompare(String(a.entrega || a.cerrada || a.inicio || "")));
+  const rcs = rs.map(calc), rCob = rcs.reduce((t, c) => t + (c.cobrado || 0), 0), rUt = rcs.reduce((t, c) => t + (c.utilidad || 0), 0);
   h += `<details class="real" id="archivo" ${S.archivoAbierto ? "open" : ""}><summary>${rs.length ? `Archivo · ${rs.length} ${rs.length > 1 ? "obras terminadas" : "obra terminada"}` : "Archivo · sin obras terminadas"}${IC_DOWN}</summary>` +
-    rs.map((o) => { const c = calc(o); return `<button class="rrow press" data-act="obra" data-c="${esc(o.clave)}"><b>${esc(nomCorto(o))}</b><span class="num ${c.utilidad != null && c.utilidad < 0 ? "neg" : "pos"}">${c.utilidad == null ? "Sin utilidad" : `${money0(c.utilidad)} · ${pctTxt(c.pct)}`}</span></button>`; }).join("") +
-    `<p class="nota">Aquí van a llegar también tus obras terminadas del Drive.</p></details>`;
+    rs.map((o, i) => { const c = rcs[i]; return `<button class="rrow press" data-act="obra" data-c="${esc(o.clave)}"><b>${esc(nomCorto(o))}</b><span class="num ${c.utilidad != null && c.utilidad < 0 ? "neg" : "pos"}">${c.utilidad == null ? "Sin utilidad" : `${money0(c.utilidad)} · ${pctTxt(c.pct)}`}</span></button>`; }).join("") +
+    (rs.length ? `<p class="nota num">Todas juntas: cobrado ${money0(rCob)} · utilidad ${money0(rUt)}${rCob ? " · " + pctTxt(rUt / rCob) : ""}</p>` : "") + `</details>`;
   setPant(p, nav, h + descretos());
 }
-const descretos = () => `<div class="discreto"><button data-act="nueva-obra">Nueva obra</button><button data-act="instalar">Ponla en tu celular</button></div>`;
+const descretos = () => `<div class="discreto"><button data-act="nueva-obra">Nueva obra</button></div>`;
+// ---------- pendientes libres (generales o de una obra): {texto, tipo: pendiente|material, obra|null, fecha|null, nota, hecho} ----------
+const PTIPOS = { pendiente: "Pendiente", material: "Material por comprar" };
+const libres = () => coleccion("pendientes");
+const libresAbiertos = (obra) => libres().filter((x) => !x.hecho && (obra === undefined || (obra === null ? !x.obra : x.obra === obra))).sort((a, b) => String(a.fecha || "9999").localeCompare(String(b.fecha || "9999")) || String(a.creado || "").localeCompare(String(b.creado || "")));
+const puedePend = () => !Datos.soporta || Datos.soporta("pendientes");
+function libreHTML(x, conObra) {
+  const vence = x.fecha && !x.hecho ? (x.fecha < hoy() ? `<span class="neg">venció ${diaMes(x.fecha)}</span>` : `para el ${diaMes(x.fecha)}`) : "";
+  const meta = [x.tipo === "material" ? "Material" : "", conObra ? (x.obra ? nomCorto(S.obras[x.obra]) : "General") : "", vence].filter(Boolean).join(" · ");
+  return `<div class="lib ${x.hecho ? "hecho" : ""}"><button class="chk press" data-act="pend-hecho" data-id="${esc(x.id)}" aria-label="${x.hecho ? "Marcar como pendiente" : "Marcar como hecho"}" aria-pressed="${!!x.hecho}">${x.hecho ? "✓" : ""}</button><button class="t press" data-act="pend-editar" data-id="${esc(x.id)}"><b>${esc(x.texto || "Sin texto")}</b>${x.nota ? `<small class="obs">${esc(x.nota)}</small>` : ""}${meta ? `<small>${meta}</small>` : ""}</button></div>`;
+}
+function libresObraHTML(o) {
+  const xs = libresAbiertos(o.clave), hechos = libres().filter((x) => x.hecho && x.obra === o.clave).length;
+  let h = `<section class="panel"><h3>Pendientes y material por comprar</h3>`;
+  h += xs.length ? `<div class="libs">${xs.map((x) => libreHTML(x, false)).join("")}</div>` : `<p class="nota" style="margin:6px 0 10px">Nada pendiente en esta obra.</p>`;
+  if (hechos) h += `<p class="nota" style="margin:2px 0 8px">${hechos} ${hechos > 1 ? "hechos" : "hecho"} · los ves en Pendientes</p>`;
+  if (!ro() && puedePend()) h += `<button class="ghost press" data-act="pend-nuevo" data-c="${esc(o.clave)}" style="margin:4px 0 10px">${IC_PLUS}Agregar pendiente o material</button>`;
+  else if (!puedePend()) h += `<p class="nota">Para anotar pendientes, actualiza el código de tu hoja de Google (te mandé el nuevo).</p>`;
+  return h + `</section>`;
+}
+function abrirPendiente(id, obra, volver) {
+  if (ro()) return;
+  const prev = id ? libres().find((x) => x.id === id) : null;
+  if (id && !prev) return;
+  mostrarHoja({ mode: "pendiente", id: id || null, prev, obra: null, volver: volver || null,
+    ptexto: prev ? prev.texto || "" : "", ptipo: prev ? prev.tipo || "pendiente" : "pendiente",
+    pobra: prev ? (prev.obra || "general") : (obra || "general"), pfecha: prev ? prev.fecha || "" : "", pnota: prev ? prev.nota || "" : "" });
+}
+function hojaPendiente() {
+  const obras = activas();
+  const b = `<label class="fl" for="p-texto">¿Qué hay que hacer o comprar?</label><input class="field" id="p-texto" autocomplete="off" placeholder="Ej. Pedir al proveedor la puerta" value="${esc(F.ptexto)}">
+    <span class="fl">Tipo</span>${chipsHTML("ptipo", Object.entries(PTIPOS), F.ptipo)}
+    <span class="fl">Obra</span>${chipsHTML("pobra", [["general", "General"], ...obras.map((o) => [o.clave, nomCorto(o)])], F.pobra)}
+    <label class="fl" for="p-fecha">Para cuándo (opcional)</label><input class="field" id="p-fecha" type="date" value="${esc(F.pfecha)}">
+    <label class="fl" for="p-nota">Observación (opcional)</label><textarea class="field" id="p-nota" rows="3" placeholder="Ej. Pedirla en PPA, medida 0.90 x 2.10">${esc(F.pnota)}</textarea>
+    <p class="err" id="p-err" hidden>Escribe qué hay que hacer.</p>`;
+  const pie = `<button type="button" class="btn main press" id="f-guardar" data-act="guardar">${F.id ? "Guardar cambios" : "Guardar pendiente"}</button>${F.id ? `<button type="button" class="btn sec2 press" data-act="pend-hecho" data-id="${esc(F.id)}">${F.prev && F.prev.hecho ? "Marcar como pendiente" : "Marcar como hecho"}</button><button type="button" class="btn del press" data-act="pend-borrar" data-id="${esc(F.id)}">Borrar</button>` : ""}`;
+  return shell(F.id ? "Pendiente" : "Nuevo pendiente", b, pie);
+}
+async function guardarPendiente() {
+  const texto = ($("#p-texto").value || "").trim();
+  if (!texto) { const e = $("#p-err"); if (e) e.hidden = false; $("#p-texto").focus(); return; }
+  const prev = F.prev || {};
+  const data = { texto, tipo: F.ptipo || "pendiente", obra: F.pobra && F.pobra !== "general" ? F.pobra : null, fecha: $("#p-fecha").value || null, nota: ($("#p-nota").value || "").trim(),
+    hecho: !!prev.hecho, hecho_fecha: prev.hecho_fecha || null, creado: prev.creado || ahora(), actualizado: ahora(), origen: "app" };
+  const id = F.id || Datos.nuevoId("pendientes"), volver = F.volver;
+  cerrarHoja(true);
+  await guardarDoc("set", "pendientes", id, data, F && F.id ? "Pendiente guardado" : "Pendiente guardado");
+  render(); if (volver === "pend") abrirHoja("pend");
+}
+async function alternarPendiente(id) {
+  const x = libres().find((y) => y.id === id); if (!x || ro()) return;
+  const volver = F && F.mode === "pend" ? "pend" : F && F.mode === "pendiente" ? F.volver : null;
+  if (F && F.mode === "pendiente") cerrarHoja(true);
+  const hecho = !x.hecho;
+  await guardarDoc("update", "pendientes", id, { hecho, hecho_fecha: hecho ? hoy() : null, actualizado: ahora() }, hecho ? "Hecho ✓" : "De nuevo pendiente");
+  render(); if (volver === "pend" && !F) abrirHoja("pend");
+}
+
 function pendientesLista() {
   const claves = new Set(activas().map((o) => o.clave));
   return coleccion("gastos").filter((g) => pendiente(g) && claves.has(g.obra)).sort((a, b) => String(a.marca).localeCompare(String(b.marca)) || String(b.fecha).localeCompare(String(a.fecha)));
 }
-function plazoBloque(o, pz, conFechas) {
-  const bar = pz.pct == null ? "" : `<span class="bar" role="img" aria-label="Tiempo transcurrido"><i class="${pz.late ? "over" : ""}" style="width:${(pz.pct * 100).toFixed(1)}%"></i></span>`;
+function plazoBloque(o, pz, conFechas, sinBarra) {
+  const bar = pz.pct == null || sinBarra ? "" : `<span class="bar" role="img" aria-label="Tiempo transcurrido"><i class="${pz.late ? "over" : ""}" style="width:${(pz.pct * 100).toFixed(1)}%"></i></span>`;
   const f = pz.ini && pz.fin ? `${diaMes(pz.ini)} → ${diaMes(pz.fin)}` : pz.ini ? `Inicio ${diaMes(pz.ini)}` : pz.fin ? `Entrega ${diaMes(pz.fin)}` : "Sin fechas";
   return `<span class="plazo"><b class="num">${f}</b><span class="${pz.late ? "late" : ""}">${esc(pz.texto)}</span></span>${bar}`;
 }
 function cardHTML(o, c) {
-  const pz = plazo(o);
+  const pz = plazo(o), enCurso = est(o) === "en_curso";
   const cajaNeg = c.en_caja < 0, cobNeg = c.falta_cobrar < 0;
-  return `<button class="card press" data-act="obra" data-c="${esc(o.clave)}">
-    <span class="card-h"><h3>${esc(nomCorto(o))}</h3><span class="tag ${pz.late ? "late" : est(o) === "en_curso" ? "on" : ""}">${pz.late ? "Atrasada" : ESTADO[est(o)] || ""}</span></span>
-    ${plazoBloque(o, pz)}
-    <span class="pair"><span><span class="lbl">En caja</span><span class="big num ${cajaNeg ? "neg" : ""}">${money0(c.en_caja)}</span>${cajaNeg ? `<span class="sub neg">Llevas puesto de tu bolsa</span>` : ""}</span>
-    <span><span class="lbl">Falta cobrar</span><span class="big num ${cobNeg ? "neg" : ""}">${money0(Math.abs(c.falta_cobrar))}</span>${cobNeg ? `<span class="sub neg">Te pagaron de más</span>` : est(o) === "por_empezar" ? `<span class="sub">Cuenta al iniciar la obra</span>` : ""}</span></span>
+  // tiempo: día que va contra la duración total (la barra que ya había, ahora con su leyenda)
+  let tiempo = "";
+  if (pz.pct != null && pz.duracion) {
+    const dia = Math.min(pz.duracion, Math.max(0, Math.round(pz.pct * pz.duracion)));
+    tiempo = `<span class="ley"><span>Tiempo de obra</span><span class="num">día ${dia} de ${pz.duracion} · ${Math.round(pz.pct * 100)} %</span></span><span class="bar" role="img" aria-label="Tiempo transcurrido"><i class="${pz.late ? "over" : ""}" style="width:${(pz.pct * 100).toFixed(1)}%"></i></span>`;
+  }
+  const pc = c.te_van_a_pagar > 0 ? Math.min(1, Math.max(0, c.cobrado / c.te_van_a_pagar)) : 0;
+  const cobro = c.te_van_a_pagar > 0 ? `<span class="ley"><span>Te han pagado</span><span class="num">${money0(c.cobrado)} · ${Math.round(pc * 100)} %</span></span><span class="bar cobro" role="img" aria-label="Cobrado del total"><i style="width:${(pc * 100).toFixed(1)}%"></i></span>` : "";
+  return `<button class="card press ${enCurso ? "activa" : ""}" data-act="obra" data-c="${esc(o.clave)}">
+    <span class="card-h"><h3>${esc(nomCorto(o))}</h3><span class="tag ${pz.late ? "late" : enCurso ? "on" : ""}">${pz.late ? "Atrasada" : ESTADO[est(o)] || ""}</span></span>
+    ${plazoBloque(o, pz, false, true)}
+    ${tiempo}
+    <span class="trio">
+      <span><span class="lbl">En caja</span><span class="big num ${cajaNeg ? "neg" : ""}">${money0(c.en_caja)}</span>${cajaNeg ? `<span class="sub neg">De tu bolsa</span>` : ""}</span>
+      <span><span class="lbl">Falta cobrar</span><span class="big num ${cobNeg ? "neg" : ""}">${money0(Math.abs(c.falta_cobrar))}</span>${cobNeg ? `<span class="sub neg">Te pagaron de más</span>` : est(o) === "por_empezar" ? `<span class="sub">Cuenta al iniciar</span>` : ""}</span>
+      <span><span class="lbl">Total de la obra</span><span class="big num">${money0(c.te_van_a_pagar)}</span><span class="sub">con IVA</span></span>
+    </span>
+    ${cobro}
     <span class="util num ${c.utilidad != null && c.utilidad < 0 ? "neg" : ""}">${c.utilidad == null ? "Utilidad estimada: falta el costo" : `Utilidad estimada ${money0(c.utilidad)} · ${pctTxt(c.pct)}`}</span>
   </button>`;
 }
@@ -1139,17 +1251,19 @@ function resumenHTML(o, c) {
     const pz = plazo(o);
     h += `<section class="panel"><h3>Cómo terminó</h3>${row("Duración", pz.duracion == null ? "—" : `${nDias(pz.duracion)} · ${N1.format(pz.meses)} meses`)}${row("Utilidad por mes", c.utilidad == null || !pz.meses ? "—" : money(c.utilidad / pz.meses), "key " + (c.utilidad != null && c.utilidad < 0 ? "neg" : ""))}</section>`;
   }
-  h += `<section class="panel"><h3>Dinero de la obra</h3>
-    ${row("Te van a pagar", money(c.te_van_a_pagar))}
-    ${row("Te han pagado", money(c.cobrado))}
-    ${row(c.falta_cobrar < 0 ? "Te pagaron de más" : "Falta que te paguen", money(Math.abs(c.falta_cobrar)), c.falta_cobrar < 0 ? "neg" : "")}
-    ${row("Has gastado", money(c.gastado))}
+  const pc = c.te_van_a_pagar > 0 ? Math.min(1, Math.max(0, c.cobrado / c.te_van_a_pagar)) : 0;
+  const tile = (lbl, v, cls) => `<div class="tile ${cls || ""}"><span class="lbl">${lbl}</span><b class="num">${v}</b></div>`;
+  h += `<section class="panel dinero"><h3>Cobro de la obra</h3>
+    <div class="tiles t3">${tile("Total", money0(c.te_van_a_pagar))}${tile("Pagado", money0(c.cobrado), "pos")}${tile(c.falta_cobrar < 0 ? "Pagado de más" : "Falta", money0(Math.abs(c.falta_cobrar)), c.falta_cobrar < 0 ? "neg" : "")}</div>
+    <span class="bar cobro" role="img" aria-label="Cobrado del total"><i style="width:${(pc * 100).toFixed(1)}%"></i></span><span class="ley1 num">${Math.round(pc * 100)} % cobrado</span>
+    <h3>Caja de la obra</h3>
+    <div class="tiles t2">${tile("Has gastado", money0(c.gastado))}${tile(c.en_caja < 0 ? "Pusiste de tu bolsa" : "En caja", money0(Math.abs(c.en_caja)), c.en_caja < 0 ? "neg" : "pos")}</div>
     ${c.por_pagar ? row("Le debo (todavía no sale)", money(c.por_pagar)) : ""}
     ${c.me_deben ? row("Me deben (le presté)", money(c.me_deben)) : ""}
     ${c.por_recuperar ? row("Por reponer", money(c.por_recuperar)) : ""}
-    ${row(c.en_caja < 0 ? "Llevas puesto de tu bolsa" : "En caja de esta obra", money(Math.abs(c.en_caja)), "key " + (c.en_caja < 0 ? "neg" : ""))}
   </section>
   <section class="panel"><h3>Utilidad (estimado, sin IVA)</h3>
+    <div class="hero ${c.utilidad != null && c.utilidad < 0 ? "neg" : ""}"><b class="num">${c.utilidad == null ? "—" : money0(c.utilidad)}</b><span class="num">${c.pct == null ? "falta el costo" : pctTxt(c.pct) + " de la venta"}</span></div>
     ${row("Venta", money(c.venta))}`;
   if (S.editCosto != null) {
     h += `<div class="edit"><label class="lbl" for="costo-in" style="flex:1 0 100%">Costo presupuestado, sin IVA</label><input id="costo-in" inputmode="decimal" autocomplete="off" value="${esc(S.editCosto)}" placeholder="${tieneCostos(o) ? "Número" : "Vacío para quitarlo"}"><button class="mini press" data-act="costo-guardar">Guardar</button><button class="mini press" data-act="costo-cancelar">Cancelar</button></div>`;
@@ -1162,6 +1276,7 @@ function resumenHTML(o, c) {
     ${row("Falta gastar", c.falta_gastar == null ? "—" : money(c.falta_gastar))}
     ${row("Utilidad estimada", c.utilidad == null ? "—" : `${money(c.utilidad)}${c.pct == null ? "" : ` · ${pctTxt(c.pct)}`}`, "key " + (c.utilidad != null && c.utilidad < 0 ? "neg" : ""))}
   </section>`;
+  if (!esTerminada(o) || libresAbiertos(o.clave).length) h += libresObraHTML(o);
   if (!c.gs.length) h += `<p class="nota">Todavía no hay gastos. Anota el primero con + Gasto.</p>`;
   return h;
 }
@@ -1235,7 +1350,7 @@ function pantGastos(p) {
 function pagosHTML(c) {
   if (!c.ps.length) return `<p class="msg">Cuando te paguen, anótalo con + Ingreso.</p>`;
   const ps = [...c.ps].sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)) || String(b.creado).localeCompare(String(a.creado)));
-  return `<div class="chipsum"><span>Te han pagado<b class="num">${money(c.cobrado)}</b></span><span>${c.falta_cobrar < 0 ? "Te pagaron de más" : "Falta que te paguen"}<b class="num ${c.falta_cobrar < 0 ? "neg" : ""}">${money(Math.abs(c.falta_cobrar))}</b></span></div>
+  return `<div class="chipsum"><span>Te han pagado<b class="num">${money(c.cobrado)}</b></span><span>${c.falta_cobrar < 0 ? "Te pagaron de más" : "Falta que te paguen"}<b class="num ${c.falta_cobrar < 0 ? "neg" : ""}">${money(Math.abs(c.falta_cobrar))}</b></span><span>Total a pagar<b class="num">${money(c.te_van_a_pagar)}</b></span></div>
   <div class="list" style="margin-top:12px">${ps.map((p) => swRow(`<button class="item press" data-act="edit-pago" data-id="${esc(p.id)}"><span class="ico">${ico("pago")}</span><span class="t"><b>${esc(p.concepto || p.nota || "Ingreso")}</b>${p.concepto && p.nota ? `<small class="obs">${esc(p.nota)}</small>` : ""}<small>${fechaCorta(p.fecha)} · ${esc(FORMAS_P[p.forma] || "")}</small></span><span class="m num pos">${money(p.monto)}</span></button>`, "pagos", p.id, false)).join("")}</div>`;
 }
 
@@ -1252,8 +1367,33 @@ function cotHTML(o, c) {
 }
 const moneyP = (n) => Number.isInteger(n) ? money0(n) : money(n);
 function conceptoHTML(k) {
-  return `<div class="cpt">${k.clave ? `<span class="clave">${esc(k.clave)}</span>` : ""}<p class="ctxt">${esc(k.concepto)}</p><div class="ccalc"><span class="num">${N2.format(Number(k.cantidad) || 0)} ${esc(k.unidad || "")} × ${moneyP(Number(k.pu) || 0)} =</span><b class="num">${money(Number(k.importe) || 0)}</b></div></div>`;
+  return `<div class="cpt" data-q="${esc(norm((k.clave || "") + " " + (k.concepto || "")))}">${k.clave ? `<span class="clave">${esc(k.clave)}</span>` : ""}<p class="ctxt">${esc(k.concepto)}</p><div class="ccalc"><span class="num">${N2.format(Number(k.cantidad) || 0)} ${esc(k.unidad || "")} × ${moneyP(Number(k.pu) || 0)} =</span><b class="num">${money(Number(k.importe) || 0)}</b></div></div>`;
 }
+// rubros para separar visualmente los conceptos de una partida (si el concepto trae «rubro», se usa ese)
+const RUBROS = [["Eléctrico", /el[eé]ctric|salida|contacto|luminari|tira led|spot|minisplit|apagador|candil/i], ["Hidrosanitario", /hidr|sanitari|agua|zinc|drenaje|lavabo|\bwc\b/i],
+  ["Pisos y azulejo", /piso|porcelanato|azulejo|zoclo|cer[aá]mic/i], ["Pintura", /pintura|sellador|impermeab/i], ["Andamios y fletes", /andamio|flete|renta de/i],
+  ["Estructura y refuerzos", /anclaje|\bptr\b|refuerzo|columna|trabe|losa|zapata|concreto|firme/i], ["Puertas y ventanas", /puerta|ventana|cancel/i],
+  ["Tablaroca y Durock", /tablaroca|durock|panel de yeso|panel de cemento|muro|plaf[oó]n|pechera|cajillo|fijo|forro/i]];
+function rubroDe(k) {
+  if (k.rubro) return k.rubro;
+  const t = String(k.concepto || "").slice(0, 45);
+  for (const [n, re] of RUBROS) if (re.test(t)) return n;
+  return "Otros";
+}
+// agrupa los conceptos de una partida por rubro, en el orden en que aparece cada rubro; si solo hay uno, no pone encabezados
+function porRubro(lista) {
+  const g = new Map();
+  lista.forEach((x) => { const r = rubroDe(x.k || x); if (!g.has(r)) g.set(r, []); g.get(r).push(x); });
+  return g;
+}
+const rubroH = (n) => `<p class="rubro">${esc(n)}</p>`;
+function filtrarCot(inp) {
+  const q = norm(inp.value), pant = inp.closest(".pant"); if (!pant) return;
+  pant.querySelectorAll(".cpt[data-q]").forEach((el) => { el.hidden = !!q && !el.dataset.q.includes(q); });
+  pant.querySelectorAll(".rubro-g").forEach((g) => { g.hidden = !!q && !g.querySelector(".cpt[data-q]:not([hidden])"); });
+  pant.querySelectorAll(".cpart[data-part]").forEach((sec) => { sec.hidden = !!q && !sec.querySelector(".cpt[data-q]:not([hidden])"); });
+}
+document.addEventListener("input", (e) => { if (e.target && e.target.id === "cot-q") filtrarCot(e.target); });
 function pantCot(p) {
   const o = S.obras[p.c], q = o && cotsDe(o).find((x) => slug(x.id) === p.id);
   const nav = navHTML({ back: nomCorto(o), titulo: "Cotización" });
@@ -1263,10 +1403,16 @@ function pantCot(p) {
   if (!ro()) h += `<button class="ghost press" data-act="edit-cot" data-id="${esc(q.id)}">Editar montos</button>`;
   const ps = q.partidas || [];
   if (!ps.some((x) => (x.conceptos || []).length)) h += `<p class="msg" style="margin:32px 0">Esta cotización todavía no tiene sus conceptos cargados.</p>`;
-  else ps.forEach((pt) => {
-    const imp = pt.importe != null ? Number(pt.importe) : sum(pt.conceptos || [], "importe");
-    h += `<section class="cpart"><div class="cpart-h"><h3>${esc(pt.nombre)}</h3><span class="num">${money(imp)}</span></div><div class="list">${(pt.conceptos || []).map(conceptoHTML).join("")}</div></section>`;
-  });
+  else {
+    const nC = ps.reduce((t, pt) => t + (pt.conceptos || []).length, 0);
+    if (nC > 6) h += `<input class="fld buscar" id="cot-q" type="search" placeholder="Buscar concepto (muro, puerta, pintura…)" autocomplete="off" aria-label="Buscar concepto" style="margin-top:16px">`;
+    ps.forEach((pt) => {
+      const imp = pt.importe != null ? Number(pt.importe) : sum(pt.conceptos || [], "importe");
+      const g = porRubro(pt.conceptos || []);
+      const cuerpo = g.size > 1 ? [...g].map(([r, ks]) => `<div class="rubro-g">${rubroH(r)}${ks.map(conceptoHTML).join("")}</div>`).join("") : (pt.conceptos || []).map(conceptoHTML).join("");
+      h += `<section class="cpart" data-part="1"><div class="cpart-h"><h3>${esc(pt.nombre)}</h3><span class="num">${money(imp)}</span></div><div class="list">${cuerpo}</div></section>`;
+    });
+  }
   if ((q.consideraciones || []).length) h += `<section class="cpart"><div class="cpart-h"><h3>Incluye y consideraciones</h3></div><div class="list"><ul class="cons" style="padding-top:12px">${q.consideraciones.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></div></section>`;
   setPant(p, nav, h);
 }
@@ -1394,26 +1540,36 @@ function hojaHTML() {
   if (m === "accion") return hojaAccion();
   if (m === "fecha") return hojaFecha();
   if (m === "pend") return hojaPend();
+  if (m === "pendiente") return hojaPendiente();
   return shell("Ponla en tu celular", instalarHTML(), `<button type="button" class="btn main press" data-act="cerrar">Listo</button>`);
 }
 // confirmaciones y menús: hoja chica con botones grandes
 function abrirAccion(cfg) { mostrarHoja({ mode: "accion", chica: true, obra: null, id: null, ...cfg }); }
 function hojaAccion() {
-  return `<div class="sheet-head" id="sheet-head"><div class="grab"></div></div><div class="sheet-body" id="sheet-body"><h2 id="sheet-t">${esc(F.titulo)}</h2>${F.texto ? `<p class="ctx">${esc(F.texto)}</p>` : ""}<div class="acciones">${F.items.map((it, i) => `<button type="button" class="acc ${it.estilo || ""}" data-act="acc" data-i="${i}">${esc(it.t)}</button>`).join("")}</div><button type="button" class="acc-c press" data-act="cerrar">${esc(F.cancelar || "Cancelar")}</button></div>`;
+  return `<div class="sheet-head" id="sheet-head"><div class="grab"></div></div><div class="sheet-body" id="sheet-body"><h2 id="sheet-t">${esc(F.titulo)}</h2>${F.texto ? `<p class="ctx">${esc(F.texto)}</p>` : ""}<div class="acciones">${F.items.map((it, i) => it.hold ? `<button type="button" class="acc ${it.estilo || ""} hold" data-hold="${i}" style="--hold:${it.hold}ms"><span class="hold-f" aria-hidden="true"></span><span class="hold-t">${esc(it.t)}</span></button>` : `<button type="button" class="acc ${it.estilo || ""}" data-act="acc" data-i="${i}">${esc(it.t)}</button>`).join("")}</div><button type="button" class="acc-c press" data-act="cerrar">${esc(F.cancelar || "Cancelar")}</button></div>`;
 }
 function hojaFecha() {
   return shell(F.campo === "inicio" ? "Fecha de inicio" : "Fin estimado", `<p class="ctx">${esc(nomCorto(S.obras[F.obra]))}</p><label class="fl" for="f-fecha2">Fecha</label><input class="field" id="f-fecha2" type="date" value="${esc(F.valor || "")}">`,
     `<button type="button" class="btn main press" data-act="guardar">Guardar</button>${F.valor ? `<button type="button" class="btn del press" data-act="quitar-fecha">Quitar fecha</button>` : ""}`);
 }
 function hojaPend() {
-  const ps = pendientesLista();
-  let b = "";
-  if (!ps.length) b = `<p class="msg" style="margin:36px 0">Nada pendiente.</p>`;
-  else ["me_debe", "por_pagar", "por_recuperar"].forEach((m) => {
+  const ps = pendientesLista(), ls_ = libresAbiertos();
+  let b = puedePend() && !ro() ? `<button class="ghost press" data-act="pend-nuevo" style="margin:4px 0 6px">${IC_PLUS}Nuevo pendiente</button>` : (!puedePend() ? `<p class="nota">Para anotar pendientes libres, actualiza el código de tu hoja de Google (te mandé el nuevo).</p>` : "");
+  if (ls_.length) {
+    const grupos = [[null, "Generales"], ...activas().map((o) => [o.clave, nomCorto(o)])];
+    grupos.forEach(([c, n]) => { const g = ls_.filter((x) => (x.obra || null) === c); if (g.length) b += `<div class="pgrp">${esc(n)} · ${g.length}</div><div class="libs">${g.map((x) => libreHTML(x, false)).join("")}</div>`; });
+    const otros = ls_.filter((x) => x.obra && !activas().some((o) => o.clave === x.obra));
+    if (otros.length) b += `<div class="pgrp">Otras obras · ${otros.length}</div><div class="libs">${otros.map((x) => libreHTML(x, true)).join("")}</div>`;
+  }
+  if (ps.length) ["me_debe", "por_pagar", "por_recuperar"].forEach((m) => {
     const g = ps.filter((x) => x.marca === m); if (!g.length) return;
     b += `<div class="pgrp">${MARCAS[m]} · ${money0(sum(g, "monto"))}</div>` + g.map((x) => `<div class="pit"><button class="t press" data-act="edit-gasto-p" data-id="${esc(x.id)}"><b>${esc(conceptoDe(x))}</b><small>${esc(nomCorto(S.obras[x.obra]))} · ${diaMes(x.fecha)}</small></button><span class="m num">${money(x.monto)}</span><button class="mini ok press" data-act="saldar-p" data-id="${esc(x.id)}">Saldar</button></div>`).join("");
   });
-  return shell("Pendientes", `<p class="ctx" id="pend-ctx">${ps.length ? `${ps.length} sin saldar` : "Todo saldado"}</p>${b}`, `<button type="button" class="btn sec2 press" data-act="cerrar">Listo</button>`);
+  const hechos = libres().filter((x) => x.hecho).sort((a, b) => String(b.hecho_fecha || "").localeCompare(String(a.hecho_fecha || ""))).slice(0, 8);
+  if (hechos.length) b += `<div class="pgrp">Hechos hace poco</div><div class="libs">${hechos.map((x) => libreHTML(x, true)).join("")}</div>`;
+  if (!ps.length && !ls_.length) b += `<p class="msg" style="margin:28px 0">Nada pendiente.</p>`;
+  const n = ps.length + ls_.length;
+  return shell("Pendientes", `<p class="ctx" id="pend-ctx">${n ? `${n} por atender` : "Todo al día"}</p>${b}`, `<button type="button" class="btn sec2 press" data-act="cerrar">Listo</button>`);
 }
 function refrescarPend() {
   if (!F || F.mode !== "pend") return;
@@ -1665,6 +1821,7 @@ async function guardar() {
   if (m === "nueva") return guardarNueva();
   if (m === "editar") return guardarEditar();
   if (m === "cot") return guardarCot();
+  if (m === "pendiente") return guardarPendiente();
   if (m === "fecha") { const campo = F.campo, obra = F.obra, v = $("#f-fecha2").value || null; cerrarHoja(); return updObra(obra, { [campo]: v }, "Fecha guardada"); }
 }
 async function guardarGP() {
@@ -1764,7 +1921,7 @@ async function borrarDoc(col, id) {
   const r = await escribir("del", col, id);
   if (r === "sin_senal") { encolar("del", col, id, null); aviso("Sin señal · se borrará al volver la conexión"); return; }
   if (r !== "ok") { aviso(r === "denegado" ? "Tu cuenta solo puede leer." : "No se pudo borrar. Intenta otra vez."); return; }
-  aviso(col === "gastos" ? "Gasto borrado" : col === "pagos" ? "Ingreso borrado" : "Estimación borrada", async () => { const { id: _i, ...resto } = prev; await escribir("set", col, id, resto); render(); });
+  aviso(col === "gastos" ? "Gasto borrado" : col === "pagos" ? "Ingreso borrado" : col === "pendientes" ? "Pendiente borrado" : "Estimación borrada", async () => { const { id: _i, ...resto } = prev; await escribir("set", col, id, resto); render(); });
 }
 function borrar() {
   if (!F || !F.id) return;
@@ -1900,18 +2057,17 @@ function pantEst(p) {
   if (!cs.length) h += `<p class="msg">Las cotizaciones de esta obra todavía no tienen conceptos.</p>`;
   h += `<span class="sec" style="margin-top:22px">Fecha</span><div style="display:flex;gap:8px"><input class="fld" id="e-fecha" type="date" value="${esc(ES.fecha)}" ${ES.ro ? "disabled" : ""} aria-label="Fecha de la estimación" style="flex:1"><button class="mini press" data-act="e-hoy" ${ES.ro ? "disabled" : ""}>Hoy</button></div>`;
   h += `<span class="sec" style="margin-top:18px">Nota</span><input class="fld" id="e-nota" autocomplete="off" placeholder="Ej. Corte al viernes, pisos 1 y 2" value="${esc(ES.nota)}" ${ES.ro ? "disabled" : ""} aria-label="Nota">`;
-  let ult = "", ultP = "";
-  cs.forEach((k, i) => {
-    if (k.cot.id !== ult) { ult = k.cot.id; ultP = ""; h += `<span class="sec" style="margin-top:30px">${esc(k.cot.nombre)}</span>`; }
-    const pk = k.cot.id + "#" + k.pi;
-    if (pk !== ultP) {
-      if (ultP) h += `</div></section>`;
-      ultP = pk;
-      h += `<section class="cpart" style="margin-top:16px"><div class="cpart-h"><h3>${esc(k.partida.nombre)}</h3><span class="num" data-part="${esc(pk)}"></span></div><div class="list">`;
-    }
-    h += estConcepto(k, i);
+  // partidas de cada cotización y, dentro, sus rubros (tablaroca, piso, pintura…) para ubicarse rápido
+  const grupos = [];
+  cs.forEach((k, i) => { const pk = k.cot.id + "#" + k.pi; let g = grupos[grupos.length - 1]; if (!g || g.pk !== pk) { g = { cot: k.cot, pk, partida: k.partida, items: [] }; grupos.push(g); } g.items.push({ k, i }); });
+  let ult = "";
+  grupos.forEach((g) => {
+    if (g.cot.id !== ult) { ult = g.cot.id; h += `<span class="sec" style="margin-top:30px">${esc(g.cot.nombre)}</span>`; }
+    h += `<section class="cpart" style="margin-top:16px"><div class="cpart-h"><h3>${esc(g.partida.nombre)}</h3><span class="num" data-part="${esc(g.pk)}"></span></div><div class="list">`;
+    const r = porRubro(g.items);
+    h += r.size > 1 ? [...r].map(([n, xs]) => `<div class="rubro-g">${rubroH(n)}${xs.map((x) => estConcepto(x.k, x.i)).join("")}</div>`).join("") : g.items.map((x) => estConcepto(x.k, x.i)).join("");
+    h += `</div></section>`;
   });
-  if (ultP) h += `</div></section>`;
   const pie = `<div class="pie-pant" id="est-pie"><div class="in"><div class="tot-e"><div><span>Subtotal</span><b class="num" id="t-sub"></b></div><div><span>IVA 16 %</span><b class="num" id="t-iva"></b></div><div><span>Total</span><b class="num" id="t-tot"></b></div></div><div class="bot2" id="est-btns"></div></div></div>`;
   setPant(p, navHTML({ back: nomCorto(o), titulo: nEst(numero), der }), h);
   p.el.insertAdjacentHTML("beforeend", pie);
@@ -1922,7 +2078,7 @@ function estConcepto(k, i) {
   const prev = ES.prev[k.key] || 0, off = ES.ro || prev >= 100;
   return `<div class="cpt est" data-i="${i}"><div class="cpt-h"><span class="clave">${esc(k.clave || "")}</span><span class="ant num">Anterior ${fmtPct(prev)}</span></div><p class="ctxt clamp" role="button" tabindex="0" aria-expanded="false" title="Toca para ver el concepto completo">${esc(k.concepto)}</p>
     <div class="cpt-in"><label class="pct-in"><input inputmode="decimal" autocomplete="off" data-i="${i}" value="${N1.format(ES.pct[k.key])}" ${off ? "disabled" : ""} aria-label="Avance acumulado de ${esc(k.clave || "este concepto")} en por ciento"><span>%</span></label><div class="cpt-out num"></div></div>
-    <div class="qch">${[["add", 10, "+10 %"], ["add", 25, "+25 %"], ["set", 50, "50 %"], ["set", 100, "100 %"]].map(([m, n, t]) => `<button type="button" data-act="q" data-i="${i}" data-m="${m}" data-n="${n}" ${off ? "disabled" : ""}>${t}</button>`).join("")}</div>
+    <div class="qch">${[["set", 25, "25 %"], ["set", 50, "50 %"], ["set", 75, "75 %"], ["set", 100, "100 %"]].map(([m, n, t]) => `<button type="button" data-act="q" data-i="${i}" data-m="${m}" data-n="${n}" ${off || n < prev ? "disabled" : ""}>${t}</button>`).join("")}<button type="button" class="qprev" data-act="q" data-i="${i}" data-m="prev" ${off ? "disabled" : ""} aria-label="Regresar al anterior">↺ ${fmtPct(prev)}</button></div>
     <p class="av-c" hidden role="status"></p></div>`;
 }
 function pintarConceptoEst(i, msg) {
@@ -1981,6 +2137,37 @@ async function estEstado(estado, texto) {
   if (r === "ok" || r === "sin_senal") volver();
 }
 
+// ---------- mantener presionado para confirmar (terminar obra) ----------
+(function () {
+  let h = null;
+  const soltar = () => { if (!h) return; clearTimeout(h.t); h.el.classList.remove("cargando"); h = null; };
+  document.addEventListener("pointerdown", (e) => {
+    const el = e.target.closest("[data-hold]"); if (!el || !F) return;
+    e.preventDefault(); soltar();
+    const i = Number(el.dataset.hold), it = F.items[i], ms = it.hold || 3000;
+    void el.offsetWidth; el.classList.add("cargando");
+    h = { el, t: setTimeout(() => { h = null; el.classList.remove("cargando"); if (navigator.vibrate) navigator.vibrate(40); cerrarHoja(true); setTimeout(it.fn, 0); }, ms) };
+  });
+  ["pointerup", "pointercancel", "pointerleave"].forEach((t) => document.addEventListener(t, (e) => { if (h && (t !== "pointerleave" || e.target === h.el)) soltar(); }, true));
+  document.addEventListener("contextmenu", (e) => { if (e.target.closest && e.target.closest("[data-hold]")) e.preventDefault(); });
+})();
+// ---------- confeti al terminar una obra ----------
+function confeti() {
+  if (reduceMotion()) return;
+  const c = document.createElement("canvas"), dpr = Math.min(2, window.devicePixelRatio || 1), W = innerWidth, H = innerHeight;
+  c.width = W * dpr; c.height = H * dpr; c.style.cssText = "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:99";
+  document.body.appendChild(c);
+  const x = c.getContext("2d"); x.scale(dpr, dpr);
+  const col = ["#b8893a", "#e8c777", "#0b1d2f", "#f3f0e8", "#1a7a45", "#2c6ea8"];
+  const P = Array.from({ length: 140 }, () => ({ x: W / 2 + (Math.random() - .5) * 60, y: H * .55, vx: (Math.random() - .5) * 13, vy: -Math.random() * 15 - 6, r: Math.random() * 6.28, vr: (Math.random() - .5) * .35, w: 6 + Math.random() * 6, h: 3 + Math.random() * 4, c: col[(Math.random() * col.length) | 0] }));
+  const t0 = performance.now();
+  (function f(t) {
+    const k = (t - t0) / 2200; x.clearRect(0, 0, W, H);
+    P.forEach((p) => { p.vy += .42; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr; x.save(); x.globalAlpha = Math.max(0, 1 - k * k); x.translate(p.x, p.y); x.rotate(p.r); x.fillStyle = p.c; x.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); x.restore(); });
+    if (k < 1) requestAnimationFrame(f); else c.remove();
+  })(t0);
+}
+
 // ============================================================
 // Eventos
 // ============================================================
@@ -2024,6 +2211,10 @@ document.addEventListener("click", (e) => {
   else if (a === "nueva-obra") abrirHoja("nueva");
   else if (a === "instalar") abrirHoja("instalar");
   else if (a === "pendientes") abrirHoja("pend");
+  else if (a === "pend-nuevo") abrirPendiente(null, el.dataset.c || null, F && F.mode === "pend" ? "pend" : null);
+  else if (a === "pend-editar") abrirPendiente(el.dataset.id, null, F && F.mode === "pend" ? "pend" : null);
+  else if (a === "pend-hecho") alternarPendiente(el.dataset.id);
+  else if (a === "pend-borrar") { const id = el.dataset.id; cerrarHoja(true); borrarDoc("pendientes", id); }
   else if (a === "fecha") {
     const o = obraActiva(); if (!o || ro()) return;
     mostrarHoja({ mode: "fecha", obra: o.clave, campo: el.dataset.k, valor: o[el.dataset.k] || "", id: null, saldados: new Set() });
@@ -2035,7 +2226,7 @@ document.addEventListener("click", (e) => {
       ...(est(o) === "por_empezar" ? [{ t: "Iniciar obra", estilo: "pri", fn: () => abrirAccion({ titulo: "¿Iniciar la obra?", texto: "Lo que falta cobrar pasa a «Por cobrar» en el resumen.", items: [{ t: "Sí, iniciar", estilo: "pri", fn: () => updObra(o.clave, { estado: "en_curso", inicio: o.inicio || hoy() }, "Obra iniciada") }] }) }] : []),
       { t: "Editar obra", fn: () => abrirHoja("editar") },
       esTerminada(o) ? { t: "Reabrir obra", fn: () => updObra(o.clave, { estado: "en_curso", cerrada: null }, "Obra reabierta") }
-        : { t: "Marcar como terminada", fn: () => abrirAccion({ titulo: "¿Marcar como terminada?", texto: "Pasa al Archivo. La puedes reabrir después.", items: [{ t: "Sí, terminada", estilo: "pri", fn: async () => { await updObra(o.clave, { estado: "terminada", cerrada: hoy() }, "Obra terminada. Pasó al Archivo."); } }] }) },
+        : { t: "Marcar como terminada", fn: () => abrirAccion({ titulo: "¿Terminar la obra?", texto: "Mantén presionado el botón 3 segundos. Pasa al Archivo y la puedes reabrir después.", items: [{ t: "Mantén presionado para terminar", estilo: "pri", hold: 3000, fn: async () => { confeti(); await updObra(o.clave, { estado: "terminada", cerrada: hoy() }, "¡Obra terminada! Pasó al Archivo."); } }] }) },
     ] });
   }
   else if (a === "menu-est") {
@@ -2063,7 +2254,7 @@ document.addEventListener("click", (e) => {
   else if (a === "costo-editar") { const o = obraActiva(); const c = costoDe(o); S.editCosto = c == null ? "" : String(c); S.costoErr = null; if (p) pintarTab(p); const i = $("#costo-in"); if (i) { i.focus(); i.select(); } }
   else if (a === "costo-cancelar") { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); S.editCosto = null; S.costoErr = null; if (p) { p.sucio = false; pintarTab(p); } }
   else if (a === "costo-guardar") guardarCosto();
-  else if (a === "q") { if (!ES) return; const i = Number(el.dataset.i), k = ES.cs[i], n = Number(el.dataset.n); const v = el.dataset.m === "add" ? ES.pct[k.key] + n : n; const inp = el.closest(".cpt").querySelector("input"); inp.value = N1.format(v); estCambio(i, String(v), true); }
+  else if (a === "q") { if (!ES) return; const i = Number(el.dataset.i), k = ES.cs[i], n = Number(el.dataset.n); const v = el.dataset.m === "add" ? ES.pct[k.key] + n : el.dataset.m === "prev" ? (ES.prev[k.key] || 0) : n; const inp = el.closest(".cpt").querySelector("input"); inp.value = N1.format(v); estCambio(i, String(v), true); }
   else if (a === "e-hoy") { if (!ES) return; ES.fecha = hoy(); ES.p.el.querySelector("#e-fecha").value = ES.fecha; guardarBorradorLocal(); }
   else if (a === "est-guardar") estGuardar(ES && ES.estado === "lista" ? "lista" : "borrador");
   else if (a === "est-lista") estGuardar("lista");
@@ -2127,7 +2318,7 @@ async function iniciar() {
   const ini = await Datos.iniciar();
   if (ini.sinCuenta) { S.sinCuenta = true; renderTodo(); return; }
   if (ini.modo === "mock") window.__t = { S, ir, volver, pila: () => pila, ES: () => ES, Datos, conceptosAgrupados, plazo, avanceObra, totalEstimacion };
-  ["obras", "gastos", "pagos", "estimaciones"].forEach((col) => {
+  ["obras", "gastos", "pagos", "estimaciones", "pendientes"].forEach((col) => {
     Datos.suscribir(col, (m) => {
       S[col] = m;
       const primera = !S.loaded[col]; S.loaded[col] = true;
