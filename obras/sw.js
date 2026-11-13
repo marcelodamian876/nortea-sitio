@@ -1,5 +1,5 @@
 // Obras NORTEA · guarda la app para abrir sin señal. Los datos no pasan por aquí (van a la hoja de Google).
-const V = "obras-149ed1bfd5";
+const V = "obras-29be8430a6";
 const APP = ["/obras/", "/obras/manifest.webmanifest", "/assets/img/marca/icon-192.png", "/assets/img/marca/apple-touch-icon.png"];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(V).then((c) => c.addAll(APP)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== V).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });

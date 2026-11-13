@@ -331,6 +331,87 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
 .bot2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .fld { display: block; width: 100%; min-height: 48px; border-radius: 12px; border: 0; background: var(--panel); padding: 12px 14px; }
 
+/* anotar rápido: burbuja y chat */
+.burbuja { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(var(--bar-h) + var(--sab) + 72px); z-index: 30; width: 58px; height: 58px; border-radius: 50%; background: var(--fg); color: var(--bg); display: grid; place-items: center; box-shadow: 0 6px 20px rgba(0, 0, 0, .28), inset 0 0 0 2px var(--accent); touch-action: none; transition: transform 140ms var(--ease); }
+.sin-bar .burbuja { bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); }
+.burbuja svg { width: 26px; height: 26px; }
+.burbuja.arrastra { transform: scale(1.08); box-shadow: 0 10px 28px rgba(0, 0, 0, .35), inset 0 0 0 2px var(--accent); }
+.burbuja[hidden], .chat[hidden], .chat-veil[hidden] { display: none; }
+.chat-veil { position: fixed; inset: 0; z-index: 42; background: var(--scrim); }
+.chat { position: fixed; z-index: 43; left: max(8px, env(safe-area-inset-left, 0px)); right: max(8px, env(safe-area-inset-right, 0px)); bottom: calc(max(var(--kb, 0px), env(safe-area-inset-bottom, 0px)) + 8px); margin: 0 auto; max-width: 540px; height: min(72dvh, calc(var(--vvh, 100dvh) - env(safe-area-inset-top, 0px) - 24px)); display: flex; flex-direction: column; background: var(--panel); border-radius: 22px; box-shadow: 0 16px 48px rgba(0, 0, 0, .35); overflow: hidden; }
+.chat-h { flex: 0 0 auto; display: flex; align-items: center; gap: 6px; padding: 6px 6px 6px 16px; border-bottom: 1px solid var(--line); }
+.chat-h b { flex: 1; min-width: 0; font: 600 16px/1.2 var(--f-display); }
+.chat-h .mini { min-height: 40px; font-size: 13px; }
+.chat-x { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; color: var(--muted); }
+.chat-x svg { width: 22px; height: 22px; }
+.chat-m { flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; padding: 12px 12px 8px; display: flex; flex-direction: column; gap: 8px; }
+.chat-m, .chat-m * { touch-action: pan-y; }
+.chat-v { color: var(--muted); font-size: 14px; text-align: center; margin: auto 10px; text-wrap: balance; }
+.bub { max-width: 88%; padding: 9px 13px; border-radius: 18px; font-size: 15px; line-height: 1.4; overflow-wrap: anywhere; white-space: pre-wrap; flex: 0 0 auto; }
+.bub.yo { align-self: flex-end; background: var(--accent); color: var(--accent-ink); border-bottom-right-radius: 6px; }
+.bub.app { align-self: flex-start; background: var(--bg); border-bottom-left-radius: 6px; }
+.bub.tarj { box-shadow: inset 0 0 0 2px var(--accent); font-weight: 600; }
+.ch-bs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; white-space: normal; }
+.ch-bs .mini { min-height: 42px; background: var(--panel); box-shadow: inset 0 0 0 1px var(--line); font-weight: 600; white-space: normal; text-align: center; }
+.ch-h { background: var(--bg); border-radius: 14px; padding: 10px 12px; display: grid; gap: 3px; flex: 0 0 auto; }
+.ch-h small { color: var(--muted); font-size: 12px; }
+.ch-h p { margin: 0; font-size: 14px; color: var(--muted); overflow-wrap: anywhere; }
+.ch-h b { font-weight: 600; font-size: 14px; overflow-wrap: anywhere; }
+.chat-f { flex: 0 0 auto; display: flex; align-items: center; gap: 4px; padding: 8px; border-top: 1px solid var(--line); }
+.chat-in { flex: 1 1 auto; min-width: 0; height: 46px; border: 0; border-radius: 23px; background: var(--bg); padding: 0 14px; outline: none; }
+.chat-in:focus { box-shadow: inset 0 0 0 2px var(--accent-text); }
+.chat-ib { flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: var(--accent-text); }
+.chat-ib svg, .chat-env svg { width: 22px; height: 22px; }
+.chat-ib.rec { background: var(--bad); color: #fff; animation: pulso 1.2s ease-in-out infinite; }
+@keyframes pulso { 50% { box-shadow: 0 0 0 8px color-mix(in srgb, var(--bad) 25%, transparent); } }
+.chat-env { flex: 0 0 auto; width: 46px; height: 46px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; }
+.chat-abierto .toast { bottom: auto; top: calc(env(safe-area-inset-top, 0px) + 10px); }
+
+/* avisos del inicio */
+.avisos { margin-top: 14px; background: var(--warn-bg); border-radius: 18px; padding: 4px 14px 6px; }
+.av-h { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 46px; }
+.av-h b { display: inline-flex; align-items: center; gap: 8px; font: 600 15px var(--f-display); color: var(--warn); }
+.av-h svg, .av-mini svg { width: 18px; height: 18px; }
+.av-h .mini { min-height: 40px; background: transparent; color: var(--warn); padding: 0 8px; }
+.av-i { display: block; width: 100%; text-align: left; padding: 11px 0; border-top: 1px solid color-mix(in srgb, var(--warn) 22%, transparent); font-size: 14.5px; line-height: 1.4; overflow-wrap: anywhere; }
+.av-i.urge { font-weight: 600; }
+.av-i.urge::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--bad); margin-right: 8px; vertical-align: 1px; }
+.av-mini { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; min-height: 40px; padding: 0 14px; border-radius: 999px; background: var(--warn-bg); color: var(--warn); font-weight: 600; font-size: 13.5px; }
+
+/* asistencia */
+.sem-nav { display: flex; gap: 6px; margin: 6px 0 4px; }
+.sem-nav .mini { flex: 1 1 0; padding: 0 6px; font-size: 13px; min-height: 40px; }
+.per { padding: 10px 0 12px; border-top: 1px solid var(--line); }
+.sem-nav + .per { border-top: 0; }
+.per-h { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+.per-h .nom { flex: 1; min-width: 0; text-align: left; display: grid; gap: 1px; min-height: 40px; align-content: center; }
+.per-h .nom b { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.per-h .nom small, .per-m small { color: var(--muted); font-size: 12px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.per-m { flex: 0 0 auto; text-align: right; font-weight: 700; display: grid; }
+.dias { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+.dia { min-height: 50px; border-radius: 12px; background: var(--bg); box-shadow: inset 0 0 0 1px var(--line); display: grid; place-items: center; align-content: center; font-weight: 700; font-size: 14px; line-height: 1.15; }
+.dia small { font-size: 11.5px; font-weight: 500; color: var(--muted); }
+.dia.hoy { box-shadow: inset 0 0 0 2px var(--accent); }
+.dia.si { background: var(--ok); box-shadow: none; color: #fff; }
+.dia.si small { color: inherit; font-weight: 700; font-size: 13px; }
+:root[data-theme="dark"] .dia.si { color: #04210f; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .dia.si { color: #04210f; } }
+.dia[disabled] { opacity: .55; }
+.bot-row { display: grid; margin-bottom: 8px; }
+
+/* bitácora */
+.bit { display: grid; gap: 3px; width: 100%; text-align: left; padding: 12px 14px; border-top: 1px solid var(--line); }
+.list .bit:first-child { border-top: 0; }
+.bit small { color: var(--muted); font-size: 12.5px; }
+.bit b { font-weight: 500; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.bit .inc { font-size: 13px; color: var(--warn); overflow-wrap: anywhere; }
+
+/* vista de supervisor */
+.sup h3 { font: 700 18px/1.2 var(--f-display); text-transform: none; letter-spacing: -0.01em; color: var(--fg); margin-top: 14px; }
+.sup .list { background: var(--bg); }
+.sup .ghost { margin: 8px 0 4px; }
+.sup .chips .chip { min-height: 44px; }
+
 /* barra fija */
 .bar-fija { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--bg); border-top: 1px solid var(--line); padding: 8px max(16px, env(safe-area-inset-right, 0px)) var(--sab) max(16px, env(safe-area-inset-left, 0px)); transition: transform 280ms var(--ease-sheet); }
 .bar-fija.off { transform: translateY(110%); pointer-events: none; }
@@ -423,7 +504,8 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
   .acc:hover { background: var(--chip); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .sheet, .veil, .toast, .sw-f.snap, .bar-fija { transition-duration: 1ms; }
+  .sheet, .veil, .toast, .sw-f.snap, .bar-fija, .burbuja { transition-duration: 1ms; }
+  .chat-ib.rec { animation: none; }
   .sk { animation: none; }
   .press:active { transform: none; }
   .pide { animation: none; }
@@ -439,6 +521,19 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
 <div class="veil" id="veil" hidden></div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-t" hidden></div>
 <div class="toast" id="toast" role="status"><span id="toast-t"></span><button id="toast-u" hidden>Deshacer</button></div>
+<button class="burbuja" id="burbuja" type="button" aria-label="Anotar rápido: gasto, ingreso o pendiente" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3.5 20.5l1.4-4.6A8.5 8.5 0 1 1 21 11.5z"/><path d="M12.2 8v7M8.7 11.5h7"/></svg></button>
+<div class="chat-veil" id="chat-veil" hidden></div>
+<section class="chat" id="chat" role="dialog" aria-modal="true" aria-label="Anotar rápido" hidden>
+  <div class="chat-h"><b>Anotar rápido</b><button type="button" class="mini press" id="chat-hist" aria-pressed="false">Historial</button><button type="button" class="chat-x press" id="chat-x" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="chat-m" id="chat-m" aria-live="polite"></div>
+  <form class="chat-f" id="chat-f" autocomplete="off">
+    <button type="button" class="chat-ib press" id="chat-cam-b" aria-label="Leer un ticket con la cámara"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6h1.7l1.3-2h7l1.3 2h1.7A2.5 2.5 0 0 1 21 8.5v9a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/><circle cx="12" cy="12.5" r="3.5"/></svg></button>
+    <input type="file" id="chat-cam" accept="image/*" capture="environment" hidden>
+    <input class="chat-in" id="chat-in" placeholder="Escribe o dicta…" enterkeyhint="send" autocomplete="off" aria-label="Mensaje">
+    <button type="button" class="chat-ib press" id="chat-voz" aria-label="Dictar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
+    <button type="submit" class="chat-env press" aria-label="Enviar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V6M6 11.5l6-6 6 6"/></svg></button>
+  </form>
+</section>
 
 <script>
 (() => {
@@ -503,14 +598,14 @@ const slug = (s) => String(s ?? "").replace(/[^A-Za-z0-9]+/g, "-").replace(/^-+|
 //   Datos.crear(col, id, datos) / actualizar(col, id, campos) / borrar(col, id)
 //        -> "ok" | "sin_senal" | "denegado" | "error"
 //   Datos.modo ("real" | "mock"), Datos.soloLectura, Datos.alLento(fn)
-// Colecciones: obras, gastos, pagos, estimaciones.
+// Colecciones: obras, gastos, pagos, estimaciones, pendientes, chat, asistencia, bitacora.
 // ============================================================
 const Datos = (() => {
-  const COLS = ["obras", "gastos", "pagos", "estimaciones", "pendientes"], BASE = ["obras", "gastos", "pagos", "estimaciones"];
+  const COLS = ["obras", "gastos", "pagos", "estimaciones", "pendientes", "chat", "asistencia", "bitacora"], BASE = ["obras", "gastos", "pagos", "estimaciones"];
   const mem = {}, subs = {};
   COLS.forEach((c) => { mem[c] = {}; subs[c] = new Set(); });
   let lentoFn = null, url = ls.get("nortea_api"), llave = ls.get("nortea_llave"), ultimo = 0, leyendo = null, servidor = Number(ls.get("nortea_srv") || 1);
-  // versión del código de la hoja: la 1 solo guarda las cuatro colecciones de base; desde la 2, cualquiera (p. ej. pendientes)
+  // versión del código de la hoja: la 1 solo guarda las cuatro colecciones de base; desde la 2, cualquiera (pendientes, chat, asistencia, bitácora)
   const soporta = (col) => BASE.includes(col) || servidor >= 2;
   const emitir = (c) => subs[c].forEach((s) => s.ok({ ...mem[c] }));
   function cargarCache() {
@@ -624,10 +719,10 @@ document.addEventListener("touchmove", (e) => { if (e.touches && e.touches.lengt
 
 // ---------- estado ----------
 const S = {
-  obras: {}, gastos: {}, pagos: {}, estimaciones: {}, pendientes: {},
-  loaded: { obras: false, gastos: false, pagos: false, estimaciones: false, pendientes: false }, slow: false, sinCuenta: false,
+  obras: {}, gastos: {}, pagos: {}, estimaciones: {}, pendientes: {}, chat: {}, asistencia: {}, bitacora: {},
+  loaded: { obras: false, gastos: false, pagos: false, estimaciones: false, pendientes: false, chat: false, asistencia: false, bitacora: false }, slow: false, sinCuenta: false,
   pend: [], tabs: {}, tscroll: {}, gfs: {}, gvista: ls.get("nortea_gvista") === "tabla" ? "tabla" : "lista",
-  editCosto: null, costoErr: null, archivoAbierto: false,
+  editCosto: null, costoErr: null, archivoAbierto: false, asis: {},
 };
 try { S.pend = JSON.parse(ls.get("nortea_pend") || "[]") || []; } catch { S.pend = []; }
 const savePend = () => ls.set("nortea_pend", JSON.stringify(S.pend));
@@ -802,13 +897,17 @@ let flushing = false;
 async function reintentar() {
   if (flushing || !S.pend.length) return;
   flushing = true;
-  for (const p of [...S.pend]) {
-    const r = await escribir(p.op, p.col, p.id, p.data);
-    if (r === "ok") desencolar(p.col, p.id);
-    else if (r === "sin_senal") break;
-    else desencolar(p.col, p.id);
-  }
-  flushing = false; render();
+  try {
+    // varias vueltas: si mientras subía algo se marcó otra cosa (asistencia), se sube en la siguiente vuelta
+    for (let v = 0; v < 6 && S.pend.length; v++) {
+      for (const p of [...S.pend]) {
+        if (!S.pend.includes(p)) continue;
+        const enviado = p.data, r = await escribir(p.op, p.col, p.id, p.data);
+        if (r === "sin_senal") return;
+        if (S.pend.includes(p) && p.data === enviado) { S.pend = S.pend.filter((x) => x !== p); savePend(); }   // ok o error: sale de la cola
+      }
+    }
+  } finally { flushing = false; render(); }
 }
 async function guardarDoc(op, col, id, data, textoOk, deshacer) {
   const pr = escribir(op, col, id, data);
@@ -835,12 +934,13 @@ let pila = [];            // [{t, c, id, el}]
 let moviendo = 0;
 let histN = 0;            // cuántas pantallas hemos empujado al historial
 const claveRuta = (r) => `${r.t}:${r.c || ""}:${r.id || ""}`;
-const hashDe = (r) => r.t === "home" ? "" : r.t === "gastos" ? "#gastos" : r.t === "obra" ? "#obra-" + slug(r.c) : `#${r.t}-${slug(r.c)}--${r.id}`;
+const hashDe = (r) => r.t === "home" ? "" : r.t === "gastos" ? "#gastos" : r.t === "sup" ? "#supervisor" : r.t === "obra" ? "#obra-" + slug(r.c) : `#${r.t}-${slug(r.c)}--${r.id}`;
 const padreDe = (r) => (r.t === "cot" || r.t === "est") ? { t: "obra", c: r.c } : { t: "home" };
 function rutaActual() {
   const h = location.hash.replace(/^#/, "");
   let m;
   if (h === "gastos") return { t: "gastos" };
+  if (h === "supervisor") return { t: "sup" };
   if ((m = h.match(/^obra-([A-Za-z0-9-]+)$/))) { const o = obraPorSlug(m[1]); return o ? { t: "obra", c: o.clave } : { t: "home" }; }
   if ((m = h.match(/^(cot|est)-([A-Za-z0-9-]+?)--([A-Za-z0-9-]+)$/))) { const o = obraPorSlug(m[2]); return o ? { t: m[1], c: o.clave, id: m[3] } : { t: "home" }; }
   return { t: "home" };
@@ -867,7 +967,7 @@ function pintarPant(p) {
   if (act && cu.contains(act) && /^(INPUT|TEXTAREA)$/.test(act.tagName)) { p.sucio = true; return; }
   p.sucio = false;
   const sl = [...p.el.querySelectorAll("[data-sid]")].map((x) => [x.dataset.sid, x.scrollLeft]);
-  ({ home: pantHome, obra: pantObra, gastos: pantGastos, cot: pantCot }[p.t])(p);
+  ({ home: pantHome, obra: pantObra, gastos: pantGastos, cot: pantCot, sup: pantSup }[p.t])(p);
   sl.forEach(([id, v]) => { const x = p.el.querySelector(`[data-sid="${id}"]`); if (x) x.scrollLeft = v; });
 }
 function mover(el, desde, hasta, ms, ease) {
@@ -896,6 +996,8 @@ function actualizarBar() {
   $("#bar-fija").classList.toggle("off", !on);
   document.body.classList.toggle("sin-bar", !on);
   $("#b-gasto").disabled = !on; $("#b-pago").disabled = !on;
+  // la burbuja de anotar: donde hay datos y se puede escribir; no en la estimación ni en la vista de supervisor
+  $("#burbuja").hidden = !(t && S.loaded.obras && !ro() && activas().length && !CH.abierto && t.t !== "est" && t.t !== "sup");
 }
 async function apilar(r, animar) {
   const p = crearPant(r);
@@ -988,10 +1090,10 @@ document.addEventListener("visibilitychange", () => { if (!document.hidden) setT
   let g = null;
   document.addEventListener("pointerdown", (e) => {
     g = null;
-    if (F || moviendo || pila.length < 2) return;
+    if (F || moviendo || pila.length < 2 || CH.abierto) return;
     if (e.pointerType === "mouse" && e.button !== 0) return;
     if (e.pointerType !== "mouse" && e.clientX < ORILLA) return;          // la orilla se la dejamos a Safari
-    if (e.target.closest(".tabs, .fil, .tbl-box, input, textarea, select, .sheet, [contenteditable]")) return;
+    if (e.target.closest(".tabs, .fil, .tbl-box, input, textarea, select, .sheet, [contenteditable], #burbuja, .chat, .dias")) return;
     const fila = e.target.closest(".sw");
     if (fila && abierta && abierta.row === fila) return;                   // esa fila abierta se cierra deslizando, no regresa
     g = { id: e.pointerId, x: e.clientX, y: e.clientY, modo: null, m: [], dx: 0, p: top(), bajo: pila[pila.length - 2], W: window.innerWidth };
@@ -1060,7 +1162,7 @@ function avisos() {
   if (np) partes.push(`${np} ingreso${np > 1 ? "s" : ""}`);
   const nd = S.pend.length - ng - np;
   if (!partes.length && nd) partes.push(`${nd} cambio${nd > 1 ? "s" : ""}`);
-  if (partes.length) h += `<div class="note bad"><span>${partes.join(" y ")} sin subir</span><button data-act="reintentar">Reintentar</button></div>`;
+  if (partes.length && !flushing) h += `<div class="note bad"><span>${partes.join(" y ")} sin subir</span><button data-act="reintentar">Reintentar</button></div>`;
   if (S.slow && Datos.modo === "real") h += `<div class="note">Todavía no se alcanzan los datos. Lo que ves puede estar desactualizado.</div>`;
   return h;
 }
@@ -1084,6 +1186,7 @@ function pantHome(p) {
   h += `<section class="res" aria-label="Resumen general"><div><span class="lbl">En caja</span><span class="cifra num ${enCaja < 0 ? "neg" : ""}">${money0(enCaja)}</span>${enCaja < 0 ? `<span class="sub neg">Llevas puesto de tu bolsa</span>` : `<span class="sub">de obras activas</span>`}</div>
     <div class="col2"><div><span class="lbl">Por cobrar</span><span class="c2 num ${porCobrar < 0 ? "neg" : ""}">${money0(porCobrar)}</span></div><div><span class="lbl">Utilidad estimada</span><span class="c2 num ${util < 0 ? "neg" : ""}">${hayUtil ? money0(util) : "—"}</span></div></div></section>`;
   if (porPagar || meDeben) h += `<div class="mini-row">${porPagar ? `<span class="pill warn">Le debo <b class="num">${money0(porPagar)}</b></span>` : ""}${meDeben ? `<span class="pill bad">Me deben <b class="num">${money0(meDeben)}</b></span>` : ""}</div>`;
+  h += avisosHomeHTML();
   h += `<h2 class="sec">Obras activas</h2>`;
   h += act.length ? `<div class="cards">${act.map((o, i) => cardHTML(o, cs[i])).join("")}</div>` : `<p class="msg" style="margin:16px 0">No hay obras activas.</p>`;
   const np = pendientesLista().length + libresAbiertos().length;
@@ -1095,7 +1198,7 @@ function pantHome(p) {
     (rs.length ? `<p class="nota num">Todas juntas: cobrado ${money0(rCob)} · utilidad ${money0(rUt)}${rCob ? " · " + pctTxt(rUt / rCob) : ""}</p>` : "") + `</details>`;
   setPant(p, nav, h + descretos());
 }
-const descretos = () => `<div class="discreto"><button data-act="nueva-obra">Nueva obra</button></div>`;
+const descretos = () => `<div class="discreto"><button data-act="nueva-obra">Nueva obra</button>${activas().length ? `<button data-act="supervisor">Vista de supervisor (prueba)</button>` : ""}</div>`;
 // ---------- pendientes libres (generales o de una obra): {texto, tipo: pendiente|material, obra|null, fecha|null, nota, hecho} ----------
 const PTIPOS = { pendiente: "Pendiente", material: "Material por comprar" };
 const libres = () => coleccion("pendientes");
@@ -1194,6 +1297,7 @@ function cardHTML(o, c) {
 function tabsDe(o) {
   const t = [["resumen", "Resumen"], ["gastos", "Gastos"], ["pagos", "Ingresos"], ["cotizacion", "Cotización"], ["avance", "Avance"]];
   if ((o.cuadrillas || []).length) t.push(["cuadrillas", "Cuadrillas"]);
+  t.push(["bitacora", "Bitácora"], ["asistencia", "Asistencia"]);
   return t;
 }
 function pantObra(p) {
@@ -1226,6 +1330,8 @@ function tabHTML(o, c, tab, p) {
   if (tab === "pagos") return pagosHTML(c);
   if (tab === "cotizacion") return cotHTML(o, c);
   if (tab === "avance") return avanceHTML(o);
+  if (tab === "bitacora") return bitacoraHTML(o);
+  if (tab === "asistencia") return asistenciaHTML(o, c);
   return cuadHTML(c);
 }
 function pintarTab(p) {
@@ -1541,6 +1647,8 @@ function hojaHTML() {
   if (m === "fecha") return hojaFecha();
   if (m === "pend") return hojaPend();
   if (m === "pendiente") return hojaPendiente();
+  if (m === "persona") return hojaPersona();
+  if (m === "bitacora") return hojaBitacora();
   return shell("Ponla en tu celular", instalarHTML(), `<button type="button" class="btn main press" data-act="cerrar">Listo</button>`);
 }
 // confirmaciones y menús: hoja chica con botones grandes
@@ -1808,6 +1916,8 @@ function elegir(group, v) {
   }
   if (group === "tipoCot") { const aj = v === "ajuste"; $("#blk-signo").hidden = !aj; $("#blk-costo").hidden = aj; $("#f-nombre").placeholder = aj ? "Ej. Negociado con el cliente" : "Ej. Adicional de plafón"; }
   if (group === "ivaModo" || group === "signo" || group === "tipoCot") actualizarPrev();
+  if (group === "ppuesto") { const ps = $("#pp-sem"), def = String(PUESTOS[v] ? PUESTOS[v][1] : ""); if (ps && (!ps.value || SEMANALES.map(String).includes(ps.value))) { ps.value = def; F.psem = def; syncChips("psem"); } }
+  if (group === "psem") { const ps = $("#pp-sem"); if (ps) ps.value = v; }
   syncChips(group); validar();
 }
 
@@ -1822,6 +1932,8 @@ async function guardar() {
   if (m === "editar") return guardarEditar();
   if (m === "cot") return guardarCot();
   if (m === "pendiente") return guardarPendiente();
+  if (m === "persona") return guardarPersona();
+  if (m === "bitacora") return guardarBitacora();
   if (m === "fecha") { const campo = F.campo, obra = F.obra, v = $("#f-fecha2").value || null; cerrarHoja(); return updObra(obra, { [campo]: v }, "Fecha guardada"); }
 }
 async function guardarGP() {
@@ -1921,7 +2033,7 @@ async function borrarDoc(col, id) {
   const r = await escribir("del", col, id);
   if (r === "sin_senal") { encolar("del", col, id, null); aviso("Sin señal · se borrará al volver la conexión"); return; }
   if (r !== "ok") { aviso(r === "denegado" ? "Tu cuenta solo puede leer." : "No se pudo borrar. Intenta otra vez."); return; }
-  aviso(col === "gastos" ? "Gasto borrado" : col === "pagos" ? "Ingreso borrado" : col === "pendientes" ? "Pendiente borrado" : "Estimación borrada", async () => { const { id: _i, ...resto } = prev; await escribir("set", col, id, resto); render(); });
+  aviso({ gastos: "Gasto borrado", pagos: "Ingreso borrado", pendientes: "Pendiente borrado", bitacora: "Reporte borrado", estimaciones: "Estimación borrada" }[col] || "Borrado", async () => { const { id: _i, ...resto } = prev; await escribir("set", col, id, resto); render(); });
 }
 function borrar() {
   if (!F || !F.id) return;
@@ -2137,6 +2249,543 @@ async function estEstado(estado, texto) {
   if (r === "ok" || r === "sin_senal") volver();
 }
 
+// ============================================================
+// Anotar rápido: burbuja movible con chat (texto, dictado y ticket).
+// Entiende frases como «me gasté 1,500 en cemento para Escobedo en efectivo», pregunta lo que falta con botones,
+// guarda el gasto, el ingreso o el pendiente y deja historial (colección «chat», y copia en el teléfono) con Ver y Deshacer.
+// ============================================================
+const CH = { abierto: false, msgs: [], d: null, espera: null, vista: "chat" };
+const NUMS = { cero: 0, un: 1, uno: 1, una: 1, dos: 2, tres: 3, cuatro: 4, cinco: 5, seis: 6, siete: 7, ocho: 8, nueve: 9, diez: 10, once: 11, doce: 12, trece: 13, catorce: 14, quince: 15,
+  dieciseis: 16, diecisiete: 17, dieciocho: 18, diecinueve: 19, veinte: 20, veintiuno: 21, veintidos: 22, veintitres: 23, veinticuatro: 24, veinticinco: 25, treinta: 30, cuarenta: 40,
+  cincuenta: 50, sesenta: 60, setenta: 70, ochenta: 80, noventa: 90, cien: 100, ciento: 100, doscientos: 200, trescientos: 300, cuatrocientos: 400, quinientos: 500, seiscientos: 600,
+  setecientos: 700, ochocientos: 800, novecientos: 900 };
+// número escrito con letras («mil quinientos», «dos mil», «quince mil trescientos»)
+function numPalabras(n) {
+  const m = n.match(/\b((?:(?:cero|un|uno|una|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|once|doce|trece|catorce|quince|dieciseis|diecisiete|dieciocho|diecinueve|veinte|veintiuno|veintidos|veintitres|veinticuatro|veinticinco|treinta|cuarenta|cincuenta|sesenta|setenta|ochenta|noventa|cien|ciento|doscientos|trescientos|cuatrocientos|quinientos|seiscientos|setecientos|ochocientos|novecientos|mil|y)\s*)+)\b/);
+  if (!m || m[1].trim() === "y") return null;
+  let total = 0, actual = 0, hay = false;
+  m[1].trim().split(/\s+/).forEach((w) => {
+    if (w === "y") return;
+    if (w === "mil") { total += (actual || 1) * 1000; actual = 0; hay = true; return; }
+    if (w in NUMS) { actual += NUMS[w]; hay = true; }
+  });
+  const v = total + actual;
+  // «un», «una» o «dos» sueltos casi siempre son cantidades de material, no el monto
+  return hay && (v >= 100 || /\bmil\b/.test(m[1])) ? v : null;
+}
+// todos los números de la frase; el monto es el que trae $, «mil» o «pesos», y si ninguno trae, el más grande
+// («compré 20 bultos de cemento 3,000» → 3,000; «me depositaron $45,000 de la estimación 2» → 45,000)
+function montos(t) {
+  const xs = [], re = /(\$\s*)?(\d{1,3}(?:,\d{3})+|\d+)(?:\.(\d{1,2}))?(\s*(?:mil|k)(?![a-z]))?(\s*(?:pesos|mxn)(?![a-z]))?/gi;
+  let m;
+  while ((m = re.exec(t))) { let v = Number(m[2].replace(/,/g, "")) + (m[3] ? Number("0." + m[3]) : 0); if (m[4]) v *= 1000; if (v > 0) xs.push({ v, txt: m[0], marca: !!(m[1] || m[4] || m[5]) }); }
+  return xs;
+}
+const elegido = (xs) => { if (!xs.length) return null; const con = xs.filter((x) => x.marca); return (con.length ? con : xs).reduce((a, b) => (b.v > a.v ? b : a)); };
+function montoDe(n) { const m = elegido(montos(n)); return m ? m.v : numPalabras(n); }
+function obraDe(n) {
+  let mejor = null, pts = 0;
+  activas().forEach((o) => {
+    const ts = norm([o.corto, o.nombre, o.clave].join(" ")).split(/[^a-z0-9]+/).filter((t) => t.length > 3 && !["obra", "cuarto", "fase", "nave", "para", "2026", "2025", "torre", "casa"].includes(t));
+    const p = new Set(ts.filter((t) => new RegExp("\\b" + t + "\\b").test(n))).size;
+    if (p > pts) { pts = p; mejor = o.clave; }
+  });
+  return mejor;
+}
+const PAL_MAT = /\b(cemento|mortero|arena|grava|block|tabique|varilla|tablaroca|durock|panel|perfil|poste|canal|pasta|redimix|basecoat|malla|tornill|taquete|clavo|pintura|sellador|impermeab|tubo|tuberia|cable|contacto|apagador|pvc|cpvc|ppa|bufalo|home depot|ferre|material|azulejo|porcelanato|adhesivo|boquilla|triplay|madera|silicon|cinta|esquinero|lamina|yeso)/;
+const PAL_MO = /\b(raya|sueldo|cuadrilla|ayudante|oficial|albanil|media cuchara|tablaroquero|pintor|electricista|plomero|herrero|destajo|mano de obra|nomina|pago a|le pague a|adelanto a|prestamo a|le di a)\b/;
+const PAL_VIA = /\b(gasolina|diesel|comida|caseta|uber|didi|estacionamiento|taxi|camion|viatico|hotel)/;
+const PAGO_V = /\b(me pagaron|me pago|me deposito|me depositaron|me transfirieron|nos pagaron|nos pago|nos deposito|nos depositaron|cobre|cobramos|ingreso|pago del cliente|pagaron la estimacion|estimacion pagada)\b/;
+const GASTO_V = /\b(gaste|me gaste|gasto|compre|pague|le pague|le di|preste|le preste|me cobraron|costo|raya|sueldo|adelanto|prestamo|flete)\b/;
+const PEND_V = /\b(pendiente|recordar|recuerdame|hay que|tengo que|falta pedir|falta comprar|falta hacer|anota que|no olvidar|no se me olvide)\b/;
+function interpretar(t) {
+  const n = norm(t);
+  const d = { intent: null, monto: montoDe(n), obra: obraDe(n), tipo: null, forma: null, factura: null, fecha: hoy(), concepto: "", texto: t, explicito: true };
+  if (PAGO_V.test(n)) d.intent = "pago";
+  else if (/\b(anticipo|abono)\b/.test(n) && !GASTO_V.test(n)) d.intent = "pago";
+  else if (PEND_V.test(n)) d.intent = "pendiente";
+  else if (GASTO_V.test(n)) d.intent = "gasto";
+  else { d.explicito = false; if (d.monto) d.intent = "gasto"; }
+  if (/\bantier\b|\bantes de ayer\b/.test(n)) { const x = new Date(); x.setDate(x.getDate() - 2); d.fecha = fmtF(x); }
+  else if (/\bayer\b/.test(n)) d.fecha = ayer();
+  if (/\b(efectivo|cash)\b/.test(n)) d.forma = "efectivo"; else if (/\b(transferencia|transferi|transfirieron|deposito|depositaron|spei)\b/.test(n)) d.forma = "transferencia"; else if (/\b(tarjeta|credito|debito)\b/.test(n)) d.forma = "tarjeta"; else if (/\bcheque\b/.test(n)) d.forma = "cheque";
+  if (/\b(con factura|facturado|me facturaron)\b/.test(n)) d.factura = true; else if (/\bsin factura\b/.test(n)) d.factura = false;
+  if (d.intent === "gasto") {
+    if (/\bflete\b/.test(n)) d.tipo = "flete"; else if (PAL_MO.test(n)) d.tipo = "trabajadores"; else if (PAL_VIA.test(n)) d.tipo = "viaticos"; else if (PAL_MAT.test(n)) d.tipo = "material";
+  }
+  // concepto: lo que queda sin las palabras de relleno, el monto, la obra y la forma de pago
+  let c;
+  if (d.intent === "pendiente") c = t.replace(PEND_RELLENO, "$1 ");      // en un pendiente los números se quedan («comprar 20 bultos»)
+  else { const m = elegido(montos(t)); c = (m ? t.replace(m.txt, " ") : t).replace(/\$/g, " ").replace(RELLENO, "$1 "); }
+  if (d.obra) { const o = S.obras[d.obra]; norm([o.corto, o.nombre].join(" ")).split(/[^a-z0-9]+/).filter((x) => x.length > 3).forEach((w) => { c = c.replace(palRe("(?:(?:para|en|de)\\s+)?" + conAcentos(w)), "$1 "); }); }
+  c = c.replace(/[,.:;]+/g, " ").replace(/\s{2,}/g, " ").trim()
+    .replace(/^((en|de|del|para|por|a|al|el|la|los|las|y|que|un|una)\s+)+/i, "").replace(/(\s+(en|de|del|para|por|a|al|y|el|la))+$/i, "").trim();
+  if (d.tipo === "trabajadores" && /\braya\b/.test(n)) {   // «le pagué a Roberto 4,500 de la raya» → «Raya de Roberto»
+    const quien = c.replace(palRe("(?:de\\s+)?(?:la\\s+)?raya"), "$1 ").replace(/\s{2,}/g, " ").trim().replace(/^((a|al|de|del|la)\s+)+/i, "");
+    c = quien ? "Raya de " + quien : "Raya";
+  }
+  if (d.intent === "pago" && /^(el |del |al )?cliente$/i.test(c)) c = "";   // «me pagó el cliente» → «Pago del cliente»
+  d.concepto = c ? c.charAt(0).toUpperCase() + c.slice(1) : "";
+  return d;
+}
+// palabras de relleno que no van en el concepto (la orilla de palabra se pone a mano porque \b no entiende «gasté»)
+const LETRA = "a-z0-9áéíóúüñ";
+const palRe = (alts) => new RegExp(`(^|[^${LETRA}])(?:${alts})(?=$|[^${LETRA}])`, "gi");
+const conAcentos = (w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/a/g, "[aá]").replace(/e/g, "[eé]").replace(/i/g, "[ií]").replace(/o/g, "[oó]").replace(/u/g, "[uúü]").replace(/n/g, "[nñ]");
+const PEND_RELLENO = palRe("pendiente|anota que|recu[eé]rdame|no olvidar|no se me olvide|hay que|tengo que");
+const RELLENO = palRe("me acabo de gastar|me gast[eé]|gast[eé]|compr[eé]|pagu[eé]|le pagu[eé]|le di|me cobraron|me pagaron|me pag[oó]|me depositaron|me deposit[oó]|me transfirieron|nos pagaron|nos pag[oó]|nos depositaron|cobr[eé]|anota que|pendiente|recu[eé]rdame|hay que|tengo que|antier|ayer|hoy|en efectivo|efectivo|con tarjeta|tarjeta|por transferencia|transferencia|con factura|sin factura|pesos|de la obra|para la obra|en la obra|obra|mil|quinientos|cien|ciento|doscientos|trescientos");
+const DEF = { gasto: ["monto", "obra", "tipo", "forma"], pago: ["monto", "obra", "forma"], pendiente: ["concepto"] };
+function faltaDe(d) { return d.intent ? DEF[d.intent].filter((k) => d[k] == null || d[k] === "") : ["intent"]; }
+const facturaDe = (d) => d.tipo === "trabajadores" ? false : (d.factura ?? d.tipo === "material");
+function chatResumen(d) {
+  const o = d.obra ? nomCorto(S.obras[d.obra]) : "General";
+  if (d.intent === "pendiente") return `Pendiente: ${d.concepto} · ${o}`;
+  const forma = (d.intent === "pago" ? FORMAS_P : FORMAS_G)[d.forma] || "";
+  const fac = d.intent === "gasto" ? (facturaDe(d) ? " · con factura" : " · sin factura") : "";
+  return `${d.intent === "pago" ? "Ingreso" : "Gasto"} de ${money(d.monto || 0)} · ${d.concepto || (d.intent === "pago" ? "Pago del cliente" : TIPO_LBL[d.tipo] || "Gasto")} · ${o}${d.tipo ? " · " + (TIPO_LBL[d.tipo] || d.tipo) : ""}${forma ? " · " + forma : ""}${fac}${d.fecha !== hoy() ? " · " + diaMes(d.fecha) : ""}`;
+}
+function chatDecir(texto, botones, extra) { CH.msgs.push({ de: "app", texto, botones: botones || null, ...extra }); if (CH.msgs.length > 80) CH.msgs.splice(0, CH.msgs.length - 80); chatPintar(); }
+function preguntar(k) {
+  const d = CH.d; CH.espera = k;
+  if (k === "intent") return chatDecir("¿Qué quieres anotar?", [["i:gasto", "Gasto"], ["i:pago", "Ingreso"], ["i:pendiente", "Pendiente"], ["i:claude", "Guardarlo para Claude"]]);
+  if (k === "monto") return chatDecir("¿De cuánto fue?", null);
+  if (k === "concepto") return chatDecir(d.intent === "pendiente" ? "¿Qué hay que hacer o comprar?" : "¿Qué fue? (por ejemplo «cemento y arena»)", null);
+  if (k === "obra") return chatDecir("¿De qué obra?", [...activas().map((o) => ["o:" + o.clave, nomCorto(o)]), ...(d.intent === "pendiente" ? [["o:", "General"]] : [])]);
+  if (k === "tipo") return chatDecir("¿Qué fue?", Object.entries(TIPO_LBL).map(([v, t]) => ["t:" + v, t]));
+  if (k === "forma") return chatDecir(d.intent === "pago" ? "¿Cómo te pagaron?" : "¿Cómo lo pagaste?", Object.entries(d.intent === "pago" ? FORMAS_P : FORMAS_G).map(([v, t]) => ["f:" + v, t]));
+}
+function avanzar() {
+  const d = CH.d; if (!d) return;
+  if (d.forma && !(d.intent === "pago" ? FORMAS_P : FORMAS_G)[d.forma]) d.forma = null;
+  if (d.obra && !S.obras[d.obra]) d.obra = null;
+  const f = faltaDe(d);
+  if (f.length) return preguntar(f[0]);
+  CH.espera = null;
+  chatDecir(chatResumen(d), [["guardar", "Guardar ✓"], ["cambiar", "Cambiar algo"], ["cancelar", "Cancelar"]], { tarjeta: true });
+}
+function cambiarCon(x) {
+  ["monto", "obra", "tipo", "forma", "factura"].forEach((c) => { if (x[c] != null && x[c] !== "") CH.d[c] = x[c]; });
+  if (x.fecha !== hoy()) CH.d.fecha = x.fecha;
+  if (x.concepto && !x.monto && !x.obra && !x.forma) CH.d.concepto = x.concepto;
+}
+function chatEnviar(texto) {
+  texto = String(texto || "").trim(); if (!texto) return;
+  CH.msgs.push({ de: "yo", texto }); CH.vista = "chat";
+  const n = norm(texto), x = interpretar(texto);
+  if (CH.d && CH.espera) {
+    const k = CH.espera;
+    // si a media pregunta dicta otro movimiento completo, se empieza de nuevo con ese
+    if (x.explicito && x.intent && (x.monto || x.intent === "pendiente") && !["monto", "concepto", "cambiar"].includes(k)) { CH.d = x; if (x.intent === "pendiente" && x.obra === null) CH.d.obra = ""; chatDecir("Dejé lo anterior sin guardar. Vamos con este:"); return avanzar(); }
+    if (k === "monto") { const v = montoDe(n); if (v) CH.d.monto = v; else { chatDecir("No le entendí al monto. Escríbelo con número, por ejemplo 1500."); return; } }
+    else if (k === "concepto") CH.d.concepto = texto;
+    else if (k === "obra") { const o = obraDe(n); if (o) CH.d.obra = o; else if (CH.d.intent === "pendiente" && /general/.test(n)) CH.d.obra = ""; else { chatDecir("No encontré esa obra. Elige una:"); return preguntar("obra"); } }
+    else if (k === "intent") { if (x.intent) { CH.d.intent = x.intent; if (x.intent === "pendiente") { CH.d.obra = CH.d.obra || ""; CH.d.concepto = CH.d.concepto || CH.d.texto; } } }
+    else if (k === "tipo") { const y = interpretar("gaste " + texto); CH.d.tipo = y.tipo || "otro"; }
+    else if (k === "forma") { if (x.forma) CH.d.forma = x.forma; else { chatDecir("Elige una de las opciones:"); return preguntar("forma"); } }
+    else if (k === "cambiar") cambiarCon(x);
+    return avanzar();
+  }
+  // con la tarjeta de «¿Guardar?» abierta, una frase sin verbo («fueron 1,800», «en efectivo») corrige esa tarjeta
+  if (CH.d && !x.explicito) { cambiarCon(x); return avanzar(); }
+  if (CH.d) chatDecir("Dejé lo anterior sin guardar. Vamos con este:");
+  CH.d = x;
+  if (CH.d.intent === "pendiente" && CH.d.obra === null) CH.d.obra = "";
+  avanzar();
+}
+async function chatBoton(v) {
+  const d = CH.d;
+  if (v === "cancelar") { CH.d = null; CH.espera = null; return chatDecir("Listo, no guardé nada."); }
+  if (!d) return;
+  if (v === "cambiar") { CH.espera = "cambiar"; return chatDecir("Dime qué cambio (por ejemplo «fueron 1,800», «en efectivo» o «de NorthPass»), o elige:", [["c:monto", "Monto"], ["c:obra", "Obra"], ...(d.intent === "gasto" ? [["c:tipo", "Tipo"], ["c:factura", facturaDe(d) ? "Sin factura" : "Con factura"]] : []), ...(d.intent !== "pendiente" ? [["c:forma", "Forma de pago"]] : []), ["c:concepto", "Concepto"]]); }
+  const [k, val] = v.includes(":") ? [v.slice(0, v.indexOf(":")), v.slice(v.indexOf(":") + 1)] : [v, ""];
+  const ult = CH.msgs[CH.msgs.length - 1], eco = ((ult && ult.botones) || []).find((b) => b[0] === v);
+  if (k === "guardar") return chatGuardar();
+  if (eco) CH.msgs.push({ de: "yo", texto: eco[1] });
+  if (k === "c") { if (val === "factura") { d.factura = !facturaDe(d); return avanzar(); } d[val] = null; return preguntar(val); }
+  if (k === "i") { if (val === "claude") return chatParaClaude(); d.intent = val; if (val === "pendiente") { d.obra = d.obra || ""; d.concepto = d.concepto || d.texto; } return avanzar(); }
+  if (k === "o") d.obra = val; else if (k === "t") d.tipo = val; else if (k === "f") d.forma = val;
+  avanzar();
+}
+async function chatParaClaude() {
+  const d = CH.d; CH.d = null; CH.espera = null;
+  if (!puede("chat")) return chatDecir("Para mandármelo, primero actualiza el código de tu hoja (la versión 2). Mientras, escríbemelo en el chat de la oficina.");
+  await chatLog(Datos.nuevoId("chat"), { texto: d.texto, resumen: "Para Claude", estado: "para_claude" });
+  chatDecir("Lo guardé para Claude. Cuando abras el chat de la oficina lo reviso y lo acomodo.");
+}
+// historial: siempre queda copia en el teléfono; si la hoja ya es v2, también en la pestaña «chat» de la hoja
+const chLocal = () => { try { return JSON.parse(ls.get("nortea_chatlog") || "[]") || []; } catch { return []; } };
+function chLocalPon(id, campos) { const xs = chLocal(), i = xs.findIndex((x) => x.id === id); if (i >= 0) xs[i] = { ...xs[i], ...campos }; else xs.unshift({ id, ...campos }); ls.set("nortea_chatlog", JSON.stringify(xs.slice(0, 150))); }
+async function chatLog(id, data, op) {
+  const doc = op === "update" ? data : { ...data, fecha: ahora() };
+  chLocalPon(id, doc);
+  if (!puede("chat")) return;
+  const r = await escribir(op || "set", "chat", id, doc);
+  if (r === "sin_senal") encolar(op || "set", "chat", id, doc);
+}
+const chLogs = () => { const m = {}; chLocal().forEach((x) => (m[x.id] = x)); coleccion("chat").forEach((x) => (m[x.id] = { ...(m[x.id] || {}), ...x })); return Object.values(m); };
+async function chatGuardar() {
+  const d = CH.d; if (!d || faltaDe(d).length) return avanzar();
+  if (ro()) return chatDecir("Tu cuenta solo puede leer.");
+  let col, data;
+  if (d.intent === "gasto") { col = "gastos"; data = { obra: d.obra, monto: round2(d.monto), tipo: d.tipo, concepto: d.concepto || TIPO_LBL[d.tipo] || "Gasto", cuadrilla: null, factura: facturaDe(d), forma: d.forma, fecha: d.fecha, nota: "Anotado desde el chat", marca: null, resuelto: false, creado: ahora(), origen: "chat" }; }
+  else if (d.intent === "pago") { col = "pagos"; data = { obra: d.obra, monto: round2(d.monto), concepto: d.concepto || "Pago del cliente", forma: d.forma, fecha: d.fecha, nota: "Anotado desde el chat", creado: ahora(), origen: "chat" }; }
+  else {
+    if (!puedePend()) return chatDecir("Para guardar pendientes, actualiza el código de tu hoja (te lo mandé).");
+    col = "pendientes"; data = { texto: d.concepto || d.texto, tipo: /compr|material|pedir/.test(norm(d.texto)) ? "material" : "pendiente", obra: d.obra || null, fecha: null, nota: "", hecho: false, creado: ahora(), actualizado: ahora(), origen: "chat" };
+  }
+  const id = Datos.nuevoId(col), resumen = chatResumen(d);
+  CH.d = null; CH.espera = null;
+  const r = await guardarDoc("set", col, id, data, "Guardado desde el chat");
+  if (r === "ok" || r === "sin_senal") {
+    await chatLog(Datos.nuevoId("chat"), { texto: d.texto, resumen, col, doc: id, estado: "guardado" });
+    chatDecir("Listo ✓ " + resumen + (r === "sin_senal" ? " (sin señal: se sube solo cuando vuelva)" : ""), [["ver:" + col + ":" + id, "Ver"], ["undo:" + col + ":" + id, "Deshacer"]]);
+    render();
+  } else chatDecir("No se pudo guardar. Intenta otra vez.");
+}
+async function chatAccion(v) {
+  const [k, col, id] = v.split(":");
+  if (k === "ver") { chatCerrar(); if (col === "gastos") abrirHoja("gasto", id); else if (col === "pagos") abrirHoja("pago", id); else abrirPendiente(id); return; }
+  if (k === "undo") {
+    if (!coleccion(col).some((x) => x.id === id)) return chatDecir("Ese ya no existe (ya se había borrado).");
+    const lg = chLogs().find((x) => x.doc === id);
+    await borrarDoc(col, id);
+    if (lg) await chatLog(lg.id, { estado: "deshecho" }, "update");
+    chatDecir("Deshecho: ya no está anotado."); render();
+  }
+}
+function chatHistorialHTML() {
+  const xs = chLogs().sort((a, b) => String(b.fecha || "").localeCompare(String(a.fecha || ""))).slice(0, 60);
+  if (!xs.length) return `<p class="chat-v">Todavía no hay movimientos anotados desde el chat.</p>`;
+  return `<p class="chat-v" style="margin:0 4px 4px">Lo último que anotaste desde aquí. Revisa que esté bien.</p>` + xs.map((x) => {
+    const existe = x.col && coleccion(x.col).some((y) => y.id === x.doc);
+    const est_ = x.estado === "para_claude" ? "para Claude" : x.estado === "deshecho" || (x.col && !existe) ? `<span class="neg">deshecho o borrado</span>` : "guardado";
+    const f = String(x.fecha || ""), cuando = f ? `${diaMes(fmtF(new Date(f)))} ${new Date(f).toLocaleTimeString("es-MX", { hour: "numeric", minute: "2-digit" })}` : "";
+    return `<div class="ch-h"><small class="num">${esc(cuando)} · ${est_}</small><p>«${esc(x.texto || "")}»</p><b>${esc(x.resumen || "")}</b>${existe ? `<div class="ch-bs"><button class="mini press" data-chat="ver:${esc(x.col)}:${esc(x.doc)}">Ver</button><button class="mini press" data-chat="undo:${esc(x.col)}:${esc(x.doc)}">Deshacer</button></div>` : ""}</div>`;
+  }).join("");
+}
+function chatPintar() {
+  const box = $("#chat-m"); if (!box) return;
+  $("#chat-hist").setAttribute("aria-pressed", String(CH.vista === "hist"));
+  $("#chat-hist").textContent = CH.vista === "hist" ? "Volver al chat" : "Historial";
+  if (CH.vista === "hist") { box.innerHTML = chatHistorialHTML(); box.scrollTop = 0; return; }
+  const ult = CH.msgs.length - 1;
+  box.innerHTML = (CH.msgs.length ? "" : `<p class="chat-v">Escríbeme o díctame qué pasó. Por ejemplo: «me gasté 1,500 en cemento para Escobedo en efectivo», «me pagaron 20 mil de NorthPass por transferencia» o «pendiente: pedir la puerta». También puedo leer un ticket con la cámara.</p>`) +
+    CH.msgs.map((m, i) => `<div class="bub ${m.de}${m.tarjeta ? " tarj" : ""}">${esc(m.texto)}${m.botones && i === ult ? `<div class="ch-bs">${m.botones.map(([v, t]) => `<button class="mini press" data-chat="${esc(v)}">${esc(t)}</button>`).join("")}</div>` : ""}</div>`).join("");
+  box.scrollTop = box.scrollHeight;
+}
+function chatAbrir() {
+  if (CH.abierto) return;
+  CH.abierto = true; $("#chat").hidden = false; $("#chat-veil").hidden = false; $("#burbuja").hidden = true; document.body.classList.add("chat-abierto");
+  chatPintar();
+  const i = $("#chat-in"); if (i && CH.vista === "chat") i.focus({ preventScroll: true });   // en la misma tocada, para que salga el teclado
+}
+function chatCerrar() {
+  if (!CH.abierto) return;
+  CH.abierto = false; $("#chat").hidden = true; $("#chat-veil").hidden = true; document.body.classList.remove("chat-abierto");
+  const i = $("#chat-in"); if (i) i.blur();
+  if (reco) reco.stop();
+  actualizarBar();
+}
+// --- dictado (si el navegador lo trae; si no, el micrófono del teclado) ---
+let reco = null;
+function chatVoz() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition, inp = $("#chat-in"), b = $("#chat-voz");
+  if (!SR) { inp.focus(); return chatDecir("Toca el micrófono del teclado 🎤 y dicta; luego dale Enviar."); }
+  if (reco) { reco.stop(); return; }
+  reco = new SR(); reco.lang = "es-MX"; reco.interimResults = true; reco.continuous = false;
+  let fin = "";
+  reco.onresult = (e) => { let t = ""; for (const r of e.results) { t += r[0].transcript; if (r.isFinal) fin = t; } inp.value = t; };
+  reco.onend = () => { b.classList.remove("rec"); reco = null; const t = (fin || inp.value).trim(); if (t) { inp.value = ""; chatEnviar(t); } };
+  reco.onerror = (e) => { b.classList.remove("rec"); reco = null; if (e && e.error === "no-speech") return; inp.focus(); chatDecir("No pude usar el micrófono aquí. Usa el micrófono del teclado 🎤."); };
+  b.classList.add("rec");
+  try { reco.start(); } catch { b.classList.remove("rec"); reco = null; inp.focus(); }
+}
+// --- leer ticket con la cámara (prueba): la foto no se guarda en ningún lado; el texto se lee en el teléfono ---
+const TESS = "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js";
+function leerTotal(txt) {
+  const ls_ = String(txt || "").split(/\n+/).map((x) => x.trim()).filter(Boolean);
+  const montos = (l) => (l.replace(/(\d)[Oo]|[Oo](\d)/g, (m, x, y) => (x ? x + "0" : "0" + y)).replace(/(\d)\s*[,.]\s*(\d{2})\b/g, "$1.$2").match(/\d{1,3}(?:,\d{3})+(?:\.\d{2})|\d+\.\d{2}/g) || []).map((x) => Number(x.replace(/,/g, "")));
+  let total = null;
+  ls_.filter((l) => /t[o0]ta[l1]/i.test(l) && !/sub\s*-?\s*t[o0]ta[l1]|art[ií]culos|piezas/i.test(l)).forEach((l) => { const m = montos(l); if (m.length) total = Math.max(total || 0, ...m); });
+  if (total == null) { const xs = ls_.filter((l) => !/efectivo|cambio|pago con|recibido|tarjeta|su pago|ahorr|descuento/i.test(l)).flatMap(montos); if (xs.length) total = Math.max(...xs); }
+  return total;
+}
+function tiendaDe(txt) {
+  const n = norm(txt);
+  const t = [["home depot", "Home Depot"], ["homedepot", "Home Depot"], ["ppa", "PPA"], ["plafones", "PPA"], ["bufalo", "Búfalo"], ["comex", "Comex"], ["construrama", "Construrama"], ["oxxo", "OXXO"], ["boxito", "Boxito"], ["sherwin", "Sherwin-Williams"], ["truper", "Truper"], ["ferreter", "Ferretería"]].find(([k]) => n.includes(k));
+  return t ? t[1] : (String(txt || "").split(/\n+/).map((x) => x.trim()).find((x) => /[a-z]{3}/i.test(x)) || "Ticket").slice(0, 40);
+}
+async function chatTicket(file) {
+  if (!file) return;
+  CH.vista = "chat";
+  chatDecir("Leyendo el ticket… (la primera vez tarda un poco porque baja el lector)");
+  try {
+    if (!window.Tesseract) await new Promise((ok, mal) => { const s = document.createElement("script"); s.src = TESS; s.onload = ok; s.onerror = mal; document.head.appendChild(s); });
+    const { data } = await window.Tesseract.recognize(file, "spa");
+    const txt = data.text || "", total = leerTotal(txt), tienda = tiendaDe(txt);
+    CH.msgs.push({ de: "yo", texto: `📷 Ticket: ${tienda}${total ? " · " + money(total) : ""}` });
+    CH.d = { intent: "gasto", monto: total, obra: activas().length === 1 ? activas()[0].clave : null, tipo: "material", forma: null, factura: /factura|r\.?f\.?c|cfdi/i.test(txt) ? true : null, fecha: hoy(), concepto: "Material " + tienda, texto: "Ticket " + tienda, explicito: true };
+    if (!total) chatDecir("No alcancé a leer el total. Escríbemelo:");
+    avanzar();
+  } catch (e) { chatDecir("No pude leer el ticket. Escríbeme el gasto y lo anoto."); }
+}
+// --- burbuja movible: se arrastra a cualquier lado y ahí se queda ---
+(function () {
+  let g = null;
+  const pos = () => { try { return JSON.parse(ls.get("nortea_burbuja") || "null"); } catch { return null; } };
+  const poner = (x, y) => { const b = $("#burbuja"), W = innerWidth, H = innerHeight, s = b.offsetWidth || 58; x = Math.max(6, Math.min(W - s - 6, x)); y = Math.max(56, Math.min(H - s - 12, y)); b.style.left = x + "px"; b.style.top = y + "px"; b.style.right = "auto"; b.style.bottom = "auto"; return [x, y]; };
+  const reponer = () => { const p = pos(); if (p) poner(p[0] * innerWidth, p[1] * innerHeight); };
+  reponer(); addEventListener("load", reponer); addEventListener("resize", reponer);
+  document.addEventListener("pointerdown", (e) => {
+    const b = e.target.closest("#burbuja"); if (!b) return;
+    const r = b.getBoundingClientRect(); g = { id: e.pointerId, dx: e.clientX - r.left, dy: e.clientY - r.top, x0: e.clientX, y0: e.clientY, mov: false };
+    try { b.setPointerCapture(e.pointerId); } catch {}
+  });
+  document.addEventListener("pointermove", (e) => {
+    if (!g || e.pointerId !== g.id) return;
+    if (!g.mov && Math.hypot(e.clientX - g.x0, e.clientY - g.y0) < 8) return;
+    g.mov = true; $("#burbuja").classList.add("arrastra"); poner(e.clientX - g.dx, e.clientY - g.dy);
+  });
+  const fin = (e) => {
+    if (!g || e.pointerId !== g.id) return;
+    const s = g; g = null; $("#burbuja").classList.remove("arrastra");
+    if (s.mov) { const [x, y] = poner(e.clientX - s.dx, e.clientY - s.dy); ls.set("nortea_burbuja", JSON.stringify([x / innerWidth, y / innerHeight])); }
+    else if (e.type === "pointerup") chatAbrir();
+  };
+  document.addEventListener("pointerup", fin); document.addEventListener("pointercancel", fin);
+})();
+document.addEventListener("submit", (e) => {
+  if (e.target.id !== "chat-f") return;
+  e.preventDefault(); const i = $("#chat-in"), v = i.value; i.value = ""; chatEnviar(v);
+});
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("[data-chat]"); if (b) { e.stopPropagation(); const v = b.dataset.chat; return /^(ver|undo):/.test(v) ? chatAccion(v) : chatBoton(v); }
+  if (e.target.closest("#chat-x") || e.target.id === "chat-veil") return chatCerrar();
+  if (e.target.closest("#chat-hist")) { CH.vista = CH.vista === "hist" ? "chat" : "hist"; if (CH.vista === "hist") { const i = $("#chat-in"); if (i) i.blur(); } return chatPintar(); }
+  if (e.target.closest("#chat-voz")) return chatVoz();
+  if (e.target.closest("#chat-cam-b")) { const f = $("#chat-cam"); f.value = ""; f.click(); }
+}, true);
+document.addEventListener("change", (e) => { if (e.target.id === "chat-cam") chatTicket(e.target.files && e.target.files[0]); });
+// con el teclado abierto, el chat se sube y se encoge para quedar arriba del teclado
+if (window.visualViewport) {
+  const vv = window.visualViewport, raiz = document.documentElement.style;
+  const ajustar = () => { raiz.setProperty("--kb", Math.max(0, innerHeight - vv.height - vv.offsetTop) + "px"); raiz.setProperty("--vvh", vv.height + "px"); };
+  vv.addEventListener("resize", ajustar); vv.addEventListener("scroll", ajustar); ajustar();
+}
+
+// ============================================================
+// Asistencia (pestaña al final de cada obra), bitácora diaria, avisos del inicio y vista de supervisor (prueba).
+// Gente de la obra: obra.personal = [{id, nombre, puesto, semanal, baja?}]  (se guarda en la obra; sirve con la hoja v1)
+// Asistencia: colección «asistencia», un documento por obra y día: id «<obra>|<AAAA-MM-DD>» → {obra, fecha, presentes: [id]}
+// Bitácora: colección «bitacora» → {obra, fecha, trabajos, incidencias, personal, creado, autor}
+// Las dos colecciones nuevas necesitan la hoja v2 (Datos.soporta).
+// ============================================================
+const puede = (col) => !Datos.soporta || Datos.soporta(col);
+const PUESTOS = { oficial: ["Oficial", 8000], media: ["Media cuchara", 6000], ayudante: ["Ayudante", 4500], otro: ["Otro", 5000] };
+const SEMANALES = [4500, 5000, 5500, 6000, 7000, 8000, 9000];
+const DIAS = ["L", "M", "M", "J", "V", "S"];
+const masDias = (iso, n) => { const d = dFecha(iso); d.setDate(d.getDate() + n); return fmtF(d); };
+const lunesDe = (iso) => masDias(iso, -((dFecha(iso).getDay() + 6) % 7));
+const semanaDe = (lunes) => DIAS.map((_, i) => masDias(lunes, i));
+const asisId = (obra, f) => `${obra}|${f}`;
+const asisDe = (obra, f) => coleccion("asistencia").find((x) => x.id === asisId(obra, f));
+const vino = (a, pid) => !!a && (a.presentes || []).includes(pid);
+// la gente que se ve en una semana: los que no se han ido, o se fueron esa semana o después
+const personalDe = (o, lunes) => (o.personal || []).filter((p) => !lunes || !p.baja || p.baja >= lunes);
+const diaDe = (p) => (Number(p.semanal) || 0) / 6;
+// raya de una semana: lo marcado, y lo estimado si los que faltan van todos los días que quedan hasta el sábado
+function rayaSemana(o, lunes) {
+  lunes = lunes || lunesDe(hoy());
+  const ds = semanaDe(lunes), h = hoy();
+  let marcado = 0, estimado = 0;
+  personalDe(o, lunes).forEach((p) => ds.forEach((f) => {
+    const a = asisDe(o.clave, f);
+    if (vino(a, p.id)) { marcado += diaDe(p); estimado += diaDe(p); }
+    else if ((f > h || (f === h && !a)) && (!p.baja || f <= p.baja)) estimado += diaDe(p);   // hoy sin pasar lista cuenta como que sí van
+  }));
+  return { marcado: round2(marcado), estimado: round2(estimado), dias: ds, lunes };
+}
+function asistenciaHTML(o, c) {
+  const h = hoy(), lunes = S.asis[o.clave] || lunesDe(h), ds = semanaDe(lunes), ps = personalDe(o, lunes), r = rayaSemana(o, lunes);
+  const esta = lunes === lunesDe(h), marca = !ro() && puede("asistencia");
+  let x = `<section class="panel"><h3>Semana del ${diaMes(ds[0])} al ${diaMes(ds[5])}</h3>
+    <div class="sem-nav"><button class="mini press" data-act="asis-sem" data-d="-7">‹ Anterior</button>${esta ? "" : `<button class="mini press" data-act="asis-sem" data-d="0">Esta semana</button>`}<button class="mini press" data-act="asis-sem" data-d="7">Siguiente ›</button></div>`;
+  if (!ps.length) x += `<p class="nota" style="margin:6px 2px 12px">Agrega a la gente de esta obra con su puesto y lo que gana a la semana. Luego marcas quién vino cada día y la app te saca la raya.</p>`;
+  ps.forEach((p) => {
+    let n = 0;
+    const bs = ds.map((f, i) => {
+      const si = vino(asisDe(o.clave, f), p.id); if (si) n++;
+      return `<button class="dia press${si ? " si" : ""}${f === h ? " hoy" : ""}" data-act="asis-m" data-p="${esc(p.id)}" data-f="${f}" aria-pressed="${si}" aria-label="${esc(p.nombre)}, ${diaLargo(f)}"${marca ? "" : " disabled"}><span>${DIAS[i]}</span><small>${si ? "✓" : Number(f.slice(8))}</small></button>`;
+    }).join("");
+    x += `<div class="per"><div class="per-h"><button class="nom press" data-act="pers-editar" data-p="${esc(p.id)}"${ro() ? " disabled" : ""}><b>${esc(p.nombre)}</b><small>${esc((PUESTOS[p.puesto] || PUESTOS.otro)[0])} · ${money0(Number(p.semanal) || 0)} a la semana${p.baja ? ` · se fue el ${diaMes(p.baja)}` : ""}</small></button><span class="per-m num"><small>${nDias(n)}</small>${money0(n * diaDe(p))}</span></div><div class="dias">${bs}</div></div>`;
+  });
+  if (ps.length) {
+    if (marca && esta && ds.includes(h)) x += `<button class="ghost press" data-act="asis-todos" style="margin-top:10px">Vinieron todos hoy</button>`;
+    x += `<div class="tiles t2" style="margin-top:12px"><div class="tile"><span class="lbl">Raya de lo marcado</span><b class="num">${money0(r.marcado)}</b></div>` +
+      (esta ? `<div class="tile"><span class="lbl">Si van todos hasta el sábado</span><b class="num">${money0(r.estimado)}</b></div>` : `<div class="tile"><span class="lbl">Personas</span><b class="num">${ps.length}</b></div>`) + `</div>`;
+    if (esta) {
+      const queda = c.en_caja - r.estimado;
+      x += `<p class="ley1 ${queda < 0 ? "neg" : ""}">${queda < 0 ? `Para la raya del sábado te faltarían ${money0(-queda)} (en caja hay ${money0(c.en_caja)}).` : `Alcanza: después de la raya quedarían ${money0(queda)} en caja.`}</p>`;
+    }
+  }
+  if (!ro()) x += `<div class="bot-row"><button class="ghost press" data-act="pers-nuevo">${IC_PLUS}Agregar persona</button>${marca && r.marcado > 0 ? `<button class="ghost pri press" data-act="asis-raya" data-l="${lunes}">Anotar raya de ${money0(r.marcado)} como gasto</button>` : ""}</div>`;
+  if (!puede("asistencia")) x += `<p class="nota" style="margin-bottom:8px">Para marcar quién vino, actualiza el código de tu hoja de Google (la versión 2 que te mandé). La lista de gente sí se guarda desde ya.</p>`;
+  return x + `</section><p class="nota">El día se paga como lo semanal entre 6 (lunes a sábado). Es opcional: si no la usas, no cambia nada de la obra.</p>`;
+}
+// marcar sale al instante en pantalla (cola) y se sube por detrás
+function asisMarcar(obra, pid, f) {
+  if (ro()) return;
+  if (!puede("asistencia")) { aviso("Para marcar asistencia, actualiza el código de tu hoja."); return; }
+  const a = asisDe(obra, f), pres = new Set((a && a.presentes) || []);
+  if (pres.has(pid)) pres.delete(pid); else pres.add(pid);
+  encolar("set", "asistencia", asisId(obra, f), { obra, fecha: f, presentes: [...pres], actualizado: ahora() });
+  reintentar();
+}
+function asisTodos(obra) {
+  const o = S.obras[obra]; if (!o || ro() || !puede("asistencia")) return;
+  const f = hoy(), a = asisDe(obra, f), pres = new Set((a && a.presentes) || []);
+  personalDe(o, lunesDe(f)).filter((p) => !p.baja).forEach((p) => pres.add(p.id));
+  encolar("set", "asistencia", asisId(obra, f), { obra, fecha: f, presentes: [...pres], actualizado: ahora() });
+  reintentar();
+}
+function abrirPersona(pid) {
+  const o = obraActiva(); if (!o || ro()) return;
+  const p = pid ? (o.personal || []).find((x) => x.id === pid) : null;
+  if (pid && !p) return;
+  const puesto = p ? p.puesto || "otro" : "oficial";
+  mostrarHoja({ mode: "persona", id: pid || null, obra: o.clave, prev: p, pnombre: p ? p.nombre || "" : "", ppuesto: puesto, psem: p ? String(p.semanal || "") : String(PUESTOS[puesto][1]) });
+}
+function hojaPersona() {
+  const b = `<p class="ctx">${esc(nomCorto(S.obras[F.obra]))}</p>
+    <label class="fl" for="pp-nom">Nombre</label><input class="field" id="pp-nom" autocomplete="off" placeholder="Ej. Roberto" value="${esc(F.pnombre)}">
+    <span class="fl">Puesto</span>${chipsHTML("ppuesto", Object.entries(PUESTOS).map(([k, v]) => [k, v[0]]), F.ppuesto)}
+    <span class="fl">Lo que gana a la semana</span>${chipsHTML("psem", SEMANALES.map((v) => [String(v), money0(v)]), F.psem)}
+    <input class="field" id="pp-sem" inputmode="decimal" autocomplete="off" placeholder="Otro monto" aria-label="Sueldo semanal" value="${esc(F.psem)}" style="margin-top:8px">
+    <p class="err" id="pp-err" hidden style="margin-top:10px">Escribe el nombre.</p>`;
+  const vuelve = !!(F.prev && F.prev.baja);
+  return shell(F.id ? "Persona" : "Agregar persona", b, `<button type="button" class="btn main press" data-act="guardar">Guardar</button>${F.id ? `<button type="button" class="btn ${vuelve ? "sec2" : "del"} press" data-act="pers-baja">${vuelve ? "Regresar a la obra" : "Quitar de la obra"}</button>` : ""}`);
+}
+async function guardarPersona() {
+  const o = S.obras[F.obra]; if (!o) return cerrarHoja();
+  const nombre = ($("#pp-nom").value || "").trim();
+  if (!nombre) { $("#pp-err").hidden = false; $("#pp-nom").focus(); return; }
+  const semanal = parseMonto($("#pp-sem").value) || 0, editar = !!F.id, id = F.id || "p" + Date.now().toString(36);
+  const lista = (o.personal || []).slice(), p = { ...(F.prev || {}), id, nombre, puesto: F.ppuesto || "otro", semanal };
+  const i = lista.findIndex((x) => x.id === id); if (i >= 0) lista[i] = p; else lista.push(p);
+  cerrarHoja(true);
+  return updObra(o.clave, { personal: lista }, editar ? "Guardado" : `${nombre} agregado`);
+}
+// quitar: si nunca se le marcó asistencia se borra; si ya trabajó, se le pone fecha de salida y su historial se queda
+async function bajaPersona() {
+  const o = S.obras[F.obra], id = F.id; if (!o || !id) return;
+  const vuelve = !!(F.prev && F.prev.baja), antes = o.personal || [];
+  const marcas = coleccion("asistencia").some((a) => a.obra === o.clave && (a.presentes || []).includes(id));
+  const lista = vuelve ? antes.map((x) => (x.id === id ? { ...x, baja: null } : x)) : marcas ? antes.map((x) => (x.id === id ? { ...x, baja: hoy() } : x)) : antes.filter((x) => x.id !== id);
+  cerrarHoja(true);
+  const r = await updObra(o.clave, { personal: lista }, null);
+  if (r === "ok") aviso(vuelve ? "Regresó a la obra" : "Quitado de la obra", async () => { await updObra(o.clave, { personal: antes }, "Listo, como estaba"); });
+}
+function asisRaya(lunes) {
+  const o = obraActiva(); if (!o || ro()) return;
+  const r = rayaSemana(o, lunes); if (!(r.marcado > 0)) return;
+  const ya = gastosDe(o.clave).filter((g) => g.origen === "asistencia" && g.semana === lunes);
+  const anotar = async () => {
+    const id = Datos.nuevoId("gastos");
+    await guardarDoc("set", "gastos", id, { obra: o.clave, monto: r.marcado, tipo: "trabajadores", concepto: `Raya semana del ${diaMes(r.dias[0])} al ${diaMes(r.dias[5])}`, cuadrilla: null, factura: false, forma: "efectivo", fecha: hoy(), nota: "Calculada con la asistencia", marca: null, resuelto: false, creado: ahora(), origen: "asistencia", semana: lunes },
+      "Raya anotada como gasto", async () => { await escribir("del", "gastos", id); });
+    render();
+  };
+  if (ya.length) return abrirAccion({ titulo: "Ya anotaste la raya de esta semana", texto: `${money(sum(ya, "monto"))} el ${diaMes(ya[0].fecha)}. ¿Anotar otra vez?`, items: [{ t: `Sí, anotar ${money0(r.marcado)} otra vez`, estilo: "pri", fn: anotar }] });
+  abrirAccion({ titulo: `¿Anotar la raya de ${money(r.marcado)}?`, texto: "Se guarda como gasto de trabajadores, en efectivo y con fecha de hoy. Luego lo puedes cambiar en Gastos.", items: [{ t: "Sí, anotar el gasto", estilo: "pri", fn: anotar }] });
+}
+// --- bitácora diaria ---
+const bitDe = (obra) => coleccion("bitacora").filter((x) => x.obra === obra).sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)) || String(b.creado || "").localeCompare(String(a.creado || "")));
+const bitItem = (b) => `<button class="bit press" data-act="bit-editar" data-id="${esc(b.id)}" data-c="${esc(b.obra)}"><small class="num">${esc(diaLargo(b.fecha))}${b.personal ? ` · ${b.personal} ${b.personal > 1 ? "personas" : "persona"}` : ""}</small><b>${esc(b.trabajos || "Sin descripción")}</b>${b.incidencias ? `<span class="inc">⚠ ${esc(b.incidencias)}</span>` : ""}</button>`;
+function bitacoraHTML(o) {
+  const xs = bitDe(o.clave);
+  let x = !ro() && puede("bitacora") ? `<button class="ghost pri press" data-act="bit-nuevo" data-c="${esc(o.clave)}" style="margin-top:12px">${IC_PLUS}Reporte de hoy</button>` : "";
+  if (!puede("bitacora")) x += `<p class="nota">Para guardar la bitácora, actualiza el código de tu hoja de Google (la versión 2 que te mandé).</p>`;
+  x += xs.length ? `<div class="list" style="margin-top:12px">${xs.map(bitItem).join("")}</div>`
+    : `<p class="nota" style="margin-top:14px">Aquí va el reporte de cada día: qué se hizo, cuánta gente fue y si hubo algún problema. Más adelante lo podrían llenar tus supervisores.</p>`;
+  return x;
+}
+function abrirBitacora(id, obra) {
+  const o = S.obras[obra] || obraActiva(); if (!o || ro()) return;
+  let b = id ? coleccion("bitacora").find((x) => x.id === id) : null;
+  if (id && !b) return;
+  if (!b) b = bitDe(o.clave).find((x) => x.fecha === hoy()) || null;   // si hoy ya hay reporte, se abre ese
+  const a = asisDe(o.clave, hoy()), pres = a ? (a.presentes || []).length : "";
+  mostrarHoja({ mode: "bitacora", id: b ? b.id : null, obra: o.clave, prev: b, bfecha: b ? b.fecha : hoy(), btrab: b ? b.trabajos || "" : "", binc: b ? b.incidencias || "" : "", bpers: b ? String(b.personal || "") : String(pres || "") });
+}
+function hojaBitacora() {
+  const b = `<p class="ctx">${esc(nomCorto(S.obras[F.obra]))}</p>
+    <label class="fl" for="b-fecha">Fecha</label><input class="field" id="b-fecha" type="date" value="${esc(F.bfecha)}">
+    <label class="fl" for="b-trab">¿Qué se hizo?</label><textarea class="field" id="b-trab" rows="4" placeholder="Ej. Se terminó el bastidor del muro norte y se forró la primera cara">${esc(F.btrab)}</textarea>
+    <label class="fl" for="b-inc">Problemas, faltantes o cambios (opcional)</label><textarea class="field" id="b-inc" rows="3" placeholder="Ej. Faltó tornillo; el cliente pidió mover la puerta">${esc(F.binc)}</textarea>
+    <label class="fl" for="b-pers">Personas que fueron</label><input class="field" id="b-pers" inputmode="numeric" autocomplete="off" value="${esc(F.bpers)}">
+    <p class="err" id="b-err" hidden style="margin-top:10px">Escribe qué se hizo.</p>`;
+  return shell(F.id ? "Reporte del día" : "Nuevo reporte del día", b, `<button type="button" class="btn main press" data-act="guardar">Guardar</button>${F.id ? `<button type="button" class="btn del press" data-act="bit-borrar">Borrar reporte</button>` : ""}`);
+}
+async function guardarBitacora() {
+  const trabajos = ($("#b-trab").value || "").trim();
+  if (!trabajos) { $("#b-err").hidden = false; $("#b-trab").focus(); return; }
+  const prev = F.prev || {}, nuevo = !F.id, id = F.id || Datos.nuevoId("bitacora");
+  const data = { obra: F.obra, fecha: $("#b-fecha").value || hoy(), trabajos, incidencias: ($("#b-inc").value || "").trim(), personal: Number(String($("#b-pers").value).replace(/\D+/g, "")) || 0,
+    creado: prev.creado || ahora(), actualizado: ahora(), autor: prev.autor || "propietario" };
+  cerrarHoja(true);
+  await guardarDoc("set", "bitacora", id, data, nuevo ? "Reporte guardado" : "Cambios guardados");
+  render();
+}
+// --- avisos del inicio: cobrar, dinero, raya, atrasos y pendientes vencidos ---
+function avisosLista() {
+  const xs = [], h = hoy();
+  activas().forEach((o) => {
+    const nom = nomCorto(o), e = est(o);
+    if (e === "por_empezar") { if (o.inicio && o.inicio <= h) xs.push({ n: 1, o, t: `¿Ya empezó ${nom}? Dale «Iniciar obra» (botón ⋯ de la obra) para que cuente lo que falta cobrar.` }); return; }
+    if (e !== "en_curso") return;
+    const c = calc(o), pz = plazo(o);
+    // ritmo de gasto: lo gastado en las últimas 3 semanas (o desde que empezó, si es menos)
+    const sem = Math.max(1, Math.min(3, o.inicio ? (dias(o.inicio, h) + 1) / 7 : 3));
+    const porSemana = sum(c.gs.filter((g) => g.fecha && g.fecha <= h && dias(g.fecha, h) < sem * 7 && !(g.marca === "por_pagar" && !g.resuelto)), "monto") / sem;
+    const r = (o.personal || []).length ? rayaSemana(o) : null;
+    const alcanza = c.falta_gastar != null && c.falta_gastar <= c.en_caja;
+    if (c.en_caja < 0 && c.falta_cobrar > 0) xs.push({ n: 3, o, t: `Cobra en ${nom}: llevas ${money0(-c.en_caja)} de tu bolsa y faltan ${money0(c.falta_cobrar)} por cobrar.` });
+    else if (r && r.estimado > 0 && r.estimado > c.en_caja) xs.push({ n: 3, o, t: `Raya del sábado en ${nom}: son ~${money0(r.estimado)} y en caja hay ${money0(c.en_caja)}.` });
+    else if (c.falta_cobrar > 0 && porSemana > 0 && c.en_caja < porSemana * 1.5 && !alcanza) xs.push({ n: 2, o, t: `Se acaba el dinero de ${nom}: en caja ${money0(c.en_caja)} y gastas ~${money0(porSemana)} por semana. Pide la siguiente estimación.` });
+    if (pz.late) xs.push({ n: 2, o, t: `${nom} ${pz.texto.toLowerCase()}.` });
+    else if (pz.fin && dias(h, pz.fin) >= 0 && dias(h, pz.fin) <= 3 && c.falta_cobrar > 0) xs.push({ n: 2, o, t: `${nom} se entrega el ${diaMes(pz.fin)} y faltan ${money0(c.falta_cobrar)} por cobrar.` });
+    estimacionesDe(o.clave).filter((x) => x.estado === "lista").forEach((x) => xs.push({ n: 2, o, t: `La ${nEst(x.numero)} de ${nom} está lista: mándala al cliente para cobrarla.` }));
+  });
+  const venc = libresAbiertos().filter((x) => x.fecha && x.fecha <= h);
+  if (venc.length) xs.push({ n: 1, t: venc.length === 1 ? `Pendiente para hoy o atrasado: ${venc[0].texto}` : `${venc.length} pendientes son para hoy o ya se pasaron.` });
+  return xs.sort((a, b) => b.n - a.n);
+}
+const IC_CAMP = SV('<path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>');
+function avisosHomeHTML() {
+  const xs = avisosLista(); if (!xs.length) return "";
+  const k = hoy() + "|" + xs.map((x) => x.t).join("|").length;
+  if (ls.get("nortea_avisos_visto") === k) return `<button class="av-mini press" data-act="avisos-ver">${IC_CAMP}<span>${xs.length} ${xs.length > 1 ? "avisos" : "aviso"}</span></button>`;
+  return `<section class="avisos" aria-label="Avisos"><div class="av-h"><b>${IC_CAMP}Avisos</b><button class="mini press" data-act="avisos-ok" data-k="${esc(k)}">Ya lo vi</button></div>${xs.slice(0, 6).map((x) => `<button class="av-i press${x.n === 3 ? " urge" : ""}" ${x.o ? `data-act="obra" data-c="${esc(x.o.clave)}"` : `data-act="pendientes"`}>${esc(x.t)}</button>`).join("")}</section>`;
+}
+// --- vista de supervisor (prueba): sin dinero; todavía no se habilita para nadie ---
+function pantSup(p) {
+  const nav = navHTML({ back: "Obras", titulo: "Vista de supervisor" });
+  let h = `<h1 class="titulo m">Vista de supervisor</h1><div class="note">Así la verían tus supervisores: sin dinero. Todavía no está habilitada para nadie; es para que la pruebes tú primero.</div>`;
+  const os = activas();
+  if (!os.length) h += `<p class="msg">No hay obras activas.</p>`;
+  os.forEach((o) => {
+    const pz = plazo(o), av = avanceObra(o), bs = bitDe(o.clave).slice(0, 3), pend = libresAbiertos(o.clave), ps = personalDe(o, lunesDe(hoy())).filter((x) => !x.baja), a = asisDe(o.clave, hoy());
+    h += `<section class="panel sup"><h3>${esc(nomCorto(o))}</h3>${plazoBloque(o, pz, true, false)}
+      ${av != null ? `<span class="ley"><span>Avance de la obra</span><span class="num">${fmtPct(av)}</span></span><span class="bar" role="img" aria-label="Avance de la obra"><i style="width:${Math.min(100, av).toFixed(1)}%"></i></span>` : `<p class="nota">Sin estimaciones todavía.</p>`}
+      <span class="fl">Reportes del día</span>${bs.length ? `<div class="list sup-l">${bs.map(bitItem).join("")}</div>` : `<p class="nota" style="margin-top:0">Sin reportes.</p>`}
+      ${puede("bitacora") && !ro() ? `<button class="ghost press" data-act="bit-nuevo" data-c="${esc(o.clave)}">${IC_PLUS}Reporte de hoy</button>` : ""}
+      ${ps.length ? `<span class="fl">¿Quién vino hoy?</span><div class="chips">${ps.map((x) => `<button class="chip press" data-act="sup-asis" data-c="${esc(o.clave)}" data-p="${esc(x.id)}" aria-pressed="${vino(a, x.id)}">${esc(x.nombre)}</button>`).join("")}</div>` : ""}
+      <span class="fl">Pendientes</span>${pend.length ? `<div class="libs">${pend.map((x) => libreHTML(x, false)).join("")}</div>` : `<p class="nota" style="margin:0 0 10px">Nada pendiente.</p>`}
+    </section>`;
+  });
+  setPant(p, nav, h);
+}
+
 // ---------- mantener presionado para confirmar (terminar obra) ----------
 (function () {
   let h = null;
@@ -2215,6 +2864,20 @@ document.addEventListener("click", (e) => {
   else if (a === "pend-editar") abrirPendiente(el.dataset.id, null, F && F.mode === "pend" ? "pend" : null);
   else if (a === "pend-hecho") alternarPendiente(el.dataset.id);
   else if (a === "pend-borrar") { const id = el.dataset.id; cerrarHoja(true); borrarDoc("pendientes", id); }
+  else if (a === "asis-sem") { const o = obraActiva(); if (!o || !p) return; const d = Number(el.dataset.d); S.asis[o.clave] = d === 0 ? lunesDe(hoy()) : masDias(S.asis[o.clave] || lunesDe(hoy()), d); pintarTab(p); }
+  else if (a === "asis-m") { const o = obraActiva(); if (o) asisMarcar(o.clave, el.dataset.p, el.dataset.f); }
+  else if (a === "asis-todos") { const o = obraActiva(); if (o) asisTodos(o.clave); }
+  else if (a === "asis-raya") asisRaya(el.dataset.l);
+  else if (a === "pers-nuevo") abrirPersona(null);
+  else if (a === "pers-editar") abrirPersona(el.dataset.p);
+  else if (a === "pers-baja") bajaPersona();
+  else if (a === "bit-nuevo") abrirBitacora(null, el.dataset.c);
+  else if (a === "bit-editar") abrirBitacora(el.dataset.id, el.dataset.c);
+  else if (a === "bit-borrar") { const id = F && F.id; if (id) abrirAccion({ titulo: "¿Borrar este reporte?", items: [{ t: "Borrar", estilo: "peligro", fn: () => borrarDoc("bitacora", id) }] }); }
+  else if (a === "avisos-ok") { ls.set("nortea_avisos_visto", el.dataset.k); render(); }
+  else if (a === "avisos-ver") { ls.del("nortea_avisos_visto"); render(); }
+  else if (a === "supervisor") ir({ t: "sup" });
+  else if (a === "sup-asis") asisMarcar(el.dataset.c, el.dataset.p, hoy());
   else if (a === "fecha") {
     const o = obraActiva(); if (!o || ro()) return;
     mostrarHoja({ mode: "fecha", obra: o.clave, campo: el.dataset.k, valor: o[el.dataset.k] || "", id: null, saldados: new Set() });
@@ -2273,6 +2936,7 @@ document.addEventListener("input", (e) => {
   else if (id === "f-corto") { F.corto = t.value; validar(); }
   else if (id === "f-nombre") { F.nombre = t.value; validar(); }
   else if (id === "f-costo") { F.costoManual = t.value.trim() !== ""; F.costo = t.value; }
+  else if (id === "pp-sem") { F.psem = String(parseMonto(t.value) || ""); syncChips("psem"); }
 });
 document.addEventListener("focusout", (e) => {
   const t = e.target;
@@ -2281,6 +2945,7 @@ document.addEventListener("focusout", (e) => {
 });
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && F) cerrarHoja();
+  else if (e.key === "Escape" && CH.abierto) chatCerrar();
   if (e.key === "Enter" && F && e.target.id === "f-monto" && (F.mode === "gasto" || F.mode === "pago")) { e.preventDefault(); if (validar()) guardar(); else { const c = $("#f-concepto"); if (c && !F.concepto.trim()) c.focus(); else guardar(); } }
   if (e.key === "Enter" && e.target.id === "costo-in") { e.preventDefault(); guardarCosto(); }
   if (e.key === "Enter" && e.target.matches && e.target.matches(".pct-in input")) { e.preventDefault(); e.target.blur(); }
@@ -2301,6 +2966,7 @@ function render() { if (rtimer) return; rtimer = setTimeout(() => { rtimer = 0; 
 function renderTodo() {
   pila.forEach((p) => { if (p.t !== "est") pintarPant(p); });
   actualizarBar(); refrescarPend();
+  if (CH.abierto && CH.vista === "hist") chatPintar();
 }
 
 // ---------- arranque ----------
@@ -2318,7 +2984,7 @@ async function iniciar() {
   const ini = await Datos.iniciar();
   if (ini.sinCuenta) { S.sinCuenta = true; renderTodo(); return; }
   if (ini.modo === "mock") window.__t = { S, ir, volver, pila: () => pila, ES: () => ES, Datos, conceptosAgrupados, plazo, avanceObra, totalEstimacion };
-  ["obras", "gastos", "pagos", "estimaciones", "pendientes"].forEach((col) => {
+  ["obras", "gastos", "pagos", "estimaciones", "pendientes", "chat", "asistencia", "bitacora"].forEach((col) => {
     Datos.suscribir(col, (m) => {
       S[col] = m;
       const primera = !S.loaded[col]; S.loaded[col] = true;
