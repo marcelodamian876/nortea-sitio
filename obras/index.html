@@ -143,6 +143,24 @@ svg { flex: 0 0 auto; }
 .trio .big { font-size: 17px; }
 .trio .sub { font-size: 11.5px; }
 .big { display: block; font: 700 21px/1.15 var(--f-display); letter-spacing: -0.02em; margin-top: 3px; overflow-wrap: anywhere; }
+.card { --g-gasto: color-mix(in srgb, var(--fg) 55%, var(--panel)); }
+.card .sec2 { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-top: 14px; font-size: 12.5px; color: var(--muted); }
+.card .sec2 b { font: 600 11px/1.2 var(--f-body); text-transform: uppercase; letter-spacing: .09em; flex: 0 0 auto; }
+.card .sec2 .late { color: var(--bad); }
+.card .sep { display: block; height: 1px; background: var(--line); margin-top: 14px; }
+.mbar { display: flex; height: 12px; border-radius: 99px; overflow: hidden; background: var(--chip); margin-top: 8px; }
+.mbar i { display: block; height: 100%; flex: 0 0 auto; }
+.mbar .g { background: var(--g-gasto); }
+.mbar .c { background: var(--ok); }
+.mbar .b { background: var(--bad); }
+.mbar .f { background: repeating-linear-gradient(135deg, transparent 0 5px, color-mix(in srgb, var(--fg) 10%, transparent) 5px 10px); }
+.ley3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
+.ley3 .lbl { display: flex; align-items: center; gap: 6px; font-size: 12.5px; }
+.ley3 .lbl::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--dot); flex: 0 0 auto; }
+.ley3 .falta .lbl::before { background: repeating-linear-gradient(135deg, var(--chip) 0 2px, color-mix(in srgb, var(--fg) 25%, var(--chip)) 2px 4px); }
+.ley3 .big { font-size: 16px; }
+.card .cap { display: block; font-size: 12.5px; color: var(--muted); margin-top: 8px; overflow-wrap: anywhere; }
+.card .ends { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--muted); margin-top: 4px; }
 .util { display: block; margin-top: 10px; font-size: 14px; font-weight: 600; overflow-wrap: anywhere; }
 .linea { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 8px; min-height: 56px; margin-top: 12px; padding: 0 16px; border-radius: 16px; background: var(--panel); font-weight: 600; }
 .linea .n { color: var(--accent-text); }
@@ -332,9 +350,9 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
 .fld { display: block; width: 100%; min-height: 48px; border-radius: 12px; border: 0; background: var(--panel); padding: 12px 14px; }
 
 /* anotar rápido: burbuja y chat */
-.burbuja { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(var(--bar-h) + var(--sab) + 72px); z-index: 30; width: 58px; height: 58px; border-radius: 50%; background: var(--fg); color: var(--bg); display: grid; place-items: center; box-shadow: 0 6px 20px rgba(0, 0, 0, .28), inset 0 0 0 2px var(--accent); touch-action: none; transition: transform 140ms var(--ease); }
+.burbuja { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(var(--bar-h) + var(--sab) + 72px); z-index: 30; width: 58px; height: 58px; border-radius: 50%; background: var(--fg); color: var(--bg); display: grid; place-items: center; box-shadow: 0 6px 20px rgba(0, 0, 0, .28), inset 0 0 0 2px var(--accent); touch-action: none; transition: transform 140ms var(--ease); background: #0b1d2f; }
+.burbuja-logo { display: block; width: 38px; height: 18px; margin-top: 2px; background: var(--logo) center / contain no-repeat; }
 .sin-bar .burbuja { bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); }
-.burbuja svg { width: 26px; height: 26px; }
 .burbuja.arrastra { transform: scale(1.08); box-shadow: 0 10px 28px rgba(0, 0, 0, .35), inset 0 0 0 2px var(--accent); }
 .burbuja[hidden], .chat[hidden], .chat-veil[hidden] { display: none; }
 .chat-veil { position: fixed; inset: 0; z-index: 42; background: var(--scrim); }
@@ -366,6 +384,8 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
 @keyframes pulso { 50% { box-shadow: 0 0 0 8px color-mix(in srgb, var(--bad) 25%, transparent); } }
 .chat-env { flex: 0 0 auto; width: 46px; height: 46px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; }
 .chat-abierto .toast { bottom: auto; top: calc(env(safe-area-inset-top, 0px) + 10px); }
+.chat-abierto .bar-fija { visibility: hidden; }
+.teclado .chat { bottom: calc(var(--kb, 0px) + 6px); height: min(72dvh, calc(var(--vvh, 100dvh) - env(safe-area-inset-top, 0px) - 14px)); }
 
 /* avisos del inicio */
 .avisos { margin-top: 14px; background: var(--warn-bg); border-radius: 18px; padding: 4px 14px 6px; }
@@ -375,6 +395,8 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
 .av-h .mini { min-height: 40px; background: transparent; color: var(--warn); padding: 0 8px; }
 .av-i { display: block; width: 100%; text-align: left; padding: 11px 0; border-top: 1px solid color-mix(in srgb, var(--warn) 22%, transparent); font-size: 14.5px; line-height: 1.4; overflow-wrap: anywhere; }
 .av-i.urge { font-weight: 600; }
+.av-i { will-change: transform; }
+.av-tip { margin: 6px 0 2px; font-size: 12px; color: var(--warn); opacity: .8; }
 .av-i.urge::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--bad); margin-right: 8px; vertical-align: 1px; }
 .av-mini { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; min-height: 40px; padding: 0 14px; border-radius: 999px; background: var(--warn-bg); color: var(--warn); font-weight: 600; font-size: 13.5px; }
 
@@ -388,8 +410,8 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
 .per-h .nom b { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .per-h .nom small, .per-m small { color: var(--muted); font-size: 12px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .per-m { flex: 0 0 auto; text-align: right; font-weight: 700; display: grid; }
-.dias { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
-.dia { min-height: 50px; border-radius: 12px; background: var(--bg); box-shadow: inset 0 0 0 1px var(--line); display: grid; place-items: center; align-content: center; font-weight: 700; font-size: 14px; line-height: 1.15; }
+.dias { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; }
+.dia { min-height: 48px; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; border-radius: 12px; background: var(--bg); box-shadow: inset 0 0 0 1px var(--line); display: grid; place-items: center; align-content: center; font-weight: 700; font-size: 14px; line-height: 1.15; }
 .dia small { font-size: 11.5px; font-weight: 500; color: var(--muted); }
 .dia.hoy { box-shadow: inset 0 0 0 2px var(--accent); }
 .dia.si { background: var(--ok); box-shadow: none; color: #fff; }
@@ -397,6 +419,18 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
 :root[data-theme="dark"] .dia.si { color: #04210f; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .dia.si { color: #04210f; } }
 .dia[disabled] { opacity: .55; }
+.dia.medio { background: linear-gradient(to top, var(--ok) 50%, var(--bg) 50%); box-shadow: inset 0 0 0 1px var(--ok); }
+.dia.medio small { color: #fff; font-weight: 700; }
+:root[data-theme="dark"] .dia.medio small { color: #04210f; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .dia.medio small { color: #04210f; } }
+.dia.dom:not(.si):not(.medio) { background: transparent; }
+.dia.fest { box-shadow: inset 0 0 0 2px var(--accent); }
+.dia.fest:not(.si):not(.medio) small { color: var(--accent-text); }
+.cfg-l { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; padding: 12px 16px; border-radius: 16px; background: var(--panel); text-align: left; }
+.cfg-l span { display: grid; gap: 2px; min-width: 0; }
+.cfg-l b { font-weight: 600; }
+.cfg-l small { color: var(--muted); font-size: 12.5px; overflow-wrap: anywhere; }
+.cfg-l svg { width: 18px; height: 18px; color: var(--muted); flex: 0 0 auto; }
 .bot-row { display: grid; margin-bottom: 8px; }
 
 /* bitácora */
@@ -521,7 +555,7 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
 <div class="veil" id="veil" hidden></div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-t" hidden></div>
 <div class="toast" id="toast" role="status"><span id="toast-t"></span><button id="toast-u" hidden>Deshacer</button></div>
-<button class="burbuja" id="burbuja" type="button" aria-label="Anotar rápido: gasto, ingreso o pendiente" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3.5 20.5l1.4-4.6A8.5 8.5 0 1 1 21 11.5z"/><path d="M12.2 8v7M8.7 11.5h7"/></svg></button>
+<button class="burbuja" id="burbuja" type="button" aria-label="Anotar rápido: gasto, ingreso o pendiente" hidden><i class="burbuja-logo" aria-hidden="true"></i></button>
 <div class="chat-veil" id="chat-veil" hidden></div>
 <section class="chat" id="chat" role="dialog" aria-modal="true" aria-label="Anotar rápido" hidden>
   <div class="chat-h"><b>Anotar rápido</b><button type="button" class="mini press" id="chat-hist" aria-pressed="false">Historial</button><button type="button" class="chat-x press" id="chat-x" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
@@ -1185,7 +1219,7 @@ function pantHome(p) {
   const util = cs.reduce((a, c) => a + (c.utilidad || 0), 0), hayUtil = cs.some((c) => c.utilidad != null);
   h += `<section class="res" aria-label="Resumen general"><div><span class="lbl">En caja</span><span class="cifra num ${enCaja < 0 ? "neg" : ""}">${money0(enCaja)}</span>${enCaja < 0 ? `<span class="sub neg">Llevas puesto de tu bolsa</span>` : `<span class="sub">de obras activas</span>`}</div>
     <div class="col2"><div><span class="lbl">Por cobrar</span><span class="c2 num ${porCobrar < 0 ? "neg" : ""}">${money0(porCobrar)}</span></div><div><span class="lbl">Utilidad estimada</span><span class="c2 num ${util < 0 ? "neg" : ""}">${hayUtil ? money0(util) : "—"}</span></div></div></section>`;
-  if (porPagar || meDeben) h += `<div class="mini-row">${porPagar ? `<span class="pill warn">Le debo <b class="num">${money0(porPagar)}</b></span>` : ""}${meDeben ? `<span class="pill bad">Me deben <b class="num">${money0(meDeben)}</b></span>` : ""}</div>`;
+  if (porPagar || meDeben) h += `<div class="mini-row">${porPagar ? `<button class="pill warn press" data-act="pend-grupo" data-g="por_pagar">Le debo <b class="num">${money0(porPagar)}</b> ›</button>` : ""}${meDeben ? `<button class="pill bad press" data-act="pend-grupo" data-g="me_debe">Me deben <b class="num">${money0(meDeben)}</b> ›</button>` : ""}</div>`;
   h += avisosHomeHTML();
   h += `<h2 class="sec">Obras activas</h2>`;
   h += act.length ? `<div class="cards">${act.map((o, i) => cardHTML(o, cs[i])).join("")}</div>` : `<p class="msg" style="margin:16px 0">No hay obras activas.</p>`;
@@ -1266,27 +1300,53 @@ function plazoBloque(o, pz, conFechas, sinBarra) {
   const f = pz.ini && pz.fin ? `${diaMes(pz.ini)} → ${diaMes(pz.fin)}` : pz.ini ? `Inicio ${diaMes(pz.ini)}` : pz.fin ? `Entrega ${diaMes(pz.fin)}` : "Sin fechas";
   return `<span class="plazo"><b class="num">${f}</b><span class="${pz.late ? "late" : ""}">${esc(pz.texto)}</span></span>${bar}`;
 }
+// ritmo de gasto: lo gastado (sin lo «por pagar») en las últimas 3 semanas, o desde que empezó si es menos
+function ritmoSemanal(o, c) {
+  const h = hoy(), sem = Math.max(1, Math.min(3, o.inicio ? (dias(o.inicio, h) + 1) / 7 : 3));
+  return sum(c.gs.filter((g) => g.fecha && g.fecha <= h && dias(g.fecha, h) < sem * 7 && !(g.marca === "por_pagar" && !g.resuelto)), "monto") / sem;
+}
+function alcanceTxt(enCaja, porSemana) {
+  if (!(enCaja > 0) || !(porSemana > 0)) return "";
+  const d = Math.round(enCaja / porSemana * 7);
+  if (d < 1) return "te alcanza para menos de un día";
+  if (d < 10) return `al ritmo de gasto te alcanza ~${nDias(d)}`;
+  const sem = Math.round(d / 7);
+  return `al ritmo de gasto te alcanza ~${sem} ${sem === 1 ? "semana" : "semanas"}`;
+}
+// El dinero de la obra en una sola barra. Lo largo de la barra es el total de la obra (lo que te van a pagar):
+// lo que ya te pagaron se parte en lo gastado y lo que te sobra (en caja); lo rayado es lo que falta cobrar.
+// Si gastaste más de lo que te han pagado, esa parte sale en rojo (de tu bolsa).
+function dineroHTML(o, c) {
+  const T = Math.max(0, c.te_van_a_pagar), cob = Math.max(0, c.cobrado), gas = Math.max(0, c.gastado);
+  if (!(T > 0) && !(cob > 0) && !(gas > 0)) return "";
+  const base = Math.max(T, cob, gas, 1);
+  const gCob = Math.min(gas, cob), caja = Math.max(0, cob - gas), bolsa = Math.max(0, gas - cob), falta = Math.max(0, T - cob);
+  const w = (v) => `${(v / base * 100).toFixed(2)}%`;
+  const seg = (cls, v) => (v > 0 ? `<i class="${cls}" style="width:${w(v)}"></i>` : "");
+  const barra = `<span class="mbar" role="img" aria-label="De ${money0(T)}: gastado ${money0(gas)}, en caja ${money0(caja)}, falta cobrar ${money0(falta)}">${seg("g", gCob)}${seg("b", bolsa)}${seg("c", caja)}${seg("f", Math.max(0, base - cob - bolsa))}</span>`;
+  const pc = T > 0 ? Math.round(Math.min(1, cob / T) * 100) : 0;
+  const alc = alcanceTxt(caja, ritmoSemanal(o, c));
+  return `<span class="sec2"><b>Dinero de la obra</b><span class="num">Total ${money0(T)}</span></span>${barra}
+    <span class="ley3">
+      <span style="--dot:var(--g-gasto)"><span class="lbl">Gastado</span><span class="big num">${money0(gas)}</span></span>
+      ${bolsa > 0 ? `<span style="--dot:var(--bad)"><span class="lbl">De tu bolsa</span><span class="big num neg">${money0(bolsa)}</span></span>` : `<span style="--dot:var(--ok)"><span class="lbl">En caja</span><span class="big num pos">${money0(caja)}</span></span>`}
+      <span class="falta"><span class="lbl">Falta cobrar</span><span class="big num">${money0(falta)}</span>${est(o) === "por_empezar" ? `<span class="sub">cuenta al iniciar</span>` : ""}</span>
+    </span>
+    <span class="cap num">${cob > T && T > 0 ? `Te pagaron ${money0(cob - T)} de más` : `Te han pagado ${money0(cob)} de ${money0(T)} (${pc} %)`}${alc ? ` · ${alc}` : bolsa > 0 ? " · cobra para reponerlo" : ""}</span>`;
+}
 function cardHTML(o, c) {
   const pz = plazo(o), enCurso = est(o) === "en_curso";
-  const cajaNeg = c.en_caja < 0, cobNeg = c.falta_cobrar < 0;
-  // tiempo: día que va contra la duración total (la barra que ya había, ahora con su leyenda)
-  let tiempo = "";
+  const fechas = pz.ini && pz.fin ? [diaMes(pz.ini), diaMes(pz.fin)] : null;
+  let tiempo;
   if (pz.pct != null && pz.duracion) {
     const dia = Math.min(pz.duracion, Math.max(0, Math.round(pz.pct * pz.duracion)));
-    tiempo = `<span class="ley"><span>Tiempo de obra</span><span class="num">día ${dia} de ${pz.duracion} · ${Math.round(pz.pct * 100)} %</span></span><span class="bar" role="img" aria-label="Tiempo transcurrido"><i class="${pz.late ? "over" : ""}" style="width:${(pz.pct * 100).toFixed(1)}%"></i></span>`;
-  }
-  const pc = c.te_van_a_pagar > 0 ? Math.min(1, Math.max(0, c.cobrado / c.te_van_a_pagar)) : 0;
-  const cobro = c.te_van_a_pagar > 0 ? `<span class="ley"><span>Te han pagado</span><span class="num">${money0(c.cobrado)} · ${Math.round(pc * 100)} %</span></span><span class="bar cobro" role="img" aria-label="Cobrado del total"><i style="width:${(pc * 100).toFixed(1)}%"></i></span>` : "";
+    tiempo = `<span class="sec2"><b>Tiempo</b><span class="num ${pz.late ? "late" : ""}">día ${dia} de ${pz.duracion} · ${esc(pz.texto.toLowerCase())}</span></span><span class="bar" role="img" aria-label="Tiempo transcurrido"><i class="${pz.late ? "over" : ""}" style="width:${(pz.pct * 100).toFixed(1)}%"></i></span>${fechas ? `<span class="ends num"><span>${fechas[0]}</span><span>${fechas[1]}</span></span>` : ""}`;
+  } else tiempo = `<span class="sec2"><b>Tiempo</b><span class="num ${pz.late ? "late" : ""}">${fechas ? `${fechas[0]} → ${fechas[1]} · ` : ""}${esc(pz.texto)}</span></span>`;
   return `<button class="card press ${enCurso ? "activa" : ""}" data-act="obra" data-c="${esc(o.clave)}">
     <span class="card-h"><h3>${esc(nomCorto(o))}</h3><span class="tag ${pz.late ? "late" : enCurso ? "on" : ""}">${pz.late ? "Atrasada" : ESTADO[est(o)] || ""}</span></span>
-    ${plazoBloque(o, pz, false, true)}
+    ${dineroHTML(o, c)}
+    <span class="sep"></span>
     ${tiempo}
-    <span class="trio">
-      <span><span class="lbl">En caja</span><span class="big num ${cajaNeg ? "neg" : ""}">${money0(c.en_caja)}</span>${cajaNeg ? `<span class="sub neg">De tu bolsa</span>` : ""}</span>
-      <span><span class="lbl">Falta cobrar</span><span class="big num ${cobNeg ? "neg" : ""}">${money0(Math.abs(c.falta_cobrar))}</span>${cobNeg ? `<span class="sub neg">Te pagaron de más</span>` : est(o) === "por_empezar" ? `<span class="sub">Cuenta al iniciar</span>` : ""}</span>
-      <span><span class="lbl">Total de la obra</span><span class="big num">${money0(c.te_van_a_pagar)}</span><span class="sub">con IVA</span></span>
-    </span>
-    ${cobro}
     <span class="util num ${c.utilidad != null && c.utilidad < 0 ? "neg" : ""}">${c.utilidad == null ? "Utilidad estimada: falta el costo" : `Utilidad estimada ${money0(c.utilidad)} · ${pctTxt(c.pct)}`}</span>
   </button>`;
 }
@@ -1649,6 +1709,7 @@ function hojaHTML() {
   if (m === "pendiente") return hojaPendiente();
   if (m === "persona") return hojaPersona();
   if (m === "bitacora") return hojaBitacora();
+  if (m === "asiscfg") return hojaCfgAsis();
   return shell("Ponla en tu celular", instalarHTML(), `<button type="button" class="btn main press" data-act="cerrar">Listo</button>`);
 }
 // confirmaciones y menús: hoja chica con botones grandes
@@ -1671,7 +1732,7 @@ function hojaPend() {
   }
   if (ps.length) ["me_debe", "por_pagar", "por_recuperar"].forEach((m) => {
     const g = ps.filter((x) => x.marca === m); if (!g.length) return;
-    b += `<div class="pgrp">${MARCAS[m]} · ${money0(sum(g, "monto"))}</div>` + g.map((x) => `<div class="pit"><button class="t press" data-act="edit-gasto-p" data-id="${esc(x.id)}"><b>${esc(conceptoDe(x))}</b><small>${esc(nomCorto(S.obras[x.obra]))} · ${diaMes(x.fecha)}</small></button><span class="m num">${money(x.monto)}</span><button class="mini ok press" data-act="saldar-p" data-id="${esc(x.id)}">Saldar</button></div>`).join("");
+    b += `<div class="pgrp" id="pg-${m}">${MARCAS[m]} · ${money0(sum(g, "monto"))}</div>` + g.map((x) => `<div class="pit"><button class="t press" data-act="edit-gasto-p" data-id="${esc(x.id)}"><b>${esc(conceptoDe(x))}</b><small>${esc(nomCorto(S.obras[x.obra]))} · ${diaMes(x.fecha)}</small></button><span class="m num">${money(x.monto)}</span><button class="mini ok press" data-act="saldar-p" data-id="${esc(x.id)}">Saldar</button></div>`).join("");
   });
   const hechos = libres().filter((x) => x.hecho).sort((a, b) => String(b.hecho_fecha || "").localeCompare(String(a.hecho_fecha || ""))).slice(0, 8);
   if (hechos.length) b += `<div class="pgrp">Hechos hace poco</div><div class="libs">${hechos.map((x) => libreHTML(x, true)).join("")}</div>`;
@@ -1934,6 +1995,7 @@ async function guardar() {
   if (m === "pendiente") return guardarPendiente();
   if (m === "persona") return guardarPersona();
   if (m === "bitacora") return guardarBitacora();
+  if (m === "asiscfg") return guardarCfgAsis();
   if (m === "fecha") { const campo = F.campo, obra = F.obra, v = $("#f-fecha2").value || null; cerrarHoja(); return updObra(obra, { [campo]: v }, "Fecha guardada"); }
 }
 async function guardarGP() {
@@ -2344,15 +2406,20 @@ function chatResumen(d) {
   const fac = d.intent === "gasto" ? (facturaDe(d) ? " · con factura" : " · sin factura") : "";
   return `${d.intent === "pago" ? "Ingreso" : "Gasto"} de ${money(d.monto || 0)} · ${d.concepto || (d.intent === "pago" ? "Pago del cliente" : TIPO_LBL[d.tipo] || "Gasto")} · ${o}${d.tipo ? " · " + (TIPO_LBL[d.tipo] || d.tipo) : ""}${forma ? " · " + forma : ""}${fac}${d.fecha !== hoy() ? " · " + diaMes(d.fecha) : ""}`;
 }
-function chatDecir(texto, botones, extra) { CH.msgs.push({ de: "app", texto, botones: botones || null, ...extra }); if (CH.msgs.length > 80) CH.msgs.splice(0, CH.msgs.length - 80); chatPintar(); }
+function chatDecir(texto, botones, extra) {
+  const u = CH.msgs[CH.msgs.length - 1];
+  if (u && u.de === "app" && u.texto === texto && !botones) return chatPintar();
+  CH.msgs.push({ de: "app", texto, botones: botones || null, ...extra }); if (CH.msgs.length > 80) CH.msgs.splice(0, CH.msgs.length - 80); chatPintar();
+}
+const CANC = ["cancelar", "Cancelar"];
 function preguntar(k) {
   const d = CH.d; CH.espera = k;
-  if (k === "intent") return chatDecir("¿Qué quieres anotar?", [["i:gasto", "Gasto"], ["i:pago", "Ingreso"], ["i:pendiente", "Pendiente"], ["i:claude", "Guardarlo para Claude"]]);
-  if (k === "monto") return chatDecir("¿De cuánto fue?", null);
-  if (k === "concepto") return chatDecir(d.intent === "pendiente" ? "¿Qué hay que hacer o comprar?" : "¿Qué fue? (por ejemplo «cemento y arena»)", null);
-  if (k === "obra") return chatDecir("¿De qué obra?", [...activas().map((o) => ["o:" + o.clave, nomCorto(o)]), ...(d.intent === "pendiente" ? [["o:", "General"]] : [])]);
-  if (k === "tipo") return chatDecir("¿Qué fue?", Object.entries(TIPO_LBL).map(([v, t]) => ["t:" + v, t]));
-  if (k === "forma") return chatDecir(d.intent === "pago" ? "¿Cómo te pagaron?" : "¿Cómo lo pagaste?", Object.entries(d.intent === "pago" ? FORMAS_P : FORMAS_G).map(([v, t]) => ["f:" + v, t]));
+  if (k === "intent") return chatDecir("¿Qué quieres anotar?", [["i:gasto", "Gasto"], ["i:pago", "Ingreso"], ["i:pendiente", "Pendiente"], ["i:claude", "Guardarlo para Claude"], CANC]);
+  if (k === "monto") return chatDecir("¿De cuánto fue?", [CANC]);
+  if (k === "concepto") return chatDecir(d.intent === "pendiente" ? "¿Qué hay que hacer o comprar?" : "¿Qué fue? (por ejemplo «cemento y arena»)", [CANC]);
+  if (k === "obra") return chatDecir("¿De qué obra?", [...activas().map((o) => ["o:" + o.clave, nomCorto(o)]), ...(d.intent === "pendiente" ? [["o:", "General"]] : []), CANC]);
+  if (k === "tipo") return chatDecir("¿Qué fue?", [...Object.entries(TIPO_LBL).map(([v, t]) => ["t:" + v, t]), CANC]);
+  if (k === "forma") return chatDecir(d.intent === "pago" ? "¿Cómo te pagaron?" : "¿Cómo lo pagaste?", [...Object.entries(d.intent === "pago" ? FORMAS_P : FORMAS_G).map(([v, t]) => ["f:" + v, t]), CANC]);
 }
 function avanzar() {
   const d = CH.d; if (!d) return;
@@ -2368,15 +2435,46 @@ function cambiarCon(x) {
   if (x.fecha !== hoy()) CH.d.fecha = x.fecha;
   if (x.concepto && !x.monto && !x.obra && !x.forma) CH.d.concepto = x.concepto;
 }
-function chatEnviar(texto) {
+// Órdenes que entiende sin importar lo que esté preguntando
+const ORD_CANCELAR = /\b(ignora(lo|la)?|ignorar|olvida(lo|la)?|olvidate|cancela(lo|la)?|cancelar|no (lo )?guardes|es (solo |nomas |nada mas )?(una )?prueba|era (una )?prueba|estoy probando|dejalo asi|mejor no|no anotes)\b/;
+const ORD_CORTA = /^(no|nada|ninguno|ninguna|prueba|ya no|asi no|dejalo)$/;
+const ORD_QUITAR = /\b(quita(lo|la|r)?|borra(lo|la|r)?|elimina(lo|la|r)?|deshaz(lo|la)?|deshacer|anula(lo|la)?|me equivoque|estuvo mal|esta mal anotado)\b/;
+const ORD_SI = /^(si|ok|okay|va|dale|sale|guardalo|guardala|guarda|correcto|esta bien|asi esta bien|perfecto|listo|eso)$/;
+const ORD_AYUDA = /^(ayuda|que puedes hacer|que sabes hacer|como funciona|como se usa|que haces)\b/;
+const sinPuntos = (n) => n.replace(/[¿?¡!.,;:]+/g, " ").replace(/\s+/g, " ").trim();
+async function chatOrden(n, x) {
+  const t = sinPuntos(n), hayVerbo = x.explicito && x.intent;
+  if (ORD_AYUDA.test(t)) { chatDecir("Dime qué pasó y lo anoto. Por ejemplo: «me gasté 1,500 en cemento para Escobedo en efectivo», «me pagaron 20 mil de NorthPass» o «pendiente: pedir la puerta». Si algo sale mal dime «cancela» o «quítalo»; en Historial ves y deshaces lo anotado."); return true; }
+  if (/^(hola|buenas|buenos dias|buenas tardes|buenas noches|que tal)\b/.test(t) && !x.monto) { chatDecir("¡Hola! Dime qué anoto: un gasto, un ingreso o un pendiente."); return true; }
+  if (/^(gracias|muchas gracias|grax|ok gracias)\b/.test(t)) { chatDecir("¡Para servirte!"); return true; }
+  if (/^historial$/.test(t)) { CH.vista = "hist"; chatPintar(); return true; }
+  // «sí» con la tarjeta de guardar abierta
+  if (CH.d && !CH.espera && ORD_SI.test(t)) { await chatGuardar(); return true; }
+  // cancelar lo que va a medias (o «no» con la tarjeta abierta)
+  if (!hayVerbo && !x.monto && (ORD_CANCELAR.test(t) || ORD_CORTA.test(t) || (CH.d && ORD_QUITAR.test(t)))) {
+    const habia = !!CH.d; CH.d = null; CH.espera = null;
+    chatDecir(habia ? "Va, lo quité. No guardé nada." : "Va, no anoto nada.");
+    return true;
+  }
+  // «quítalo / bórralo» sin nada a medias: quita lo último que se guardó desde aquí
+  if (!CH.d && !hayVerbo && ORD_QUITAR.test(t) && !x.monto) {
+    const u = CH.ultimo;
+    if (u && coleccion(u.col).some((y) => y.id === u.id)) { await chatAccion("undo:" + u.col + ":" + u.id); return true; }
+    chatDecir("No tengo nada reciente que quitar desde aquí. En Historial puedes deshacer lo que anotaste antes.", [["hist", "Ver historial"]]);
+    return true;
+  }
+  return false;
+}
+async function chatEnviar(texto) {
   texto = String(texto || "").trim(); if (!texto) return;
   CH.msgs.push({ de: "yo", texto }); CH.vista = "chat";
   const n = norm(texto), x = interpretar(texto);
+  if (await chatOrden(n, x)) return;
   if (CH.d && CH.espera) {
     const k = CH.espera;
     // si a media pregunta dicta otro movimiento completo, se empieza de nuevo con ese
     if (x.explicito && x.intent && (x.monto || x.intent === "pendiente") && !["monto", "concepto", "cambiar"].includes(k)) { CH.d = x; if (x.intent === "pendiente" && x.obra === null) CH.d.obra = ""; chatDecir("Dejé lo anterior sin guardar. Vamos con este:"); return avanzar(); }
-    if (k === "monto") { const v = montoDe(n); if (v) CH.d.monto = v; else { chatDecir("No le entendí al monto. Escríbelo con número, por ejemplo 1500."); return; } }
+    if (k === "monto") { const v = montoDe(n); if (v) CH.d.monto = v; else { chatDecir("¿De cuánto fue? Escribe el número (por ejemplo 1500), o dime «cancela».", [CANC]); return; } }
     else if (k === "concepto") CH.d.concepto = texto;
     else if (k === "obra") { const o = obraDe(n); if (o) CH.d.obra = o; else if (CH.d.intent === "pendiente" && /general/.test(n)) CH.d.obra = ""; else { chatDecir("No encontré esa obra. Elige una:"); return preguntar("obra"); } }
     else if (k === "intent") { if (x.intent) { CH.d.intent = x.intent; if (x.intent === "pendiente") { CH.d.obra = CH.d.obra || ""; CH.d.concepto = CH.d.concepto || CH.d.texto; } } }
@@ -2394,7 +2492,8 @@ function chatEnviar(texto) {
 }
 async function chatBoton(v) {
   const d = CH.d;
-  if (v === "cancelar") { CH.d = null; CH.espera = null; return chatDecir("Listo, no guardé nada."); }
+  if (v === "cancelar") { CH.msgs.push({ de: "yo", texto: "Cancelar" }); CH.d = null; CH.espera = null; return chatDecir("Listo, no guardé nada."); }
+  if (v === "hist") { CH.vista = "hist"; return chatPintar(); }
   if (!d) return;
   if (v === "cambiar") { CH.espera = "cambiar"; return chatDecir("Dime qué cambio (por ejemplo «fueron 1,800», «en efectivo» o «de NorthPass»), o elige:", [["c:monto", "Monto"], ["c:obra", "Obra"], ...(d.intent === "gasto" ? [["c:tipo", "Tipo"], ["c:factura", facturaDe(d) ? "Sin factura" : "Con factura"]] : []), ...(d.intent !== "pendiente" ? [["c:forma", "Forma de pago"]] : []), ["c:concepto", "Concepto"]]); }
   const [k, val] = v.includes(":") ? [v.slice(0, v.indexOf(":")), v.slice(v.indexOf(":") + 1)] : [v, ""];
@@ -2437,6 +2536,7 @@ async function chatGuardar() {
   CH.d = null; CH.espera = null;
   const r = await guardarDoc("set", col, id, data, "Guardado desde el chat");
   if (r === "ok" || r === "sin_senal") {
+    CH.ultimo = { col, id };
     await chatLog(Datos.nuevoId("chat"), { texto: d.texto, resumen, col, doc: id, estado: "guardado" });
     chatDecir("Listo ✓ " + resumen + (r === "sin_senal" ? " (sin señal: se sube solo cuando vuelva)" : ""), [["ver:" + col + ":" + id, "Ver"], ["undo:" + col + ":" + id, "Deshacer"]]);
     render();
@@ -2450,7 +2550,8 @@ async function chatAccion(v) {
     const lg = chLogs().find((x) => x.doc === id);
     await borrarDoc(col, id);
     if (lg) await chatLog(lg.id, { estado: "deshecho" }, "update");
-    chatDecir("Deshecho: ya no está anotado."); render();
+    if (CH.ultimo && CH.ultimo.id === id) CH.ultimo = null;
+    chatDecir("Listo, lo quité: ya no está anotado."); render();
   }
 }
 function chatHistorialHTML() {
@@ -2483,22 +2584,35 @@ function chatCerrar() {
   if (!CH.abierto) return;
   CH.abierto = false; $("#chat").hidden = true; $("#chat-veil").hidden = true; document.body.classList.remove("chat-abierto");
   const i = $("#chat-in"); if (i) i.blur();
-  if (reco) reco.stop();
+  if (reco) { try { reco.abort(); } catch {} reco = null; const b = $("#chat-voz"); if (b) b.classList.remove("rec"); }
   actualizarBar();
 }
 // --- dictado (si el navegador lo trae; si no, el micrófono del teclado) ---
-let reco = null;
+let reco = null, recoT = 0, vozFalla = 0;
+const VOZ_TECLADO = "Usa el micrófono del teclado 🎤 (abajo a la derecha) y dale enviar.";
 function chatVoz() {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition, inp = $("#chat-in"), b = $("#chat-voz");
-  if (!SR) { inp.focus(); return chatDecir("Toca el micrófono del teclado 🎤 y dicta; luego dale Enviar."); }
-  if (reco) { reco.stop(); return; }
-  reco = new SR(); reco.lang = "es-MX"; reco.interimResults = true; reco.continuous = false;
-  let fin = "";
-  reco.onresult = (e) => { let t = ""; for (const r of e.results) { t += r[0].transcript; if (r.isFinal) fin = t; } inp.value = t; };
-  reco.onend = () => { b.classList.remove("rec"); reco = null; const t = (fin || inp.value).trim(); if (t) { inp.value = ""; chatEnviar(t); } };
-  reco.onerror = (e) => { b.classList.remove("rec"); reco = null; if (e && e.error === "no-speech") return; inp.focus(); chatDecir("No pude usar el micrófono aquí. Usa el micrófono del teclado 🎤."); };
+  if (!SR || vozFalla >= 2) { inp.focus(); return chatDecir(VOZ_TECLADO); }
+  if (reco) {   // si ya está escuchando, este toque lo detiene; si se quedó trabado, se reinicia
+    if (Date.now() - recoT < 15000) { try { reco.stop(); } catch {} return; }
+    try { reco.abort(); } catch {} reco = null; b.classList.remove("rec");
+  }
+  const r = new SR(); reco = r; recoT = Date.now();
+  r.lang = "es-MX"; r.interimResults = true; r.continuous = false; r.maxAlternatives = 1;
+  let fin = "", parcial = "";
+  r.onresult = (e) => { let t = ""; const rs = [...e.results]; rs.forEach((x) => { t += x[0].transcript; }); parcial = t; if (rs.every((x) => x.isFinal)) fin = t; inp.value = t; };
+  r.onend = () => { if (reco !== r) return; b.classList.remove("rec"); reco = null; const t = (fin || parcial).trim(); if (t) { inp.value = ""; vozFalla = 0; chatEnviar(t); } };
+  r.onerror = (e) => {
+    if (reco !== r) return;
+    b.classList.remove("rec"); reco = null;
+    const err = e && e.error;
+    if (err === "no-speech" || err === "aborted") return;
+    vozFalla++; inp.focus();
+    chatDecir(err === "not-allowed" || err === "service-not-allowed" ? "El teléfono no me dejó usar el micrófono. " + VOZ_TECLADO : "Se cortó el micrófono. Vuelve a tocarlo, o " + VOZ_TECLADO.charAt(0).toLowerCase() + VOZ_TECLADO.slice(1));
+  };
   b.classList.add("rec");
-  try { reco.start(); } catch { b.classList.remove("rec"); reco = null; inp.focus(); }
+  try { r.start(); } catch { b.classList.remove("rec"); reco = null; vozFalla++; inp.focus(); return chatDecir(VOZ_TECLADO); }
+  setTimeout(() => { if (reco === r) { try { r.stop(); } catch {} } }, 12000);   // que no se quede escuchando para siempre
 }
 // --- leer ticket con la cámara (prueba): la foto no se guarda en ningún lado; el texto se lee en el teléfono ---
 const TESS = "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js";
@@ -2567,10 +2681,22 @@ document.addEventListener("click", (e) => {
 }, true);
 document.addEventListener("change", (e) => { if (e.target.id === "chat-cam") chatTicket(e.target.files && e.target.files[0]); });
 // con el teclado abierto, el chat se sube y se encoge para quedar arriba del teclado
+// En el iPhone instalado, al abrir el teclado a veces se encoge toda la pantalla y a veces no: se mide contra el alto
+// sin teclado, y con el teclado abierto ya no se suma el espacio de la barra de inicio (eso dejaba un hueco).
 if (window.visualViewport) {
-  const vv = window.visualViewport, raiz = document.documentElement.style;
-  const ajustar = () => { raiz.setProperty("--kb", Math.max(0, innerHeight - vv.height - vv.offsetTop) + "px"); raiz.setProperty("--vvh", vv.height + "px"); };
-  vv.addEventListener("resize", ajustar); vv.addEventListener("scroll", ajustar); ajustar();
+  const vv = window.visualViewport, raiz = document.documentElement;
+  let altoMax = 0;
+  const ajustar = () => {
+    const a = document.activeElement, escribiendo = a && /^(INPUT|TEXTAREA)$/.test(a.tagName);
+    if (!escribiendo || !altoMax) altoMax = Math.max(altoMax, innerHeight, vv.height);
+    raiz.classList.toggle("teclado", escribiendo && altoMax - vv.height > 120);
+    raiz.style.setProperty("--kb", Math.max(0, innerHeight - vv.height - vv.offsetTop) + "px");
+    raiz.style.setProperty("--vvh", vv.height + "px");
+  };
+  vv.addEventListener("resize", ajustar); vv.addEventListener("scroll", ajustar);
+  addEventListener("orientationchange", () => { altoMax = 0; setTimeout(ajustar, 350); });
+  document.addEventListener("focusin", () => setTimeout(ajustar, 50)); document.addEventListener("focusout", () => setTimeout(ajustar, 50));
+  ajustar();
 }
 
 // ============================================================
@@ -2583,41 +2709,71 @@ if (window.visualViewport) {
 const puede = (col) => !Datos.soporta || Datos.soporta(col);
 const PUESTOS = { oficial: ["Oficial", 8000], media: ["Media cuchara", 6000], ayudante: ["Ayudante", 4500], otro: ["Otro", 5000] };
 const SEMANALES = [4500, 5000, 5500, 6000, 7000, 8000, 9000];
-const DIAS = ["L", "M", "M", "J", "V", "S"];
+const DIAS = ["L", "M", "M", "J", "V", "S", "D"];
 const masDias = (iso, n) => { const d = dFecha(iso); d.setDate(d.getDate() + n); return fmtF(d); };
 const lunesDe = (iso) => masDias(iso, -((dFecha(iso).getDay() + 6) % 7));
 const semanaDe = (lunes) => DIAS.map((_, i) => masDias(lunes, i));
 const asisId = (obra, f) => `${obra}|${f}`;
 const asisDe = (obra, f) => coleccion("asistencia").find((x) => x.id === asisId(obra, f));
-const vino = (a, pid) => !!a && (a.presentes || []).includes(pid);
+// cómo se paga (por obra, en obra.asis_cfg): el sábado completo o medio, domingo y festivo con su multiplicador,
+// si el festivo se paga aunque no vayan, y cuántas horas es un día completo (para marcar horas sueltas)
+const ASIS_DEF = { sabado: 1, domingo: 2, festivo: 2, festivo_libre: false, horas: 9, festivos: [] };
+const cfgAsis = (o) => { const c = (o && o.asis_cfg) || {}; return { ...ASIS_DEF, ...c, festivos: Array.isArray(c.festivos) ? c.festivos : [] }; };
+// lo que trabajó alguien ese día: 1 completo, 0.5 medio día, 2/9 dos horas… (los registros viejos solo traen «presentes»)
+const marcaDe = (a, pid) => { if (!a) return 0; if (a.marcas && a.marcas[pid] != null) return Number(a.marcas[pid]) || 0; return (a.presentes || []).includes(pid) ? 1 : 0; };
+const vino = (a, pid) => marcaDe(a, pid) > 0;
 // la gente que se ve en una semana: los que no se han ido, o se fueron esa semana o después
 const personalDe = (o, lunes) => (o.personal || []).filter((p) => !lunes || !p.baja || p.baja >= lunes);
-const diaDe = (p) => (Number(p.semanal) || 0) / 6;
-// raya de una semana: lo marcado, y lo estimado si los que faltan van todos los días que quedan hasta el sábado
+// un día de pago = lo semanal entre los días de una semana normal: lunes a viernes, más el sábado completo o medio
+const diaDe = (p, cfg) => (Number(p.semanal) || 0) / (5 + (cfg || ASIS_DEF).sabado);
+const baseDia = (i, cfg) => (i === 5 ? cfg.sabado : 1);                                          // el sábado vale lo que diga la configuración
+const multDia = (f, i, cfg) => (cfg.festivos.includes(f) ? cfg.festivo : i === 6 ? cfg.domingo : 1);   // domingo y festivo, con su multiplicador
+const fmtDias = (d) => {
+  if (Math.abs(d - Math.round(d)) < 0.01) return nDias(Math.round(d));
+  if (Math.abs(d * 2 - Math.round(d * 2)) < 0.01) return `${Math.floor(d) || ""}½ ${d < 1 ? "día" : "días"}`;
+  return `${N1.format(d)} días`;
+};
+// raya de una semana: lo marcado (con medios días, horas, domingo y festivos) y lo estimado si los que faltan
+// van completos todos los días que quedan hasta el sábado (el domingo y los festivos no se suponen)
 function rayaSemana(o, lunes) {
   lunes = lunes || lunesDe(hoy());
-  const ds = semanaDe(lunes), h = hoy();
+  const cfg = cfgAsis(o), ds = semanaDe(lunes), h = hoy(), por = {};
   let marcado = 0, estimado = 0;
-  personalDe(o, lunes).forEach((p) => ds.forEach((f) => {
-    const a = asisDe(o.clave, f);
-    if (vino(a, p.id)) { marcado += diaDe(p); estimado += diaDe(p); }
-    else if ((f > h || (f === h && !a)) && (!p.baja || f <= p.baja)) estimado += diaDe(p);   // hoy sin pasar lista cuenta como que sí van
-  }));
-  return { marcado: round2(marcado), estimado: round2(estimado), dias: ds, lunes };
+  personalDe(o, lunes).forEach((p) => {
+    const dia = diaDe(p, cfg);
+    let dinero = 0, nd = 0;
+    ds.forEach((f, i) => {
+      if (p.baja && f > p.baja) return;
+      const a = asisDe(o.clave, f), x = marcaDe(a, p.id), fest = cfg.festivos.includes(f);
+      const libre = !x && fest && cfg.festivo_libre && i < 6;   // festivo que no se trabaja pero se paga
+      const v = libre ? dia * baseDia(i, cfg) : x * dia * baseDia(i, cfg) * multDia(f, i, cfg);
+      if (x || (libre && f <= h)) dinero += v;
+      nd += x;
+      if (x || libre) estimado += v;
+      else if (i < 6 && !fest && (f > h || (f === h && !a))) estimado += dia * baseDia(i, cfg);
+    });
+    marcado += dinero; por[p.id] = { dinero, dias: nd };
+  });
+  return { marcado: round2(marcado), estimado: round2(estimado), dias: ds, lunes, por, cfg };
+}
+function cfgTxt(cfg) {
+  const m = { 1: "normal", 1.5: "× 1.5", 2: "doble", 3: "triple" };
+  return `Sábado ${cfg.sabado === 1 ? "completo" : "medio día"} · domingo ${m[cfg.domingo] || "× " + cfg.domingo} · festivo ${m[cfg.festivo] || "× " + cfg.festivo}${cfg.festivo_libre ? " (y se paga aunque no vayan)" : ""}`;
 }
 function asistenciaHTML(o, c) {
-  const h = hoy(), lunes = S.asis[o.clave] || lunesDe(h), ds = semanaDe(lunes), ps = personalDe(o, lunes), r = rayaSemana(o, lunes);
+  const h = hoy(), lunes = S.asis[o.clave] || lunesDe(h), ds = semanaDe(lunes), ps = personalDe(o, lunes), r = rayaSemana(o, lunes), cfg = r.cfg;
   const esta = lunes === lunesDe(h), marca = !ro() && puede("asistencia");
-  let x = `<section class="panel"><h3>Semana del ${diaMes(ds[0])} al ${diaMes(ds[5])}</h3>
+  let x = `<section class="panel"><h3>Semana del ${diaMes(ds[0])} al ${diaMes(ds[6])}</h3>
     <div class="sem-nav"><button class="mini press" data-act="asis-sem" data-d="-7">‹ Anterior</button>${esta ? "" : `<button class="mini press" data-act="asis-sem" data-d="0">Esta semana</button>`}<button class="mini press" data-act="asis-sem" data-d="7">Siguiente ›</button></div>`;
   if (!ps.length) x += `<p class="nota" style="margin:6px 2px 12px">Agrega a la gente de esta obra con su puesto y lo que gana a la semana. Luego marcas quién vino cada día y la app te saca la raya.</p>`;
   ps.forEach((p) => {
-    let n = 0;
     const bs = ds.map((f, i) => {
-      const si = vino(asisDe(o.clave, f), p.id); if (si) n++;
-      return `<button class="dia press${si ? " si" : ""}${f === h ? " hoy" : ""}" data-act="asis-m" data-p="${esc(p.id)}" data-f="${f}" aria-pressed="${si}" aria-label="${esc(p.nombre)}, ${diaLargo(f)}"${marca ? "" : " disabled"}><span>${DIAS[i]}</span><small>${si ? "✓" : Number(f.slice(8))}</small></button>`;
+      const v = marcaDe(asisDe(o.clave, f), p.id), fest = cfg.festivos.includes(f);
+      const cls = v >= 1 ? " si" : v > 0 ? " medio" : "", txt = v >= 1 ? (v > 1 ? "1½" : "✓") : v === 0.5 ? "½" : v > 0 ? `${Math.round(v * cfg.horas)} h` : fest ? "fest." : String(Number(f.slice(8)));
+      return `<button class="dia press${cls}${f === h ? " hoy" : ""}${i === 6 ? " dom" : ""}${fest ? " fest" : ""}" data-act="asis-m" data-p="${esc(p.id)}" data-f="${f}" aria-label="${esc(p.nombre)}, ${diaLargo(f)}: ${v >= 1 ? "vino" : v > 0 ? "vino un rato" : "no vino"}"${marca ? "" : " disabled"}><span>${DIAS[i]}</span><small>${txt}</small></button>`;
     }).join("");
-    x += `<div class="per"><div class="per-h"><button class="nom press" data-act="pers-editar" data-p="${esc(p.id)}"${ro() ? " disabled" : ""}><b>${esc(p.nombre)}</b><small>${esc((PUESTOS[p.puesto] || PUESTOS.otro)[0])} · ${money0(Number(p.semanal) || 0)} a la semana${p.baja ? ` · se fue el ${diaMes(p.baja)}` : ""}</small></button><span class="per-m num"><small>${nDias(n)}</small>${money0(n * diaDe(p))}</span></div><div class="dias">${bs}</div></div>`;
+    const rp = r.por[p.id] || { dinero: 0, dias: 0 };
+    x += `<div class="per"><div class="per-h"><button class="nom press" data-act="pers-editar" data-p="${esc(p.id)}"${ro() ? " disabled" : ""}><b>${esc(p.nombre)}</b><small>${esc((PUESTOS[p.puesto] || PUESTOS.otro)[0])} · ${money0(Number(p.semanal) || 0)} a la semana${p.baja ? ` · se fue el ${diaMes(p.baja)}` : ""}</small></button><span class="per-m num"><small>${fmtDias(rp.dias)}</small>${money0(rp.dinero)}</span></div><div class="dias">${bs}</div></div>`;
   });
   if (ps.length) {
     if (marca && esta && ds.includes(h)) x += `<button class="ghost press" data-act="asis-todos" style="margin-top:10px">Vinieron todos hoy</button>`;
@@ -2629,24 +2785,77 @@ function asistenciaHTML(o, c) {
     }
   }
   if (!ro()) x += `<div class="bot-row"><button class="ghost press" data-act="pers-nuevo">${IC_PLUS}Agregar persona</button>${marca && r.marcado > 0 ? `<button class="ghost pri press" data-act="asis-raya" data-l="${lunes}">Anotar raya de ${money0(r.marcado)} como gasto</button>` : ""}</div>`;
-  if (!puede("asistencia")) x += `<p class="nota" style="margin-bottom:8px">Para marcar quién vino, actualiza el código de tu hoja de Google (la versión 2 que te mandé). La lista de gente sí se guarda desde ya.</p>`;
-  return x + `</section><p class="nota">El día se paga como lo semanal entre 6 (lunes a sábado). Es opcional: si no la usas, no cambia nada de la obra.</p>`;
+  if (!puede("asistencia")) x += `<p class="nota" style="margin-bottom:8px">Para marcar quién vino, actualiza el código de tu hoja de Google. La lista de gente sí se guarda desde ya.</p>`;
+  x += `</section>`;
+  x += `<button class="cfg-l press" data-act="asis-cfg"${ro() ? " disabled" : ""}><span><b>Cómo se paga</b><small>${esc(cfgTxt(cfg))}</small></span>${IC_RIGHT}</button>`;
+  return x + `<p class="nota">Toca un día: ✓ completo → ½ medio día → quitar. Déjalo presionado para poner horas o día y medio. Un día vale lo semanal entre ${cfg.sabado === 1 ? "6" : "5½"}.</p>`;
 }
 // marcar sale al instante en pantalla (cola) y se sube por detrás
-function asisMarcar(obra, pid, f) {
+function asisPoner(obra, f, cambios) {
   if (ro()) return;
   if (!puede("asistencia")) { aviso("Para marcar asistencia, actualiza el código de tu hoja."); return; }
-  const a = asisDe(obra, f), pres = new Set((a && a.presentes) || []);
-  if (pres.has(pid)) pres.delete(pid); else pres.add(pid);
-  encolar("set", "asistencia", asisId(obra, f), { obra, fecha: f, presentes: [...pres], actualizado: ahora() });
+  const a = asisDe(obra, f), m = {};
+  if (a) { if (a.marcas) Object.assign(m, a.marcas); else (a.presentes || []).forEach((id) => (m[id] = 1)); }
+  Object.entries(cambios).forEach(([id, v]) => { if (v > 0) m[id] = Math.round(v * 1000) / 1000; else delete m[id]; });
+  encolar("set", "asistencia", asisId(obra, f), { obra, fecha: f, presentes: Object.keys(m), marcas: m, actualizado: ahora() });
   reintentar();
 }
+function asisMarcar(obra, pid, f, valor) {
+  const x = marcaDe(asisDe(obra, f), pid);
+  asisPoner(obra, f, { [pid]: valor != null ? valor : x === 0 ? 1 : x === 1 ? 0.5 : 0 });   // tocar: completo → medio día → nada
+}
 function asisTodos(obra) {
+  const o = S.obras[obra]; if (!o) return;
+  const f = hoy(), c = {};
+  personalDe(o, lunesDe(f)).filter((p) => !p.baja).forEach((p) => (c[p.id] = 1));
+  asisPoner(obra, f, c);
+}
+// dejar presionado un día: horas sueltas, medio día o día y medio
+function asisMenu(obra, pid, f) {
   const o = S.obras[obra]; if (!o || ro() || !puede("asistencia")) return;
-  const f = hoy(), a = asisDe(obra, f), pres = new Set((a && a.presentes) || []);
-  personalDe(o, lunesDe(f)).filter((p) => !p.baja).forEach((p) => pres.add(p.id));
-  encolar("set", "asistencia", asisId(obra, f), { obra, fecha: f, presentes: [...pres], actualizado: ahora() });
-  reintentar();
+  const p = (o.personal || []).find((x) => x.id === pid), hrs = cfgAsis(o).horas;
+  const it = (t, v, estilo) => ({ t, estilo, fn: () => asisMarcar(obra, pid, f, v) });
+  abrirAccion({ titulo: `${p ? p.nombre : "Asistencia"} · ${diaLargo(f)}`, texto: `Un día completo son ${hrs} horas (lo cambias en «Cómo se paga»).`,
+    items: [it("Día completo", 1, "pri"), it("Medio día", 0.5), it("3 horas", 3 / hrs), it("2 horas", 2 / hrs), it("1 hora", 1 / hrs), it("Día y medio", 1.5), it("No vino", 0, "peligro")] });
+}
+let presionLarga = false;
+(function () {
+  let pr = null;
+  document.addEventListener("pointerdown", (e) => {
+    const b = e.target.closest(".dia[data-act='asis-m']"); if (!b || b.disabled) return;
+    const o = obraActiva(); if (!o) return;
+    pr = { x: e.clientX, y: e.clientY, t: setTimeout(() => { pr = null; presionLarga = true; if (navigator.vibrate) navigator.vibrate(20); asisMenu(o.clave, b.dataset.p, b.dataset.f); }, 450) };
+  });
+  const soltar = () => { if (pr) { clearTimeout(pr.t); pr = null; } };
+  document.addEventListener("pointerup", soltar, true); document.addEventListener("pointercancel", soltar, true);
+  document.addEventListener("pointermove", (e) => { if (pr && Math.hypot(e.clientX - pr.x, e.clientY - pr.y) > 10) soltar(); }, true);
+  document.addEventListener("contextmenu", (e) => { if (e.target.closest && e.target.closest(".dia")) e.preventDefault(); });
+})();
+// «Cómo se paga»: por obra
+function abrirCfgAsis() {
+  const o = obraActiva(); if (!o || ro()) return;
+  const cfg = cfgAsis(o);
+  mostrarHoja({ mode: "asiscfg", obra: o.clave, id: null, lunes: S.asis[o.clave] || lunesDe(hoy()), csab: String(cfg.sabado), cdom: String(cfg.domingo), cfes: String(cfg.festivo), clib: cfg.festivo_libre ? "si" : "no", chor: String(cfg.horas), cfests: new Set(cfg.festivos) });
+}
+function hojaCfgAsis() {
+  const ds = semanaDe(F.lunes);
+  const b = `<p class="ctx">${esc(nomCorto(S.obras[F.obra]))} · así se calcula la raya</p>
+    <span class="fl">Sábado</span>${chipsHTML("csab", [["1", "Día completo"], ["0.5", "Medio día"]], F.csab)}
+    <span class="fl">Domingo, si trabajan</span>${chipsHTML("cdom", [["1", "Normal"], ["1.5", "× 1.5"], ["2", "Doble"], ["3", "Triple"]], F.cdom)}
+    <span class="fl">Día festivo, si trabajan</span>${chipsHTML("cfes", [["1", "Normal"], ["2", "Doble"], ["3", "Triple"]], F.cfes)}
+    <span class="fl">Día festivo, si no van</span>${chipsHTML("clib", [["no", "No se paga"], ["si", "Se paga normal"]], F.clib)}
+    <span class="fl">Festivos de la semana del ${diaMes(ds[0])} al ${diaMes(ds[6])}</span><div class="chips">${ds.map((f, i) => `<button type="button" class="chip press" data-act="cfg-fest" data-f="${f}" aria-pressed="${F.cfests.has(f)}">${DIAS[i]} ${Number(f.slice(8))}</button>`).join("")}</div>
+    <span class="fl">Horas de un día completo</span>${chipsHTML("chor", [["8", "8 h"], ["9", "9 h"], ["10", "10 h"]], F.chor)}
+    <p class="nota">Un día vale lo semanal entre 6, o entre 5½ si el sábado es medio día. Si van toda la semana, la raya es la misma; solo cambia lo que se descuenta cuando faltan.</p>`;
+  return shell("Cómo se paga", b, `<button type="button" class="btn main press" data-act="guardar">Guardar</button>`);
+}
+async function guardarCfgAsis() {
+  const o = S.obras[F.obra]; if (!o) return cerrarHoja();
+  const prev = cfgAsis(o), sem = new Set(semanaDe(F.lunes));
+  const festivos = [...prev.festivos.filter((f) => !sem.has(f)), ...F.cfests].sort();
+  const cfg = { sabado: Number(F.csab), domingo: Number(F.cdom), festivo: Number(F.cfes), festivo_libre: F.clib === "si", horas: Number(F.chor), festivos };
+  cerrarHoja(true);
+  return updObra(o.clave, { asis_cfg: cfg }, "Guardado: así se calcula la raya");
 }
 function abrirPersona(pid) {
   const o = obraActiva(); if (!o || ro()) return;
@@ -2741,32 +2950,69 @@ function avisosLista() {
   const xs = [], h = hoy();
   activas().forEach((o) => {
     const nom = nomCorto(o), e = est(o);
-    if (e === "por_empezar") { if (o.inicio && o.inicio <= h) xs.push({ n: 1, o, t: `¿Ya empezó ${nom}? Dale «Iniciar obra» (botón ⋯ de la obra) para que cuente lo que falta cobrar.` }); return; }
+    if (e === "por_empezar") { if (o.inicio && o.inicio <= h) xs.push({ n: 1, o, k: 'iniciar|' + o.clave, t: `¿Ya empezó ${nom}? Dale «Iniciar obra» (botón ⋯ de la obra) para que cuente lo que falta cobrar.` }); return; }
     if (e !== "en_curso") return;
     const c = calc(o), pz = plazo(o);
     // ritmo de gasto: lo gastado en las últimas 3 semanas (o desde que empezó, si es menos)
-    const sem = Math.max(1, Math.min(3, o.inicio ? (dias(o.inicio, h) + 1) / 7 : 3));
-    const porSemana = sum(c.gs.filter((g) => g.fecha && g.fecha <= h && dias(g.fecha, h) < sem * 7 && !(g.marca === "por_pagar" && !g.resuelto)), "monto") / sem;
+    const porSemana = ritmoSemanal(o, c);
     const r = (o.personal || []).length ? rayaSemana(o) : null;
     const alcanza = c.falta_gastar != null && c.falta_gastar <= c.en_caja;
-    if (c.en_caja < 0 && c.falta_cobrar > 0) xs.push({ n: 3, o, t: `Cobra en ${nom}: llevas ${money0(-c.en_caja)} de tu bolsa y faltan ${money0(c.falta_cobrar)} por cobrar.` });
-    else if (r && r.estimado > 0 && r.estimado > c.en_caja) xs.push({ n: 3, o, t: `Raya del sábado en ${nom}: son ~${money0(r.estimado)} y en caja hay ${money0(c.en_caja)}.` });
-    else if (c.falta_cobrar > 0 && porSemana > 0 && c.en_caja < porSemana * 1.5 && !alcanza) xs.push({ n: 2, o, t: `Se acaba el dinero de ${nom}: en caja ${money0(c.en_caja)} y gastas ~${money0(porSemana)} por semana. Pide la siguiente estimación.` });
-    if (pz.late) xs.push({ n: 2, o, t: `${nom} ${pz.texto.toLowerCase()}.` });
-    else if (pz.fin && dias(h, pz.fin) >= 0 && dias(h, pz.fin) <= 3 && c.falta_cobrar > 0) xs.push({ n: 2, o, t: `${nom} se entrega el ${diaMes(pz.fin)} y faltan ${money0(c.falta_cobrar)} por cobrar.` });
-    estimacionesDe(o.clave).filter((x) => x.estado === "lista").forEach((x) => xs.push({ n: 2, o, t: `La ${nEst(x.numero)} de ${nom} está lista: mándala al cliente para cobrarla.` }));
+    if (c.en_caja < 0 && c.falta_cobrar > 0) xs.push({ n: 3, o, k: 'cobrar|' + o.clave, t: `Cobra en ${nom}: llevas ${money0(-c.en_caja)} de tu bolsa y faltan ${money0(c.falta_cobrar)} por cobrar.` });
+    else if (r && r.estimado > 0 && r.estimado > c.en_caja) xs.push({ n: 3, o, k: 'raya|' + o.clave, t: `Raya del sábado en ${nom}: son ~${money0(r.estimado)} y en caja hay ${money0(c.en_caja)}.` });
+    else if (c.falta_cobrar > 0 && porSemana > 0 && c.en_caja < porSemana * 1.5 && !alcanza) xs.push({ n: 2, o, k: 'dinero|' + o.clave, t: `Se acaba el dinero de ${nom}: en caja ${money0(c.en_caja)} y gastas ~${money0(porSemana)} por semana. Pide la siguiente estimación.` });
+    if (pz.late) xs.push({ n: 2, o, k: 'tarde|' + o.clave, t: `${nom} ${pz.texto.toLowerCase()}.` });
+    else if (pz.fin && dias(h, pz.fin) >= 0 && dias(h, pz.fin) <= 3 && c.falta_cobrar > 0) xs.push({ n: 2, o, k: 'entrega|' + o.clave, t: `${nom} se entrega el ${diaMes(pz.fin)} y faltan ${money0(c.falta_cobrar)} por cobrar.` });
+    estimacionesDe(o.clave).filter((x) => x.estado === "lista").forEach((x) => xs.push({ n: 2, o, k: 'est|' + x.id, t: `La ${nEst(x.numero)} de ${nom} está lista: mándala al cliente para cobrarla.` }));
   });
   const venc = libresAbiertos().filter((x) => x.fecha && x.fecha <= h);
-  if (venc.length) xs.push({ n: 1, t: venc.length === 1 ? `Pendiente para hoy o atrasado: ${venc[0].texto}` : `${venc.length} pendientes son para hoy o ya se pasaron.` });
+  if (venc.length) xs.push({ n: 1, k: 'pend', t: venc.length === 1 ? `Pendiente para hoy o atrasado: ${venc[0].texto}` : `${venc.length} pendientes son para hoy o ya se pasaron.` });
   return xs.sort((a, b) => b.n - a.n);
 }
 const IC_CAMP = SV('<path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>');
-function avisosHomeHTML() {
-  const xs = avisosLista(); if (!xs.length) return "";
-  const k = hoy() + "|" + xs.map((x) => x.t).join("|").length;
-  if (ls.get("nortea_avisos_visto") === k) return `<button class="av-mini press" data-act="avisos-ver">${IC_CAMP}<span>${xs.length} ${xs.length > 1 ? "avisos" : "aviso"}</span></button>`;
-  return `<section class="avisos" aria-label="Avisos"><div class="av-h"><b>${IC_CAMP}Avisos</b><button class="mini press" data-act="avisos-ok" data-k="${esc(k)}">Ya lo vi</button></div>${xs.slice(0, 6).map((x) => `<button class="av-i press${x.n === 3 ? " urge" : ""}" ${x.o ? `data-act="obra" data-c="${esc(x.o.clave)}"` : `data-act="pendientes"`}>${esc(x.t)}</button>`).join("")}</section>`;
+const avOcultos = () => { try { return JSON.parse(ls.get("nortea_avisos_ocultos") || "{}") || {}; } catch { return {}; } };
+function ocultarAviso(k) {
+  const o = avOcultos(), h = hoy();
+  Object.keys(o).forEach((x) => { if (o[x] !== h) delete o[x]; });
+  o[k] = h; ls.set("nortea_avisos_ocultos", JSON.stringify(o)); ls.set("nortea_av_tip", "1");
 }
+function avisosHomeHTML() {
+  const todos = avisosLista(); if (!todos.length) return "";
+  const oc = avOcultos(), h = hoy(), xs = todos.filter((x) => oc[x.k] !== h);
+  const k = hoy() + "|" + todos.map((x) => x.t).join("|").length;
+  if (!xs.length || ls.get("nortea_avisos_visto") === k) return `<button class="av-mini press" data-act="avisos-ver">${IC_CAMP}<span>${todos.length} ${todos.length > 1 ? "avisos" : "aviso"}</span></button>`;
+  return `<section class="avisos" aria-label="Avisos"><div class="av-h"><b>${IC_CAMP}Avisos</b><button class="mini press" data-act="avisos-ok" data-k="${esc(k)}">Ya lo vi</button></div>${xs.slice(0, 6).map((x) => `<button class="av-i press${x.n === 3 ? " urge" : ""}" data-k="${esc(x.k)}" ${x.o ? `data-act="obra" data-c="${esc(x.o.clave)}"` : `data-act="pendientes"`}>${esc(x.t)}</button>`).join("")}${ls.get("nortea_av_tip") ? "" : `<p class="av-tip">Desliza un aviso a la derecha para quitarlo por hoy.</p>`}</section>`;
+}
+// deslizar un aviso a la derecha lo quita por hoy (si sigue pasando, vuelve mañana)
+let avSwiped = false;
+(function () {
+  let g = null;
+  document.addEventListener("pointerdown", (e) => {
+    const el = e.target.closest(".av-i"); g = null; if (!el) return;
+    g = { el, id: e.pointerId, x: e.clientX, y: e.clientY, dx: 0, modo: null };
+  });
+  document.addEventListener("pointermove", (e) => {
+    if (!g || e.pointerId !== g.id) return;
+    const dx = e.clientX - g.x, dy = e.clientY - g.y;
+    if (!g.modo) {
+      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+      g.modo = dx > 0 && Math.abs(dx) > Math.abs(dy) * 1.3 ? "h" : "v";
+      if (g.modo === "h") { try { g.el.setPointerCapture(e.pointerId); } catch {} g.el.style.transition = "none"; }
+    }
+    if (g.modo !== "h") return;
+    g.dx = Math.max(0, dx);
+    g.el.style.transform = `translateX(${g.dx}px)`; g.el.style.opacity = String(1 - Math.min(0.75, g.dx / 320));
+  });
+  const fin = (e) => {
+    if (!g || e.pointerId !== g.id) return;
+    const s = g; g = null;
+    if (s.modo !== "h") return;
+    avSwiped = true; setTimeout(() => (avSwiped = false), 350);   // que el toque no abra la obra
+    s.el.style.transition = "transform 200ms var(--ease), opacity 200ms var(--ease)";
+    if (s.dx > s.el.offsetWidth * 0.3) { s.el.style.transform = "translateX(110%)"; s.el.style.opacity = "0"; setTimeout(() => { ocultarAviso(s.el.dataset.k); render(); }, 190); }
+    else { s.el.style.transform = ""; s.el.style.opacity = ""; }
+  };
+  document.addEventListener("pointerup", fin); document.addEventListener("pointercancel", fin);
+})();
 // --- vista de supervisor (prueba): sin dinero; todavía no se habilita para nadie ---
 function pantSup(p) {
   const nav = navHTML({ back: "Obras", titulo: "Vista de supervisor" });
@@ -2821,7 +3067,8 @@ function confeti() {
 // Eventos
 // ============================================================
 document.addEventListener("click", (e) => {
-  if (swiped) { e.stopPropagation(); e.preventDefault(); return; }
+  if (presionLarga) { presionLarga = false; e.stopPropagation(); e.preventDefault(); return; }
+  if (swiped || avSwiped) { e.stopPropagation(); e.preventDefault(); return; }
   const r = e.target.closest(".sw");
   if (abierta && r === abierta.row && e.target.closest(".sw-f")) { cerrarFila(); e.stopPropagation(); e.preventDefault(); return; }
   const chip = e.target.closest("[data-chip]");
@@ -2874,10 +3121,13 @@ document.addEventListener("click", (e) => {
   else if (a === "bit-nuevo") abrirBitacora(null, el.dataset.c);
   else if (a === "bit-editar") abrirBitacora(el.dataset.id, el.dataset.c);
   else if (a === "bit-borrar") { const id = F && F.id; if (id) abrirAccion({ titulo: "¿Borrar este reporte?", items: [{ t: "Borrar", estilo: "peligro", fn: () => borrarDoc("bitacora", id) }] }); }
+  else if (a === "pend-grupo") { const id = "#pg-" + el.dataset.g; abrirHoja("pend"); setTimeout(() => { const gp = $(id); if (gp) gp.scrollIntoView({ block: "start", behavior: reduceMotion() ? "auto" : "smooth" }); }, 380); }
   else if (a === "avisos-ok") { ls.set("nortea_avisos_visto", el.dataset.k); render(); }
-  else if (a === "avisos-ver") { ls.del("nortea_avisos_visto"); render(); }
+  else if (a === "avisos-ver") { ls.del("nortea_avisos_visto"); ls.del("nortea_avisos_ocultos"); render(); }
   else if (a === "supervisor") ir({ t: "sup" });
-  else if (a === "sup-asis") asisMarcar(el.dataset.c, el.dataset.p, hoy());
+  else if (a === "sup-asis") asisMarcar(el.dataset.c, el.dataset.p, hoy(), vino(asisDe(el.dataset.c, hoy()), el.dataset.p) ? 0 : 1);
+  else if (a === "asis-cfg") abrirCfgAsis();
+  else if (a === "cfg-fest") { if (!F || F.mode !== "asiscfg") return; const f = el.dataset.f; if (F.cfests.has(f)) F.cfests.delete(f); else F.cfests.add(f); el.setAttribute("aria-pressed", String(F.cfests.has(f))); }
   else if (a === "fecha") {
     const o = obraActiva(); if (!o || ro()) return;
     mostrarHoja({ mode: "fecha", obra: o.clave, campo: el.dataset.k, valor: o[el.dataset.k] || "", id: null, saldados: new Set() });
