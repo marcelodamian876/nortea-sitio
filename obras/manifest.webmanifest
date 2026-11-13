@@ -1,0 +1,13 @@
+{
+  "name": "Obras NORTEA",
+  "short_name": "Obras",
+  "start_url": "/obras/",
+  "scope": "/obras/",
+  "display": "standalone",
+  "background_color": "#0B1D2F",
+  "theme_color": "#0B1D2F",
+  "icons": [
+    { "src": "/assets/img/marca/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/assets/img/marca/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
