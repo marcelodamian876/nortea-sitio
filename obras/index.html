@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Obras NORTEA</title>
+<title>Nortea</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="manifest" href="/obras/manifest.webmanifest">
 <link rel="icon" href="/assets/img/marca/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="/assets/img/marca/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Obras NORTEA">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Nortea">
 <style>html,body{margin:0;padding:0;height:100%}</style>
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f3f0e8">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#08131d">
@@ -31,7 +31,7 @@
   --f-display: "Montserrat", "Segoe UI", system-ui, sans-serif;
   --f-body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
   --ease: cubic-bezier(0.23, 1, 0.32, 1); --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
-  --bar-h: 76px; --logo: none; --sab: max(8px, calc(env(safe-area-inset-bottom, 0px) - 16px));
+  --bar-h: 76px; --logo: none; --sab: max(6px, calc(env(safe-area-inset-bottom, 0px) - 20px));
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -51,6 +51,8 @@
 }
 *, *::before, *::after { box-sizing: border-box; touch-action: manipulation; }
 html { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; overflow: hidden; overscroll-behavior: none; max-width: 100%; height: 100%; }
+/* iOS 26 (app en la pantalla de inicio): la vista quedaba más corta que la pantalla y la barra de abajo no llegaba a la orilla */
+@media (display-mode: standalone) { html { min-height: min(100lvh, calc(100% + env(safe-area-inset-top, 0px))); } }
 body { background: var(--bg); color: var(--fg); font: 15px/1.45 var(--f-body); height: 100%; overflow: hidden; overscroll-behavior: none; max-width: 100%; touch-action: pan-x pan-y; }
 button, input, select, textarea { font: inherit; color: inherit; max-width: 100%; }
 button { user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; cursor: pointer; border: 0; background: none; text-align: inherit; padding: 0; }
@@ -200,6 +202,24 @@ details.real[open] > summary svg { transform: rotate(180deg); }
 .tabs button { flex: 0 0 auto; min-height: 44px; padding: 0 16px; border-radius: 999px; font-weight: 600; font-size: 14px; background: var(--chip); color: var(--muted); transition: background-color 160ms, color 160ms; }
 .tabs button[aria-selected="true"] { background: var(--fg); color: var(--bg); }
 
+/* menú de la obra: cuadritos con ícono, todos a la vista */
+.menu-o { display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 6px; margin-top: 12px; }
+.menu-o button { position: relative; min-height: 56px; border-radius: 14px; background: var(--chip); color: var(--muted); display: grid; place-items: center; align-content: center; gap: 4px; padding: 7px 2px 6px; font-weight: 600; font-size: 12px; line-height: 1.1; text-align: center; transition: background-color 160ms, color 160ms; }
+.menu-o button svg { width: 21px; height: 21px; }
+.menu-o button span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 2px; }
+.menu-o button[aria-selected="true"] { background: var(--fg); color: var(--bg); }
+.sec-n { position: absolute; top: 5px; right: 6px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--info); color: #fff; font: 700 11px/18px var(--f-body); font-style: normal; text-align: center; }
+.sec-n.warn { background: var(--warn); } .sec-n.bad { background: var(--bad); }
+:root[data-theme="dark"] .sec-n { color: #08131d; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .sec-n { color: #08131d; } }
+.cab.chica { padding: 12px 16px; }
+.cab.chica .cab-top { align-items: flex-start; }
+.cab.chica h1 { font-size: 19px; margin: 0; flex: 1; min-width: 0; }
+.cab.chica .cab-s { margin-top: 4px; font-size: 13px; }
+.nav-b { display: grid; justify-items: center; align-content: center; gap: 2px; min-height: 44px; border-radius: 10px; }
+.nav-b span { font: 600 16px/1.1 var(--f-display); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nav-b small { font: 600 11.5px/1.1 var(--f-body); color: var(--accent-text); }
+
 /* paneles y renglones */
 .panel { background: var(--panel); border-radius: 18px; padding: 6px 16px 10px; margin-top: 12px; }
 .panel h3 { font: 600 11.5px/1.2 var(--f-body); text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); margin: 14px 0 4px; overflow-wrap: anywhere; }
@@ -228,7 +248,8 @@ details.real[open] > summary svg { transform: rotate(180deg); }
 .ghost.pri { background: var(--accent); color: var(--accent-ink); }
 .edit { display: flex; gap: 8px; align-items: center; width: 100%; padding: 8px 0 12px; border-top: 1px solid var(--line); flex-wrap: wrap; }
 .edit input { flex: 1 1 120px; height: 48px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); padding: 0 12px; }
-.day { font: 600 13px var(--f-display); color: var(--muted); margin: 18px 2px 6px; text-transform: capitalize; display: flex; justify-content: space-between; gap: 8px; }
+.day { font: 600 13px var(--f-display); color: var(--muted); margin: 18px 2px 6px; display: flex; justify-content: space-between; gap: 8px; }
+.day > span:first-child::first-letter { text-transform: uppercase; }
 .list { background: var(--panel); border-radius: 16px; overflow: hidden; }
 .item { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 60px; padding: 10px 14px; }
 .ico { flex: 0 0 38px; width: 38px; height: 38px; border-radius: 10px; background: var(--chip); display: grid; place-items: center; color: var(--accent-text); }
@@ -239,6 +260,7 @@ details.real[open] > summary svg { transform: rotate(180deg); }
 .item .t small { display: block; color: var(--muted); font-size: 12.5px; overflow-wrap: anywhere; }
 .item .t small.obs { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
 .item .m { font-weight: 600; text-align: right; flex: 0 0 auto; max-width: 42%; overflow-wrap: anywhere; }
+.item > svg { width: 18px; height: 18px; color: var(--muted); flex: 0 0 auto; }
 .tg { font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: 999px; white-space: nowrap; display: inline-block; vertical-align: 1px; }
 .tg.me_debe { background: var(--bad-bg); color: var(--bad); }
 .tg.por_pagar { background: var(--warn-bg); color: var(--warn); }
@@ -351,7 +373,7 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
 
 /* anotar rápido: burbuja y chat */
 .burbuja { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(var(--bar-h) + var(--sab) + 72px); z-index: 30; width: 58px; height: 58px; border-radius: 50%; background: var(--fg); color: var(--bg); display: grid; place-items: center; box-shadow: 0 6px 20px rgba(0, 0, 0, .28), inset 0 0 0 2px var(--accent); touch-action: none; transition: transform 140ms var(--ease); background: #0b1d2f; }
-.burbuja-logo { display: block; width: 38px; height: 18px; margin-top: 2px; background: var(--logo) center / contain no-repeat; }
+.burbuja-logo { display: block; width: 36px; height: 17px; margin: 0; transform: translateY(-1px); background: var(--logo) center / contain no-repeat; }
 .sin-bar .burbuja { bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); }
 .burbuja.arrastra { transform: scale(1.08); box-shadow: 0 10px 28px rgba(0, 0, 0, .35), inset 0 0 0 2px var(--accent); }
 .burbuja[hidden], .chat[hidden], .chat-veil[hidden] { display: none; }
@@ -426,6 +448,27 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
 .dia.dom:not(.si):not(.medio) { background: transparent; }
 .dia.fest { box-shadow: inset 0 0 0 2px var(--accent); }
 .dia.fest:not(.si):not(.medio) small { color: var(--accent-text); }
+.gblk { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 6px; }
+.sem-nav + .gblk, .nota + .gblk { border-top: 0; }
+.gblk-h { display: flex; align-items: center; gap: 8px; min-height: 48px; }
+.gnom { flex: 1; min-width: 0; text-align: left; display: grid; gap: 1px; min-height: 44px; align-content: center; }
+.gnom b { font: 700 15px/1.2 var(--f-display); color: var(--accent-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gnom small { color: var(--muted); font-size: 12px; font-weight: 500; }
+.gblk-h .mini { min-height: 38px; font-size: 13px; padding: 0 12px; }
+.gblk .per { border-top: 0; padding-top: 4px; }
+.gadd { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; color: var(--accent-text); font-weight: 600; font-size: 13.5px; padding: 0 2px; }
+.gadd svg { width: 16px; height: 16px; }
+.warn-t { color: var(--warn); font-weight: 600; }
+.raya-l { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 14px; border-top: 1px solid var(--line); text-align: left; }
+.list > .raya-l:first-child { border-top: 0; }
+.raya-l span { display: grid; gap: 2px; min-width: 0; }
+.raya-l span b { font-weight: 600; }
+.raya-l small { color: var(--muted); font-size: 12.5px; }
+.raya-l > b, .raya-l > .num { font-weight: 700; white-space: nowrap; }
+.mrow { display: flex; justify-content: space-between; gap: 10px; padding: 8px 2px; border-top: 1px solid var(--line); font-size: 14px; }
+.gblk-h + .mrow { border-top: 0; }
+.mrow span:last-child { color: var(--muted); }
+.mrow b { color: var(--fg); }
 .cfg-l { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; padding: 12px 16px; border-radius: 16px; background: var(--panel); text-align: left; }
 .cfg-l span { display: grid; gap: 2px; min-width: 0; }
 .cfg-l b { font-weight: 600; }
@@ -433,6 +476,64 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
 .cfg-l svg { width: 18px; height: 18px; color: var(--muted); flex: 0 0 auto; }
 .bot-row { display: grid; margin-bottom: 8px; }
 
+/* supervisores y sus pendientes */
+.tarea .t b { font-weight: 600; }
+.titems { display: grid; gap: 2px; margin: 0 0 8px 38px; }
+.titem { display: flex; align-items: center; gap: 10px; min-height: 40px; text-align: left; font-size: 14.5px; }
+.titem i { flex: 0 0 auto; width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--accent); display: grid; place-items: center; font-style: normal; font-weight: 800; font-size: 13px; color: var(--accent-ink); }
+.titem.hecho i { background: var(--accent); }
+.titem.hecho span { text-decoration: line-through; color: var(--muted); }
+.titem span { overflow-wrap: anywhere; }
+.nov { background: var(--info-bg); }
+.nov .av-h b, .nov .av-h .mini { color: var(--info); }
+.nov .av-i { border-top-color: color-mix(in srgb, var(--info) 22%, transparent); }
+.nov .av-i small { display: block; font-size: 12px; color: var(--info); font-weight: 600; }
+.sup-hoy { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 12px; font-size: 13px; color: var(--muted); }
+.sup-l { background: var(--bg); }
+.panel.libs { padding: 4px 16px; }
+
+/* materiales */
+.mat-res { display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; margin: 6px 0 2px; font-size: 14px; }
+.mat-res b { font-weight: 700; }
+.tg.falta { background: var(--warn-bg); color: var(--warn); }
+.tg.pedido { background: var(--info-bg); color: var(--info); }
+.mgrp { margin-top: 18px; }
+.mgrp-h { display: flex; align-items: center; gap: 8px; padding: 0 2px 8px; }
+.mgrp-h h3 { flex: 1; min-width: 0; margin: 0; font: 700 15px/1.25 var(--f-display); overflow-wrap: anywhere; }
+.mgrp-h span { font-size: 13px; color: var(--muted); font-weight: 600; }
+.mgrp-h .mini { min-height: 36px; font-size: 12.5px; padding: 0 10px; }
+.mat { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-top: 1px solid var(--line); }
+.list > .mat:first-child { border-top: 0; }
+.mat .t { flex: 1; min-width: 0; text-align: left; display: grid; gap: 2px; }
+.mat .t b { font-weight: 500; overflow-wrap: anywhere; }
+.mat .t small { color: var(--muted); font-size: 12.5px; overflow-wrap: anywhere; }
+.mat .t small.quien { font-size: 11.5px; }
+.mat .m { flex: 0 0 auto; display: grid; justify-items: end; gap: 3px; text-align: right; }
+.mat .m small { color: var(--muted); font-size: 12px; }
+.mchk { flex: 0 0 auto; width: 30px; height: 30px; border-radius: 9px; border: 2px solid var(--line); display: grid; place-items: center; font-weight: 800; color: #fff; background: transparent; }
+.mat.en_obra .mchk { background: var(--ok); border-color: var(--ok); }
+:root[data-theme="dark"] .mat.en_obra .mchk { color: #04210f; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .mat.en_obra .mchk { color: #04210f; } }
+.mat.en_obra .t b { color: var(--muted); }
+.mat.falta { background: color-mix(in srgb, var(--warn-bg) 70%, var(--panel)); box-shadow: inset 3px 0 0 var(--warn); }
+.mat.falta .mchk { border-color: var(--warn); }
+
+/* bitácora: un renglón por día */
+.bday { padding: 10px 0 12px; border-top: 1px solid var(--line); }
+.sem-nav + .bday { border-top: 0; }
+.bday-h { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-height: 32px; }
+.bday-h b { font: 600 13.5px var(--f-display); }
+.bday-h b::first-letter { text-transform: uppercase; }
+.bday-h .sub { margin: 0; }
+.bday-h .mini { margin-left: auto; min-height: 36px; font-size: 13px; padding: 0 12px; }
+.bday-t { display: grid; gap: 4px; width: 100%; text-align: left; padding: 4px 0 0; }
+.bday-t p { margin: 0; overflow-wrap: anywhere; line-height: 1.42; }
+.bday-t .inc { color: var(--warn); font-size: 14px; }
+.bday-t .sig { color: var(--muted); font-size: 14px; }
+.bday-t .sig b { color: var(--fg); font-weight: 600; }
+.bday-t small { color: var(--muted); font-size: 12.5px; }
+.bday-m { margin: 6px 0 0; font-size: 12.5px; color: var(--muted); overflow-wrap: anywhere; }
+.bday.vacio .bday-h b { color: var(--muted); }
 /* bitácora */
 .bit { display: grid; gap: 3px; width: 100%; text-align: left; padding: 12px 14px; border-top: 1px solid var(--line); }
 .list .bit:first-child { border-top: 0; }
@@ -635,32 +736,52 @@ const slug = (s) => String(s ?? "").replace(/[^A-Za-z0-9]+/g, "-").replace(/^-+|
 // Colecciones: obras, gastos, pagos, estimaciones, pendientes, chat, asistencia, bitacora.
 // ============================================================
 const Datos = (() => {
-  const COLS = ["obras", "gastos", "pagos", "estimaciones", "pendientes", "chat", "asistencia", "bitacora"], BASE = ["obras", "gastos", "pagos", "estimaciones"];
+  const COLS = ["obras", "gastos", "pagos", "estimaciones", "pendientes", "chat", "asistencia", "bitacora", "materiales", "supervisores", "tareas", "avisos"];
+  const BASE = ["obras", "gastos", "pagos", "estimaciones"], NUEVAS = ["materiales", "supervisores", "tareas", "avisos"];
   const mem = {}, subs = {};
   COLS.forEach((c) => { mem[c] = {}; subs[c] = new Set(); });
-  let lentoFn = null, url = ls.get("nortea_api"), llave = ls.get("nortea_llave"), ultimo = 0, leyendo = null, servidor = Number(ls.get("nortea_srv") || 1);
-  // versión del código de la hoja: la 1 solo guarda las cuatro colecciones de base; desde la 2, cualquiera (pendientes, chat, asistencia, bitácora)
-  const soporta = (col) => BASE.includes(col) || servidor >= 2;
+  const leerJ = (k) => { try { return JSON.parse(ls.get(k) || "null"); } catch { return null; } };
+  let lentoFn = null, url = ls.get("nortea_api"), llave = ls.get("nortea_llave"), token = ls.get("nortea_sup_token"), sup = leerJ("nortea_sup");
+  let rol = ls.get("nortea_rol") || (llave ? "dueno" : token ? "sup" : null);
+  let ultimo = 0, leyendo = null, servidor = Number(ls.get("nortea_srv") || 1), motivo = "", usuarioSug = "", modoIni = null;
+  // versión del código de la hoja: la 1 solo guarda las cuatro colecciones de base; desde la 2, cualquiera; desde la 5, también
+  // materiales, supervisores, tareas y avisos (y las ops asis e item)
+  const soporta = (col) => BASE.includes(col) || (servidor >= 2 && !NUEVAS.includes(col)) || servidor >= 5;
   const emitir = (c) => subs[c].forEach((s) => s.ok({ ...mem[c] }));
+  const llaveCache = () => (rol === "sup" ? "nortea_cache_sup" : "nortea_cache");
   function cargarCache() {
-    try { const c = JSON.parse(localStorage.getItem("nortea_cache") || "null"); if (c) COLS.forEach((k) => (mem[k] = c[k] || {})); return !!c; } catch { return false; }
+    try { const c = JSON.parse(localStorage.getItem(llaveCache()) || "null"); if (c) COLS.forEach((k) => (mem[k] = c[k] || {})); return !!c; } catch { return false; }
   }
-  function guardarCache() { try { localStorage.setItem("nortea_cache", JSON.stringify(mem)); } catch {} }
-  async function api(cuerpo, ms) {
+  function guardarCache() { try { localStorage.setItem(llaveCache(), JSON.stringify(mem)); } catch {} }
+  async function api(cuerpo, ms, sinAuth) {
     const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), ms || 20000);
+    const auth = sinAuth ? {} : rol === "sup" ? { token } : { llave };
     try {
-      const r = await fetch(url, { method: "POST", body: JSON.stringify({ ...cuerpo, llave }), headers: { "Content-Type": "text/plain;charset=utf-8" }, signal: ctl.signal, redirect: "follow" });
+      const r = await fetch(url, { method: "POST", body: JSON.stringify({ ...cuerpo, ...auth }), headers: { "Content-Type": "text/plain;charset=utf-8" }, signal: ctl.signal, redirect: "follow" });
       const t = await r.text();
       try { return JSON.parse(t); } catch { const e = new Error("html"); e.html = true; e.texto = t.slice(0, 400); throw e; }
     } finally { clearTimeout(t); }
   }
+  // la llave dejó de servir (dueño) o la sesión se cerró o le quitaron el acceso (supervisor)
+  function sinAcceso(r) {
+    if (!r || r.ok) return false;
+    if (r.error === "llave" && rol !== "sup") { pedirConfig("La llave ya no es válida. Escríbela otra vez.", "dueno"); return true; }
+    if (r.error === "sesion" || r.error === "baja") {
+      token = null; ls.del("nortea_sup_token"); ls.del("nortea_cache_sup");
+      pedirConfig(r.error === "baja" ? "Ya no tienes acceso a la app. Si es un error, pídeselo a NORTEA." : "Tu sesión se cerró. Entra otra vez.", "sup");
+      return true;
+    }
+    return false;
+  }
   async function refrescar() {
     if (leyendo) return leyendo;
+    if (!url || (rol === "sup" ? !token : !llave)) return false;
     leyendo = (async () => {
       try {
         const r = await api({ accion: "leer" }, 60000);
-        if (!r || !r.ok) { if (r && r.error === "llave") pedirConfig("La llave ya no es válida. Escríbela otra vez."); return false; }
+        if (!r || !r.ok) { sinAcceso(r); return false; }
         servidor = Number(r.version || 1); ls.set("nortea_srv", String(servidor));
+        if (r.sup) { sup = r.sup; ls.set("nortea_sup", JSON.stringify(sup)); }
         COLS.forEach((c) => { const m = {}; Object.entries((r.datos || {})[c] || {}).forEach(([id, d]) => (m[id] = { ...d, id })); mem[c] = m; });
         guardarCache(); ultimo = Date.now(); COLS.forEach(emitir); if (lentoFn) lentoFn(false);
         return true;
@@ -669,50 +790,98 @@ const Datos = (() => {
     })();
     return leyendo;
   }
-  // ---- pantalla de una sola vez: dirección del script y llave ----
-  function pedirConfig(msg) {
+  // ---- link para un supervisor: nortea.mx/obras/#acceso=<dirección en base64url>&u=<usuario> ----
+  const b64 = (t) => btoa(t).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const deB64 = (t) => atob(String(t).replace(/-/g, "+").replace(/_/g, "/"));
+  const urlValida = (u) => /^https:\/\/script\.google\.com\/(a\/[^/]+\/)?macros\/s\/[^/]+\/exec$/.test(u || "");
+  function deLink(texto) {   // del link que le mandaron (o de una dirección /exec pegada)
+    const t = String(texto || "").trim(), m = t.match(/#acceso=([A-Za-z0-9_-]+)(?:&u=([^&\s]*))?/);
+    if (m) { try { const u = deB64(m[1]); if (urlValida(u)) return { url: u, usuario: decodeURIComponent(m[2] || "") }; } catch {} }
+    const d = (t.match(/https:\/\/script\.google\.com\/[^\s"'<>]+/) || [""])[0].replace(/[?#].*$/, "");
+    return urlValida(d) ? { url: d, usuario: "" } : null;
+  }
+  function leerHash() {
+    if (!/^#acceso=/.test(location.hash)) return;
+    const x = deLink(location.hash);
+    try { history.replaceState(history.state, "", location.pathname + location.search); } catch {}
+    if (!x || rol === "dueno") return;   // en el teléfono del dueño no se cambia nada
+    url = x.url; ls.set("nortea_api", url); usuarioSug = x.usuario; modoIni = "sup";
+  }
+  // ---- pantalla de entrada: supervisor (usuario y contraseña) o dueño (dirección y llave) ----
+  function pedirConfig(msg, modo) {
     return new Promise((res) => {
       let v = document.getElementById("conf-nortea"); if (v) v.remove();
+      modo = modo || modoIni || (ls.get("nortea_llave") ? "dueno" : "sup");   // sin llave guardada, lo normal es que sea un supervisor
+      const est = "font-size:16px;padding:12px;border-radius:10px;border:1px solid #888;width:100%;box-sizing:border-box";
+      const seg = (k, t) => `<button type="button" data-m="${k}" style="flex:1;min-height:44px;border-radius:10px;border:0;font-weight:600;font-size:15px;${modo === k ? "background:#b8893a;color:#0b1d2f" : "background:transparent;color:inherit;opacity:.8"}">${t}</button>`;
       v = document.createElement("div"); v.id = "conf-nortea";
-      v.innerHTML = `<form style="position:fixed;inset:0;z-index:99;display:grid;place-items:center;padding:20px;background:var(--bg,#0b1d2f)">
+      v.innerHTML = `<form style="position:fixed;inset:0;z-index:99;display:grid;place-items:center;padding:20px;background:var(--bg,#0b1d2f);overflow:auto" autocomplete="on">
         <div style="width:min(420px,100%);display:grid;gap:12px;font:15px/1.4 system-ui,sans-serif;color:var(--fg,#fff)">
-          <h1 style="margin:0;font-size:24px">Obras NORTEA</h1>
-          <p style="margin:0;opacity:.8">${msg || "Solo la primera vez: pega la dirección de tu hoja (la que termina en /exec) y tu llave."}</p>
-          <input name="u" required placeholder="https://script.google.com/macros/s/…/exec" value="${esc(url || "")}" autocomplete="off" style="font-size:16px;padding:12px;border-radius:10px;border:1px solid #888">
-          <input name="k" required placeholder="Llave" value="${esc(llave || "")}" autocomplete="off" style="font-size:16px;padding:12px;border-radius:10px;border:1px solid #888">
+          <h1 style="margin:0;font-size:26px">Nortea</h1>
+          <div style="display:flex;gap:4px;padding:3px;border-radius:12px;border:1px solid #888">${seg("sup", "Soy supervisor")}${seg("dueno", "Soy el dueño")}</div>
+          <p style="margin:0;opacity:.85">${msg || (modo === "sup" ? "Entra con el usuario y la contraseña que te dio NORTEA." : "Solo la primera vez: pega la dirección de tu hoja (la que termina en /exec) y tu llave. También puedes pegar tu acceso completo.")}</p>
+          ${modo === "sup" ? `${url ? "" : `<input name="l" placeholder="Pega aquí el link que te mandaron" autocomplete="off" style="${est}">`}
+            <input name="us" required placeholder="Usuario" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" value="${esc(usuarioSug || (sup && sup.usuario) || "")}" style="${est}">
+            <input name="pw" required type="password" placeholder="Contraseña" autocomplete="current-password" style="${est}">
+            <label style="display:flex;gap:10px;align-items:center;min-height:44px"><input type="checkbox" name="rec" checked style="width:22px;height:22px"> Recordarme en este teléfono</label>`
+          : `<input name="u" required placeholder="https://script.google.com/macros/s/…/exec" value="${esc(url || "")}" autocomplete="off" style="${est}">
+            <input name="k" required placeholder="Llave" value="${esc(llave || "")}" autocomplete="off" style="${est}">`}
           <button style="font-size:16px;padding:13px;border-radius:12px;border:0;background:#b8893a;color:#0b1d2f;font-weight:700">Entrar</button>
           <p class="e" style="margin:0;color:#ff8a8a"></p></div></form>`;
       document.body.appendChild(v);
+      v.querySelectorAll("[data-m]").forEach((b) => b.addEventListener("click", () => { modoIni = b.dataset.m; pedirConfig(null, b.dataset.m).then(res); }));
+      const fu = v.querySelector("[name=u]");
+      // si pega su acceso completo («Dirección: … Llave: …») se reparte solo en los dos campos
+      if (fu) fu.addEventListener("input", () => { const t = fu.value, k = t.match(/llave:\s*([A-Za-z0-9_-]+)/i), d = t.match(/https:\/\/script\.google\.com\/[^\s"'<>]+/); if (k && d) { fu.value = d[0]; v.querySelector("[name=k]").value = k[1]; } });
       v.querySelector("form").addEventListener("submit", async (e) => {
         e.preventDefault();
         const f = e.target, err = f.querySelector(".e");
-        url = (f.u.value.match(/https:\/\/script\.google\.com\/[^\s"'<>]+/) || [f.u.value.trim()])[0].replace(/[?#].*$/, "");
-        llave = f.k.value.trim().replace(/^.*llave:\s*/i, "").replace(/\s+/g, "");
-        f.u.value = url; f.k.value = llave;
-        if (!/^https:\/\/script\.google\.com\/(a\/[^/]+\/)?macros\/s\/[^/]+\/exec$/.test(url)) {
-          err.textContent = /\/dev$/.test(url) ? "Esa es la dirección de prueba (/dev). Usa la de la implementación, la que termina en /exec." : "La dirección debe empezar con https://script.google.com/macros/s/ y terminar en /exec.";
-          return;
-        }
-        f.querySelector(".e").textContent = "Probando…";
-        try {
-          const r = await api({ accion: "leer", cols: ["obras"] }, 30000);
-          if (!r || !r.ok) { err.textContent = r && r.error === "llave" ? "La llave no coincide. Cópiala otra vez del «Registro de ejecución» (solo las letras y números)." : "La hoja contestó con un error: " + ((r && r.error) || "sin detalle"); return; }
-        } catch (x) {
+        const fallaRed = (x) => {
           if (!navigator.onLine) err.textContent = "No tienes señal. Inténtalo cuando tengas internet.";
           else if (x && x.html) err.textContent = /doGet|doPost|funci[oó]n/i.test(x.texto || "") ? "Google no encuentra el código. En Apps Script guarda el código y vuelve a implementar (Administrar implementaciones → ✏️ → Nueva versión)." : "Google contestó con una página en vez de datos. En Apps Script: Implementar → Administrar implementaciones → ✏️ → «Ejecutar como: Yo» y «Quién tiene acceso: Cualquier usuario» → Nueva versión → Implementar.";
-          else err.textContent = "Google no dejó entrar a la app. En Apps Script: Implementar → Administrar implementaciones → ✏️ → «Quién tiene acceso: Cualquier usuario» (no «con cuenta de Google») → Nueva versión → Implementar. Prueba: abre tu dirección /exec en Safari; debe salir {\"ok\":true…}.";
-          return;
+          else err.textContent = "Google no dejó entrar a la app. Revisa tu señal e inténtalo otra vez.";
+        };
+        if (modo === "sup") {
+          if (f.l) { const x = deLink(f.l.value); if (!x) { err.textContent = "Ese link no sirve. Cópialo completo del mensaje que te mandaron."; return; } url = x.url; ls.set("nortea_api", url); if (x.usuario && !f.us.value) f.us.value = x.usuario; }
+          if (!url) { err.textContent = "Falta el link que te mandaron."; return; }
+          err.textContent = "Entrando…";
+          try {
+            const r = await api({ accion: "entrar", usuario: f.us.value.trim(), clave: f.pw.value, recordar: !!f.rec.checked }, 30000, true);
+            if (!r || !r.ok) { err.textContent = r && r.error === "bloqueado" ? "Muchos intentos seguidos. Espera 15 minutos e inténtalo otra vez." : r && r.error === "clave" ? "El usuario o la contraseña no coinciden." : r && r.error === "baja" ? "Ya no tienes acceso a la app. Si es un error, pídeselo a NORTEA." : "La hoja contestó con un error: " + ((r && r.error) || "sin detalle"); return; }
+            token = r.token; sup = r.sup; rol = "sup";
+            ls.set("nortea_sup_token", token); ls.set("nortea_sup", JSON.stringify(sup)); ls.set("nortea_rol", "sup");
+          } catch (x) { fallaRed(x); return; }
+        } else {
+          url = (f.u.value.match(/https:\/\/script\.google\.com\/[^\s"'<>]+/) || [f.u.value.trim()])[0].replace(/[?#].*$/, "");
+          const k = f.k.value.trim().replace(/^.*llave:\s*/i, "").replace(/\s+/g, "");
+          f.u.value = url; f.k.value = k;
+          if (!urlValida(url)) {
+            err.textContent = /\/dev$/.test(url) ? "Esa es la dirección de prueba (/dev). Usa la de la implementación, la que termina en /exec." : "La dirección debe empezar con https://script.google.com/macros/s/ y terminar en /exec.";
+            return;
+          }
+          err.textContent = "Probando…";
+          const antes = { llave, rol }; llave = k; rol = "dueno";
+          try {
+            const r = await api({ accion: "leer", cols: ["obras"] }, 30000);
+            if (!r || !r.ok) { llave = antes.llave; rol = antes.rol; err.textContent = r && r.error === "llave" ? "La llave no coincide. Cópiala otra vez del «Registro de ejecución» (solo las letras y números)." : "La hoja contestó con un error: " + ((r && r.error) || "sin detalle"); return; }
+          } catch (x) { llave = antes.llave; rol = antes.rol; fallaRed(x); return; }
+          ls.set("nortea_api", url); ls.set("nortea_llave", llave); ls.set("nortea_rol", "dueno");
         }
-        ls.set("nortea_api", url); ls.set("nortea_llave", llave); v.remove(); res(); refrescar();
+        const cambio = (ls.get("nortea_rol_app") || rol) !== rol;
+        ls.set("nortea_rol_app", rol);
+        if (cambio) { location.reload(); return; }   // cambió de dueño a supervisor (o al revés): se arma la app de nuevo
+        v.remove(); res(); refrescar();
       });
     });
   }
   async function iniciar() {
-    const hay = cargarCache();
-    if (!url || !llave) await pedirConfig();
+    leerHash();
+    const hay = rol ? cargarCache() : false;
+    if (!url || (rol === "sup" ? !token : !llave)) await pedirConfig();
     else refrescar();
+    ls.set("nortea_rol_app", rol);
     if (!hay) setTimeout(() => { if (!ultimo && lentoFn) lentoFn(true); }, 10000);
-    // vuelve a leer al regresar a la app y cada minuto mientras está abierta
+    // vuelve a leer al regresar a la app y cada dos minutos mientras está abierta
     document.addEventListener("visibilitychange", () => { if (!document.hidden && Date.now() - ultimo > 15000) refrescar(); });
     setInterval(() => { if (!document.hidden) refrescar(); }, 120000);
     return { modo: "real", sinCuenta: false };
@@ -723,26 +892,51 @@ const Datos = (() => {
     return () => subs[col].delete(s);
   }
   const nuevoId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
-  async function escribir(op, col, id, data) {
-    if (!url || !llave) return "sin_senal";
-    if (!soporta(col)) return "error";
-    try {
-      const r = await api({ accion: "escribir", ops: [{ op, col, id, data }] }, 20000);
-      if (!r || !r.ok) { if (r && r.error === "llave") { pedirConfig("La llave ya no es válida. Escríbela otra vez."); return "denegado"; } return "error"; }
+  // pone en memoria lo que regresó el servidor (docs) o, si no vino, lo que se mandó
+  function aplicar(r, ops) {
+    const docs = (r && r.docs) || {}, tocadas = new Set();
+    ops.forEach(({ op, col, id, data }) => {
+      if (!mem[col]) return;
+      tocadas.add(col);
+      if (docs[col] && id in docs[col]) { const d = docs[col][id]; if (d) mem[col][id] = { ...d, id }; else delete mem[col][id]; return; }
       if (op === "del") delete mem[col][id];
       else if (op === "update") mem[col][id] = { ...(mem[col][id] || {}), ...data, id };
-      else mem[col][id] = { ...data, id };
-      guardarCache(); emitir(col);
-      return "ok";
+      else if (op === "set") mem[col][id] = { ...data, id };
+    });
+    guardarCache(); tocadas.forEach(emitir);
+  }
+  async function mandar(ops) {
+    if (!url || (rol === "sup" ? !token : !llave)) return "sin_senal";
+    if (ops.some((o) => !soporta(o.col))) return "error";
+    try {
+      const r = await api({ accion: "escribir", ops }, 25000);
+      if (!r || !r.ok) { if (sinAcceso(r)) return "denegado"; return "error"; }
+      const rech = r.rechazados || [], enteros = new Set(rech.filter((x) => !x.persona).map((x) => x.col + "|" + x.id));   // «persona»: asistencia que se guardó a medias
+      motivo = rech.length ? String(rech[0].motivo || "") : "";
+      aplicar(r, ops);
+      return ops.length && ops.every((o) => enteros.has(o.col + "|" + o.id)) ? "rechazado" : "ok";
     } catch { return "sin_senal"; }
+  }
+  const escribir = (op, col, id, data) => mandar([{ op, col, id, data }]);
+  async function salir() {
+    if (rol === "sup" && token) { try { await api({ accion: "salir" }, 8000); } catch {} }
+    token = null; sup = null; ls.del("nortea_sup_token"); ls.del("nortea_sup"); ls.del("nortea_cache_sup");
+    if (llave) ls.set("nortea_rol", "dueno"); else ls.del("nortea_rol");
+    location.reload();
   }
   return {
     get modo() { return "real"; }, get soloLectura() { return false; },
+    get rol() { return rol === "sup" ? "sup" : "dueno"; }, get sup() { return sup; }, get version() { return servidor; }, get motivo() { return motivo; },
     alLento(fn) { lentoFn = fn; },
-    iniciar, suscribir, nuevoId, refrescar, soporta,
+    iniciar, suscribir, nuevoId, refrescar, soporta, salir,
     crear: (col, id, datos) => escribir("set", col, id, datos),
     actualizar: (col, id, campos) => escribir("update", col, id, campos),
     borrar: (col, id) => escribir("del", col, id, null),
+    enviar: (op, col, id, data) => escribir(op, col, id, data),
+    lote: (ops) => mandar(ops.map(({ op, col, id, data }) => ({ op, col, id, data }))),
+    // para el dueño: el link que se le manda a un supervisor y su propio acceso (para volver a instalar la app)
+    linkSup: (usuario) => (url ? `https://nortea.mx/obras/#acceso=${b64(url)}${usuario ? "&u=" + encodeURIComponent(usuario) : ""}` : ""),
+    accesoTexto: () => (llave && url ? `Nortea · acceso del dueño\nDirección: ${url}\nLlave: ${llave}` : ""),
   };
 })();
 window.__datos = Datos; // solo para pruebas
@@ -753,14 +947,23 @@ document.addEventListener("touchmove", (e) => { if (e.touches && e.touches.lengt
 
 // ---------- estado ----------
 const S = {
-  obras: {}, gastos: {}, pagos: {}, estimaciones: {}, pendientes: {}, chat: {}, asistencia: {}, bitacora: {},
-  loaded: { obras: false, gastos: false, pagos: false, estimaciones: false, pendientes: false, chat: false, asistencia: false, bitacora: false }, slow: false, sinCuenta: false,
+  obras: {}, gastos: {}, pagos: {}, estimaciones: {}, pendientes: {}, chat: {}, asistencia: {}, bitacora: {}, materiales: {}, supervisores: {}, tareas: {}, avisos: {},
+  loaded: { obras: false, gastos: false, pagos: false, estimaciones: false, pendientes: false, chat: false, asistencia: false, bitacora: false, materiales: false, supervisores: false, tareas: false, avisos: false }, slow: false, sinCuenta: false,
   pend: [], tabs: {}, tscroll: {}, gfs: {}, gvista: ls.get("nortea_gvista") === "tabla" ? "tabla" : "lista",
-  editCosto: null, costoErr: null, archivoAbierto: false, asis: {},
+  editCosto: null, costoErr: null, archivoAbierto: false, asis: {}, asisVista: {}, asisMes: {}, bitSem: {}, mat: {},
 };
 try { S.pend = JSON.parse(ls.get("nortea_pend") || "[]") || []; } catch { S.pend = []; }
 const savePend = () => ls.set("nortea_pend", JSON.stringify(S.pend));
 const ro = () => Datos.soloLectura;
+const COLECCIONES = ["obras", "gastos", "pagos", "estimaciones", "pendientes", "chat", "asistencia", "bitacora", "materiales", "supervisores", "tareas", "avisos"];
+// quién está usando la app (14 nov): el dueño (con su llave) o un supervisor (con usuario y contraseña).
+// El servidor revisa todo; aquí solo se esconde lo que no le toca.
+const soySup = () => Datos.rol === "sup";
+const yoId = () => (soySup() ? (Datos.sup || {}).id : "propietario");
+const yoNombre = () => (soySup() ? (Datos.sup || {}).nombre || "" : "");
+const delDueno = (x) => !x || !x.autor || x.autor === "propietario";
+const esMio = (x) => !soySup() || (!!x && x.autor === yoId());
+const v5 = () => !Datos.version || Datos.version >= 5;   // servidor nuevo (en la prueba local no hay versión: todo vale)
 
 // ---------- fechas y números ----------
 const fmtF = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
@@ -768,9 +971,10 @@ const hoy = () => fmtF(new Date());
 const ayer = () => { const d = new Date(); d.setDate(d.getDate() - 1); return fmtF(d); };
 const dFecha = (f) => { const [y, m, d] = String(f || "").split("-").map(Number); return new Date(y, (m || 1) - 1, d || 1); };
 const dias = (a, b) => Math.round((dFecha(b) - dFecha(a)) / 86400000);
-const diaLargo = (f) => new Intl.DateTimeFormat("es-MX", { weekday: "short", day: "numeric", month: "short" }).format(dFecha(f)).replace(/\./g, "");
-const fechaCorta = (f) => f ? new Intl.DateTimeFormat("es-MX", { day: "numeric", month: "short", year: "numeric" }).format(dFecha(f)).replace(/\./g, "") : "";
-const diaMes = (f) => f ? new Intl.DateTimeFormat("es-MX", { day: "numeric", month: "short" }).format(dFecha(f)).replace(/\./g, "") : "";
+const esF = (f) => /^\d{4}-\d\d-\d\d$/.test(String(f || ""));   // una fecha mal escrita se muestra tal cual en vez de tronar la pantalla
+const diaLargo = (f) => esF(f) ? new Intl.DateTimeFormat("es-MX", { weekday: "short", day: "numeric", month: "short" }).format(dFecha(f)).replace(/\./g, "") : String(f || "");
+const fechaCorta = (f) => esF(f) ? new Intl.DateTimeFormat("es-MX", { day: "numeric", month: "short", year: "numeric" }).format(dFecha(f)).replace(/\./g, "") : String(f || "");
+const diaMes = (f) => esF(f) ? new Intl.DateTimeFormat("es-MX", { day: "numeric", month: "short" }).format(dFecha(f)).replace(/\./g, "") : String(f || "");
 const nDias = (n) => `${n} ${n === 1 ? "día" : "días"}`;
 function parseMonto(v, neg) {
   let t = String(v ?? "").replace(/[\s$]/g, "").replace(/,/g, "");
@@ -800,10 +1004,32 @@ function coleccion(nombre) {
     if (p.col !== nombre) continue;
     if (p.op === "del") delete base[p.id];
     else if (p.op === "update") base[p.id] = { ...(base[p.id] || { id: p.id }), ...p.data };
+    else if (p.op === "asis") base[p.id] = aplicarAsis(base[p.id], p.data, p.id);
+    else if (p.op === "item") base[p.id] = aplicarItem(base[p.id], p.data);
     else base[p.id] = { id: p.id, ...p.data };
   }
   return Object.values(base);
 }
+// lo mismo que hace el servidor con «asis» e «item», para que se vea al instante (aunque no haya señal)
+function aplicarAsis(a, d, id) {
+  const m = {}, au = { ...((a && a.autores) || {}) };
+  if (a) { if (a.marcas) Object.assign(m, a.marcas); else (a.presentes || []).forEach((x) => (m[x] = 1)); }
+  Object.entries((d && d.cambios) || {}).forEach(([pid, v]) => { if (v > 0) { m[pid] = Math.round(v * 1000) / 1000; au[pid] = yoId(); } else { delete m[pid]; delete au[pid]; } });
+  return { ...(a || {}), id, obra: d.obra, fecha: d.fecha, marcas: m, autores: au, presentes: Object.keys(m) };
+}
+function aplicarItem(o, d) {
+  if (!o || !d || !d.item) return o;
+  const lista = (o[d.campo] || []).slice(), k = lista.findIndex((x) => x && String(x.id) === String(d.item.id));
+  if (d.borrar) { if (k >= 0) lista.splice(k, 1); }
+  else { const n = { ...(k >= 0 ? lista[k] : {}), ...d.item }; Object.keys(n).forEach((f) => { if (n[f] && n[f].__delete__) delete n[f]; }); if (k >= 0) lista[k] = n; else lista.push(n); }
+  return { ...o, [d.campo]: lista };
+}
+// lo que llega del servidor + lo que sigue en cola (así la gente recién agregada no «brinca» mientras se sube)
+function pendSobre(col, m) {
+  const ps = S.pend.filter((p) => p.col === col && p.op === "item"); if (!ps.length) return m;
+  const x = { ...m }; ps.forEach((p) => { if (x[p.id]) x[p.id] = aplicarItem(x[p.id], p.data); }); return x;
+}
+const nomSup = (id) => { const x = S.supervisores[id]; return x && x.nombre ? x.nombre : "un supervisor"; };
 const gastosDe = (c) => coleccion("gastos").filter((g) => g.obra === c);
 const pagosDe = (c) => coleccion("pagos").filter((p) => p.obra === c);
 const conceptoDe = (g) => (g.concepto || g.nota || TIPO_LBL[g.tipo] || "Gasto");
@@ -913,16 +1139,30 @@ window.__calc = calc; window.__cobroEst = cobroEst; // solo para verificar en pr
 
 // ---------- escrituras (con cola si no hay señal) ----------
 async function escribir(op, col, id, data) {
-  const r = op === "set" ? await Datos.crear(col, id, data) : op === "update" ? await Datos.actualizar(col, id, data) : await Datos.borrar(col, id);
+  const r = op === "set" ? await Datos.crear(col, id, data) : op === "update" ? await Datos.actualizar(col, id, data) : op === "del" ? await Datos.borrar(col, id) : await Datos.enviar(op, col, id, data);
   if (r === "denegado") render();
+  if (r === "rechazado") { aviso(`No se guardó: ${Datos.motivo || "no tienes permiso para eso"}.`); render(); }
   return r;
 }
 function encolar(op, col, id, data) {
-  if (op === "update") {
-    const prev = S.pend.find((p) => p.col === col && p.id === id);
-    if (prev && prev.op !== "del") { prev.data = { ...prev.data, ...data }; savePend(); render(); return; }
+  if (op === "asis") {   // varios toques el mismo día se juntan en un solo envío
+    const prev = S.pend.find((p) => p.op === "asis" && p.col === col && p.id === id);
+    if (prev) prev.data = { ...prev.data, cambios: { ...prev.data.cambios, ...data.cambios } }; else S.pend.push({ op, col, id, data });
+    savePend(); render(); return;
   }
-  S.pend = S.pend.filter((p) => !(p.col === col && p.id === id));
+  if (op === "item") {
+    if (col === "obras" && S.obras[id]) S.obras[id] = aplicarItem(S.obras[id], data);   // se ve al instante
+    const prev = S.pend.find((p) => p.op === "item" && p.col === col && p.id === id && p.data.campo === data.campo && String(p.data.item.id) === String(data.item.id));
+    if (prev && !prev.data.borrar && !data.borrar) prev.data = { ...prev.data, item: { ...prev.data.item, ...data.item } };
+    else { if (prev) S.pend = S.pend.filter((p) => p !== prev); S.pend.push({ op, col, id, data }); }
+    savePend(); render(); return;
+  }
+  if (op !== "set" && op !== "update" && op !== "del") { S.pend.push({ op, col, id, data }); savePend(); render(); return; }
+  if (op === "update") {
+    const prev = S.pend.find((p) => p.col === col && p.id === id && (p.op === "set" || p.op === "update"));
+    if (prev) { prev.data = { ...prev.data, ...data }; savePend(); render(); return; }
+  }
+  S.pend = S.pend.filter((p) => !(p.col === col && p.id === id && (op === "del" || p.op === "set" || p.op === "update" || p.op === "del")));
   S.pend.push({ op, col, id, data });
   savePend(); render();
 }
@@ -937,8 +1177,13 @@ async function reintentar() {
       for (const p of [...S.pend]) {
         if (!S.pend.includes(p)) continue;
         const enviado = p.data, r = await escribir(p.op, p.col, p.id, p.data);
-        if (r === "sin_senal") return;
-        if (S.pend.includes(p) && p.data === enviado) { S.pend = S.pend.filter((x) => x !== p); savePend(); }   // ok o error: sale de la cola
+        if (r === "sin_senal" || r === "denegado") return;   // sin señal o sin acceso (sesión cerrada): se queda en el teléfono
+        if (r === "error") {   // Google falló (candado ocupado, hoja ocupada…): se intenta otra vez después
+          p.intentos = (p.intentos || 0) + 1;
+          if (p.intentos < 3) { savePend(); return; }
+          aviso("Un cambio no se pudo guardar después de 3 intentos. Revisa y anótalo otra vez.");
+        }
+        if (S.pend.includes(p) && p.data === enviado) { S.pend = S.pend.filter((x) => x !== p); savePend(); }   // ok, rechazado o 3 errores: sale de la cola
       }
     }
   } finally { flushing = false; render(); }
@@ -949,8 +1194,18 @@ async function guardarDoc(op, col, id, data, textoOk, deshacer) {
   const r = await pr;
   if (r === "sin_senal") { encolar(op, col, id, data); aviso("Sin señal · queda guardado en el teléfono", deshacer ? async () => { desencolar(col, id); await deshacer(); render(); } : null); }
   else if (r === "error") aviso("No se pudo guardar. Intenta otra vez.");
-  else if (r === "denegado") aviso("Tu cuenta solo puede leer.");
+  else if (r === "denegado") { encolar(op, col, id, data); aviso(Datos.modo === "real" ? "Entra otra vez: lo que anotaste quedó en el teléfono." : "Tu cuenta solo puede leer."); }
   return r;
+}
+// varios cambios en una sola subida (pegar lista de material); sin señal quedan en el teléfono
+async function guardarLote(ops, textoOk) {
+  if (!ops.length) return "ok";
+  let r = Datos.lote ? await Datos.lote(ops) : "sin_lote";
+  if (r === "sin_lote") { for (const o of ops) { r = await escribir(o.op, o.col, o.id, o.data); if (r === "sin_senal") break; } }
+  if (r === "sin_senal") { ops.forEach((o) => encolar(o.op, o.col, o.id, o.data)); aviso("Sin señal · queda guardado en el teléfono"); }
+  else if (r === "ok") aviso(textoOk);
+  else aviso("No se pudo guardar. Intenta otra vez.");
+  render(); return r;
 }
 async function updObra(clave, campos, textoOk) {
   const r = await escribir("update", "obras", clave, { ...campos, actualizado: ahora() });
@@ -968,13 +1223,13 @@ let pila = [];            // [{t, c, id, el}]
 let moviendo = 0;
 let histN = 0;            // cuántas pantallas hemos empujado al historial
 const claveRuta = (r) => `${r.t}:${r.c || ""}:${r.id || ""}`;
-const hashDe = (r) => r.t === "home" ? "" : r.t === "gastos" ? "#gastos" : r.t === "sup" ? "#supervisor" : r.t === "obra" ? "#obra-" + slug(r.c) : `#${r.t}-${slug(r.c)}--${r.id}`;
+const hashDe = (r) => r.t === "home" ? "" : r.t === "gastos" ? "#gastos" : r.t === "sups" ? "#supervisores" : r.t === "obra" ? "#obra-" + slug(r.c) : `#${r.t}-${slug(r.c)}--${r.id}`;
 const padreDe = (r) => (r.t === "cot" || r.t === "est") ? { t: "obra", c: r.c } : { t: "home" };
 function rutaActual() {
   const h = location.hash.replace(/^#/, "");
   let m;
   if (h === "gastos") return { t: "gastos" };
-  if (h === "supervisor") return { t: "sup" };
+  if (h === "supervisores") return { t: "sups" };
   if ((m = h.match(/^obra-([A-Za-z0-9-]+)$/))) { const o = obraPorSlug(m[1]); return o ? { t: "obra", c: o.clave } : { t: "home" }; }
   if ((m = h.match(/^(cot|est)-([A-Za-z0-9-]+?)--([A-Za-z0-9-]+)$/))) { const o = obraPorSlug(m[2]); return o ? { t: m[1], c: o.clave, id: m[3] } : { t: "home" }; }
   return { t: "home" };
@@ -1001,7 +1256,7 @@ function pintarPant(p) {
   if (act && cu.contains(act) && /^(INPUT|TEXTAREA)$/.test(act.tagName)) { p.sucio = true; return; }
   p.sucio = false;
   const sl = [...p.el.querySelectorAll("[data-sid]")].map((x) => [x.dataset.sid, x.scrollLeft]);
-  ({ home: pantHome, obra: pantObra, gastos: pantGastos, cot: pantCot, sup: pantSup }[p.t])(p);
+  ({ home: pantHome, obra: pantObra, gastos: pantGastos, cot: pantCot, sups: pantSups }[p.t])(p);
   sl.forEach(([id, v]) => { const x = p.el.querySelector(`[data-sid="${id}"]`); if (x) x.scrollLeft = v; });
 }
 function mover(el, desde, hasta, ms, ease) {
@@ -1030,10 +1285,19 @@ function actualizarBar() {
   $("#bar-fija").classList.toggle("off", !on);
   document.body.classList.toggle("sin-bar", !on);
   $("#b-gasto").disabled = !on; $("#b-pago").disabled = !on;
-  // la burbuja de anotar: donde hay datos y se puede escribir; no en la estimación ni en la vista de supervisor
-  $("#burbuja").hidden = !(t && S.loaded.obras && !ro() && activas().length && !CH.abierto && t.t !== "est" && t.t !== "sup");
+  // el supervisor no anota ingresos: su segundo botón es el reporte del día
+  const bp = $("#b-pago"), sup = soySup();
+  if (bp.dataset.act !== (sup ? "nuevo-reporte" : "nuevo-pago")) { bp.dataset.act = sup ? "nuevo-reporte" : "nuevo-pago"; bp.innerHTML = `${IC_PLUS}${sup ? "Reporte" : "Ingreso"}`; }
+  // la burbuja de anotar: donde hay datos y se puede escribir; no en la estimación, ni para supervisores
+  $("#burbuja").hidden = !(t && S.loaded.obras && !ro() && !sup && activas().length && !CH.abierto && t.t !== "est" && t.t !== "sups");
+}
+// al entrar a una obra (desde el inicio o un aviso) abre en su primera sección, con la semana actual (14 nov)
+function reiniciarObra(c) {
+  [S.tabs, S.asis, S.asisVista, S.asisMes, S.bitSem].forEach((m) => delete m[c]);
+  Object.keys(S.tscroll).forEach((k) => { if (k.startsWith(c + "|")) delete S.tscroll[k]; });
 }
 async function apilar(r, animar) {
+  if (r.t === "obra") reiniciarObra(r.c);
   const p = crearPant(r);
   const bajo = top();
   pintarPant(p);
@@ -1183,8 +1447,9 @@ document.addEventListener("visibilitychange", () => { if (!document.hidden) setT
 
 // ---------- barra superior ----------
 const logoBtn = `<button class="logo press" data-act="inicio" aria-label="Ir a Inicio"><i></i></button>`;
-function navHTML({ back, titulo, fade, der }) {
-  return `<div class="nav-in">${logoBtn}${back ? `<button class="back press" data-act="volver" aria-label="Regresar a ${esc(back)}">${IC_BACK}<span>${esc(back)}</span></button>` : ""}<span class="nav-t${fade ? " fade" : ""}">${esc(titulo || "")}</span><div class="nav-r">${der || ""}</div></div>`;
+function navHTML({ back, titulo, fade, der, sub }) {
+  const t = sub ? `<button class="nav-t nav-b press" data-act="ir-menu" aria-label="${esc(titulo || "")}: ver las secciones"><span>${esc(titulo || "")}</span><small>${esc(sub)} ▾</small></button>` : `<span class="nav-t${fade ? " fade" : ""}">${esc(titulo || "")}</span>`;
+  return `<div class="nav-in">${logoBtn}${back ? `<button class="back press" data-act="volver" aria-label="Regresar a ${esc(back)}">${IC_BACK}<span>${esc(back)}</span></button>` : ""}${t}<div class="nav-r">${der || ""}</div></div>`;
 }
 const demoChip = () => Datos.modo === "mock" ? '<span class="demo">Ejemplo</span>' : "";
 function avisos() {
@@ -1206,6 +1471,7 @@ const setPant = (p, nav, cuerpo) => { p.el.querySelector(".nav").innerHTML = nav
 // Inicio
 // ============================================================
 function pantHome(p) {
+  if (soySup()) return homeSup(p);
   const nav = navHTML({ titulo: "Obras", fade: true, der: demoChip() });
   if (S.sinCuenta) return setPant(p, nav, `<h1 class="titulo">Obras</h1><p class="msg">Abre esta página con tu cuenta de Claude.</p>`);
   if (!S.loaded.obras) return setPant(p, nav, `<h1 class="titulo">Obras</h1>${avisos()}<div class="sk s"></div><div class="sk"></div><div class="sk"></div>`);
@@ -1220,7 +1486,7 @@ function pantHome(p) {
   h += `<section class="res" aria-label="Resumen general"><div><span class="lbl">En caja</span><span class="cifra num ${enCaja < 0 ? "neg" : ""}">${money0(enCaja)}</span>${enCaja < 0 ? `<span class="sub neg">Llevas puesto de tu bolsa</span>` : `<span class="sub">de obras activas</span>`}</div>
     <div class="col2"><div><span class="lbl">Por cobrar</span><span class="c2 num ${porCobrar < 0 ? "neg" : ""}">${money0(porCobrar)}</span></div><div><span class="lbl">Utilidad estimada</span><span class="c2 num ${util < 0 ? "neg" : ""}">${hayUtil ? money0(util) : "—"}</span></div></div></section>`;
   if (porPagar || meDeben) h += `<div class="mini-row">${porPagar ? `<button class="pill warn press" data-act="pend-grupo" data-g="por_pagar">Le debo <b class="num">${money0(porPagar)}</b> ›</button>` : ""}${meDeben ? `<button class="pill bad press" data-act="pend-grupo" data-g="me_debe">Me deben <b class="num">${money0(meDeben)}</b> ›</button>` : ""}</div>`;
-  h += avisosHomeHTML();
+  h += novedadesHTML() + avisosHomeHTML();
   h += `<h2 class="sec">Obras activas</h2>`;
   h += act.length ? `<div class="cards">${act.map((o, i) => cardHTML(o, cs[i])).join("")}</div>` : `<p class="msg" style="margin:16px 0">No hay obras activas.</p>`;
   const np = pendientesLista().length + libresAbiertos().length;
@@ -1232,7 +1498,7 @@ function pantHome(p) {
     (rs.length ? `<p class="nota num">Todas juntas: cobrado ${money0(rCob)} · utilidad ${money0(rUt)}${rCob ? " · " + pctTxt(rUt / rCob) : ""}</p>` : "") + `</details>`;
   setPant(p, nav, h + descretos());
 }
-const descretos = () => `<div class="discreto"><button data-act="nueva-obra">Nueva obra</button>${activas().length ? `<button data-act="supervisor">Vista de supervisor (prueba)</button>` : ""}</div>`;
+const descretos = () => `<div class="discreto"><button data-act="nueva-obra">Nueva obra</button><button data-act="sups">Supervisores</button>${Datos.accesoTexto() ? `<button data-act="mi-acceso">Copiar mi acceso</button>` : ""}</div>`;
 // ---------- pendientes libres (generales o de una obra): {texto, tipo: pendiente|material, obra|null, fecha|null, nota, hecho} ----------
 const PTIPOS = { pendiente: "Pendiente", material: "Material por comprar" };
 const libres = () => coleccion("pendientes");
@@ -1354,24 +1620,52 @@ function cardHTML(o, c) {
 // ============================================================
 // Obra
 // ============================================================
+// El menú de la obra ya no es una tira que se recorre de lado (14 nov): todas las secciones quedan a la vista en
+// cuadritos con su ícono, y caben más. El supervisor solo ve las suyas.
+const IC_SEC = {
+  resumen: '<rect x="4" y="4" width="7" height="9" rx="1.5"/><rect x="13" y="4" width="7" height="5" rx="1.5"/><rect x="13" y="11" width="7" height="9" rx="1.5"/><rect x="4" y="15" width="7" height="5" rx="1.5"/>',
+  gastos: '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/>',
+  pagos: '<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6.5 9.5v5M17.5 9.5v5"/>',
+  cotizacion: '<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h7"/>',
+  avance: '<path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/>',
+  cuadrillas: '<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.5 2.7-5.5 6-5.5s6 2 6 5.5"/><path d="M16 4.6a3 3 0 0 1 0 6M17.5 14.6c2.2.6 3.5 2.4 3.5 5.4"/>',
+  bitacora: '<path d="M6 3h11a2 2 0 0 1 2 2v16H8a2 2 0 0 1-2-2z"/><path d="M6 17a2 2 0 0 1 2-2h11M10 7h5M10 10.5h5"/>',
+  asistencia: '<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M9 15l2 2 4-4"/>',
+  materiales: '<path d="M3 8l9-5 9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/>',
+  supervisores: '<circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.7 2.7-6 6-6 1.6 0 3 .5 4 1.4"/><path d="M15 17.5l2 2 4-4.5"/>',
+  tareas: '<path d="M10 6h10M10 12h10M10 18h10"/><path d="M3.5 6l1.5 1.5L7.5 5M3.5 12l1.5 1.5 2.5-2.5M3.5 18l1.5 1.5 2.5-2.5"/>',
+};
 function tabsDe(o) {
+  if (soySup()) return [["bitacora", "Bitácora"], ["asistencia", "Asistencia"], ["materiales", "Materiales"], ["gastos", "Gastos"], ["tareas", "Pendientes"]];
   const t = [["resumen", "Resumen"], ["gastos", "Gastos"], ["pagos", "Ingresos"], ["cotizacion", "Cotización"], ["avance", "Avance"]];
   if ((o.cuadrillas || []).length) t.push(["cuadrillas", "Cuadrillas"]);
-  t.push(["bitacora", "Bitácora"], ["asistencia", "Asistencia"]);
+  t.push(["bitacora", "Bitácora"], ["asistencia", "Asistencia"], ["materiales", "Materiales"], ["supervisores", "Supervisores"]);
   return t;
 }
+const tabDe = (o) => { const ts = tabsDe(o), k = S.tabs[o.clave]; return ts.some((t) => t[0] === k) ? k : ts[0][0]; };
+// numerito en la esquina del cuadrito: lo que pide atención
+function marcaSec(o, k) {
+  if (k === "materiales") { const n = materialesDe(o.clave).filter((m) => m.estado === "falta").length; return n ? `<i class="sec-n warn">${n}</i>` : ""; }
+  if (k === "tareas" || k === "supervisores") { const xs = tareasDe({ obra: o.clave }).filter((t) => !t.hecho); const v = xs.filter((t) => t.fecha && t.fecha < hoy()).length; return xs.length ? `<i class="sec-n${v ? " bad" : ""}">${xs.length}</i>` : ""; }
+  return "";
+}
+const menuObraHTML = (o, tab) => `<nav class="menu-o" aria-label="Secciones de la obra">${tabsDe(o).map(([k, t]) => `<button class="press" aria-selected="${tab === k}" data-act="tab" data-k="${k}">${SV(IC_SEC[k] || IC_SEC.resumen, 1.9)}<span>${t}</span>${marcaSec(o, k)}</button>`).join("")}</nav>`;
 function pantObra(p) {
   const o = S.obras[p.c];
   if (!o) return setPant(p, navHTML({ back: "Obras", titulo: "" }), `<p class="msg">Esta obra ya no existe.</p>`);
-  const tabs = tabsDe(o);
-  if (!tabs.some((t) => t[0] === (S.tabs[o.clave] || "resumen"))) S.tabs[o.clave] = "resumen";
-  const tab = S.tabs[o.clave] || "resumen";
-  const nav = navHTML({ back: "Obras", titulo: nomCorto(o), der: ro() ? "" : `<button class="mas press" data-act="menu-obra" aria-label="Más opciones de la obra">${IC_MAS}</button>` });
-  const c = calc(o);
-  setPant(p, nav, `${avisos()}<div id="o-cab">${cabHTML(o)}</div><div class="tabs" role="tablist" data-sid="tabs">${tabs.map(([k, t]) => `<button role="tab" aria-selected="${tab === k}" data-act="tab" data-k="${k}">${t}</button>`).join("")}</div><div id="o-tab">${tabHTML(o, c, tab, p)}</div>`);
+  const tab = tabDe(o); S.tabs[o.clave] = tab;
+  const nom = (tabsDe(o).find((t) => t[0] === tab) || [])[1] || "";
+  const nav = navHTML({ back: "Obras", titulo: nomCorto(o), sub: nom, der: ro() || soySup() ? "" : `<button class="mas press" data-act="menu-obra" aria-label="Más opciones de la obra">${IC_MAS}</button>` });
+  const c = soySup() ? null : calc(o);
+  setPant(p, nav, `${avisos()}<div id="o-cab">${cabHTML(o, tab)}</div>${menuObraHTML(o, tab)}<div id="o-tab">${tabHTML(o, c, tab, p)}</div>`);
 }
-function cabHTML(o) {
-  const pz = plazo(o), term = esTerminada(o), av = avanceObra(o);
+function cabHTML(o, tab) {
+  const pz = plazo(o), term = esTerminada(o);
+  if (tab !== "resumen") {
+    const f = pz.ini && pz.fin ? `${diaMes(pz.ini)} → ${diaMes(pz.fin)}` : pz.ini ? `Inicio ${diaMes(pz.ini)}` : pz.fin ? `Entrega ${diaMes(pz.fin)}` : "";
+    return `<section class="cab chica"><div class="cab-top"><h1>${esc(o.nombre || o.corto)}</h1><span class="tag ${pz.late ? "late" : est(o) === "en_curso" ? "on" : ""}">${pz.late ? "Atrasada" : ESTADO[est(o)] || ""}</span></div><p class="cab-s">${[f, pz.texto].filter(Boolean).map(esc).join(" · ")}</p></section>`;
+  }
+  const av = avanceObra(o);
   const editable = !ro();
   const fb = (k, l, v) => editable ? `<button class="fecha press" data-act="fecha" data-k="${k}"><span class="lbl">${l}</span><b>${v ? fechaCorta(v) : "Agregar"}</b></button>` : `<span class="fecha"><span class="lbl">${l}</span><b>${v ? fechaCorta(v) : "—"}</b></span>`;
   let dur = "";
@@ -1385,6 +1679,13 @@ function cabHTML(o) {
     ${av != null ? `<div class="av"><span>Avance de la obra</span><b class="num">${fmtPct(av)}</b></div><span class="bar" role="img" aria-label="Avance de la obra"><i style="width:${Math.min(100, av).toFixed(1)}%"></i></span>` : ""}</section>`;
 }
 function tabHTML(o, c, tab, p) {
+  if (tab === "materiales") return materialesHTML(o);
+  if (tab === "tareas") return tareasObraHTML(o);
+  if (tab === "supervisores") return supObraHTML(o);
+  if (tab === "bitacora") return bitacoraHTML(o);
+  if (tab === "asistencia") return asistenciaHTML(o, c);
+  if (soySup() && tab === "gastos") return gastosSupHTML(o);
+  if (soySup()) return "";
   if (tab === "resumen") return resumenHTML(o, c);
   if (tab === "gastos") return gastosBloque({ t: "obra", c: o.clave });
   if (tab === "pagos") return pagosHTML(c);
@@ -1397,18 +1698,23 @@ function tabHTML(o, c, tab, p) {
 function pintarTab(p) {
   const o = S.obras[p.c]; if (!o) return;
   const cont = p.el.querySelector("#o-tab"); if (!cont) return;
-  cont.innerHTML = tabHTML(o, calc(o), S.tabs[o.clave] || "resumen", p);
+  cont.innerHTML = tabHTML(o, soySup() ? null : calc(o), tabDe(o), p);
 }
 function cambiarTab(p, k) {
   const o = S.obras[p.c]; if (!o) return;
-  const cu = p.el.querySelector(".cuerpo"), cab = p.el.querySelector("#o-cab");
-  const ant = S.tabs[o.clave] || "resumen";
+  const cu = p.el.querySelector(".cuerpo");
+  const ant = tabDe(o);
   S.tscroll[o.clave + "|" + ant] = cu.scrollTop;
   S.tabs[o.clave] = k;
-  p.el.querySelectorAll(".tabs button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.k === k)));
-  pintarTab(p);
+  pintarPant(p);
+  const m = p.el.querySelector(".menu-o"), tope = m ? Math.max(0, m.offsetTop - 10) : 0;
   const g = S.tscroll[o.clave + "|" + k];
-  cu.scrollTop = g != null ? g : Math.min(cu.scrollTop, cab ? cab.offsetHeight : 0);
+  cu.scrollTop = g != null ? g : Math.min(cu.scrollTop, tope);
+}
+// tocar el título de arriba: sube al menú de la obra
+function irMenu(p) {
+  const cu = p && p.el.querySelector(".cuerpo"), m = p && p.el.querySelector(".menu-o"); if (!cu || !m) return;
+  cu.scrollTo({ top: Math.max(0, m.offsetTop - 10), behavior: reduceMotion() ? "auto" : "smooth" });
 }
 const row = (l, v, cls = "", extra = "") => `<div class="row ${cls}"><span>${l}${extra}</span><span class="v num">${v}</span></div>`;
 function resumenHTML(o, c) {
@@ -1420,7 +1726,7 @@ function resumenHTML(o, c) {
   const pc = c.te_van_a_pagar > 0 ? Math.min(1, Math.max(0, c.cobrado / c.te_van_a_pagar)) : 0;
   const tile = (lbl, v, cls) => `<div class="tile ${cls || ""}"><span class="lbl">${lbl}</span><b class="num">${v}</b></div>`;
   h += `<section class="panel dinero"><h3>Cobro de la obra</h3>
-    <div class="tiles t3">${tile("Total", money0(c.te_van_a_pagar))}${tile("Pagado", money0(c.cobrado), "pos")}${tile(c.falta_cobrar < 0 ? "Pagado de más" : "Falta", money0(Math.abs(c.falta_cobrar)), c.falta_cobrar < 0 ? "neg" : "")}</div>
+    <div class="tiles t3">${tile("Pagado", money0(c.cobrado), "pos")}${tile(c.falta_cobrar < 0 ? "Pagado de más" : "Falta", money0(Math.abs(c.falta_cobrar)), c.falta_cobrar < 0 ? "neg" : "")}${tile("Total", money0(c.te_van_a_pagar))}</div>
     <span class="bar cobro" role="img" aria-label="Cobrado del total"><i style="width:${(pc * 100).toFixed(1)}%"></i></span><span class="ley1 num">${Math.round(pc * 100)} % cobrado</span>
     <h3>Caja de la obra</h3>
     <div class="tiles t2">${tile("Has gastado", money0(c.gastado))}${tile(c.en_caja < 0 ? "Pusiste de tu bolsa" : "En caja", money0(Math.abs(c.en_caja)), c.en_caja < 0 ? "neg" : "pos")}</div>
@@ -1463,13 +1769,16 @@ function filtrarGastos(gs, f, conObra) {
   }
   return r;
 }
-const marcaTag = (g) => g.marca ? (g.resuelto ? `<span class="tg saldado">✓ Saldado${g.resuelto_fecha ? " " + diaMes(g.resuelto_fecha) : ""}</span>` : `<span class="tg ${g.marca}">${MARCAS[g.marca]}</span>`) : "";
+// estado de un gasto (14 nov): en la lista solo sale lo que sigue pendiente (rojo «Le presté», amarillo «Le debo», azul «Por reponer»);
+// en la tabla todos dicen algo: lo ya pagado sale «Pagado» en verde
+const marcaTag = (g) => g.marca && !g.resuelto ? `<span class="tg ${g.marca}">${MARCAS[g.marca]}</span>` : "";
+const estadoTabla = (g) => g.marca && !g.resuelto ? marcaTag(g) : `<span class="tg saldado">${g.marca ? `✓ Saldado${g.resuelto_fecha ? " " + diaMes(g.resuelto_fecha) : ""}` : "Pagado"}</span>`;
 function swRow(inner, col, id, saldar) {
   return `<div class="sw" data-col="${col}" data-id="${esc(id)}" data-w="${saldar ? 176 : 88}" style="--w:${saldar ? 176 : 88}px"><div class="sw-act">${saldar ? `<button class="sa ok" data-act="saldar" data-id="${esc(id)}">Saldar</button>` : ""}<button class="sa del" data-act="sw-borrar" data-col="${col}" data-id="${esc(id)}">Borrar</button></div><div class="sw-f">${inner}</div></div>`;
 }
 function filaGasto(g) {
   const obs = obsDe(g);
-  const inner = `<button class="item press" data-act="edit-gasto" data-id="${esc(g.id)}"><span class="ico ${g.tipo === "flete" ? "gris" : ""}">${ico(g.tipo)}</span><span class="t"><b>${esc(conceptoDe(g))}</b>${obs ? `<small class="obs">${esc(obs)}</small>` : ""}<small>${esc(TIPO_LBL[g.tipo] || "")}${g.cuadrilla ? " · " + esc(g.cuadrilla) : ""}${g.forma ? " · " + esc(FORMAS_G[g.forma] || "") : ""}${g.factura ? " · con factura" : ""} ${marcaTag(g)}</small></span><span class="m num">${money(g.monto)}</span></button>`;
+  const inner = `<button class="item press" data-act="edit-gasto" data-id="${esc(g.id)}"><span class="ico ${g.tipo === "flete" ? "gris" : ""}">${ico(g.tipo)}</span><span class="t"><b>${esc(conceptoDe(g))}</b>${obs ? `<small class="obs">${esc(obs)}</small>` : ""}<small>${esc(TIPO_LBL[g.tipo] || "")}${g.cuadrilla ? " · " + esc(g.cuadrilla) : ""}${g.forma ? " · " + esc(FORMAS_G[g.forma] || "") : ""}${g.factura ? " · con factura" : ""}${g.autor_nombre ? " · anotó " + esc(g.autor_nombre) : ""}${g.pagado_por && !g.resuelto ? " · lo pagó " + esc(g.pagado_por) : ""} ${marcaTag(g)}</small></span><span class="m num">${money(g.monto)}</span></button>`;
   return swRow(inner, "gastos", g.id, pendiente(g));
 }
 function listaGastos(gs) {
@@ -1483,7 +1792,7 @@ function listaGastos(gs) {
 function tablaGastos(gs, conObra) {
   const ord = [...gs].sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)) || String(b.creado).localeCompare(String(a.creado)));
   return `<div class="tbl-box" data-sid="tbl"><table><thead><tr><th>Fecha</th>${conObra ? "<th>Obra</th>" : ""}<th>Concepto</th><th>Tipo</th><th class="r">Monto</th><th>Pago</th><th>Estado</th></tr></thead><tbody>` +
-    ord.map((g) => `<tr data-act="edit-gasto" data-id="${esc(g.id)}"><td>${diaMes(g.fecha)}</td>${conObra ? `<td class="cc" style="max-width:130px" title="${esc(nomCorto(S.obras[g.obra]))}">${esc(nomCorto(S.obras[g.obra]))}</td>` : ""}<td class="cc" title="${esc(conceptoDe(g))}">${esc(conceptoDe(g))}</td><td>${esc(TIPO_LBL[g.tipo] || "")}</td><td class="r num">${money(g.monto)}</td><td>${esc(FORMAS_G[g.forma] || "")}</td><td>${marcaTag(g)}</td></tr>`).join("") + `</tbody></table></div>`;
+    ord.map((g) => `<tr data-act="edit-gasto" data-id="${esc(g.id)}"><td>${diaMes(g.fecha)}</td>${conObra ? `<td class="cc" style="max-width:130px" title="${esc(nomCorto(S.obras[g.obra]))}">${esc(nomCorto(S.obras[g.obra]))}</td>` : ""}<td class="cc" title="${esc(conceptoDe(g))}">${esc(conceptoDe(g))}</td><td>${esc(TIPO_LBL[g.tipo] || "")}</td><td class="r num">${money(g.monto)}</td><td>${esc(FORMAS_G[g.forma] || "")}</td><td>${estadoTabla(g)}</td></tr>`).join("") + `</tbody></table></div>`;
 }
 function gastosRes(p) {
   const todos = gastosDeCtx(p), conObra = p.t !== "obra", f = gf(p);
@@ -1641,7 +1950,7 @@ function nuevoF(mode, id) {
     const prev = id ? coleccion(mode === "gasto" ? "gastos" : "pagos").find((x) => x.id === id) : null;
     if (id && !prev) return null;
     const f = { ...base, tipo: null, cuadrilla: null, factura: false, facturaManual: false, marca: null };
-    if (prev) Object.assign(f, { id, prev, obra: prev.obra, monto: String(prev.monto), tipo: prev.tipo || null, cuadrilla: prev.cuadrilla || null, factura: !!prev.factura, facturaManual: true, forma: prev.forma || null, fecha: prev.fecha, fechaModo: fechaModo(prev.fecha), marca: prev.marca || null,
+    if (prev) Object.assign(f, { id, prev, obra: prev.obra, monto: String(prev.monto), tipo: prev.tipo || null, cuadrilla: prev.cuadrilla || null, factura: !!prev.factura, facturaManual: true, forma: prev.forma || null, fecha: prev.fecha, fechaModo: fechaModo(prev.fecha), marca: prev.marca || null, conSuDinero: !!prev.con_su_dinero,
       concepto: mode === "gasto" ? (prev.concepto || prev.nota || "") : (prev.concepto || ""), nota: mode === "gasto" ? (prev.concepto ? (prev.nota || "") : "") : (prev.nota || "") });
     if (!f.obra) return null;
     return f;
@@ -1710,6 +2019,15 @@ function hojaHTML() {
   if (m === "persona") return hojaPersona();
   if (m === "bitacora") return hojaBitacora();
   if (m === "asiscfg") return hojaCfgAsis();
+  if (m === "material") return hojaMaterial();
+  if (m === "grupo") return hojaGrupo();
+  if (m === "tarea") return hojaTarea();
+  if (m === "tareasup") return hojaTareaSup();
+  if (m === "supervisor") return hojaSupervisor();
+  if (m === "supok") return hojaSupOk();
+  if (m === "supclave") return hojaSupClave();
+  if (m === "raya") return hojaRaya();
+  if (m === "matlista") return hojaMatLista();
   return shell("Ponla en tu celular", instalarHTML(), `<button type="button" class="btn main press" data-act="cerrar">Listo</button>`);
 }
 // confirmaciones y menús: hoja chica con botones grandes
@@ -1774,14 +2092,19 @@ function hojaGP() {
   b += `<label class="fl" for="f-concepto">Concepto</label><input class="field" id="f-concepto" autocomplete="off" enterkeyhint="next" placeholder="${g ? "Ej. Pago a Roberto tablaroquero" : "Ej. Anticipo"}" value="${esc(F.concepto)}"><div class="chips dos" id="sug" style="margin-top:8px"></div>`;
   b += `<span class="fl">${g ? "¿Cómo pagaste?" : "¿Cómo te pagaron?"}</span>` + chipsHTML("forma", Object.entries(g ? FORMAS_G : FORMAS_P), F.forma);
   b += fechaBloque();
-  if (g) {
+  if (g && soySup()) {
+    b += `<button type="button" class="sw-t" role="switch" id="f-sudin" aria-checked="${!!F.conSuDinero}" data-act="sudin" style="margin-top:12px">Lo pagué con mi dinero (NORTEA me lo debe)<i></i></button>`;
+    b += `<div id="blk-fac" ${F.tipo === "trabajadores" ? "hidden" : ""}><button type="button" class="sw-t" role="switch" id="f-fac" aria-checked="${F.factura}" data-act="fac" style="margin-top:6px">Con factura<i></i></button></div>`;
+  } else if (g) {
     b += `<span class="fl">¿Queda algo pendiente?</span>` + chipsHTML("marca", [["", "Nada"], ["me_debe", "Le presté"], ["por_pagar", "Le debo"], ["por_recuperar", "Por reponer"]], F.marca || "") + `<p class="hint" id="marca-h">${F.marca ? MARCA_AYUDA[F.marca] : ""}</p>`;
     if (F.id && F.prev.marca && F.prev.resuelto) b += `<div class="ok-l">${IC_OK}Saldado${F.prev.resuelto_fecha ? " el " + fechaCorta(F.prev.resuelto_fecha) : ""}</div>`;
     b += `<div id="blk-fac" ${F.tipo === "trabajadores" ? "hidden" : ""}><button type="button" class="sw-t" role="switch" id="f-fac" aria-checked="${F.factura}" data-act="fac" style="margin-top:6px">Con factura<i></i></button></div>`;
   }
   b += `<label class="fl" for="f-nota">Observación (opcional)</label><input class="field" id="f-nota" autocomplete="off" placeholder="${g ? "Ej. Pago adelantado, restar el sábado" : "Ej. Transferencia BBVA"}" value="${esc(F.nota)}">`;
+  if (g && !soySup() && F.id && F.prev && (F.prev.autor_nombre || F.prev.pagado_por)) b += `<p class="hint">${[F.prev.autor_nombre ? "Lo anotó " + esc(F.prev.autor_nombre) : "", F.prev.pagado_por ? "lo pagó " + esc(F.prev.pagado_por) + " con su dinero" : ""].filter(Boolean).join(" · ")}</p>`;
   let pie = "";
-  if (g && F.id && F.prev.marca) pie += F.prev.resuelto
+  if (g && soySup() && F.id && F.prev && F.prev.resuelto) return shell("Gasto", `<p class="ctx">${esc(nomCorto(ob))}</p><p style="font-size:17px;font-weight:600;margin:10px 0 0">${esc(conceptoDe(F.prev))} · ${money(F.prev.monto)}</p><div class="ok-l">${IC_OK}NORTEA ya te lo pagó: ya no se puede cambiar.</div>`, `<button type="button" class="btn sec2 press" data-act="cerrar">Cerrar</button>`);
+  if (g && !soySup() && F.id && F.prev.marca) pie += F.prev.resuelto
     ? `<button type="button" class="btn sec2 press" data-act="saldar-sheet" data-v="0">Reabrir pendiente</button>`
     : `<button type="button" class="btn okb press" data-act="saldar-sheet" data-v="1">Saldar</button>`;
   pie += `<p class="err" id="f-err" hidden></p><button type="button" class="btn main press" id="f-guardar" data-act="guardar"></button>`;
@@ -1827,6 +2150,15 @@ function instalarHTML() {
   <span class="fl">Link de la app</span><div class="copy"><input id="l1" readonly value="${LINK}" aria-label="Link de la app"><button class="mini press" data-act="copiar" data-i="l1">Copiar link</button></div>
   <span class="fl">Link que abre directo en Nuevo gasto</span><div class="copy"><input id="l2" readonly value="${LINK}#gasto" aria-label="Link que abre en Nuevo gasto"><button class="mini press" data-act="copiar" data-i="l2">Copiar link</button></div>
   <p class="hint">Con el segundo link, el ícono de tu pantalla de inicio abre directo en «Nuevo gasto».</p>`;
+}
+// copia un texto (pedido, resumen de la semana, acceso de un supervisor) para pegarlo en WhatsApp
+async function copiarTexto(txt, ok) {
+  try { await navigator.clipboard.writeText(txt); aviso(ok || "Copiado"); return true; }
+  catch {
+    mostrarHoja({ mode: "accion", chica: true, obra: null, id: null, titulo: "Cópialo de aquí", items: [], texto: "" });
+    const b = $("#sheet-body"); if (b) { const t = document.createElement("textarea"); t.className = "field"; t.rows = 8; t.value = txt; t.style.marginTop = "10px"; b.insertBefore(t, b.querySelector(".acciones")); t.focus(); t.select(); }
+    return false;
+  }
 }
 async function copiar(id) {
   const inp = $("#" + id); if (!inp) return;
@@ -1935,6 +2267,7 @@ function faltan() {
 }
 function validar() {
   if (!F) return false;
+  if (F.mode === "raya") return actualizarRaya();
   let ok = true;
   const b = $("#f-guardar");
   if (F.mode === "gasto" || F.mode === "pago") {
@@ -1959,6 +2292,12 @@ function syncChips(group) {
 }
 function elegir(group, v) {
   if (group === "cuadrilla" && F.cuadrilla === v) v = null;
+  if ((group === "mprov" || group === "msec" || group === "muni") && F[group] === v) v = "";
+  if (group === "mprov" || group === "msec") { const i = $("#f-" + group); if (i) i.value = v; }
+  if (group === "ttipo") { const l = v === "lista"; $("#blk-titems").hidden = !l; const t = $("#t-texto"); t.placeholder = l ? "Ej. Antes del sábado" : "Ej. Medir el plafón del pasillo"; const lb = document.querySelector('label[for="t-texto"]'); if (lb) lb.textContent = l ? "Título (opcional)" : "¿Qué tiene que hacer?"; }
+  if (group === "tfechaModo") { const bf = $("#blk-tfecha"); bf.hidden = v !== "otra"; if (v === "otra") { const fi = $("#t-fecha"); try { fi.showPicker && fi.showPicker(); } catch {} } }
+  if (group === "tsup") { F.tsup = v; if (!obrasDeSup(v).some((o) => o.clave === F.tobra)) F.tobra = null; $("#blk-tobra").innerHTML = tareaObrasHTML(); }
+  if (group === "raj") { const bl = $("#blk-raj"); if (bl) bl.hidden = v === "nada"; if (v !== "nada") setTimeout(() => { const i = $("#f-raj"); if (i) i.focus(); }, 30); }
   if (group === "marca") v = v || null;
   F[group] = v;
   if (group === "obra") { F.cuadrilla = null; const bc = $("#blk-cuad"); if (bc) bc.innerHTML = cuadHTMLHoja(); actualizarSug(); actualizarAdel(); }
@@ -1996,6 +2335,14 @@ async function guardar() {
   if (m === "persona") return guardarPersona();
   if (m === "bitacora") return guardarBitacora();
   if (m === "asiscfg") return guardarCfgAsis();
+  if (m === "material") return guardarMaterial(false);
+  if (m === "grupo") return guardarGrupo();
+  if (m === "tarea") return guardarTarea();
+  if (m === "tareasup") return guardarTareaSup();
+  if (m === "supervisor") return guardarSupervisor();
+  if (m === "supclave") return guardarClaveSup();
+  if (m === "raya") return guardarRaya();
+  if (m === "matlista") return guardarMatLista();
   if (m === "fecha") { const campo = F.campo, obra = F.obra, v = $("#f-fecha2").value || null; cerrarHoja(); return updObra(obra, { [campo]: v }, "Fecha guardada"); }
 }
 async function guardarGP() {
@@ -2003,7 +2350,9 @@ async function guardarGP() {
   if (F.fechaModo === "otra") F.fecha = $("#f-fecha").value || hoy();
   const monto = parseMonto(F.monto);
   const esG = F.mode === "gasto", col = esG ? "gastos" : "pagos";
-  const campos = esG
+  const campos = esG && soySup()
+    ? { obra: F.obra, monto, tipo: F.tipo, concepto: F.concepto, factura: F.tipo === "trabajadores" ? false : !!F.factura, forma: F.forma, fecha: F.fecha, nota: F.nota, con_su_dinero: !!F.conSuDinero }
+    : esG
     ? { obra: F.obra, monto, tipo: F.tipo, concepto: F.concepto, cuadrilla: F.tipo === "trabajadores" ? (F.cuadrilla || null) : null, factura: F.tipo === "trabajadores" ? false : !!F.factura, forma: F.forma, fecha: F.fecha, nota: F.nota, marca: F.marca || null }
     : { obra: F.obra, monto, concepto: F.concepto, forma: F.forma, fecha: F.fecha, nota: F.nota };
   ls.set("nortea_obra", F.obra);
@@ -2013,7 +2362,7 @@ async function guardarGP() {
   const id = F.id || Datos.nuevoId(col);
   cerrarHoja();
   if (!editando) {
-    const data = { ...campos, ...(esG ? { resuelto: false, resuelto_fecha: null } : {}), creado: ahora(), actualizado: ahora(), origen: "app" };
+    const data = { ...campos, ...(esG ? { resuelto: false, resuelto_fecha: null } : {}), creado: ahora(), actualizado: ahora(), origen: soySup() ? "supervisor" : "app", ...(soySup() ? { autor: yoId(), autor_nombre: yoNombre(), marca: campos.con_su_dinero ? "por_pagar" : null } : {}) };
     await guardarDoc("set", col, id, data, `Guardado · ${resumen}`, () => escribir("del", col, id));
     return;
   }
@@ -2760,40 +3109,113 @@ function cfgTxt(cfg) {
   const m = { 1: "normal", 1.5: "× 1.5", 2: "doble", 3: "triple" };
   return `Sábado ${cfg.sabado === 1 ? "completo" : "medio día"} · domingo ${m[cfg.domingo] || "× " + cfg.domingo} · festivo ${m[cfg.festivo] || "× " + cfg.festivo}${cfg.festivo_libre ? " (y se paga aunque no vayan)" : ""}`;
 }
+// ---------- cuadrillas de la asistencia (14 nov): por default «Cuadrilla 1» y «Cuadrilla 2»; se les cambia el nombre, se
+// agregan más y la gente se ve por bloque. obra.asis_grupos = [{id, nombre, autor, borrado}] (los que no están guardados son
+// los de default); persona.grupo = id del bloque (si no tiene, va en el primero).
+const GRUPOS_DEF = [{ id: "g1", nombre: "Cuadrilla 1" }, { id: "g2", nombre: "Cuadrilla 2" }];
+function gruposDe(o) {
+  const m = new Map();
+  GRUPOS_DEF.forEach((g) => m.set(g.id, { ...g }));
+  ((o && o.asis_grupos) || []).forEach((g) => { if (g && g.id) m.set(g.id, { ...(m.get(g.id) || {}), ...g }); });
+  return [...m.values()].filter((g) => !g.borrado);
+}
+const grupoDe = (o, p) => { const gs = gruposDe(o); return gs.some((g) => g.id === p.grupo) ? p.grupo : (gs[0] || {}).id; };
+const autorMarca = (a, pid) => (a && a.autores && a.autores[pid]) || "propietario";
+// el supervisor no cambia una marca que puso otro (el dueño u otro supervisor); el servidor tampoco lo deja
+const marcaBloqueada = (a, pid) => soySup() && vino(a, pid) && autorMarca(a, pid) !== yoId();
+const rayasDe = (o, lunes) => gastosDe(o.clave).filter((g) => g.origen === "asistencia" && g.semana === lunes).sort((a, b) => String(a.creado || "").localeCompare(String(b.creado || "")));
+// raya de un rango de días (para el mes): días trabajados y dinero por persona, igual que la semana
+function rayaRango(o, desde, hasta) {
+  const cfg = cfgAsis(o), h = hoy(), por = {};
+  let dinero = 0, nd = 0;
+  for (let f = desde; f <= hasta; f = masDias(f, 1)) {
+    const i = (dFecha(f).getDay() + 6) % 7, a = asisDe(o.clave, f), fest = cfg.festivos.includes(f);
+    (o.personal || []).forEach((p) => {
+      if (p.baja && f > p.baja) return;
+      const x = marcaDe(a, p.id), libre = !x && fest && cfg.festivo_libre && i < 6 && f <= h, dia = diaDe(p, cfg);
+      const v = libre ? dia * baseDia(i, cfg) : x * dia * baseDia(i, cfg) * multDia(f, i, cfg);
+      if (!x && !libre) return;
+      const q = por[p.id] || (por[p.id] = { dias: 0, dinero: 0 }); q.dias += x; q.dinero += v; dinero += v; nd += x;
+    });
+  }
+  return { por, dinero: round2(dinero), dias: nd, cfg };
+}
 function asistenciaHTML(o, c) {
-  const h = hoy(), lunes = S.asis[o.clave] || lunesDe(h), ds = semanaDe(lunes), ps = personalDe(o, lunes), r = rayaSemana(o, lunes), cfg = r.cfg;
-  const esta = lunes === lunesDe(h), marca = !ro() && puede("asistencia");
+  const vista = S.asisVista[o.clave] || "semana";
+  return `<div class="bar2" style="margin-top:12px"><div class="seg" role="group" aria-label="Ver la asistencia por">${[["semana", "Semana"], ["mes", "Mes"]].map(([k, t]) => `<button data-act="asis-vista" data-k="${k}" aria-pressed="${vista === k}">${t}</button>`).join("")}</div></div>` +
+    (vista === "mes" ? asisMesHTML(o) : asisSemanaHTML(o, c));
+}
+function personaHTML(o, p, ds, r, cfg, marca) {
+  const h = hoy();
+  const bs = ds.map((f, i) => {
+    const a = asisDe(o.clave, f), v = marcaDe(a, p.id), fest = cfg.festivos.includes(f), bloq = marcaBloqueada(a, p.id) || (p.baja && f > p.baja);
+    const cls = v >= 1 ? " si" : v > 0 ? " medio" : "", txt = v >= 1 ? (v > 1 ? "1½" : "✓") : v === 0.5 ? "½" : v > 0 ? `${Math.round(v * cfg.horas)} h` : fest ? "fest." : String(Number(f.slice(8)));
+    return `<button class="dia press${cls}${f === h ? " hoy" : ""}${i === 6 ? " dom" : ""}${fest ? " fest" : ""}" data-act="asis-m" data-p="${esc(p.id)}" data-f="${f}" aria-label="${esc(p.nombre)}, ${diaLargo(f)}: ${v >= 1 ? "vino" : v > 0 ? "vino un rato" : "no vino"}"${marca && !bloq ? "" : " disabled"}><span>${DIAS[i]}</span><small>${txt}</small></button>`;
+  }).join("");
+  const rp = (r && r.por[p.id]) || { dinero: 0, dias: ds.reduce((t, f) => t + marcaDe(asisDe(o.clave, f), p.id), 0) };
+  const puesto = (PUESTOS[p.puesto] || PUESTOS.otro)[0];
+  const det = soySup() ? [puesto] : [puesto, Number(p.semanal) ? `${money0(Number(p.semanal))} a la semana` : `<span class="warn-t">Falta su sueldo</span>`];
+  if (p.baja) det.push(`se fue el ${diaMes(p.baja)}`);
+  if (!soySup() && !delDueno(p)) det.push(`la agregó ${nomSup(p.autor)}`);
+  return `<div class="per"><div class="per-h"><button class="nom press" data-act="pers-editar" data-p="${esc(p.id)}"${ro() ? " disabled" : ""}><b>${esc(p.nombre)}</b><small>${det.map((d) => (d.startsWith("<span") ? d : esc(d))).join(" · ")}</small></button><span class="per-m num"><small>${fmtDias(rp.dias)}</small>${soySup() ? "" : money0(rp.dinero)}</span></div><div class="dias">${bs}</div></div>`;
+}
+function asisSemanaHTML(o, c) {
+  const h = hoy(), lunes = S.asis[o.clave] || lunesDe(h), ds = semanaDe(lunes), ps = personalDe(o, lunes), sup = soySup();
+  const r = sup ? null : rayaSemana(o, lunes), cfg = cfgAsis(o), esta = lunes === lunesDe(h), marca = !ro() && puede("asistencia");
   let x = `<section class="panel"><h3>Semana del ${diaMes(ds[0])} al ${diaMes(ds[6])}</h3>
     <div class="sem-nav"><button class="mini press" data-act="asis-sem" data-d="-7">‹ Anterior</button>${esta ? "" : `<button class="mini press" data-act="asis-sem" data-d="0">Esta semana</button>`}<button class="mini press" data-act="asis-sem" data-d="7">Siguiente ›</button></div>`;
-  if (!ps.length) x += `<p class="nota" style="margin:6px 2px 12px">Agrega a la gente de esta obra con su puesto y lo que gana a la semana. Luego marcas quién vino cada día y la app te saca la raya.</p>`;
-  ps.forEach((p) => {
-    const bs = ds.map((f, i) => {
-      const v = marcaDe(asisDe(o.clave, f), p.id), fest = cfg.festivos.includes(f);
-      const cls = v >= 1 ? " si" : v > 0 ? " medio" : "", txt = v >= 1 ? (v > 1 ? "1½" : "✓") : v === 0.5 ? "½" : v > 0 ? `${Math.round(v * cfg.horas)} h` : fest ? "fest." : String(Number(f.slice(8)));
-      return `<button class="dia press${cls}${f === h ? " hoy" : ""}${i === 6 ? " dom" : ""}${fest ? " fest" : ""}" data-act="asis-m" data-p="${esc(p.id)}" data-f="${f}" aria-label="${esc(p.nombre)}, ${diaLargo(f)}: ${v >= 1 ? "vino" : v > 0 ? "vino un rato" : "no vino"}"${marca ? "" : " disabled"}><span>${DIAS[i]}</span><small>${txt}</small></button>`;
-    }).join("");
-    const rp = r.por[p.id] || { dinero: 0, dias: 0 };
-    x += `<div class="per"><div class="per-h"><button class="nom press" data-act="pers-editar" data-p="${esc(p.id)}"${ro() ? " disabled" : ""}><b>${esc(p.nombre)}</b><small>${esc((PUESTOS[p.puesto] || PUESTOS.otro)[0])} · ${money0(Number(p.semanal) || 0)} a la semana${p.baja ? ` · se fue el ${diaMes(p.baja)}` : ""}</small></button><span class="per-m num"><small>${fmtDias(rp.dias)}</small>${money0(rp.dinero)}</span></div><div class="dias">${bs}</div></div>`;
+  if (!ps.length) x += `<p class="nota" style="margin:6px 2px 12px">${sup ? "Agrega a la gente de la obra y marca quién vino cada día." : "Agrega a la gente de esta obra con su puesto y lo que gana a la semana, por cuadrilla. Luego marcas quién vino cada día y la app te saca la raya."}</p>`;
+  gruposDe(o).forEach((g) => {
+    const gp = ps.filter((p) => grupoDe(o, p) === g.id);
+    const dineroG = r ? gp.reduce((t, p) => t + ((r.por[p.id] || {}).dinero || 0), 0) : 0;
+    const todosHoy = marca && esta && ds.includes(h) && gp.some((p) => !p.baja || p.baja >= h);
+    x += `<div class="gblk"><div class="gblk-h"><button class="gnom press" data-act="grupo-menu" data-g="${esc(g.id)}"${ro() ? " disabled" : ""}><b>${esc(g.nombre)}</b><small>${gp.length ? `${gp.length} ${gp.length > 1 ? "personas" : "persona"}${r ? " · " + money0(dineroG) : ""}` : "Sin gente esta semana"}</small></button>${todosHoy ? `<button class="mini press" data-act="asis-todos" data-g="${esc(g.id)}">Todos hoy</button>` : ""}</div>`;
+    x += gp.map((p) => personaHTML(o, p, ds, r, cfg, marca)).join("");
+    if (!ro()) x += `<button class="gadd press" data-act="pers-nuevo" data-g="${esc(g.id)}">${IC_PLUS}Persona en ${esc(g.nombre)}</button>`;
+    x += `</div>`;
   });
-  if (ps.length) {
-    if (marca && esta && ds.includes(h)) x += `<button class="ghost press" data-act="asis-todos" style="margin-top:10px">Vinieron todos hoy</button>`;
+  if (!ro()) x += `<button class="ghost press" data-act="grupo-nuevo" style="margin-top:10px">${IC_PLUS}Nueva cuadrilla</button>`;
+  if (r && ps.length) {
     x += `<div class="tiles t2" style="margin-top:12px"><div class="tile"><span class="lbl">Raya de lo marcado</span><b class="num">${money0(r.marcado)}</b></div>` +
       (esta ? `<div class="tile"><span class="lbl">Si van todos hasta el sábado</span><b class="num">${money0(r.estimado)}</b></div>` : `<div class="tile"><span class="lbl">Personas</span><b class="num">${ps.length}</b></div>`) + `</div>`;
     if (esta) {
       const queda = c.en_caja - r.estimado;
       x += `<p class="ley1 ${queda < 0 ? "neg" : ""}">${queda < 0 ? `Para la raya del sábado te faltarían ${money0(-queda)} (en caja hay ${money0(c.en_caja)}).` : `Alcanza: después de la raya quedarían ${money0(queda)} en caja.`}</p>`;
     }
+    const ya = rayasDe(o, lunes);
+    if (ya.length) x += `<div class="list" style="margin-top:10px">${ya.map((g) => `<button class="raya-l press" data-act="edit-gasto" data-id="${esc(g.id)}"><span><b>Raya anotada${g.grupo_nombre ? " · " + esc(g.grupo_nombre) : ""}</b><small>${esc(diaLargo(g.fecha))}${g.ajuste ? ` · ajuste ${g.ajuste < 0 ? "−" : "+"}${money0(Math.abs(g.ajuste))}` : ""} · toca para cambiarla o borrarla</small></span><b class="num">${money0(g.monto)}</b></button>`).join("")}</div>`;
+    if (marca && r.marcado > 0) x += `<button class="ghost press" data-act="asis-raya" data-l="${lunes}">${ya.length ? "Anotar otra raya como gasto" : "Anotar raya como gasto"}</button><p class="nota" style="margin:6px 2px 8px">Es opcional: si pagas a destajo, el cálculo solo te sirve de referencia para el sábado.</p>`;
   }
-  if (!ro()) x += `<div class="bot-row"><button class="ghost press" data-act="pers-nuevo">${IC_PLUS}Agregar persona</button>${marca && r.marcado > 0 ? `<button class="ghost pri press" data-act="asis-raya" data-l="${lunes}">Anotar raya de ${money0(r.marcado)} como gasto</button>` : ""}</div>`;
   if (!puede("asistencia")) x += `<p class="nota" style="margin-bottom:8px">Para marcar quién vino, actualiza el código de tu hoja de Google. La lista de gente sí se guarda desde ya.</p>`;
   x += `</section>`;
-  x += `<button class="cfg-l press" data-act="asis-cfg"${ro() ? " disabled" : ""}><span><b>Cómo se paga</b><small>${esc(cfgTxt(cfg))}</small></span>${IC_RIGHT}</button>`;
-  return x + `<p class="nota">Toca un día: ✓ completo → ½ medio día → quitar. Déjalo presionado para poner horas o día y medio. Un día vale lo semanal entre ${cfg.sabado === 1 ? "6" : "5½"}.</p>`;
+  if (!sup) x += `<button class="cfg-l press" data-act="asis-cfg"${ro() ? " disabled" : ""}><span><b>Cómo se paga</b><small>${esc(cfgTxt(cfg))}</small></span>${IC_RIGHT}</button>`;
+  return x + `<p class="nota">Toca un día: ✓ completo → ½ medio día → quitar. Déjalo presionado para poner horas o día y medio.${sup ? "" : ` Un día vale lo semanal entre ${cfg.sabado === 1 ? "6" : "5½"}.`} Para quitar a alguien de una semana en adelante, toca su nombre.</p>`;
 }
-// marcar sale al instante en pantalla (cola) y se sube por detrás
+const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+function asisMesHTML(o) {
+  const mes = S.asisMes[o.clave] || hoy().slice(0, 7), [y, m] = mes.split("-").map(Number), ini = `${mes}-01`, fin = fmtF(new Date(y, m, 0)), sup = soySup();
+  const r = rayaRango(o, ini, fin), esteMes = mes === hoy().slice(0, 7);
+  let x = `<section class="panel"><h3>${MESES[m - 1]} ${y}</h3><div class="sem-nav"><button class="mini press" data-act="asis-mes" data-d="-1">‹ Anterior</button>${esteMes ? "" : `<button class="mini press" data-act="asis-mes" data-d="0">Este mes</button>`}<button class="mini press" data-act="asis-mes" data-d="1">Siguiente ›</button></div>`;
+  const ps = (o.personal || []).filter((p) => r.por[p.id] || !p.baja || p.baja >= ini);
+  if (!Object.keys(r.por).length) x += `<p class="nota" style="margin:6px 2px 12px">No hay asistencia marcada este mes.</p>`;
+  gruposDe(o).forEach((g) => {
+    const gp = ps.filter((p) => grupoDe(o, p) === g.id && r.por[p.id]); if (!gp.length) return;
+    const dg = gp.reduce((t, p) => t + r.por[p.id].dias, 0), $g = gp.reduce((t, p) => t + r.por[p.id].dinero, 0);
+    x += `<div class="gblk"><div class="gblk-h"><span class="gnom"><b>${esc(g.nombre)}</b><small>${fmtDias(dg)}${sup ? "" : " · " + money0($g)}</small></span></div>` +
+      gp.map((p) => `<div class="mrow"><span>${esc(p.nombre)}</span><span class="num">${fmtDias(r.por[p.id].dias)}${sup ? "" : ` · <b>${money0(r.por[p.id].dinero)}</b>`}</span></div>`).join("") + `</div>`;
+  });
+  if (Object.keys(r.por).length) x += `<div class="tiles t2" style="margin-top:12px"><div class="tile"><span class="lbl">Días trabajados (todos)</span><b class="num">${N1.format(r.dias)}</b></div>${sup ? `<div class="tile"><span class="lbl">Personas</span><b class="num">${Object.keys(r.por).length}</b></div>` : `<div class="tile"><span class="lbl">Raya del mes</span><b class="num">${money0(r.dinero)}</b></div>`}</div>`;
+  // las semanas que tocan el mes, para abrir una
+  let l = lunesDe(ini); const sem = [];
+  for (; l <= fin; l = masDias(l, 7)) { const rr = rayaRango(o, l < ini ? ini : l, masDias(l, 6) > fin ? fin : masDias(l, 6)); sem.push([l, rr]); }
+  x += `<span class="fl">Semanas</span><div class="list">${sem.map(([l, rr]) => `<button class="raya-l press" data-act="asis-ir-sem" data-l="${l}"><span><b>Del ${diaMes(l)} al ${diaMes(masDias(l, 6))}</b><small>${rr.dias ? fmtDias(rr.dias) : "Sin asistencia"}</small></span><span class="num">${sup || !rr.dinero ? "" : money0(rr.dinero)} ›</span></button>`).join("")}</div>`;
+  return x + `</section>`;
+}
+// marcar sale al instante en pantalla (cola) y se sube por detrás. Con el servidor 5 solo se manda lo que cambió.
 function asisPoner(obra, f, cambios) {
   if (ro()) return;
   if (!puede("asistencia")) { aviso("Para marcar asistencia, actualiza el código de tu hoja."); return; }
+  if (v5()) { encolar("asis", "asistencia", asisId(obra, f), { obra, fecha: f, cambios }); reintentar(); return; }
   const a = asisDe(obra, f), m = {};
   if (a) { if (a.marcas) Object.assign(m, a.marcas); else (a.presentes || []).forEach((id) => (m[id] = 1)); }
   Object.entries(cambios).forEach(([id, v]) => { if (v > 0) m[id] = Math.round(v * 1000) / 1000; else delete m[id]; });
@@ -2801,21 +3223,24 @@ function asisPoner(obra, f, cambios) {
   reintentar();
 }
 function asisMarcar(obra, pid, f, valor) {
-  const x = marcaDe(asisDe(obra, f), pid);
+  const a = asisDe(obra, f);
+  if (marcaBloqueada(a, pid)) { aviso("Esa marca la puso alguien más: no la puedes cambiar."); return; }
+  const x = marcaDe(a, pid);
   asisPoner(obra, f, { [pid]: valor != null ? valor : x === 0 ? 1 : x === 1 ? 0.5 : 0 });   // tocar: completo → medio día → nada
 }
-function asisTodos(obra) {
+function asisTodos(obra, gid) {
   const o = S.obras[obra]; if (!o) return;
-  const f = hoy(), c = {};
-  personalDe(o, lunesDe(f)).filter((p) => !p.baja).forEach((p) => (c[p.id] = 1));
-  asisPoner(obra, f, c);
+  const f = hoy(), a = asisDe(obra, f), c = {};
+  personalDe(o, lunesDe(f)).filter((p) => (!p.baja || p.baja >= f) && (!gid || grupoDe(o, p) === gid) && !marcaBloqueada(a, p.id)).forEach((p) => (c[p.id] = 1));
+  if (Object.keys(c).length) asisPoner(obra, f, c);
 }
 // dejar presionado un día: horas sueltas, medio día o día y medio
 function asisMenu(obra, pid, f) {
   const o = S.obras[obra]; if (!o || ro() || !puede("asistencia")) return;
+  if (marcaBloqueada(asisDe(obra, f), pid)) { aviso("Esa marca la puso alguien más: no la puedes cambiar."); return; }
   const p = (o.personal || []).find((x) => x.id === pid), hrs = cfgAsis(o).horas;
   const it = (t, v, estilo) => ({ t, estilo, fn: () => asisMarcar(obra, pid, f, v) });
-  abrirAccion({ titulo: `${p ? p.nombre : "Asistencia"} · ${diaLargo(f)}`, texto: `Un día completo son ${hrs} horas (lo cambias en «Cómo se paga»).`,
+  abrirAccion({ titulo: `${p ? p.nombre : "Asistencia"} · ${diaLargo(f)}`, texto: soySup() ? `Un día completo son ${hrs} horas.` : `Un día completo son ${hrs} horas (lo cambias en «Cómo se paga»).`,
     items: [it("Día completo", 1, "pri"), it("Medio día", 0.5), it("3 horas", 3 / hrs), it("2 horas", 2 / hrs), it("1 hora", 1 / hrs), it("Día y medio", 1.5), it("No vino", 0, "peligro")] });
 }
 let presionLarga = false;
@@ -2857,93 +3282,406 @@ async function guardarCfgAsis() {
   cerrarHoja(true);
   return updObra(o.clave, { asis_cfg: cfg }, "Guardado: así se calcula la raya");
 }
-function abrirPersona(pid) {
+// ---------- gente y cuadrillas: se guardan con la op «item» (no se pisa la lista si dos personas la cambian a la vez)
+async function guardarItem(clave, campo, item, borrar, textoOk) {
+  const o = S.obras[clave]; if (!o) return "error";
+  if (!v5()) {   // servidor viejo: se manda la lista completa
+    const lista = (o[campo] || []).slice(), i = lista.findIndex((x) => x.id === item.id);
+    if (borrar) { if (i >= 0) lista.splice(i, 1); } else if (i >= 0) lista[i] = { ...lista[i], ...item }; else lista.push(item);
+    return updObra(clave, { [campo]: lista }, textoOk);
+  }
+  encolar("item", "obras", clave, { campo, item, borrar: !!borrar });
+  if (textoOk) aviso(textoOk);
+  reintentar(); return "ok";
+}
+function abrirPersona(pid, gid) {
   const o = obraActiva(); if (!o || ro()) return;
   const p = pid ? (o.personal || []).find((x) => x.id === pid) : null;
   if (pid && !p) return;
   const puesto = p ? p.puesto || "otro" : "oficial";
-  mostrarHoja({ mode: "persona", id: pid || null, obra: o.clave, prev: p, pnombre: p ? p.nombre || "" : "", ppuesto: puesto, psem: p ? String(p.semanal || "") : String(PUESTOS[puesto][1]) });
+  mostrarHoja({ mode: "persona", id: pid || null, obra: o.clave, prev: p, lunes: S.asis[o.clave] || lunesDe(hoy()), pnombre: p ? p.nombre || "" : "", ppuesto: puesto,
+    psem: p ? String(p.semanal || "") : String(PUESTOS[puesto][1]), pgrupo: p ? grupoDe(o, p) : gid || (gruposDe(o)[0] || {}).id });
 }
+const personaEditable = (p) => !p || !soySup() || p.autor === yoId();
+const marcasDePersona = (obra, pid) => coleccion("asistencia").filter((a) => a.obra === obra && marcaDe(a, pid) > 0).map((a) => a.fecha).sort();
 function hojaPersona() {
-  const b = `<p class="ctx">${esc(nomCorto(S.obras[F.obra]))}</p>
-    <label class="fl" for="pp-nom">Nombre</label><input class="field" id="pp-nom" autocomplete="off" placeholder="Ej. Roberto" value="${esc(F.pnombre)}">
-    <span class="fl">Puesto</span>${chipsHTML("ppuesto", Object.entries(PUESTOS).map(([k, v]) => [k, v[0]]), F.ppuesto)}
-    <span class="fl">Lo que gana a la semana</span>${chipsHTML("psem", SEMANALES.map((v) => [String(v), money0(v)]), F.psem)}
-    <input class="field" id="pp-sem" inputmode="decimal" autocomplete="off" placeholder="Otro monto" aria-label="Sueldo semanal" value="${esc(F.psem)}" style="margin-top:8px">
-    <p class="err" id="pp-err" hidden style="margin-top:10px">Escribe el nombre.</p>`;
-  const vuelve = !!(F.prev && F.prev.baja);
-  return shell(F.id ? "Persona" : "Agregar persona", b, `<button type="button" class="btn main press" data-act="guardar">Guardar</button>${F.id ? `<button type="button" class="btn ${vuelve ? "sec2" : "del"} press" data-act="pers-baja">${vuelve ? "Regresar a la obra" : "Quitar de la obra"}</button>` : ""}`);
+  const o = S.obras[F.obra], ed = personaEditable(F.prev), dis = ed ? "" : " disabled";
+  let b = `<p class="ctx">${esc(nomCorto(o))}${F.prev && !ed ? " · No la agregaste tú: solo la puedes quitar de una semana en adelante" : ""}</p>
+    <label class="fl" for="pp-nom">Nombre</label><input class="field" id="pp-nom" autocomplete="off" placeholder="Ej. Roberto" value="${esc(F.pnombre)}"${dis}>`;
+  if (ed) b += `<span class="fl">Puesto</span>${chipsHTML("ppuesto", Object.entries(PUESTOS).map(([k, v]) => [k, v[0]]), F.ppuesto)}`;
+  if (!soySup()) b += `<span class="fl">Lo que gana a la semana</span>${chipsHTML("psem", SEMANALES.map((v) => [String(v), money0(v)]), F.psem)}
+    <input class="field" id="pp-sem" inputmode="decimal" autocomplete="off" placeholder="Otro monto" aria-label="Sueldo semanal" value="${esc(F.psem)}" style="margin-top:8px">`;
+  if (ed) b += `<span class="fl">Cuadrilla</span>${chipsHTML("pgrupo", gruposDe(o).map((g) => [g.id, g.nombre]), F.pgrupo)}`;
+  b += `<p class="err" id="pp-err" hidden style="margin-top:10px">Escribe el nombre.</p>`;
+  let pie = ed ? `<button type="button" class="btn main press" data-act="guardar">Guardar</button>` : "";
+  if (F.id) {
+    const sem = semanaDe(F.lunes), vuelve = !!(F.prev.baja);
+    const pasada = soySup() && F.lunes < lunesDe(hoy());   // semanas que ya pasaron: eso lo corrige el dueño
+    if (!pasada) pie += vuelve ? `<button type="button" class="btn sec2 press" data-act="pers-baja">Regresar a la obra</button>`
+      : `<button type="button" class="btn sec2 press" data-act="pers-baja">Ya no va desde la semana del ${diaMes(sem[0])}</button>`;
+    if (ed && !marcasDePersona(F.obra, F.id).length) pie += `<button type="button" class="btn del press" data-act="pers-borrar">Borrar</button>`;
+  }
+  return shell(F.id ? (ed ? "Persona" : F.pnombre) : "Agregar persona", b, pie);
 }
 async function guardarPersona() {
   const o = S.obras[F.obra]; if (!o) return cerrarHoja();
   const nombre = ($("#pp-nom").value || "").trim();
   if (!nombre) { $("#pp-err").hidden = false; $("#pp-nom").focus(); return; }
-  const semanal = parseMonto($("#pp-sem").value) || 0, editar = !!F.id, id = F.id || "p" + Date.now().toString(36);
-  const lista = (o.personal || []).slice(), p = { ...(F.prev || {}), id, nombre, puesto: F.ppuesto || "otro", semanal };
-  const i = lista.findIndex((x) => x.id === id); if (i >= 0) lista[i] = p; else lista.push(p);
+  const editar = !!F.id, id = F.id || "p" + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+  const item = { id, nombre, puesto: F.ppuesto || "otro", grupo: F.pgrupo || null };
+  if (!soySup()) item.semanal = parseMonto(($("#pp-sem") || {}).value) || 0;
+  if (!editar) { item.autor = yoId(); if (soySup()) item.autor_nombre = yoNombre(); }
   cerrarHoja(true);
-  return updObra(o.clave, { personal: lista }, editar ? "Guardado" : `${nombre} agregado`);
+  return guardarItem(o.clave, "personal", item, false, editar ? "Guardado" : `${nombre} agregado`);
 }
-// quitar: si nunca se le marcó asistencia se borra; si ya trabajó, se le pone fecha de salida y su historial se queda
+// «ya no va»: desde la semana que estás viendo (si ya trabajó esa semana, cuenta hasta su último día marcado)
 async function bajaPersona() {
   const o = S.obras[F.obra], id = F.id; if (!o || !id) return;
-  const vuelve = !!(F.prev && F.prev.baja), antes = o.personal || [];
-  const marcas = coleccion("asistencia").some((a) => a.obra === o.clave && (a.presentes || []).includes(id));
-  const lista = vuelve ? antes.map((x) => (x.id === id ? { ...x, baja: null } : x)) : marcas ? antes.map((x) => (x.id === id ? { ...x, baja: hoy() } : x)) : antes.filter((x) => x.id !== id);
+  const p = (o.personal || []).find((x) => x.id === id); if (!p) return;
+  const vuelve = !!p.baja, sem = semanaDe(F.lunes), mx = marcasDePersona(o.clave, id).filter((f) => sem.includes(f));
+  const baja = vuelve ? null : (mx.length ? mx[mx.length - 1] : masDias(F.lunes, -1));
   cerrarHoja(true);
-  const r = await updObra(o.clave, { personal: lista }, null);
-  if (r === "ok") aviso(vuelve ? "Regresó a la obra" : "Quitado de la obra", async () => { await updObra(o.clave, { personal: antes }, "Listo, como estaba"); });
+  await guardarItem(o.clave, "personal", { id, baja }, false, vuelve ? `${p.nombre} regresó a la obra` : `${p.nombre} ya no sale desde la semana del ${diaMes(sem[0])}`);
 }
-function asisRaya(lunes) {
+async function borrarPersona() {
+  const o = S.obras[F.obra], id = F.id; if (!o || !id) return;
+  const p = (o.personal || []).find((x) => x.id === id);
+  cerrarHoja(true);
+  await guardarItem(o.clave, "personal", { id }, true, `${p ? p.nombre : "Persona"} borrada`);
+}
+// cuadrilla: cambiar nombre, quitar a todos de una semana en adelante o borrarla (solo si no tiene gente)
+function grupoMenu(gid) {
   const o = obraActiva(); if (!o || ro()) return;
-  const r = rayaSemana(o, lunes); if (!(r.marcado > 0)) return;
-  const ya = gastosDe(o.clave).filter((g) => g.origen === "asistencia" && g.semana === lunes);
-  const anotar = async () => {
-    const id = Datos.nuevoId("gastos");
-    await guardarDoc("set", "gastos", id, { obra: o.clave, monto: r.marcado, tipo: "trabajadores", concepto: `Raya semana del ${diaMes(r.dias[0])} al ${diaMes(r.dias[5])}`, cuadrilla: null, factura: false, forma: "efectivo", fecha: hoy(), nota: "Calculada con la asistencia", marca: null, resuelto: false, creado: ahora(), origen: "asistencia", semana: lunes },
-      "Raya anotada como gasto", async () => { await escribir("del", "gastos", id); });
-    render();
-  };
-  if (ya.length) return abrirAccion({ titulo: "Ya anotaste la raya de esta semana", texto: `${money(sum(ya, "monto"))} el ${diaMes(ya[0].fecha)}. ¿Anotar otra vez?`, items: [{ t: `Sí, anotar ${money0(r.marcado)} otra vez`, estilo: "pri", fn: anotar }] });
-  abrirAccion({ titulo: `¿Anotar la raya de ${money(r.marcado)}?`, texto: "Se guarda como gasto de trabajadores, en efectivo y con fecha de hoy. Luego lo puedes cambiar en Gastos.", items: [{ t: "Sí, anotar el gasto", estilo: "pri", fn: anotar }] });
+  const g = gruposDe(o).find((x) => x.id === gid); if (!g) return;
+  const lunes = S.asis[o.clave] || lunesDe(hoy()), activos = personalDe(o, lunes).filter((p) => grupoDe(o, p) === gid && !p.baja), todos = (o.personal || []).filter((p) => grupoDe(o, p) === gid);
+  const puedeG = !soySup() || !g.autor || g.autor === yoId(), esDef = GRUPOS_DEF.some((x) => x.id === gid);
+  const items = [];
+  if (puedeG) items.push({ t: "Cambiarle el nombre", fn: () => abrirGrupo(gid) });
+  items.push({ t: `Agregar persona a ${g.nombre}`, fn: () => abrirPersona(null, gid) });
+  if (activos.length) items.push({ t: `Ya no va nadie desde la semana del ${diaMes(lunes)}`, estilo: "peligro", fn: () => abrirAccion({ titulo: `¿Quitar a ${activos.length > 1 ? `las ${activos.length} personas` : "la persona"} de ${g.nombre}?`, texto: "Siguen en las semanas anteriores con lo que trabajaron.", items: [{ t: "Sí, quitarlos", estilo: "peligro", fn: () => bajaGrupo(o.clave, activos, lunes) }] }) });
+  // las de default no están guardadas: se borran dejando una marca (solo el dueño); las demás se quitan de la lista
+  if (!todos.length && gruposDe(o).length > 1 && (soySup() ? g.autor === yoId() && !esDef : true)) items.push({ t: "Borrar cuadrilla", estilo: "peligro", fn: () => guardarItem(o.clave, "asis_grupos", esDef ? { id: gid, nombre: g.nombre, borrado: true } : { id: gid }, !esDef, "Cuadrilla borrada") });
+  abrirAccion({ titulo: g.nombre, items });
 }
-// --- bitácora diaria ---
+async function bajaGrupo(clave, ps, lunes) {
+  const sem = semanaDe(lunes);
+  for (const p of ps) { const mx = marcasDePersona(clave, p.id).filter((f) => sem.includes(f)); await guardarItem(clave, "personal", { id: p.id, baja: mx.length ? mx[mx.length - 1] : masDias(lunes, -1) }, false, null); }
+  aviso(`${ps.length > 1 ? ps.length + " personas quitadas" : "Persona quitada"} desde la semana del ${diaMes(lunes)}`);
+}
+function abrirGrupo(gid) {
+  const o = obraActiva(); if (!o || ro()) return;
+  const g = gid ? gruposDe(o).find((x) => x.id === gid) : null;
+  mostrarHoja({ mode: "grupo", obra: o.clave, id: gid || null, prev: g, gnom: g ? g.nombre : `Cuadrilla ${gruposDe(o).length + 1}` });
+}
+function hojaGrupo() {
+  return shell(F.id ? "Nombre de la cuadrilla" : "Nueva cuadrilla", `<p class="ctx">${esc(nomCorto(S.obras[F.obra]))}</p><label class="fl" for="g-nom">Nombre</label><input class="field" id="g-nom" autocomplete="off" placeholder="Ej. Cuadrilla de Roberto" value="${esc(F.gnom)}"><p class="err" id="g-err" hidden style="margin-top:10px">Escribe el nombre.</p>`,
+    `<button type="button" class="btn main press" data-act="guardar">Guardar</button>`);
+}
+async function guardarGrupo() {
+  const nombre = ($("#g-nom").value || "").trim();
+  if (!nombre) { $("#g-err").hidden = false; return; }
+  const clave = F.obra, id = F.id || "g" + Date.now().toString(36), nuevo = !F.id;
+  cerrarHoja(true);
+  await guardarItem(clave, "asis_grupos", nuevo ? { id, nombre, autor: yoId() } : { id, nombre }, false, nuevo ? `${nombre} agregada` : "Nombre guardado");
+}
+// ---------- raya como gasto (opcional): primero se ve y se ajusta; nada se anota hasta confirmar. Después se cambia o se borra como cualquier gasto.
+const rayaGrupo = (o, r, gid) => gid === "todos" ? r.marcado : round2(personalDe(o, r.lunes).filter((p) => grupoDe(o, p) === gid).reduce((t, p) => t + ((r.por[p.id] || {}).dinero || 0), 0));
+function abrirRaya(lunes) {
+  const o = obraActiva(); if (!o || ro() || soySup()) return;
+  const r = rayaSemana(o, lunes); if (!(r.marcado > 0)) { aviso("No hay asistencia marcada esa semana."); return; }
+  const sab = r.dias[5], f = sab <= hoy() ? sab : hoy();
+  mostrarHoja({ mode: "raya", obra: o.clave, id: null, lunes, rg: "todos", raj: "nada", forma: "efectivo", fecha: f, fechaModo: fechaModo(f), saldados: new Set() });
+}
+function rayaTotal() {
+  const o = S.obras[F.obra], r = rayaSemana(o, F.lunes), base = rayaGrupo(o, r, F.rg), n = parseMonto((($("#f-raj") || {}).value) || "") || 0;
+  const aj = F.raj === "menos" ? -n : F.raj === "mas" ? n : 0;
+  return { r, base, aj, total: round2(base + aj) };
+}
+function hojaRaya() {
+  const o = S.obras[F.obra], t = rayaTotal(), gs = gruposDe(o).filter((g) => rayaGrupo(o, t.r, g.id) > 0), ya = rayasDe(o, F.lunes);
+  let b = `<p class="ctx">${esc(nomCorto(o))} · semana del ${diaMes(t.r.dias[0])} al ${diaMes(t.r.dias[5])}</p>`;
+  if (gs.length > 1) b += `<span class="fl">¿De quién?</span>${chipsHTML("rg", [["todos", "Toda la obra"], ...gs.map((g) => [g.id, g.nombre])], F.rg)}`;
+  b += `<div class="prev num" id="raya-base"></div>`;
+  b += `<span class="fl">Ajuste (opcional)</span>${chipsHTML("raj", [["nada", "Sin ajuste"], ["menos", "Descuento"], ["mas", "Agregar"]], F.raj)}
+    <div id="blk-raj" ${F.raj === "nada" ? "hidden" : ""}><div class="monto" style="margin-top:8px"><span>$</span><input id="f-raj" inputmode="decimal" autocomplete="off" placeholder="0"></div>
+    <input class="field" id="f-rajmot" autocomplete="off" placeholder="¿Por qué? Ej. adelanto, faltó medio día, bono" style="margin-top:8px"></div>`;
+  b += `<span class="fl">¿Cómo pagaste?</span>${chipsHTML("forma", Object.entries(FORMAS_G), F.forma)}` + fechaBloque();
+  if (ya.length) b += `<p class="av-c" style="margin-top:14px">Esta semana ya anotaste ${ya.length > 1 ? ya.length + " rayas" : "una raya"}: ${ya.map((g) => `${money0(g.monto)}${g.grupo_nombre ? " (" + esc(g.grupo_nombre) + ")" : ""}`).join(", ")}.</p>`;
+  return shell("¿Anotar la raya como gasto?", b, `<button type="button" class="btn main press" data-act="guardar" id="raya-ok"></button><button type="button" class="btn sec2 press" data-act="cerrar">No, solo era el cálculo</button>`);
+}
+function actualizarRaya() {
+  if (!F || F.mode !== "raya") return false;
+  const t = rayaTotal(), b = $("#raya-ok"), p = $("#raya-base");
+  if (p) p.innerHTML = `Calculado con la asistencia: <b>${money(t.base)}</b>${t.aj ? `<br>${t.aj < 0 ? "Descuento" : "Se agrega"}: ${money(Math.abs(t.aj))} → <b>${money(t.total)}</b>` : ""}`;
+  if (b) { b.textContent = t.total > 0 ? `Sí, anotar ${money(t.total)} como gasto` : "El total tiene que ser mayor a cero"; b.disabled = !(t.total > 0); }
+  return t.total > 0;
+}
+async function guardarRaya() {
+  const o = S.obras[F.obra], t = rayaTotal(); if (!o || !(t.total > 0)) return;
+  const g = F.rg !== "todos" ? gruposDe(o).find((x) => x.id === F.rg) : null, mot = (($("#f-rajmot") || {}).value || "").trim();
+  const nota = t.aj ? `Calculada ${money(t.base)}; ${t.aj < 0 ? "descuento" : "se agregó"} ${money(Math.abs(t.aj))}${mot ? ` (${mot})` : ""}` : "Calculada con la asistencia";
+  const id = Datos.nuevoId("gastos"), data = { obra: o.clave, monto: t.total, tipo: "trabajadores", concepto: `Raya${g ? " " + g.nombre : ""} · semana del ${diaMes(t.r.dias[0])} al ${diaMes(t.r.dias[5])}`,
+    cuadrilla: g && (o.cuadrillas || []).some((q) => q.nombre === g.nombre) ? g.nombre : null, factura: false, forma: F.forma || "efectivo", fecha: F.fecha || hoy(), nota, marca: null, resuelto: false,
+    creado: ahora(), origen: "asistencia", semana: F.lunes, grupo: g ? g.id : null, grupo_nombre: g ? g.nombre : null, calculado: t.base, ajuste: t.aj, ajuste_motivo: mot };
+  cerrarHoja(true);
+  await guardarDoc("set", "gastos", id, data, `Raya de ${money0(t.total)} anotada como gasto`, async () => { await escribir("del", "gastos", id); });
+  render();
+}
+// --- bitácora (14 nov): el diario de la obra por semana. Cada día dice cómo fue, qué se hizo, quién vino (sale de la
+// asistencia), lo que se gastó ese día (solo el dueño), problemas y lo que sigue. Los días sin reporte se ven, para
+// llenarlos. Con «Copiar avance de la semana» sale un texto listo para mandarle al cliente.
+// Colección «bitacora»: {obra, fecha, estado_dia, trabajos, incidencias, sigue, personal, creado, actualizado, autor, autor_nombre}
+const ESTADOS_DIA = { normal: "Se trabajó", sin_gente: "No fue la gente", lluvia: "Lluvia", falta_material: "Faltó material", cliente: "Espera o cambio del cliente", otro: "Otro" };
 const bitDe = (obra) => coleccion("bitacora").filter((x) => x.obra === obra).sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)) || String(b.creado || "").localeCompare(String(a.creado || "")));
-const bitItem = (b) => `<button class="bit press" data-act="bit-editar" data-id="${esc(b.id)}" data-c="${esc(b.obra)}"><small class="num">${esc(diaLargo(b.fecha))}${b.personal ? ` · ${b.personal} ${b.personal > 1 ? "personas" : "persona"}` : ""}</small><b>${esc(b.trabajos || "Sin descripción")}</b>${b.incidencias ? `<span class="inc">⚠ ${esc(b.incidencias)}</span>` : ""}</button>`;
+const bitMio = (b) => !b || !soySup() || b.autor === yoId();   // uno nuevo siempre es tuyo
+const quienBit = (b) => (delDueno(b) ? (soySup() ? "el dueño" : "") : (b.autor === yoId() ? "" : b.autor_nombre || nomSup(b.autor)));
+// quién vino ese día según la asistencia
+function vinieron(o, f) {
+  const a = asisDe(o.clave, f); if (!a) return [];
+  return (o.personal || []).filter((p) => marcaDe(a, p.id) > 0).map((p) => p.nombre);
+}
+function bitDiaHTML(o, f, reps, puedeEsc) {
+  const h = hoy(), gente = vinieron(o, f), gs = soySup() ? [] : gastosDe(o.clave).filter((g) => g.fecha === f && !(g.marca === "por_pagar" && !g.resuelto));
+  const meta = [];
+  if (gente.length) meta.push(`Asistencia: ${gente.slice(0, 4).map(esc).join(", ")}${gente.length > 4 ? ` y ${gente.length - 4} más` : ""}`);
+  if (gs.length) meta.push(`Gastos del día: ${money0(sum(gs, "monto"))}${gs.length > 1 ? ` en ${gs.length}` : ""}`);
+  const metaH = meta.length ? `<p class="bday-m">${meta.join(" · ")}</p>` : "";
+  if (!reps.length) {
+    return `<div class="bday vacio"><div class="bday-h"><b>${esc(diaLargo(f))}</b><span class="sub">Sin reporte</span>${puedeEsc && f <= h ? `<button class="mini press" data-act="bit-nuevo" data-c="${esc(o.clave)}" data-f="${f}">Anotar</button>` : ""}</div>${metaH}</div>`;
+  }
+  return reps.map((b, i) => {
+    const e = b.estado_dia && b.estado_dia !== "normal" ? `<span class="tg ${b.estado_dia === "sin_gente" || b.estado_dia === "falta_material" ? "falta" : "neutro"}">${esc(ESTADOS_DIA[b.estado_dia] || "")}</span>` : "";
+    const q = quienBit(b), pers = Number(b.personal) || 0;
+    return `<div class="bday"><div class="bday-h"><b>${esc(diaLargo(f))}</b>${e}${q ? `<span class="sub">${esc(q)}</span>` : ""}</div>
+      <button class="bday-t press" data-act="bit-editar" data-id="${esc(b.id)}" data-c="${esc(b.obra)}">${b.trabajos ? `<p>${esc(b.trabajos)}</p>` : ""}${b.incidencias ? `<p class="inc">⚠ ${esc(b.incidencias)}</p>` : ""}${b.sigue ? `<p class="sig"><b>Sigue:</b> ${esc(b.sigue)}</p>` : ""}${pers ? `<small>${pers} ${pers > 1 ? "personas" : "persona"}</small>` : ""}</button>${i === reps.length - 1 ? metaH : ""}</div>`;
+  }).join("");
+}
 function bitacoraHTML(o) {
-  const xs = bitDe(o.clave);
-  let x = !ro() && puede("bitacora") ? `<button class="ghost pri press" data-act="bit-nuevo" data-c="${esc(o.clave)}" style="margin-top:12px">${IC_PLUS}Reporte de hoy</button>` : "";
-  if (!puede("bitacora")) x += `<p class="nota">Para guardar la bitácora, actualiza el código de tu hoja de Google (la versión 2 que te mandé).</p>`;
-  x += xs.length ? `<div class="list" style="margin-top:12px">${xs.map(bitItem).join("")}</div>`
-    : `<p class="nota" style="margin-top:14px">Aquí va el reporte de cada día: qué se hizo, cuánta gente fue y si hubo algún problema. Más adelante lo podrían llenar tus supervisores.</p>`;
+  const h = hoy(), lunes = S.bitSem[o.clave] || lunesDe(h), ds = semanaDe(lunes), esta = lunes === lunesDe(h), puedeEsc = !ro() && puede("bitacora");
+  const porDia = {}; bitDe(o.clave).forEach((b) => (porDia[b.fecha] = porDia[b.fecha] || []).push(b));
+  let x = puedeEsc ? `<button class="ghost pri press" data-act="bit-nuevo" data-c="${esc(o.clave)}" style="margin-top:12px">${IC_PLUS}Reporte de hoy</button>` : "";
+  if (!puede("bitacora")) x += `<p class="nota">Para guardar la bitácora, actualiza el código de tu hoja de Google.</p>`;
+  x += `<section class="panel"><h3>Semana del ${diaMes(ds[0])} al ${diaMes(ds[6])}</h3><div class="sem-nav"><button class="mini press" data-act="bit-sem" data-d="-7">‹ Anterior</button>${esta ? "" : `<button class="mini press" data-act="bit-sem" data-d="0">Esta semana</button>`}<button class="mini press" data-act="bit-sem" data-d="7">Siguiente ›</button></div>`;
+  // los días de la semana: de lunes a sábado (el domingo solo si hubo algo), sin los que no han llegado ni los de antes de empezar
+  const dias = ds.filter((f, i) => porDia[f] || ((i < 6 || vinieron(o, f).length) && f <= h && (!o.inicio || f >= o.inicio)));
+  x += dias.length ? dias.slice().reverse().map((f) => bitDiaHTML(o, f, (porDia[f] || []).slice().reverse(), puedeEsc)).join("") : `<p class="nota" style="margin:8px 2px 12px">${lunes > h ? "Esta semana todavía no empieza." : "Nada esta semana."}</p>`;
+  const hay = ds.some((f) => porDia[f]);
+  x += `</section>`;
+  if (hay) x += `<button class="ghost press" data-act="bit-copiar" data-c="${esc(o.clave)}">Copiar avance de la semana (para el cliente)</button>`;
+  const total = Object.keys(porDia).length;
+  if (!total) x += `<p class="nota" style="margin-top:14px">Aquí va el reporte de cada día: cómo fue, qué se hizo, problemas y qué sigue. La gente que vino sale sola de la asistencia${soySup() ? "" : " y lo gastado ese día, de tus gastos"}.</p>`;
   return x;
 }
-function abrirBitacora(id, obra) {
+// el avance de la semana, en texto para WhatsApp (sin dinero ni problemas internos)
+function bitCopiar(clave) {
+  const o = S.obras[clave]; if (!o) return;
+  const lunes = S.bitSem[clave] || lunesDe(hoy()), ds = semanaDe(lunes), xs = bitDe(clave).filter((b) => ds.includes(b.fecha)).sort((a, b) => String(a.fecha).localeCompare(String(b.fecha)) || String(a.creado || "").localeCompare(String(b.creado || "")));
+  if (!xs.length) return;
+  const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
+  const lin = xs.map((b) => `• ${cap(diaLargo(b.fecha))}: ${[b.estado_dia && b.estado_dia !== "normal" ? ESTADOS_DIA[b.estado_dia] : "", b.trabajos].filter(Boolean).join(". ")}`).join("\n");
+  const sigue = [...xs].reverse().find((b) => b.sigue);
+  copiarTexto(`${o.nombre || nomCorto(o)} · avance del ${diaMes(ds[0])} al ${diaMes(ds[5])}\n${lin}${sigue ? `\nLo que sigue: ${sigue.sigue}` : ""}`, "Copiado: pégalo en WhatsApp");
+}
+function abrirBitacora(id, obra, fecha) {
   const o = S.obras[obra] || obraActiva(); if (!o || ro()) return;
   let b = id ? coleccion("bitacora").find((x) => x.id === id) : null;
   if (id && !b) return;
-  if (!b) b = bitDe(o.clave).find((x) => x.fecha === hoy()) || null;   // si hoy ya hay reporte, se abre ese
-  const a = asisDe(o.clave, hoy()), pres = a ? (a.presentes || []).length : "";
-  mostrarHoja({ mode: "bitacora", id: b ? b.id : null, obra: o.clave, prev: b, bfecha: b ? b.fecha : hoy(), btrab: b ? b.trabajos || "" : "", binc: b ? b.incidencias || "" : "", bpers: b ? String(b.personal || "") : String(pres || "") });
+  const f = fecha || hoy();
+  if (!b) b = bitDe(o.clave).find((x) => x.fecha === f && bitMio(x)) || null;   // si ese día ya hay un reporte tuyo, se abre ese
+  const a = asisDe(o.clave, f), pres = a ? (a.presentes || []).length : "";
+  mostrarHoja({ mode: "bitacora", id: b ? b.id : null, obra: o.clave, prev: b, bfecha: b ? b.fecha : f, best: b ? b.estado_dia || "normal" : "normal", btrab: b ? b.trabajos || "" : "", binc: b ? b.incidencias || "" : "", bsig: b ? b.sigue || "" : "", bpers: b ? String(b.personal || "") : String(pres || "") });
 }
 function hojaBitacora() {
-  const b = `<p class="ctx">${esc(nomCorto(S.obras[F.obra]))}</p>
-    <label class="fl" for="b-fecha">Fecha</label><input class="field" id="b-fecha" type="date" value="${esc(F.bfecha)}">
-    <label class="fl" for="b-trab">¿Qué se hizo?</label><textarea class="field" id="b-trab" rows="4" placeholder="Ej. Se terminó el bastidor del muro norte y se forró la primera cara">${esc(F.btrab)}</textarea>
-    <label class="fl" for="b-inc">Problemas, faltantes o cambios (opcional)</label><textarea class="field" id="b-inc" rows="3" placeholder="Ej. Faltó tornillo; el cliente pidió mover la puerta">${esc(F.binc)}</textarea>
-    <label class="fl" for="b-pers">Personas que fueron</label><input class="field" id="b-pers" inputmode="numeric" autocomplete="off" value="${esc(F.bpers)}">
+  const o = S.obras[F.obra], ed = bitMio(F.prev), dis = ed ? "" : " disabled";
+  const gente = vinieron(o, F.bfecha);
+  const b = `<p class="ctx">${esc(nomCorto(o))}${F.prev && !ed ? ` · Lo escribió ${esc(quienBit(F.prev) || "alguien más")}: solo lo puedes leer` : ""}</p>
+    <label class="fl" for="b-fecha">Fecha</label><input class="field" id="b-fecha" type="date" value="${esc(F.bfecha)}"${dis}>
+    <span class="fl">¿Cómo fue el día?</span>${ed ? chipsHTML("best", Object.entries(ESTADOS_DIA), F.best) : `<p class="hint" style="margin:0">${esc(ESTADOS_DIA[F.best] || "")}</p>`}
+    <label class="fl" for="b-trab">¿Qué se hizo?</label><textarea class="field" id="b-trab" rows="4" placeholder="Ej. Se terminó el bastidor del muro norte y se forró la primera cara"${dis}>${esc(F.btrab)}</textarea>
+    <label class="fl" for="b-inc">Problemas, faltantes o cambios (opcional)</label><textarea class="field" id="b-inc" rows="2" placeholder="Ej. Faltó tornillo; el cliente pidió mover la puerta"${dis}>${esc(F.binc)}</textarea>
+    <label class="fl" for="b-sig">¿Qué sigue? (opcional)</label><input class="field" id="b-sig" autocomplete="off" placeholder="Ej. Mañana pasta y lija en el muro norte" value="${esc(F.bsig)}"${dis}>
+    <label class="fl" for="b-pers">Personas que fueron</label><input class="field" id="b-pers" inputmode="numeric" autocomplete="off" value="${esc(F.bpers)}"${dis}>
+    ${gente.length ? `<p class="hint">Según la asistencia: ${gente.length} (${gente.map(esc).join(", ")})</p>` : ""}
     <p class="err" id="b-err" hidden style="margin-top:10px">Escribe qué se hizo.</p>`;
-  return shell(F.id ? "Reporte del día" : "Nuevo reporte del día", b, `<button type="button" class="btn main press" data-act="guardar">Guardar</button>${F.id ? `<button type="button" class="btn del press" data-act="bit-borrar">Borrar reporte</button>` : ""}`);
+  const pie = ed ? `<button type="button" class="btn main press" data-act="guardar">Guardar</button>${F.id ? `<button type="button" class="btn del press" data-act="bit-borrar">Borrar reporte</button>` : ""}` : `<button type="button" class="btn sec2 press" data-act="cerrar">Cerrar</button>`;
+  return shell(F.id ? "Reporte del día" : "Nuevo reporte del día", b, pie);
 }
 async function guardarBitacora() {
-  const trabajos = ($("#b-trab").value || "").trim();
-  if (!trabajos) { $("#b-err").hidden = false; $("#b-trab").focus(); return; }
+  if (!bitMio(F.prev)) return cerrarHoja();
+  const trabajos = ($("#b-trab").value || "").trim(), est_ = F.best || "normal";
+  if (!trabajos && est_ === "normal") { $("#b-err").hidden = false; $("#b-trab").focus(); return; }
   const prev = F.prev || {}, nuevo = !F.id, id = F.id || Datos.nuevoId("bitacora");
-  const data = { obra: F.obra, fecha: $("#b-fecha").value || hoy(), trabajos, incidencias: ($("#b-inc").value || "").trim(), personal: Number(String($("#b-pers").value).replace(/\D+/g, "")) || 0,
-    creado: prev.creado || ahora(), actualizado: ahora(), autor: prev.autor || "propietario" };
+  const data = { obra: F.obra, fecha: $("#b-fecha").value || hoy(), estado_dia: est_, trabajos, incidencias: ($("#b-inc").value || "").trim(), sigue: ($("#b-sig").value || "").trim(),
+    personal: Number(String($("#b-pers").value).replace(/\D+/g, "")) || 0, creado: prev.creado || ahora(), actualizado: ahora(), autor: prev.autor || yoId(), autor_nombre: prev.autor_nombre || yoNombre() };
+  const f = data.fecha;
   cerrarHoja(true);
   await guardarDoc("set", "bitacora", id, data, nuevo ? "Reporte guardado" : "Cambios guardados");
+  const o = S.obras[data.obra]; if (o && lunesDe(f) !== (S.bitSem[o.clave] || lunesDe(hoy()))) S.bitSem[o.clave] = lunesDe(f);   // que se vea la semana del reporte
   render();
+}
+// ============================================================
+// Materiales (pestaña de cada obra, 14 nov): la lista de todo el material, en bloques por proveedor (o por sección), con
+// su palomita para llevar el control día a día. Se arma antes de empezar la obra y se va cambiando conforme avanza.
+// Colección «materiales»: {obra, seccion, proveedor, material, cantidad, unidad, precio (con IVA, solo el dueño), estado,
+// estado_ant, nota, orden, autor, autor_nombre, creado, actualizado}. Estados: por pedir · pedido · falta (amarillo) · en obra (verde).
+// ============================================================
+const MESTADOS = { por_pedir: "Por pedir", pedido: "Pedido", falta: "Falta", en_obra: "En obra" };
+const UNIDADES = ["pzas", "m²", "ml", "kg", "bultos", "cubetas", "rollos", "cajas", "tramos", "lt"];
+const materialesDe = (obra) => coleccion("materiales").filter((m) => m.obra === obra);
+const mEst = (m) => (MESTADOS[m.estado] ? m.estado : "por_pedir");
+const matOrden = (a, b) => (Number(a.orden) || 0) - (Number(b.orden) || 0) || String(a.creado || "").localeCompare(String(b.creado || "")) || String(a.material || "").localeCompare(String(b.material || ""));
+const cantTxt = (m) => (m.cantidad != null && m.cantidad !== "" ? `${N2.format(Number(m.cantidad))}${m.unidad ? " " + m.unidad : ""}` : m.unidad || "");
+const matVista = (o) => S.mat[o.clave] || (S.mat[o.clave] = { por: "proveedor", f: "todos" });
+const matPuedeTodo = (m) => !soySup() || (m && m.autor === yoId());            // el supervisor cambia todo en lo suyo; en lo del dueño solo estado y nota
+const MFILTROS = [["todos", "Todos"], ["falta", "Faltan"], ["por_pedir", "Por pedir"], ["pedido", "Pedidos"], ["en_obra", "En obra"]];
+// proveedores y secciones que ya se usaron (en esta obra primero), para elegir con un toque
+function matUsados(campo, obra) {
+  const cuenta = {};
+  coleccion("materiales").forEach((m) => { const v = String(m[campo] || "").trim(); if (v) cuenta[v] = (cuenta[v] || 0) + (m.obra === obra ? 100 : 1); });
+  return Object.keys(cuenta).sort((a, b) => cuenta[b] - cuenta[a] || a.localeCompare(b)).slice(0, 12);
+}
+function matFila(m) {
+  const e = mEst(m), v = matVista(S.obras[m.obra] || { clave: m.obra }), otro = v.por === "proveedor" ? m.seccion : m.proveedor;
+  const sub = [cantTxt(m), otro, m.nota].filter(Boolean).map(esc).join(" · ");
+  const precio = !soySup() && Number(m.precio) ? `<small class="num">${money(Number(m.precio) * (Number(m.cantidad) || 1))}</small>` : "";
+  return `<div class="mat ${e}"><button class="mchk press" data-act="mat-chk" data-id="${esc(m.id)}" aria-pressed="${e === "en_obra"}" aria-label="${e === "en_obra" ? "Quitar: no está en obra" : "Ya está en obra"}"${ro() ? " disabled" : ""}>${e === "en_obra" ? "✓" : ""}</button>
+    <button class="t press" data-act="mat-editar" data-id="${esc(m.id)}"><b>${esc(m.material || "Sin nombre")}</b>${sub ? `<small>${sub}</small>` : ""}${soySup() || delDueno(m) ? "" : `<small class="quien">Lo agregó ${esc(m.autor_nombre || "un supervisor")}</small>`}</button>
+    <span class="m">${e !== "por_pedir" && e !== "en_obra" ? `<span class="tg ${e}">${MESTADOS[e]}</span>` : ""}${precio}</span></div>`;
+}
+function materialesHTML(o) {
+  const todos = materialesDe(o.clave).sort(matOrden), v = matVista(o), puedeEsc = !ro() && puede("materiales");
+  let h = "";
+  if (!puede("materiales")) h += `<p class="nota">Para guardar materiales falta que tu hoja tome el servidor nuevo (se sube solo).</p>`;
+  if (todos.length) {
+    const n = (k) => todos.filter((m) => mEst(m) === k).length, enObra = n("en_obra"), pct = Math.round(enObra / todos.length * 100);
+    h += `<section class="panel"><h3>Material de la obra</h3><div class="mat-res"><span><b class="num">${enObra}</b> de <b class="num">${todos.length}</b> en obra</span>${n("falta") ? `<span class="tg falta">${n("falta")} ${n("falta") > 1 ? "faltan" : "falta"}</span>` : ""}${n("pedido") ? `<span class="tg pedido">${n("pedido")} ${n("pedido") > 1 ? "pedidos" : "pedido"}</span>` : ""}${n("por_pedir") ? `<span class="tg neutro">${n("por_pedir")} por pedir</span>` : ""}</div>
+      <span class="bar cobro" role="img" aria-label="${pct} % del material ya está en obra"><i style="width:${pct}%"></i></span>`;
+    if (!soySup()) { const t = todos.reduce((a, m) => a + (Number(m.precio) || 0) * (Number(m.cantidad) || 1), 0); if (t > 0) h += row("Costo de la lista, con IVA", money(t)); }
+    h += `</section>`;
+    h += `<div class="bar2" style="margin-top:12px"><span class="lbl">Ver por</span><div class="seg" role="group" aria-label="Agrupar materiales">${[["proveedor", "Proveedor"], ["seccion", "Sección"]].map(([k, t]) => `<button data-act="mat-por" data-k="${k}" aria-pressed="${v.por === k}">${t}</button>`).join("")}</div></div>`;
+    h += `<div class="fil" role="group" aria-label="Filtrar materiales" data-sid="fil-m">${MFILTROS.map(([k, t]) => `<button data-act="mat-f" data-k="${k}" aria-pressed="${v.f === k}">${t}</button>`).join("")}</div>`;
+  }
+  if (puedeEsc) h += `<div class="bot2" style="margin-top:12px"><button class="ghost pri press" data-act="mat-nuevo" style="margin:0">${IC_PLUS}Agregar</button><button class="ghost press" data-act="mat-lista" style="margin:0">Pegar lista</button></div>`;
+  if (!todos.length) return h + `<p class="nota" style="margin-top:14px">Aquí va todo el material de la obra, por proveedor: cuánto, si ya se pidió, si falta o si ya está en obra. Hazla antes de empezar y la vas palomeando. «Pegar lista» acepta un material por renglón, como «40 pzas tablaroca 1/2».</p>`;
+  const xs = v.f === "todos" ? todos : todos.filter((m) => mEst(m) === v.f);
+  if (!xs.length) return h + `<p class="msg" style="margin:24px 0">Ninguno ${v.f === "en_obra" ? "en obra" : "con ese estado"}.</p>`;
+  const sin = v.por === "proveedor" ? "Sin proveedor" : "Sin sección", grupos = {};
+  xs.forEach((m) => { const k = String(m[v.por] || "").trim() || sin; (grupos[k] = grupos[k] || []).push(m); });
+  Object.keys(grupos).sort((a, b) => (a === sin) - (b === sin) || a.localeCompare(b)).forEach((k) => {
+    const g = grupos[k], tot = soySup() ? 0 : g.reduce((a, m) => a + (Number(m.precio) || 0) * (Number(m.cantidad) || 1), 0), listos = g.filter((m) => mEst(m) === "en_obra").length;
+    h += `<div class="mgrp"><div class="mgrp-h"><h3>${esc(k)}</h3><span class="num">${listos}/${g.length}${tot ? " · " + money0(tot) : ""}</span>${v.por === "proveedor" ? `<button class="mini press" data-act="mat-copiar" data-g="${esc(k)}">Copiar pedido</button>` : ""}</div><div class="list">${g.map(matFila).join("")}</div></div>`;
+  });
+  return h;
+}
+// palomita: en obra ↔ como estaba antes
+function matChk(id) {
+  const m = coleccion("materiales").find((x) => x.id === id); if (!m || ro()) return;
+  const e = mEst(m), nuevo = e === "en_obra" ? (m.estado_ant && m.estado_ant !== "en_obra" ? m.estado_ant : "por_pedir") : "en_obra";
+  const campos = nuevo === "en_obra" ? { estado: nuevo, estado_ant: e, actualizado: ahora() } : { estado: nuevo, actualizado: ahora() };
+  encolar("update", "materiales", id, soySup() && !matPuedeTodo(m) ? { estado: nuevo, actualizado: campos.actualizado } : campos);
+  reintentar();
+}
+function abrirMaterial(id) {
+  const o = obraActiva(); if (!o || ro()) return;
+  const m = id ? coleccion("materiales").find((x) => x.id === id) : null;
+  if (id && !m) return;
+  const ult = S.mat.ultimo || {};
+  mostrarHoja({ mode: "material", id: id || null, prev: m, obra: o.clave, mnom: m ? m.material || "" : "", mcant: m && m.cantidad != null ? String(m.cantidad) : "", muni: m ? m.unidad || "" : "",
+    mprov: m ? m.proveedor || "" : ult.proveedor || "", msec: m ? m.seccion || "" : ult.seccion || "", mest: m ? mEst(m) : "por_pedir", mnota: m ? m.nota || "" : "", mprecio: m && m.precio ? String(m.precio) : "" });
+}
+// proveedor o sección: chips de lo ya usado + escribir uno nuevo
+function chipsLibres(campo, val, usados, ph) {
+  const ops = [...new Set([...(val && !usados.includes(val) ? [val] : []), ...usados])];
+  return `${ops.length ? chipsHTML(campo, ops.map((x) => [x, x]), val) : ""}<input class="field" id="f-${campo}" autocomplete="off" placeholder="${esc(ph)}" value="${esc(val)}" style="margin-top:8px">`;
+}
+function hojaMaterial() {
+  const todo = !F.prev || matPuedeTodo(F.prev), ro_ = todo ? "" : " disabled";
+  let b = `<p class="ctx">${esc(nomCorto(S.obras[F.obra]))}${F.prev && !todo ? " · Lo agregó el dueño: puedes cambiar el estado y la nota" : ""}</p>
+    <label class="fl" for="f-mnom">Material</label><input class="field" id="f-mnom" autocomplete="off" placeholder="Ej. Tablaroca 1/2 Panel Rey" value="${esc(F.mnom)}"${ro_}>
+    <label class="fl" for="f-mcant">Cantidad</label><input class="field" id="f-mcant" inputmode="decimal" autocomplete="off" placeholder="Ej. 40" value="${esc(F.mcant)}"${ro_}>`;
+  if (todo) b += `<div style="margin-top:8px">${chipsHTML("muni", UNIDADES.map((u) => [u, u]), F.muni)}</div>
+    <span class="fl">Proveedor</span>${chipsLibres("mprov", F.mprov, matUsados("proveedor", F.obra), "Otro proveedor")}
+    <span class="fl">Sección (opcional)</span>${chipsLibres("msec", F.msec, matUsados("seccion", F.obra), "Ej. Muros, plafón, eléctrico")}`;
+  else b += `<p class="hint">${esc([cantTxt(F.prev), F.prev.proveedor, F.prev.seccion].filter(Boolean).join(" · "))}</p>`;
+  b += `<span class="fl">¿Cómo va?</span>${chipsHTML("mest", Object.entries(MESTADOS), F.mest)}
+    <label class="fl" for="f-mnota">Nota (opcional)</label><input class="field" id="f-mnota" autocomplete="off" placeholder="Ej. Faltan 10 piezas; llega el jueves" value="${esc(F.mnota)}">`;
+  if (!soySup()) b += `<label class="fl" for="f-mprecio">Precio unitario con IVA (opcional, solo tú lo ves)</label><input class="field" id="f-mprecio" inputmode="decimal" autocomplete="off" placeholder="0" value="${esc(F.mprecio)}">`;
+  b += `<p class="err" id="m-err" hidden style="margin-top:10px">Escribe el material.</p>`;
+  const pie = `<button type="button" class="btn main press" data-act="guardar">${F.id ? "Guardar" : "Guardar material"}</button>${F.id ? "" : `<button type="button" class="btn sec2 press" data-act="mat-otro">Guardar y agregar otro</button>`}${F.id && matPuedeTodo(F.prev) ? `<button type="button" class="btn del press" data-act="mat-borrar">Borrar</button>` : ""}`;
+  return shell(F.id ? "Material" : "Agregar material", b, pie);
+}
+async function guardarMaterial(otro) {
+  const todo = !F.prev || matPuedeTodo(F.prev), nom = ($("#f-mnom").value || "").trim();
+  if (todo && !nom) { $("#m-err").hidden = false; $("#f-mnom").focus(); return; }
+  const prov = todo ? ($("#f-mprov").value || "").trim() : null, sec = todo ? ($("#f-msec").value || "").trim() : null;
+  let data = { estado: F.mest || "por_pedir", nota: ($("#f-mnota").value || "").trim(), actualizado: ahora() };
+  if (todo) Object.assign(data, { obra: F.obra, material: nom, cantidad: parseMonto($("#f-mcant").value), unidad: F.muni || "", proveedor: prov, seccion: sec });
+  if (!soySup()) data.precio = parseMonto($("#f-mprecio").value);
+  if (F.prev && data.estado === "en_obra" && mEst(F.prev) !== "en_obra") data.estado_ant = mEst(F.prev);
+  const id = F.id || Datos.nuevoId("materiales"), nuevo = !F.id, obra = F.obra;
+  if (nuevo) Object.assign(data, { creado: ahora(), orden: Date.now(), autor: yoId(), autor_nombre: yoNombre() });
+  if (todo) S.mat.ultimo = { proveedor: prov, seccion: sec };
+  cerrarHoja(true);
+  await guardarDoc(nuevo ? "set" : "update", "materiales", id, data, nuevo ? `${nom} agregado` : "Guardado");
+  render();
+  if (otro) abrirMaterial(null);
+  void obra;
+}
+// pegar una lista: un material por renglón («40 pzas tablaroca 1/2», «tablaroca 1/2 - 40», «- pasta redimix»)
+const UNI_RE = "pzas?|piezas?|pz|m2|m²|mts?2|ml|mts?|metros?|kg|kilos?|bultos?|cubetas?|rollos?|cajas?|tramos?|lts?|litros?|hojas?|placas?|juegos?";
+function normUnidad(u) {
+  u = norm(u || "").replace(/\.$/, ""); if (!u) return "";
+  if (/^(pz|pzas?|piezas?|hojas?|placas?)$/.test(u)) return "pzas";
+  if (/^(m2|m²|mts?2)$/.test(u)) return "m²";
+  if (/^(ml|mts?|metros?)$/.test(u)) return "ml";
+  if (/^(kg|kilos?)$/.test(u)) return "kg";
+  if (/^(lts?|litros?)$/.test(u)) return "lt";
+  const m = { bulto: "bultos", cubeta: "cubetas", rollo: "rollos", caja: "cajas", tramo: "tramos", juego: "juegos" }; return m[u] || u;
+}
+function parseLista(txt) {
+  const num = (x) => Number(String(x).replace(",", "."));
+  return String(txt || "").split(/\n+/).map((l) => l.replace(/^[\s\-–•*·]+|\s+$/g, "")).filter((l) => l && /\S/.test(l)).map((l) => {
+    let m = l.match(new RegExp(`^(\\d+(?:[.,]\\d+)?)\\s*(${UNI_RE})?\\.?\\s+(?:de\\s+)?(.+)$`, "i"));
+    if (m) return { cantidad: num(m[1]), unidad: normUnidad(m[2]), material: m[3].trim() };
+    m = l.match(new RegExp(`^(.+?)\\s*(?:[-:=]|\\s[x×])\\s*(\\d+(?:[.,]\\d+)?)\\s*(${UNI_RE})?\\.?$`, "i"));
+    if (m) return { cantidad: num(m[2]), unidad: normUnidad(m[3]), material: m[1].trim() };
+    return { cantidad: null, unidad: "", material: l };
+  });
+}
+function abrirMatLista() {
+  const o = obraActiva(); if (!o || ro()) return;
+  const ult = S.mat.ultimo || {};
+  mostrarHoja({ mode: "matlista", obra: o.clave, id: null, mprov: ult.proveedor || "", msec: ult.seccion || "", mtxt: "" });
+}
+function hojaMatLista() {
+  const b = `<p class="ctx">${esc(nomCorto(S.obras[F.obra]))} · un material por renglón</p>
+    <textarea class="field" id="f-mtxt" rows="8" placeholder="40 pzas tablaroca 1/2&#10;120 pzas poste 3 5/8&#10;10 cubetas redimix&#10;tornillo 1 pulgada - 8 cajas">${esc(F.mtxt)}</textarea>
+    <p class="hint" id="ml-prev"></p>
+    <span class="fl">Proveedor de todos (opcional)</span>${chipsLibres("mprov", F.mprov, matUsados("proveedor", F.obra), "Ej. PPA")}
+    <span class="fl">Sección (opcional)</span>${chipsLibres("msec", F.msec, matUsados("seccion", F.obra), "Ej. Muros")}`;
+  return shell("Pegar lista de material", b, `<p class="err" id="m-err" hidden></p><button type="button" class="btn main press" data-act="guardar">Agregar a la lista</button>`);
+}
+function prevMatLista() {
+  const e = $("#ml-prev"); if (!e) return;
+  const xs = parseLista($("#f-mtxt").value);
+  e.textContent = xs.length ? `${xs.length} ${xs.length > 1 ? "materiales" : "material"}: ${xs.slice(0, 3).map((x) => [x.cantidad != null ? N2.format(x.cantidad) + (x.unidad ? " " + x.unidad : "") : "", x.material].filter(Boolean).join(" ")).join(" · ")}${xs.length > 3 ? "…" : ""}` : "";
+}
+async function guardarMatLista() {
+  const xs = parseLista($("#f-mtxt").value);
+  if (!xs.length) { const e = $("#m-err"); e.textContent = "Pega o escribe al menos un material."; e.hidden = false; return; }
+  const prov = ($("#f-mprov").value || "").trim(), sec = ($("#f-msec").value || "").trim(), obra = F.obra, t = Date.now();
+  S.mat.ultimo = { proveedor: prov, seccion: sec };
+  const ops = xs.map((x, i) => ({ op: "set", col: "materiales", id: Datos.nuevoId("materiales"), data: { obra, material: x.material, cantidad: x.cantidad, unidad: x.unidad, proveedor: prov, seccion: sec, estado: "por_pedir", nota: "", orden: t + i, creado: ahora(), actualizado: ahora(), autor: yoId(), autor_nombre: yoNombre() } }));
+  cerrarHoja(true);
+  await guardarLote(ops, `${ops.length} ${ops.length > 1 ? "materiales agregados" : "material agregado"}`);
+}
+// el pedido de un proveedor, listo para WhatsApp: lo que falta pedir y lo que falta
+function matCopiar(grupo) {
+  const o = obraActiva(); if (!o) return;
+  const v = matVista(o), xs = materialesDe(o.clave).filter((m) => (String(m[v.por] || "").trim() || (v.por === "proveedor" ? "Sin proveedor" : "Sin sección")) === grupo).sort(matOrden);
+  const pide = xs.filter((m) => ["por_pedir", "falta"].includes(mEst(m)));
+  const lista = (pide.length ? pide : xs).map((m) => `• ${[cantTxt(m), m.material].filter(Boolean).join(" ")}${m.nota ? ` (${m.nota})` : ""}`).join("\n");
+  copiarTexto(`Pedido · ${nomCorto(o)}${grupo.startsWith("Sin ") ? "" : " · " + grupo}\n${lista}`, pide.length ? `Copiado: ${pide.length} por pedir` : "Copiada la lista");
 }
 // --- avisos del inicio: cobrar, dinero, raya, atrasos y pendientes vencidos ---
 function avisosLista() {
@@ -2964,6 +3702,7 @@ function avisosLista() {
     else if (pz.fin && dias(h, pz.fin) >= 0 && dias(h, pz.fin) <= 3 && c.falta_cobrar > 0) xs.push({ n: 2, o, k: 'entrega|' + o.clave, t: `${nom} se entrega el ${diaMes(pz.fin)} y faltan ${money0(c.falta_cobrar)} por cobrar.` });
     estimacionesDe(o.clave).filter((x) => x.estado === "lista").forEach((x) => xs.push({ n: 2, o, k: 'est|' + x.id, t: `La ${nEst(x.numero)} de ${nom} está lista: mándala al cliente para cobrarla.` }));
   });
+  if (!soySup()) tareasDe().filter((t) => !t.hecho && t.fecha && t.fecha < h).slice(0, 3).forEach((t) => xs.push({ n: 2, o: S.obras[t.obra], k: "tarea|" + t.id, t: `${nomSup(t.sup)} no ha hecho: ${t.texto || "su lista"} (venció ${diaMes(t.fecha)}).` }));
   const venc = libresAbiertos().filter((x) => x.fecha && x.fecha <= h);
   if (venc.length) xs.push({ n: 1, k: 'pend', t: venc.length === 1 ? `Pendiente para hoy o atrasado: ${venc[0].texto}` : `${venc.length} pendientes son para hoy o ya se pasaron.` });
   return xs.sort((a, b) => b.n - a.n);
@@ -3013,23 +3752,258 @@ let avSwiped = false;
   };
   document.addEventListener("pointerup", fin); document.addEventListener("pointercancel", fin);
 })();
-// --- vista de supervisor (prueba): sin dinero; todavía no se habilita para nadie ---
-function pantSup(p) {
-  const nav = navHTML({ back: "Obras", titulo: "Vista de supervisor" });
-  let h = `<h1 class="titulo m">Vista de supervisor</h1><div class="note">Así la verían tus supervisores: sin dinero. Todavía no está habilitada para nadie; es para que la pruebes tú primero.</div>`;
-  const os = activas();
-  if (!os.length) h += `<p class="msg">No hay obras activas.</p>`;
-  os.forEach((o) => {
-    const pz = plazo(o), av = avanceObra(o), bs = bitDe(o.clave).slice(0, 3), pend = libresAbiertos(o.clave), ps = personalDe(o, lunesDe(hoy())).filter((x) => !x.baja), a = asisDe(o.clave, hoy());
-    h += `<section class="panel sup"><h3>${esc(nomCorto(o))}</h3>${plazoBloque(o, pz, true, false)}
-      ${av != null ? `<span class="ley"><span>Avance de la obra</span><span class="num">${fmtPct(av)}</span></span><span class="bar" role="img" aria-label="Avance de la obra"><i style="width:${Math.min(100, av).toFixed(1)}%"></i></span>` : `<p class="nota">Sin estimaciones todavía.</p>`}
-      <span class="fl">Reportes del día</span>${bs.length ? `<div class="list sup-l">${bs.map(bitItem).join("")}</div>` : `<p class="nota" style="margin-top:0">Sin reportes.</p>`}
-      ${puede("bitacora") && !ro() ? `<button class="ghost press" data-act="bit-nuevo" data-c="${esc(o.clave)}">${IC_PLUS}Reporte de hoy</button>` : ""}
-      ${ps.length ? `<span class="fl">¿Quién vino hoy?</span><div class="chips">${ps.map((x) => `<button class="chip press" data-act="sup-asis" data-c="${esc(o.clave)}" data-p="${esc(x.id)}" aria-pressed="${vino(a, x.id)}">${esc(x.nombre)}</button>`).join("")}</div>` : ""}
-      <span class="fl">Pendientes</span>${pend.length ? `<div class="libs">${pend.map((x) => libreHTML(x, false)).join("")}</div>` : `<p class="nota" style="margin:0 0 10px">Nada pendiente.</p>`}
-    </section>`;
-  });
+// ============================================================
+// Supervisores (14 nov). El dueño los da de alta con usuario y contraseña, les asigna obras y les encarga pendientes
+// (colección «tareas»). Ellos entran con su usuario y ven solo sus obras: bitácora, asistencia (sin dinero), materiales
+// (sin precio), sus gastos y sus pendientes. Lo importante que hacen le sale al dueño como novedad al abrir la app.
+// El servidor revisa cada cosa (tools/app-web/SUPERVISORES.md); aquí solo se arma la pantalla.
+// ============================================================
+const IC_SUPV = SV(IC_SEC.supervisores, 1.9);
+const primerNombre = (n) => String(n || "").replace(/^\s*(arq|ing|lic|sr|sra|srta|c\.?\s?p|dr|dra|mtro|mtra)\.?\s+/i, "").trim().split(/\s+/)[0] || "";
+const supsList = () => Object.values(S.supervisores).sort((a, b) => (a.activo === false) - (b.activo === false) || String(a.nombre || "").localeCompare(String(b.nombre || "")));
+const supsDeObra = (clave) => supsList().filter((x) => x.activo !== false && (x.obras || []).includes(clave));
+const tareasDe = ({ obra, sup } = {}) => coleccion("tareas").filter((t) => (!obra || t.obra === obra) && (!sup || t.sup === sup)).sort((a, b) => (!!a.hecho - !!b.hecho) || String(a.fecha || "9999").localeCompare(String(b.fecha || "9999")) || String(a.creado || "").localeCompare(String(b.creado || "")));
+function hace(iso) {
+  const d = new Date(iso); if (isNaN(d)) return "";
+  const m = Math.round((Date.now() - d) / 60000);
+  if (m < 1) return "ahora"; if (m < 60) return `hace ${m} min`; if (m < 24 * 60) return `hace ${Math.round(m / 60)} h`;
+  const f = fmtF(d); return f === ayer() ? "ayer" : diaMes(f);
+}
+// ---------- pendientes para supervisores ----------
+function tareaHTML(t, conQuien) {
+  const h = hoy(), lista = t.tipo === "lista" ? t.items || [] : [], hechos = lista.filter((x) => x.hecho).length;
+  const vence = t.hecho ? "" : t.fecha ? (t.fecha < h ? `<span class="neg">venció ${diaMes(t.fecha)}</span>` : t.fecha === h ? "<b>para hoy</b>" : `para el ${diaMes(t.fecha)}`) : "";
+  const quien = conQuien ? (soySup() ? nomCorto(S.obras[t.obra]) : [nomSup(t.sup), t.obra ? nomCorto(S.obras[t.obra]) : ""].filter(Boolean).join(" · ")) : "";
+  const meta = [quien && esc(quien), vence, lista.length ? `${hechos} de ${lista.length}` : "", t.hecho ? `✓ hecho${t.hecho_fecha ? " el " + diaMes(t.hecho_fecha) : ""}` : ""].filter(Boolean).join(" · ");
+  const puede = !ro() && (soySup() ? t.sup === yoId() : true);
+  let x = `<div class="lib tarea ${t.hecho ? "hecho" : ""}"><button class="chk press" ${puede && !lista.length ? `data-act="tarea-hecho" data-id="${esc(t.id)}"` : "disabled"} aria-pressed="${!!t.hecho}" aria-label="${t.hecho ? "Marcar como pendiente" : "Marcar como hecho"}">${t.hecho ? "✓" : ""}</button><button class="t press" data-act="tarea-abrir" data-id="${esc(t.id)}"><b>${esc(t.texto || (lista.length ? "Lista" : "Sin texto"))}</b>${t.nota_sup ? `<small class="obs">«${esc(t.nota_sup)}»</small>` : ""}${meta ? `<small>${meta}</small>` : ""}</button></div>`;
+  if (lista.length && !t.hecho) x += `<div class="titems">${lista.map((it) => `<button class="titem press ${it.hecho ? "hecho" : ""}" ${puede ? `data-act="tarea-item" data-id="${esc(t.id)}" data-i="${esc(it.id)}"` : "disabled"}><i>${it.hecho ? "✓" : ""}</i><span>${esc(it.texto)}</span></button>`).join("")}</div>`;
+  return x;
+}
+async function tareaHecho(id) {
+  const t = coleccion("tareas").find((x) => x.id === id); if (!t || ro()) return;
+  const hecho = !t.hecho;
+  await guardarDoc("update", "tareas", id, soySup() ? { hecho } : { hecho, hecho_fecha: hecho ? hoy() : null, hecho_por: hecho ? "propietario" : null, actualizado: ahora() }, hecho ? "Hecho ✓" : "De nuevo pendiente");
+  render();
+}
+async function tareaItem(id, iid) {
+  const t = coleccion("tareas").find((x) => x.id === id); if (!t || ro()) return;
+  const items = (t.items || []).map((x) => (String(x.id) === String(iid) ? { ...x, hecho: !x.hecho } : x)), todo = items.length && items.every((x) => x.hecho);
+  const data = soySup() ? { items: items.map((x) => ({ id: x.id, hecho: !!x.hecho })) } : { items, hecho: !!todo, hecho_fecha: todo ? hoy() : null, actualizado: ahora() };
+  encolar("update", "tareas", id, soySup() ? data : data);
+  if (soySup()) { const S_ = S.pend.find((p) => p.col === "tareas" && p.id === id); if (S_) S_.data = { ...S_.data, items }; }   // se ve al instante con el texto
+  reintentar(); if (todo) aviso("Lista completa ✓");
+}
+// el supervisor abre su pendiente (para dejar un comentario); el dueño lo cambia o lo borra
+function abrirTarea(id, obra) {
+  if (ro()) return;
+  const t = id ? coleccion("tareas").find((x) => x.id === id) : null;
+  if (id && !t) return;
+  if (soySup()) return mostrarHoja({ mode: "tareasup", id, prev: t, obra: t.obra, tnota: t.nota_sup || "" });
+  const sups = supsList().filter((x) => x.activo !== false), s0 = t ? t.sup : (obra ? (supsDeObra(obra)[0] || {}).id : (sups.length === 1 ? sups[0].id : null)) || null;
+  const f = t ? t.fecha || hoy() : hoy();
+  mostrarHoja({ mode: "tarea", id: id || null, prev: t, obra: null, ttipo: t ? t.tipo || "texto" : "texto", ttexto: t ? t.texto || "" : "", titems: t && t.tipo === "lista" ? (t.items || []).map((x) => x.texto).join("\n") : "",
+    tfechaModo: f === hoy() ? "hoy" : f === masDias(hoy(), 1) ? "manana" : "otra", tfecha: f, tsup: s0, tobra: t ? t.obra : obra || null });
+}
+const obrasDeSup = (sid) => { const s = S.supervisores[sid]; return s ? activas().filter((o) => (s.obras || []).includes(o.clave)) : []; };
+function hojaTarea() {
+  const sups = supsList().filter((x) => x.activo !== false || x.id === F.tsup), os = F.tsup ? obrasDeSup(F.tsup) : [];
+  if (F.tsup && os.length === 1 && !F.tobra) F.tobra = os[0].clave;
+  let b = `<span class="fl">¿Cómo lo quieres?</span>${chipsHTML("ttipo", [["texto", "Texto"], ["lista", "Lista para palomear"]], F.ttipo)}
+    <label class="fl" for="t-texto">${F.ttipo === "lista" ? "Título (opcional)" : "¿Qué tiene que hacer?"}</label><input class="field" id="t-texto" autocomplete="off" placeholder="${F.ttipo === "lista" ? "Ej. Antes del sábado" : "Ej. Medir el plafón del pasillo"}" value="${esc(F.ttexto)}">
+    <div id="blk-titems" ${F.ttipo === "lista" ? "" : "hidden"}><label class="fl" for="t-items">Lo que va en la lista (uno por renglón)</label><textarea class="field" id="t-items" rows="5" placeholder="Pedir redimix&#10;Revisar niveles del plafón&#10;Fotos del avance">${esc(F.titems)}</textarea></div>
+    <span class="fl">¿Para cuándo?</span>${chipsHTML("tfechaModo", [["hoy", "Hoy"], ["manana", "Mañana"], ["otra", "Otro día"]], F.tfechaModo)}
+    <div id="blk-tfecha" ${F.tfechaModo === "otra" ? "" : "hidden"} style="margin-top:8px"><input class="field" id="t-fecha" type="date" value="${esc(F.tfecha)}"></div>
+    <span class="fl">¿A quién?</span>${sups.length ? chipsHTML("tsup", sups.map((x) => [x.id, x.nombre]), F.tsup) : `<p class="nota" style="margin:0">Primero da de alta a un supervisor.</p>`}
+    <div id="blk-tobra">${tareaObrasHTML()}</div>
+    <p class="err" id="t-err" hidden style="margin-top:10px"></p>`;
+  return shell(F.id ? "Pendiente del supervisor" : "Encargar pendiente", b, `<button type="button" class="btn main press" data-act="guardar">${F.id ? "Guardar" : "Encargar"}</button>${F.id ? `<button type="button" class="btn del press" data-act="tarea-borrar">Borrar</button>` : ""}`);
+}
+function tareaObrasHTML() {
+  if (!F.tsup) return "";
+  const os = obrasDeSup(F.tsup);
+  return `<span class="fl">¿En qué obra?</span>${os.length ? chipsHTML("tobra", os.map((o) => [o.clave, nomCorto(o)]), F.tobra) : `<p class="nota" style="margin:0">Ese supervisor no tiene obras: asígnale una en Supervisores.</p>`}`;
+}
+async function guardarTarea() {
+  const err = (t) => { const e = $("#t-err"); e.textContent = t; e.hidden = false; };
+  const texto = ($("#t-texto").value || "").trim(), lineas = F.ttipo === "lista" ? ($("#t-items").value || "").split(/\n+/).map((x) => x.replace(/^[\s\-–•*·]+/, "").trim()).filter(Boolean) : [];
+  if (F.ttipo === "lista" ? !lineas.length : !texto) return err(F.ttipo === "lista" ? "Escribe al menos un punto de la lista." : "Escribe qué tiene que hacer.");
+  if (!F.tsup) return err("Elige a quién se lo encargas.");
+  if (!F.tobra || !obrasDeSup(F.tsup).some((o) => o.clave === F.tobra)) return err("Elige la obra.");
+  const prev = F.prev || {}, viejos = {}; (prev.items || []).forEach((x) => (viejos[x.texto] = x));
+  const items = lineas.map((t, i) => (viejos[t] ? { ...viejos[t] } : { id: "i" + Date.now().toString(36) + i, texto: t, hecho: false }));
+  const fecha = F.tfechaModo === "hoy" ? hoy() : F.tfechaModo === "manana" ? masDias(hoy(), 1) : ($("#t-fecha").value || hoy());
+  const todo = items.length && items.every((x) => x.hecho);
+  const data = { texto: texto || (items.length ? `${items[0].texto}${items.length > 1 ? ` y ${items.length - 1} más` : ""}` : ""), tipo: F.ttipo, items, fecha, sup: F.tsup, obra: F.tobra, hecho: F.ttipo === "lista" ? !!todo : !!prev.hecho, hecho_fecha: prev.hecho_fecha || null, hecho_por: prev.hecho_por || null, nota_sup: prev.nota_sup || "",
+    creado: prev.creado || ahora(), actualizado: ahora(), autor: "propietario" };
+  const id = F.id || Datos.nuevoId("tareas"), nuevo = !F.id;
+  cerrarHoja(true);
+  await guardarDoc("set", "tareas", id, data, nuevo ? `Encargado a ${nomSup(data.sup)}` : "Guardado");
+  render();
+}
+function hojaTareaSup() {
+  const t = F.prev, lista = t.tipo === "lista" ? t.items || [] : [];
+  const b = `<p class="ctx">${esc(nomCorto(S.obras[t.obra]))}${t.fecha ? ` · ${t.fecha < hoy() && !t.hecho ? "venció" : "para el"} ${diaMes(t.fecha)}` : ""}</p>
+    <p style="font-size:17px;font-weight:600;margin:10px 0 0;overflow-wrap:anywhere">${esc(t.texto)}</p>
+    ${lista.length ? `<ul class="cons" style="padding-left:20px;margin-top:8px">${lista.map((x) => `<li>${x.hecho ? "✓ " : ""}${esc(x.texto)}</li>`).join("")}</ul>` : ""}
+    <label class="fl" for="t-nota">Comentario para el dueño (opcional)</label><input class="field" id="t-nota" autocomplete="off" placeholder="Ej. Ya quedó; faltó una pieza" value="${esc(F.tnota)}">`;
+  return shell("Pendiente", b, `<button type="button" class="btn main press" data-act="guardar">Guardar comentario</button>${lista.length ? "" : `<button type="button" class="btn ${t.hecho ? "sec2" : "okb"} press" data-act="tarea-hecho" data-id="${esc(t.id)}">${t.hecho ? "Marcar como pendiente" : "Ya lo hice ✓"}</button>`}`);
+}
+async function guardarTareaSup() {
+  const id = F.id, nota = ($("#t-nota").value || "").trim();
+  cerrarHoja(true);
+  await guardarDoc("update", "tareas", id, { nota_sup: nota }, "Comentario guardado");
+  render();
+}
+// pestaña «Pendientes» del supervisor dentro de la obra
+function tareasObraHTML(o) {
+  const xs = tareasDe({ obra: o.clave, sup: soySup() ? yoId() : null }), ab = xs.filter((t) => !t.hecho), he = xs.filter((t) => t.hecho).slice(0, 8);
+  let h = `<section class="panel"><h3>Lo que te encargaron</h3>${ab.length ? `<div class="libs">${ab.map((t) => tareaHTML(t, false)).join("")}</div>` : `<p class="nota" style="margin:6px 0 10px">Nada pendiente en esta obra.</p>`}</section>`;
+  if (he.length) h += `<section class="panel"><h3>Hechos</h3><div class="libs">${he.map((t) => tareaHTML(t, false)).join("")}</div></section>`;
+  return h;
+}
+// ---------- dueño: pestaña «Supervisores» de la obra ----------
+function supObraHTML(o) {
+  const ss = supsDeObra(o.clave), xs = tareasDe({ obra: o.clave }), ab = xs.filter((t) => !t.hecho), he = xs.filter((t) => t.hecho).slice(0, 5);
+  let h = !ro() && puede("tareas") ? `<button class="ghost pri press" data-act="tarea-nueva" data-c="${esc(o.clave)}" style="margin-top:12px">${IC_PLUS}Encargar pendiente</button>` : "";
+  if (!puede("tareas")) h += `<p class="nota">Para supervisores falta que tu hoja tome el servidor nuevo (se sube solo).</p>`;
+  h += `<section class="panel"><h3>Pendientes encargados</h3>${ab.length ? `<div class="libs">${ab.map((t) => tareaHTML(t, true)).join("")}</div>` : `<p class="nota" style="margin:6px 0 10px">Nada pendiente.</p>`}${he.length ? `<span class="fl" style="margin-top:10px">Hechos</span><div class="libs">${he.map((t) => tareaHTML(t, true)).join("")}</div>` : ""}</section>`;
+  h += `<section class="panel"><h3>Supervisores de esta obra</h3>${ss.length ? `<div class="list sup-l">${ss.map(supFila).join("")}</div>` : `<p class="nota" style="margin:6px 0 10px">Todavía no le das esta obra a ningún supervisor.</p>`}</section>`;
+  return h + `<button class="ghost press" data-act="sups">${IC_SUPV}Administrar supervisores</button>`;
+}
+const supFila = (x) => `<button class="item press" data-act="sup-abrir" data-id="${esc(x.id)}"><span class="ico">${IC_SUPV}</span><span class="t"><b>${esc(x.nombre || "Sin nombre")}${x.activo === false ? ' <span class="tg neutro">Dado de baja</span>' : ""}</b><small>Usuario ${esc(x.usuario || "—")} · ${(x.obras || []).filter((c) => S.obras[c]).map((c) => esc(nomCorto(S.obras[c]))).join(", ") || "sin obras"}</small><small>${x.ultimo_acceso ? "Entró " + hace(x.ultimo_acceso) : "No ha entrado"}${((n) => (n ? ` · ${n} ${n > 1 ? "pendientes" : "pendiente"}` : ""))(tareasDe({ sup: x.id }).filter((t) => !t.hecho).length)}</small></span>${IC_RIGHT}</button>`;
+// ---------- dueño: pantalla «Supervisores» (todas las obras) ----------
+function pantSups(p) {
+  const nav = navHTML({ back: "Obras", titulo: "Supervisores", fade: true });
+  if (soySup()) return setPant(p, nav, `<p class="msg">Esta pantalla es del dueño.</p>`);
+  const ss = supsList(), act = ss.filter((x) => x.activo !== false), baja = ss.filter((x) => x.activo === false), xs = tareasDe(), ab = xs.filter((t) => !t.hecho), he = xs.filter((t) => t.hecho).slice(0, 10);
+  let h = `<h1 class="titulo m">Supervisores</h1>${avisos()}`;
+  if (!puede("supervisores")) h += `<p class="nota">Falta que tu hoja tome el servidor nuevo (se sube solo).</p>`;
+  if (!ro()) h += `<div class="bot2"><button class="ghost pri press" data-act="sup-nuevo" style="margin:0">${IC_PLUS}Dar de alta</button><button class="ghost press" data-act="tarea-nueva" style="margin:0">Encargar pendiente</button></div>`;
+  h += `<h2 class="sec">Activos</h2>${act.length ? `<div class="list">${act.map(supFila).join("")}</div>` : `<p class="nota">Nadie todavía. Dales de alta con su usuario y contraseña; tú decides qué obras ve cada uno.</p>`}`;
+  h += `<h2 class="sec">Pendientes que encargaste</h2>${ab.length ? `<div class="panel libs">${ab.map((t) => tareaHTML(t, true)).join("")}</div>` : `<p class="nota">Nada pendiente.</p>`}`;
+  if (he.length) h += `<h2 class="sec">Hechos hace poco</h2><div class="panel libs">${he.map((t) => tareaHTML(t, true)).join("")}</div>`;
+  if (baja.length) h += `<h2 class="sec">Dados de baja</h2><div class="list">${baja.map(supFila).join("")}</div>`;
+  h += `<p class="nota">Los supervisores entran con su usuario y contraseña. Ven sus obras sin dinero: bitácora, asistencia (sin raya ni sueldos), material (sin precios), sus propios gastos y lo que les encargas. Si los das de baja ya no pueden entrar.</p>`;
   setPant(p, nav, h);
+}
+function chipsMulti(name, opts, set) {
+  return `<div class="chips" data-g="${name}">` + opts.map(([k, t]) => `<button type="button" class="chip press" data-act="multi" data-g="${name}" data-v="${esc(k)}" aria-pressed="${set.has(k)}"><span class="brk">${esc(t)}</span></button>`).join("") + `</div>`;
+}
+const usuarioDe = (nombre) => norm(nombre).split(" ")[0].replace(/[^a-z0-9]/g, "") || "supervisor";
+const contrasenaNueva = () => String(Math.floor(100000 + Math.random() * 900000));   // 6 números, fácil de dictar
+function abrirSupervisor(id) {
+  if (ro()) return;
+  const x = id ? S.supervisores[id] : null; if (id && !x) return;
+  const o = obraActiva();
+  mostrarHoja({ mode: "supervisor", id: id || null, prev: x, obra: null, snom: x ? x.nombre || "" : "", susu: x ? x.usuario || "" : "", sclave: x ? "" : contrasenaNueva(), sobras: new Set(x ? x.obras || [] : o ? [o.clave] : []), susuTocado: !!x });
+}
+function hojaSupervisor() {
+  const os = activas(), x = F.prev;
+  let b = `<label class="fl" for="s-nom">Nombre</label><input class="field" id="s-nom" autocomplete="off" placeholder="Ej. Arq. Juan Pérez" value="${esc(F.snom)}">
+    <label class="fl" for="s-usu">Usuario (con este entra)</label><input class="field" id="s-usu" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Ej. juan" value="${esc(F.susu)}">`;
+  if (!x) b += `<label class="fl" for="s-clave">Contraseña (mínimo 6; se la mandas tú)</label><input class="field" id="s-clave" autocomplete="off" autocapitalize="none" value="${esc(F.sclave)}">`;
+  b += `<span class="fl">¿Qué obras ve?</span>${os.length ? chipsMulti("sobras", os.map((o) => [o.clave, nomCorto(o)]), F.sobras) : `<p class="nota" style="margin:0">No hay obras activas.</p>`}
+    <p class="err" id="s-err" hidden style="margin-top:10px"></p>`;
+  if (x) b += `<p class="hint">${x.ultimo_acceso ? "Entró por última vez " + hace(x.ultimo_acceso) : "Todavía no entra a la app"}.</p>`;
+  let pie = `<button type="button" class="btn main press" data-act="guardar">${x ? "Guardar" : "Dar de alta"}</button>`;
+  if (x) pie += `<button type="button" class="btn sec2 press" data-act="sup-acceso">Mandarle su acceso</button><button type="button" class="btn sec2 press" data-act="sup-clave">Cambiar contraseña</button>` +
+    (x.activo === false ? `<button type="button" class="btn sec2 press" data-act="sup-alta">Darle acceso otra vez</button>` : `<button type="button" class="btn del press" data-act="sup-baja">Dar de baja (ya no entra)</button>`);
+  return shell(x ? x.nombre || "Supervisor" : "Dar de alta supervisor", b, pie);
+}
+async function guardarSupervisor() {
+  const err = (t) => { const e = $("#s-err"); e.textContent = t; e.hidden = false; };
+  const nombre = ($("#s-nom").value || "").trim(), usuario = norm($("#s-usu").value).replace(/\s+/g, "");
+  if (!nombre) return err("Escribe su nombre.");
+  if (!usuario) return err("Escribe su usuario.");
+  if (supsList().some((x) => x.id !== F.id && norm(x.usuario).replace(/\s+/g, "") === usuario)) return err("Ese usuario ya lo tiene otro supervisor.");
+  const obras = [...F.sobras], x = F.prev;
+  if (x) {
+    cerrarHoja(true);
+    await guardarDoc("update", "supervisores", F.id, { nombre, usuario, obras, actualizado: ahora() }, "Guardado");
+    return render();
+  }
+  const clave = ($("#s-clave").value || "").trim();
+  if (clave.length < 6) return err("La contraseña debe tener al menos 6 letras o números.");
+  const id = "s" + Date.now().toString(36);
+  cerrarHoja(true);
+  const r = await guardarLote([{ op: "set", col: "supervisores", id, data: { nombre, usuario, obras, activo: true, creado: ahora(), actualizado: ahora() } }, { op: "clave", col: "supervisores", id, data: { clave } }], `${nombre} dado de alta`);
+  if (r === "ok" || r === "sin_senal") mostrarAcceso(id, nombre, usuario, clave);
+}
+// el mensaje para mandarle por WhatsApp: link, usuario y contraseña
+function mensajeAcceso(nombre, usuario, clave) {
+  return `Hola ${primerNombre(nombre) || nombre}, ya tienes acceso a la app de NORTEA.\n1. Abre este link: ${Datos.linkSup(usuario)}\n2. Usuario: ${usuario}${clave ? `\n   Contraseña: ${clave}` : "\n   Contraseña: la que te di"}\n3. Para tenerla como app: en Safari toca Compartir → «Agregar a pantalla de inicio».`;
+}
+function mostrarAcceso(id, nombre, usuario, clave) {
+  mostrarHoja({ mode: "supok", id: null, obra: null, chica: true, smsg: mensajeAcceso(nombre, usuario, clave), sclave: clave });
+}
+function hojaSupOk() {
+  return shell("Mándale su acceso", `<p class="ctx">${F.sclave ? "La contraseña solo se ve ahora: si se pierde, le pones otra." : "Por seguridad no se guarda la contraseña: si no la tiene, cámbiala."}</p><textarea class="field" id="s-msg" rows="7" style="margin-top:10px">${esc(F.smsg)}</textarea>`,
+    `<button type="button" class="btn main press" data-act="sup-copiar">Copiar mensaje</button><button type="button" class="btn sec2 press" data-act="cerrar">Listo</button>`);
+}
+function abrirClaveSup() {
+  const x = F && F.prev; if (!x) return;
+  mostrarHoja({ mode: "supclave", id: x.id, prev: x, obra: null, chica: true, sclave: contrasenaNueva() });
+}
+function hojaSupClave() {
+  return shell("Cambiar contraseña", `<p class="ctx">${esc(F.prev.nombre || "")} · se le cierra la sesión en su teléfono y entra con la nueva.</p><label class="fl" for="s-clave">Contraseña nueva (mínimo 6)</label><input class="field" id="s-clave" autocomplete="off" autocapitalize="none" value="${esc(F.sclave)}"><p class="err" id="s-err" hidden style="margin-top:10px"></p>`,
+    `<button type="button" class="btn main press" data-act="guardar">Cambiar</button>`);
+}
+async function guardarClaveSup() {
+  const clave = ($("#s-clave").value || "").trim(), x = F.prev;
+  if (clave.length < 6) { const e = $("#s-err"); e.textContent = "Mínimo 6 letras o números."; e.hidden = false; return; }
+  cerrarHoja(true);
+  const r = await guardarDoc("clave", "supervisores", x.id, { clave }, "Contraseña cambiada");
+  if (r === "ok" || r === "sin_senal") mostrarAcceso(x.id, x.nombre || "", x.usuario || "", clave);
+}
+async function supActivo(activo, sx) {
+  const x = sx || (F && F.prev); if (!x) return;
+  cerrarHoja(true);
+  await guardarDoc("update", "supervisores", x.id, { activo, actualizado: ahora() }, activo ? `${x.nombre} puede entrar otra vez` : `${x.nombre} ya no puede entrar`);
+  render();
+}
+// ---------- dueño: novedades de los supervisores (al abrir la app) ----------
+function novedadesHTML() {
+  if (soySup()) return "";
+  const xs = coleccion("avisos").filter((a) => !a.visto).sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)));
+  if (!xs.length) return "";
+  return `<section class="avisos nov" aria-label="Novedades de tus supervisores"><div class="av-h"><b>${IC_SUPV}Novedades de tus supervisores</b><button class="mini press" data-act="nov-ok">Ya lo vi</button></div>${xs.slice(0, 8).map((a) => `<button class="av-i press" ${a.obra && S.obras[a.obra] ? `data-act="obra" data-c="${esc(a.obra)}"` : ""}><small>${esc(hace(a.fecha))}</small>${esc(a.texto)}</button>`).join("")}${xs.length > 8 ? `<p class="av-tip">y ${xs.length - 8} más</p>` : ""}</section>`;
+}
+async function novedadesVistas() {
+  const xs = coleccion("avisos"), lim = masDias(hoy(), -30);
+  const ops = xs.filter((a) => !a.visto).map((a) => ({ op: "update", col: "avisos", id: a.id, data: { visto: true } }))
+    .concat(xs.filter((a) => a.visto && String(a.fecha).slice(0, 10) < lim).map((a) => ({ op: "del", col: "avisos", id: a.id })));   // se borran las vistas de hace más de un mes
+  if (ops.length) await guardarLote(ops, "Listo");
+}
+// ---------- supervisor: inicio ----------
+function homeSup(p) {
+  const nav = navHTML({ titulo: "Mis obras", fade: true });
+  if (!S.loaded.obras) return setPant(p, nav, `<h1 class="titulo">Mis obras</h1>${avisos()}<div class="sk s"></div><div class="sk"></div>`);
+  const os = activas(), nom = primerNombre(yoNombre()), h = hoy();
+  let x = `<h1 class="titulo">Hola${nom ? ", " + esc(nom) : ""}</h1>${avisos()}`;
+  const ts = tareasDe({ sup: yoId() }).filter((t) => !t.hecho);
+  x += `<section class="panel"><h3>Tus pendientes${ts.length ? " · " + ts.length : ""}</h3>${ts.length ? `<div class="libs">${ts.map((t) => tareaHTML(t, os.length > 1)).join("")}</div>` : `<p class="nota" style="margin:6px 0 10px">Nada pendiente. Aquí te salen las cosas que te encargue NORTEA.</p>`}</section>`;
+  x += `<h2 class="sec">Tus obras</h2>`;
+  x += os.length ? `<div class="cards">${os.map((o) => {
+    const pz = plazo(o), a = asisDe(o.clave, h), vino_ = a ? (a.presentes || []).length : 0, rep = bitDe(o.clave).some((b) => b.fecha === h), falta = materialesDe(o.clave).filter((m) => m.estado === "falta").length, nt = tareasDe({ obra: o.clave, sup: yoId() }).filter((t) => !t.hecho).length;
+    return `<button class="card press" data-act="obra" data-c="${esc(o.clave)}"><span class="card-h"><h3>${esc(nomCorto(o))}</h3><span class="tag ${pz.late ? "late" : est(o) === "en_curso" ? "on" : ""}">${pz.late ? "Atrasada" : ESTADO[est(o)] || ""}</span></span>${plazoBloque(o, pz, true, false)}
+      <span class="sup-hoy"><span class="${vino_ ? "" : "warn-t"}">Asistencia de hoy: ${vino_ ? vino_ + (vino_ > 1 ? " vinieron" : " vino") : "sin marcar"}</span><span class="${rep ? "" : "warn-t"}">Reporte de hoy: ${rep ? "✓ listo" : "falta"}</span>${nt ? `<span>${nt} ${nt > 1 ? "pendientes" : "pendiente"}</span>` : ""}${falta ? `<span class="warn-t">Material: ${falta} ${falta > 1 ? "faltan" : "falta"}</span>` : ""}</span></button>`;
+  }).join("")}</div>` : `<p class="msg" style="margin:16px 0">Todavía no tienes obras asignadas.</p>`;
+  x += `<div class="discreto"><button data-act="salir">Salir de la app</button></div>`;
+  setPant(p, nav, x);
+}
+// ---------- supervisor: sus gastos en la obra ----------
+function filaGastoSup(g) {
+  const tag = g.con_su_dinero ? (g.resuelto ? `<span class="tg saldado">✓ Ya te lo pagaron</span>` : `<span class="tg por_pagar">Te lo deben</span>`) : "";
+  return `<button class="item press" data-act="edit-gasto" data-id="${esc(g.id)}"><span class="ico">${ico(g.tipo)}</span><span class="t"><b>${esc(conceptoDe(g))}</b><small>${esc(diaLargo(g.fecha))} · ${esc(TIPO_LBL[g.tipo] || "")}${g.forma ? " · " + esc(FORMAS_G[g.forma] || "") : ""} ${tag}</small></span><span class="m num">${money(g.monto)}</span></button>`;
+}
+function gastosSupHTML(o) {
+  const gs = gastosDe(o.clave).filter((g) => g.autor === yoId()).sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)) || String(b.creado || "").localeCompare(String(a.creado || "")));
+  const debe = gs.filter((g) => g.con_su_dinero && !g.resuelto);
+  let h = ro() ? "" : `<button class="ghost pri press" data-act="nuevo-gasto" style="margin-top:12px">${IC_PLUS}Anotar gasto</button>`;
+  if (debe.length) h += `<div class="note" style="margin-top:12px"><span>NORTEA te debe <b class="num">${money(sum(debe, "monto"))}</b> de lo que pagaste con tu dinero.</span></div>`;
+  h += gs.length ? `<div class="list" style="margin-top:12px">${gs.map(filaGastoSup).join("")}</div><div class="tbl-foot"><span>Total (${gs.length})</span><span class="num">${money(sum(gs, "monto"))}</span></div>` : `<p class="nota" style="margin-top:14px">Aquí anotas lo que gastes en la obra. Si lo pagas con tu dinero, márcalo y NORTEA sabe que te lo debe.</p>`;
+  return h;
 }
 
 // ---------- mantener presionado para confirmar (terminar obra) ----------
@@ -3086,6 +4060,15 @@ document.addEventListener("click", (e) => {
   else if (a === "inicio") irInicio();
   else if (a === "volver") volver();
   else if (a === "tab") { if (p) cambiarTab(p, el.dataset.k); }
+  else if (a === "ir-menu") irMenu(p);
+  else if (a === "mat-chk") matChk(el.dataset.id);
+  else if (a === "mat-editar") abrirMaterial(el.dataset.id);
+  else if (a === "mat-nuevo") abrirMaterial(null);
+  else if (a === "mat-lista") abrirMatLista();
+  else if (a === "mat-otro") guardarMaterial(true);
+  else if (a === "mat-borrar") { const id = F && F.id; if (id) abrirAccion({ titulo: "¿Borrar este material?", items: [{ t: "Borrar", estilo: "peligro", fn: () => borrarDoc("materiales", id) }] }); }
+  else if (a === "mat-por" || a === "mat-f") { const o = obraActiva(); if (!o || !p) return; matVista(o)[a === "mat-por" ? "por" : "f"] = el.dataset.k; pintarTab(p); }
+  else if (a === "mat-copiar") matCopiar(el.dataset.g);
   else if (a === "filtro" || a === "filtro-obra") {
     if (!p) return; const f = gf(p), k = el.dataset.k;
     if (a === "filtro") f.filtro = k; else f.obra = k;
@@ -3113,19 +4096,43 @@ document.addEventListener("click", (e) => {
   else if (a === "pend-borrar") { const id = el.dataset.id; cerrarHoja(true); borrarDoc("pendientes", id); }
   else if (a === "asis-sem") { const o = obraActiva(); if (!o || !p) return; const d = Number(el.dataset.d); S.asis[o.clave] = d === 0 ? lunesDe(hoy()) : masDias(S.asis[o.clave] || lunesDe(hoy()), d); pintarTab(p); }
   else if (a === "asis-m") { const o = obraActiva(); if (o) asisMarcar(o.clave, el.dataset.p, el.dataset.f); }
-  else if (a === "asis-todos") { const o = obraActiva(); if (o) asisTodos(o.clave); }
-  else if (a === "asis-raya") asisRaya(el.dataset.l);
-  else if (a === "pers-nuevo") abrirPersona(null);
+  else if (a === "asis-todos") { const o = obraActiva(); if (o) asisTodos(o.clave, el.dataset.g); }
+  else if (a === "asis-raya") abrirRaya(el.dataset.l);
+  else if (a === "asis-vista") { const o = obraActiva(); if (!o || !p) return; S.asisVista[o.clave] = el.dataset.k; pintarTab(p); }
+  else if (a === "asis-mes") { const o = obraActiva(); if (!o || !p) return; const d = Number(el.dataset.d), [y, m] = (S.asisMes[o.clave] || hoy().slice(0, 7)).split("-").map(Number); S.asisMes[o.clave] = d === 0 ? hoy().slice(0, 7) : fmtF(new Date(y, m - 1 + d, 1)).slice(0, 7); pintarTab(p); }
+  else if (a === "asis-ir-sem") { const o = obraActiva(); if (!o || !p) return; S.asis[o.clave] = el.dataset.l; S.asisVista[o.clave] = "semana"; pintarTab(p); irMenu(p); }
+  else if (a === "pers-nuevo") abrirPersona(null, el.dataset.g);
   else if (a === "pers-editar") abrirPersona(el.dataset.p);
   else if (a === "pers-baja") bajaPersona();
-  else if (a === "bit-nuevo") abrirBitacora(null, el.dataset.c);
+  else if (a === "pers-borrar") { const id = F && F.id; if (id) borrarPersona(); }
+  else if (a === "grupo-menu") grupoMenu(el.dataset.g);
+  else if (a === "grupo-nuevo") abrirGrupo(null);
+  else if (a === "bit-nuevo") abrirBitacora(null, el.dataset.c, el.dataset.f);
+  else if (a === "bit-sem") { const o = obraActiva(); if (!o || !p) return; const d = Number(el.dataset.d); S.bitSem[o.clave] = d === 0 ? lunesDe(hoy()) : masDias(S.bitSem[o.clave] || lunesDe(hoy()), d); pintarTab(p); }
+  else if (a === "bit-copiar") bitCopiar(el.dataset.c);
   else if (a === "bit-editar") abrirBitacora(el.dataset.id, el.dataset.c);
   else if (a === "bit-borrar") { const id = F && F.id; if (id) abrirAccion({ titulo: "¿Borrar este reporte?", items: [{ t: "Borrar", estilo: "peligro", fn: () => borrarDoc("bitacora", id) }] }); }
   else if (a === "pend-grupo") { const id = "#pg-" + el.dataset.g; abrirHoja("pend"); setTimeout(() => { const gp = $(id); if (gp) gp.scrollIntoView({ block: "start", behavior: reduceMotion() ? "auto" : "smooth" }); }, 380); }
   else if (a === "avisos-ok") { ls.set("nortea_avisos_visto", el.dataset.k); render(); }
   else if (a === "avisos-ver") { ls.del("nortea_avisos_visto"); ls.del("nortea_avisos_ocultos"); render(); }
-  else if (a === "supervisor") ir({ t: "sup" });
-  else if (a === "sup-asis") asisMarcar(el.dataset.c, el.dataset.p, hoy(), vino(asisDe(el.dataset.c, hoy()), el.dataset.p) ? 0 : 1);
+  else if (a === "sups") ir({ t: "sups" });
+  else if (a === "sup-abrir") abrirSupervisor(el.dataset.id);
+  else if (a === "sup-nuevo") abrirSupervisor(null);
+  else if (a === "sup-acceso") { const x = F && F.prev; if (x) mostrarAcceso(x.id, x.nombre || "", x.usuario || "", ""); }
+  else if (a === "sup-clave") abrirClaveSup();
+  else if (a === "sup-baja") { const x = F && F.prev; if (x) abrirAccion({ titulo: `¿Dar de baja a ${x.nombre}?`, texto: "Ya no podrá entrar a la app. Lo que anotó se queda.", items: [{ t: "Sí, dar de baja", estilo: "peligro", fn: () => supActivo(false, x) }] }); }
+  else if (a === "sup-alta") supActivo(true);
+  else if (a === "sup-copiar") { const t = $("#s-msg"); if (t) copiarTexto(t.value, "Copiado: pégalo en WhatsApp"); }
+  else if (a === "multi") { if (!F) return; const g = el.dataset.g, v = el.dataset.v, set = F[g]; if (set.has(v)) set.delete(v); else set.add(v); el.setAttribute("aria-pressed", String(set.has(v))); }
+  else if (a === "tarea-nueva") abrirTarea(null, el.dataset.c || (obraActiva() || {}).clave || null);
+  else if (a === "tarea-abrir") abrirTarea(el.dataset.id);
+  else if (a === "tarea-hecho") { const id = el.dataset.id; if (F && (F.mode === "tareasup")) cerrarHoja(true); tareaHecho(id); }
+  else if (a === "tarea-item") tareaItem(el.dataset.id, el.dataset.i);
+  else if (a === "tarea-borrar") { const id = F && F.id; if (id) abrirAccion({ titulo: "¿Borrar este pendiente?", items: [{ t: "Borrar", estilo: "peligro", fn: () => borrarDoc("tareas", id) }] }); }
+  else if (a === "nov-ok") novedadesVistas();
+  else if (a === "mi-acceso") copiarTexto(Datos.accesoTexto(), S.pend.length ? `Copiado. OJO: tienes ${S.pend.length} ${S.pend.length > 1 ? "cambios" : "cambio"} sin subir; espera a que se suban antes de quitar la app.` : "Copiado. Guárdalo: lo pegas si vuelves a instalar la app.");
+  else if (a === "salir") abrirAccion({ titulo: "¿Salir de la app?", texto: S.pend.length ? `Tienes ${S.pend.length} ${S.pend.length > 1 ? "cambios" : "cambio"} sin subir: si sales se pierden. Mejor espera a tener señal.` : "Para volver a entrar necesitas tu usuario y contraseña.", items: [{ t: "Salir", estilo: "peligro", fn: () => { S.pend = []; savePend(); Datos.salir(); } }] });
+  else if (a === "nuevo-reporte") { const o = obraActiva() || S.obras[obraDefault()]; if (o) abrirBitacora(null, o.clave); }
   else if (a === "asis-cfg") abrirCfgAsis();
   else if (a === "cfg-fest") { if (!F || F.mode !== "asiscfg") return; const f = el.dataset.f; if (F.cfests.has(f)) F.cfests.delete(f); else F.cfests.add(f); el.setAttribute("aria-pressed", String(F.cfests.has(f))); }
   else if (a === "fecha") {
@@ -3157,6 +4164,7 @@ document.addEventListener("click", (e) => {
   else if (a === "copiar") copiar(el.dataset.i);
   else if (a === "cerrar") cerrarHoja();
   else if (a === "fac") { F.factura = !F.factura; F.facturaManual = true; el.setAttribute("aria-checked", String(F.factura)); }
+  else if (a === "sudin") { F.conSuDinero = !F.conSuDinero; el.setAttribute("aria-checked", String(F.conSuDinero)); }
   else if (a === "sug") { const t = F.sug[Number(el.dataset.i)]; if (t != null) { $("#f-concepto").value = t; F.concepto = t; actualizarSug(); validar(); } }
   else if (a === "guardar") guardar();
   else if (a === "borrar") borrar();
@@ -3187,6 +4195,9 @@ document.addEventListener("input", (e) => {
   else if (id === "f-nombre") { F.nombre = t.value; validar(); }
   else if (id === "f-costo") { F.costoManual = t.value.trim() !== ""; F.costo = t.value; }
   else if (id === "pp-sem") { F.psem = String(parseMonto(t.value) || ""); syncChips("psem"); }
+  else if (id === "f-mprov" || id === "f-msec") { const k = id.slice(2); F[k] = t.value.trim(); syncChips(k); }
+  else if (id === "f-mtxt") prevMatLista();
+  else if (id === "f-raj") actualizarRaya();
 });
 document.addEventListener("focusout", (e) => {
   const t = e.target;
@@ -3202,6 +4213,7 @@ document.addEventListener("keydown", (e) => {
 });
 document.addEventListener("toggle", (e) => { if (e.target.id === "archivo") S.archivoAbierto = e.target.open; }, true);
 window.addEventListener("online", reintentar);
+setInterval(() => { if (S.pend.length && !document.hidden && navigator.onLine !== false) reintentar(); }, 30000);
 function atenderHash() {
   const h = location.hash;
   if (h !== "#gasto" && h !== "#pago") return;
@@ -3234,9 +4246,10 @@ async function iniciar() {
   const ini = await Datos.iniciar();
   if (ini.sinCuenta) { S.sinCuenta = true; renderTodo(); return; }
   if (ini.modo === "mock") window.__t = { S, ir, volver, pila: () => pila, ES: () => ES, Datos, conceptosAgrupados, plazo, avanceObra, totalEstimacion };
-  ["obras", "gastos", "pagos", "estimaciones", "pendientes", "chat", "asistencia", "bitacora"].forEach((col) => {
+  COLECCIONES.forEach((col) => {
     Datos.suscribir(col, (m) => {
-      S[col] = m;
+      S[col] = col === "obras" ? pendSobre(col, m) : m;
+      if (col === "obras" && S.loaded.obras && S.pend.length) setTimeout(reintentar, 0);
       const primera = !S.loaded[col]; S.loaded[col] = true;
       if (primera && col === "obras") listo(); else render();
     }, (err) => { S.loaded[col] = true; if (err === "revocado") S.sinCuenta = true; render(); });

@@ -1,5 +1,5 @@
-// Obras NORTEA · guarda la app para abrir sin señal. Los datos no pasan por aquí (van a la hoja de Google).
-const V = "obras-8b65440f4d";
+// Nortea · guarda la app para abrir sin señal. Los datos no pasan por aquí (van a la hoja de Google).
+const V = "obras-faab3f8ba9";
 const APP = ["/obras/", "/obras/manifest.webmanifest", "/assets/img/marca/icon-192.png", "/assets/img/marca/apple-touch-icon.png"];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(V).then((c) => c.addAll(APP)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== V).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });

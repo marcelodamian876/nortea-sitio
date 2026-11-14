@@ -1,6 +1,6 @@
 {
-  "name": "Obras NORTEA",
-  "short_name": "Obras",
+  "name": "Nortea",
+  "short_name": "Nortea",
   "start_url": "/obras/",
   "scope": "/obras/",
   "display": "standalone",
