@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Nortea</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-E0FINn7+2aPWl//sGe6VccsSdeSkc5i1Jujdbp7bd9g=' 'sha256-Z5MFqcm83CExNR9xLw/f7aWfw8KVGl49N/f2QZ/VShc=' 'sha256-o4Lo0+zx5WdtaUvUm3VhDSw/BDAflDWEJzfq3u4v0pU=' 'sha256-P9+fAmZv6LoQ+1axPwT3rayhcEwFJaN+W5GRV9dTrWE=' https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js https://cdn.jsdelivr.net/npm/tesseract.js@v5.1.1/dist/worker.min.js https://cdn.jsdelivr.net/npm/tesseract.js-core@v5.1.1/ 'wasm-unsafe-eval'; worker-src 'self' blob: https://cdn.jsdelivr.net/npm/tesseract.js@v5.1.1/dist/worker.min.js; connect-src 'self' https://script.google.com https://script.googleusercontent.com https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js https://cdn.jsdelivr.net/npm/tesseract.js@v5.1.1/dist/worker.min.js https://cdn.jsdelivr.net/npm/tesseract.js-core@v5.1.1/ https://cdn.jsdelivr.net/npm/@tesseract.js-data/spa/4.0.0_best_int/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="robots" content="noindex,nofollow">
 <link rel="manifest" href="/obras/manifest.webmanifest">
 <link rel="icon" href="/assets/img/marca/favicon-32.png" sizes="32x32">
@@ -13,11 +14,14 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Nortea">
 <style>html,body{margin:0;padding:0;height:100%}</style>
+<script>if (top !== self) { try { top.location.replace(self.location.href); } catch (e) {} document.documentElement.textContent = ""; document.documentElement.style.cssText = "display:none!important"; }</script>
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f3f0e8">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#08131d">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700&display=swap" media="print" id="fuentes">
+<script>if (top !== self) throw 0;
+(function () { var l = document.getElementById("fuentes"); if (!l) return; function a() { l.media = "all"; } l.addEventListener("load", a); if (l.sheet) a(); })();</script>
 </head>
 <body>
 <style>
@@ -31,7 +35,9 @@
   --f-display: "Montserrat", "Segoe UI", system-ui, sans-serif;
   --f-body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
   --ease: cubic-bezier(0.23, 1, 0.32, 1); --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
-  --bar-h: 76px; --logo: none; --sab: max(6px, calc(env(safe-area-inset-bottom, 0px) - 20px));
+  --logo: none; --sab: max(6px, calc(env(safe-area-inset-bottom, 0px) - 20px));
+  /* barra de abajo (v6): botones de 60 px, 10 px de aire arriba y, abajo, separada de la orilla y del indicador de inicio del iPhone */
+  --sab-bar: max(14px, calc(env(safe-area-inset-bottom, 0px) - 4px)); --bar-h: calc(70px + var(--sab-bar) - var(--sab));
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -372,11 +378,20 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
 .fld { display: block; width: 100%; min-height: 48px; border-radius: 12px; border: 0; background: var(--panel); padding: 12px 14px; }
 
 /* anotar rápido: burbuja y chat */
-.burbuja { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(var(--bar-h) + var(--sab) + 72px); z-index: 30; width: 58px; height: 58px; border-radius: 50%; background: var(--fg); color: var(--bg); display: grid; place-items: center; box-shadow: 0 6px 20px rgba(0, 0, 0, .28), inset 0 0 0 2px var(--accent); touch-action: none; transition: transform 140ms var(--ease); background: #0b1d2f; }
+.burbuja { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(var(--bar-h) + var(--sab) + 72px); z-index: 30; width: 50px; height: 50px; border-radius: 50%; background: var(--fg); color: var(--bg); display: grid; place-items: center; box-shadow: 0 6px 20px rgba(0, 0, 0, .28), inset 0 0 0 2px var(--accent); touch-action: none; transition: transform 140ms var(--ease); background: #0b1d2f; }
 .burbuja-logo { display: block; width: 36px; height: 17px; margin: 0; transform: translateY(-1px); background: var(--logo) center / contain no-repeat; }
 .sin-bar .burbuja { bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); }
 .burbuja.arrastra { transform: scale(1.08); box-shadow: 0 10px 28px rgba(0, 0, 0, .35), inset 0 0 0 2px var(--accent); }
 .burbuja[hidden], .chat[hidden], .chat-veil[hidden] { display: none; }
+/* ver como supervisor (dueño): franja fija arriba; las pantallas bajan debajo de ella */
+.franja-vista { position: fixed; top: 0; left: 0; right: 0; z-index: 70; height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 max(12px, env(safe-area-inset-right, 0px)) 0 max(14px, env(safe-area-inset-left, 0px)); background: var(--accent); color: var(--accent-ink); font-size: 14px; font-weight: 600; }
+.franja-vista[hidden] { display: none; }
+.franja-vista span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.franja-vista button { flex: 0 0 auto; min-height: 36px; padding: 0 16px; border-radius: 10px; background: var(--accent-ink); color: var(--oro-claro); font-weight: 700; }
+.en-vista #pantallas { top: 44px; }
+.supw { border-top: 1px solid var(--line); }
+.list > .supw:first-child { border-top: 0; }
+.supw .mini { margin: 0 14px 12px; width: calc(100% - 28px); background: var(--accent); color: var(--accent-ink); }
 .chat-veil { position: fixed; inset: 0; z-index: 42; background: var(--scrim); }
 .chat { position: fixed; z-index: 43; left: max(8px, env(safe-area-inset-left, 0px)); right: max(8px, env(safe-area-inset-right, 0px)); bottom: calc(max(var(--kb, 0px), env(safe-area-inset-bottom, 0px)) + 8px); margin: 0 auto; max-width: 540px; height: min(72dvh, calc(var(--vvh, 100dvh) - env(safe-area-inset-top, 0px) - 24px)); display: flex; flex-direction: column; background: var(--panel); border-radius: 22px; box-shadow: 0 16px 48px rgba(0, 0, 0, .35); overflow: hidden; }
 .chat-h { flex: 0 0 auto; display: flex; align-items: center; gap: 6px; padding: 6px 6px 6px 16px; border-bottom: 1px solid var(--line); }
@@ -548,9 +563,10 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
 .sup .chips .chip { min-height: 44px; }
 
 /* barra fija */
-.bar-fija { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--bg); border-top: 1px solid var(--line); padding: 8px max(16px, env(safe-area-inset-right, 0px)) var(--sab) max(16px, env(safe-area-inset-left, 0px)); transition: transform 280ms var(--ease-sheet); }
+.bar-fija { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--bg); border-top: 1px solid var(--line); padding: 10px max(16px, env(safe-area-inset-right, 0px)) var(--sab-bar) max(16px, env(safe-area-inset-left, 0px)); transition: transform 280ms var(--ease-sheet); }
 .bar-fija.off { transform: translateY(110%); pointer-events: none; }
-.bar-in { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: 1.25fr 1fr; gap: 10px; }
+.bar-in { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: 1.25fr 1fr; gap: 12px; }
+.bar-in .btn { min-height: 60px; border-radius: 18px; }
 .btn { min-height: 56px; border-radius: 16px; font-weight: 600; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 0 14px; }
 .btn.main { background: var(--accent); color: var(--accent-ink); font: 700 17px var(--f-display); }
 .btn.main.incompleto { background: var(--chip); color: var(--muted); font: 600 15px var(--f-body); }
@@ -633,6 +649,91 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
 .toast span { overflow-wrap: anywhere; }
 .toast button { min-height: 44px; padding: 0 14px; font-weight: 700; color: var(--toast-btn); flex: 0 0 auto; }
 
+/* destajo, programa y sábado de pagos (versión 6) */
+.vacio { margin: 26px 0 8px; padding: 26px 20px; border-radius: 22px; background: var(--panel); text-align: center; display: grid; justify-items: center; gap: 10px; }
+.vacio h3 { margin: 0; font: 700 19px/1.2 var(--f-display); letter-spacing: -0.015em; }
+.vacio p { margin: 0; color: var(--muted); font-size: 15px; text-wrap: balance; max-width: 34ch; }
+.vacio .ghost { margin-top: 6px; }
+.vacio-i { width: 56px; height: 56px; border-radius: 18px; background: var(--chip); color: var(--accent-text); display: grid; place-items: center; }
+.vacio-i svg { width: 28px; height: 28px; }
+.vacio.chico { margin: 12px 0; padding: 14px 16px; border-radius: 14px; background: var(--bg); }
+.vacio.chico p { font-size: 14px; max-width: none; }
+.dcuad { padding: 14px 16px 16px; }
+.dcuad-h { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.dcuad-h b { font: 700 18px/1.2 var(--f-display); letter-spacing: -0.015em; }
+.dcuad-h span { font: 700 18px var(--f-display); color: var(--accent-text); }
+.dcuad .prog { margin: 8px 0 4px; height: 8px; }
+.dcuad .tiles { margin-top: 10px; }
+.dcuad .tile b { font-size: 16px; }
+.dact { background: var(--panel); border-radius: 18px; padding: 6px 16px 16px; margin-top: 10px; }
+.dact-h { display: flex; width: 100%; align-items: center; gap: 10px; min-height: 60px; padding: 8px 0; text-align: left; }
+.dact-h .dt { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.dact-h .dt b { font: 700 16px/1.25 var(--f-display); letter-spacing: -0.01em; overflow-wrap: anywhere; }
+.dact-h .dt small { color: var(--muted); font-size: 12.5px; overflow-wrap: anywhere; }
+.dact-h .dt small.lock, .lock { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); }
+.dact-h .dt small.lock svg, .lk svg { width: 13px; height: 13px; }
+.lk { display: inline-block; vertical-align: -2px; margin-right: 4px; }
+.dact-h > svg { width: 18px; height: 18px; color: var(--muted); transition: transform 200ms var(--ease); }
+.dact.abierta .dact-h > svg { transform: rotate(180deg); }
+.dact .prog { height: 10px; margin: 2px 0 8px; }
+.dact-hecho { margin: 0; font-size: 14.5px; line-height: 1.45; overflow-wrap: anywhere; }
+.dact-hecho b { font-weight: 700; }
+.dact-din { display: flex; flex-wrap: wrap; gap: 2px 12px; margin: 6px 0 0; font-size: 13px; color: var(--muted); }
+.dact-din b { color: var(--fg); }
+.dact-bot { display: grid; grid-template-columns: 1.15fr 1fr; gap: 8px; margin-top: 12px; }
+.dact-bot .btn { min-height: 50px; font-size: 15px; padding: 0 8px; }
+.dact-bot .btn.main { font: 700 15px var(--f-display); }
+.dact-det { border-top: 1px solid var(--line); margin-top: 14px; }
+.dact-det .list { background: var(--bg); }
+.dact-det .raya-l:first-child { border-top: 0; }
+.dav-m { display: grid; justify-items: end; gap: 3px; text-align: right; }
+.dav-m small { color: var(--muted); font-size: 12px; font-weight: 500; }
+.dav-m .tg svg { width: 12px; height: 12px; vertical-align: -1px; }
+.dav-m i { font-style: normal; }
+.quien { font-size: 11.5px; }
+.raya-l .tg { display: inline-block; flex: 0 0 auto; white-space: normal; text-align: right; max-width: 46%; }
+.raya-l > span.num { display: block; white-space: nowrap; }
+.dgrid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.dm { display: grid; gap: 4px; min-width: 0; }
+.dm .lbl { font-size: 12px; }
+.dtot { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 14px 4px 4px; font-size: 15px; }
+.dtot b { font: 700 20px var(--f-display); }
+.dres { display: flex; justify-content: space-between; gap: 10px; padding: 3px 0; }
+.dres b { font-weight: 600; }
+.dres.tot { border-top: 1px solid var(--line); margin-top: 6px; padding-top: 9px; font-size: 17px; }
+.dres.tot b { font: 700 20px var(--f-display); color: var(--accent-text); }
+.ok-l.lock { background: var(--chip); color: var(--muted); }
+.ok-l.lock svg { width: 18px; height: 18px; }
+/* programa: vista por semanas */
+.tl { margin-top: 12px; background: var(--panel); border-radius: 18px; overflow-x: auto; overscroll-behavior-x: contain; padding: 10px 12px 12px; }
+.tl, .tl * { touch-action: pan-x pan-y; }
+.tl-in { position: relative; min-width: 100%; }
+.tl-h { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 2px; margin-bottom: 6px; }
+.tl-h span { text-align: center; font-size: 11px; color: var(--muted); font-weight: 600; padding: 4px 0; border-radius: 8px; white-space: nowrap; }
+.tl-h span.hoy { background: var(--accent); color: var(--accent-ink); }
+.tl-hoy { position: absolute; top: 28px; bottom: 0; width: 2px; margin-left: -1px; background: var(--accent); opacity: .75; pointer-events: none; z-index: 2; }
+.tl-n { position: sticky; left: 0; display: flex; align-items: center; gap: 8px; width: max-content; max-width: calc(100vw - 64px); margin-top: 10px; font-size: 13.5px; }
+.tl-n b { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 52vw; }
+.tl-n .tg { font-size: 11px; padding: 2px 8px; }
+.tl-r { position: relative; height: 16px; margin-top: 4px; border-radius: 8px; background: color-mix(in srgb, var(--chip) 70%, transparent); }
+.tl-b { position: absolute; top: 0; bottom: 0; border-radius: 8px; background: var(--chip); box-shadow: inset 0 0 0 1px var(--line); overflow: hidden; }
+.tl-b i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); }
+.tl-b em { position: absolute; top: 0; bottom: 0; width: 3px; margin-left: -1px; background: var(--fg); opacity: .8; }
+/* sábado de pagos */
+.sabcard { display: block; width: 100%; margin-top: 12px; background: var(--panel); border-radius: 20px; padding: 16px; text-align: left; }
+.sabcard-h { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.sabcard-h b { font: 700 18px/1.2 var(--f-display); letter-spacing: -0.015em; }
+.sab-t { display: block; margin-top: 12px; }
+.sab-t .lbl { display: block; }
+.sab-t b { display: block; font: 700 30px/1.15 var(--f-display); letter-spacing: -0.03em; margin-top: 2px; }
+.sab-p { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 8px; font-size: 13.5px; color: var(--muted); }
+.sab-p b { color: var(--fg); font-weight: 600; }
+.sab-caja { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+.sab-caja b { font: 600 11px/1.2 var(--f-body); text-transform: uppercase; letter-spacing: .09em; }
+.sab-cap { display: block; font-size: 12.5px; color: var(--muted); margin-top: 6px; overflow-wrap: anywhere; }
+.sab-cap.neg { color: var(--bad); } .sab-cap.pos { color: var(--ok); }
+h2.sec > span:last-child.num { color: var(--fg); letter-spacing: 0; font-size: 14px; text-transform: none; font-weight: 700; }
+
 @media (hover: hover) and (pointer: fine) {
   .card:hover, .rrow:hover, .linea:hover { background: color-mix(in srgb, var(--chip) 55%, var(--panel)); }
   .chip:not([aria-pressed="true"]):hover, .mini:hover, .btn.sec2:hover, .ghost:hover, .fil button:hover, .tabs button:hover { background: var(--line); }
@@ -648,6 +749,7 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
 @media (max-width: 380px) { .titulo { font-size: 30px; } .res .cifra { font-size: 26px; } .big { font-size: 19px; } }
 </style>
 
+<div class="franja-vista" id="franja-vista" hidden><span id="franja-t"></span><button type="button" id="franja-salir">Salir</button></div>
 <div id="pantallas"></div>
 <div class="bar-fija off" id="bar-fija"><div class="bar-in">
   <button class="btn main press" id="b-gasto" data-act="nuevo-gasto" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Gasto</button>
@@ -670,7 +772,8 @@ td.cc { max-width: 210px; overflow: hidden; text-overflow: ellipsis; }
   </form>
 </section>
 
-<script>
+<script>if (top !== self) throw 0;
+
 (() => {
 "use strict";
 const ISOTIPO = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjIyMiAyNDQgNTkyIDI3MSIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJOT1JURUEiPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI0I4ODkzQSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0Q5QjU2NiIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxwYXRoIGZpbGw9InVybCgjZykiIGQ9Ik0gMjk0LjI3IDUwMS42MiBMIDI4NS45NyA1MDkuMDAgTCAyNjQuNzQgNTA4LjgwIEMyMzQuNTksNTA4LjUxIDIyOC4wMCw1MDguMTQgMjI4LjAwLDUwNi43MiBDMjI4LjAwLDUwNi4wNiAyMzAuNzYsNTAzLjA0IDIzNC4xNCw1MDAuMDEgQzIzNy41Miw0OTYuOTggMjQ4LjUyLDQ4Ni4yOSAyNTguNTksNDc2LjI1IEMyNjguNjUsNDY2LjIxIDI3Ny4xMCw0NTguMDAgMjc3LjM1LDQ1OC4wMCBDMjc3LjYwLDQ1OC4wMCAyODIuMDIsNDUzLjg0IDI4Ny4xNiw0NDguNzUgQzMwMi45MSw0MzMuMTkgMzgxLjc1LDM1Ni4yNSAzOTUuMDIsMzQzLjUwIEM0MTcuNTIsMzIxLjkwIDQ0My4wOCwyOTcuMDIgNDY3LjE3LDI3My4zMSBDNDgwLjE5LDI2MC40OSA0OTEuNDQsMjUwLjAwIDQ5Mi4xNywyNTAuMDEgQzQ5NC42MiwyNTAuMDIgNDk5LjMxLDI1My44MiA1MTMuNDIsMjY3LjIwIEM1MTUuNzgsMjY5LjQ0IDUxNy45OSwyNzEuNTMgNTIwLjA0LDI3My40NyBDNTQxLjExLDI5My40MyA1NDYuNjYsMjk4LjY4IDU0NS43MSwzMDIuMTkgQzU0NS4yOSwzMDMuNzkgNTQzLjUxLDMwNS4wMyA1NDEuMjUsMzA3LjEzIEM1MzIuMjEsMzE1LjUxIDUyMS4xNSwzMjQuMDAgNTE5LjI3LDMyNC4wMCBDNTE3LjIzLDMyNC4wMCA1MTMuNTEsMzIxLjQxIDUwOC4wMCwzMTYuMTcgQzQ5OS42MiwzMDguMTggNDk2LjA4LDMwNS43NiA0OTMuNjUsMzA2LjM3IEM0OTIuMzUsMzA2LjcwIDQ4My4wMCwzMTUuMDggNDcyLjg5LDMyNC45OSBMIDQ1NC41MCAzNDMuMDEgTCA0NTcuMDAgMzQ0Ljk0IEM0NTguMzgsMzQ2LjAwIDQ2MC44NSwzNDguMDMgNDYyLjUwLDM0OS40NiBDNDY0LjE1LDM1MC44OCA0NjguODgsMzU0LjgwIDQ3My4wMCwzNTguMTUgQzQ3Ny4xMiwzNjEuNTEgNDgxLjQzLDM2NS4yMSA0ODIuNTYsMzY2LjM4IEM0ODMuNjksMzY3LjU1IDQ4Ni44MywzNzAuMzAgNDg5LjUzLDM3Mi41MCBDNDkyLjI0LDM3NC43MCA0OTYuMTYsMzc4LjIyIDQ5OC4yNCwzODAuMzEgQzUwMC43NCwzODIuODIgNTAyLjYzLDM4My45NCA1MDMuNzcsMzgzLjU3IEM1MDQuNzIsMzgzLjI3IDUxNi40OSwzNzEuNzIgNTI5LjkzLDM1Ny45MSBDNTQzLjM2LDM0NC4xMCA1NTUuMzgsMzMyLjMzIDU1Ni42MywzMzEuNzYgQzU1Ny44OCwzMzEuMTkgNTU5LjA0LDMzMC4yMiA1NTkuMjEsMzI5LjYxIEM1NTkuMzcsMzI5LjAwIDU2Ni4zMywzMjEuODAgNTc0LjY4LDMxMy42MiBDNTg3LjYxLDMwMC45MyA1OTAuMTksMjk4LjgzIDU5Mi4yMCwyOTkuMzQgQzU5My41MCwyOTkuNjYgNjA0Ljc1LDMxMC4xOCA2MTcuMjAsMzIyLjcxIEM2NDEuNTQsMzQ3LjIyIDY3OS41MiwzODQuMjcgNjkyLjUwLDM5Ni4xNyBDNzA2LjIxLDQwOC43MyA3MjYuNDksNDI4LjQ1IDcyNi43OCw0MjkuNTAgQzcyNi45Myw0MzAuMDUgNzI4LjM5LDQzMS4yNyA3MzAuMDMsNDMyLjIwIEM3MzEuNjYsNDMzLjE0IDczMy4wMCw0MzQuNjAgNzMzLjAwLDQzNS40NSBDNzMzLjAwLDQzNi4zMCA3MzMuNDMsNDM3LjAwIDczMy45Niw0MzcuMDAgQzczNS4xMyw0MzcuMDAgNzUyLjAwLDQ1Mi4xNCA3NTIuMDAsNDUzLjE5IEM3NTIuMDAsNDUzLjYxIDc1My40Niw0NTUuMjggNzU1LjI1LDQ1Ni45MiBDNzg0LjI4LDQ4My41MSA4MDcuNzEsNTA2LjYyIDgwNi42OSw1MDcuNjQgQzgwNS43Miw1MDguNjEgNzU5LjA5LDUwOS40MyA3NTQuNDUsNTA4LjU2IEM3NTEuMzAsNTA3Ljk3IDc0Ny4xNCw1MDQuNDMgNzI4LjczLDQ4Ni42OCBDNzE2LjY1LDQ3NS4wMyA2OTguNjAsNDU3Ljg5IDY4OC42Myw0NDguNTggQzY3OC42Niw0MzkuMjggNjYzLjA4LDQyNC42MiA2NTQuMDAsNDE2LjAwIEM2NDQuOTIsNDA3LjM5IDYzNC4zNSwzOTcuNjMgNjMwLjQ5LDM5NC4zMyBDNjI2LjYzLDM5MS4wMiA2MTkuNDMsMzg0LjU2IDYxNC40OSwzNzkuOTYgQzYwOS41NSwzNzUuMzcgNjA0LjQwLDM3MC42OCA2MDMuMDYsMzY5LjU1IEM2MDEuNzIsMzY4LjQyIDU5OS4xMiwzNjYuMDQgNTk3LjI5LDM2NC4yNiBDNTkxLjUwLDM1OC42MyA1OTAuMDIsMzU4Ljg1IDU4MS4yNCwzNjYuNjQgQzU2MC45NywzODQuNjMgNTM1LjAwLDQxMC4zOCA1MzUuMDAsNDEyLjQ4IEM1MzUuMDAsNDEzLjEyIDUzNi4xNCw0MTQuNjMgNTM3LjU0LDQxNS44NSBDNTQ0LjY3LDQyMi4wNSA1NTguODYsNDM0LjY0IDU2MS41MCw0MzcuMTIgQzU2NS4zMiw0NDAuNjkgNTY5LjkxLDQ0NC42OCA1NzQuNjAsNDQ4LjUwIEM1NzYuNjIsNDUwLjE1IDU4MC44MCw0NTMuNzcgNTgzLjg5LDQ1Ni41NCBDNTg2Ljk4LDQ1OS4zMSA1OTIuODgsNDY0LjQ1IDU5Ny4wMCw0NjcuOTYgQzYwMS4xMiw0NzEuNDggNjA1Ljg1LDQ3NS42MyA2MDcuNTAsNDc3LjE5IEM2MDkuMTUsNDc4Ljc1IDYxNS4yMSw0ODMuODYgNjIwLjk4LDQ4OC41NCBDNjI2Ljc0LDQ5My4yMyA2MzEuODAsNDk3LjY5IDYzMi4yMyw0OTguNDUgQzYzMi42Niw0OTkuMjIgNjM0LjU4LDUwMC44MiA2MzYuNTEsNTAyLjAwIEM2MzguNDMsNTAzLjE5IDY0MC4wMCw1MDQuOTcgNjQwLjAwLDUwNS45NSBDNjQwLjAwLDUwNy42MiA2MzcuOTEsNTA3LjgwIDYxMC4yNSw1MDguNDYgQzU4OC44NCw1MDguOTggNTc5LjY2LDUwOC44NiA1NzcuNTAsNTA4LjA0IEM1NzUuODUsNTA3LjQxIDU3MC4wMCw1MDIuNTAgNTY0LjUwLDQ5Ny4xMiBDNTU5LjAwLDQ5MS43NCA1NDguNDIsNDgxLjgwIDU0MS4wMCw0NzUuMDMgQzUzMy41OCw0NjguMjYgNTIzLjA3LDQ1OC42MiA1MTcuNjUsNDUzLjYxIEM1MDYuOTAsNDQzLjY3IDUwMy44NCw0NDEuNjAgNTAxLjE0LDQ0Mi40NiBDNTAwLjE2LDQ0Mi43NyA0ODUuMDIsNDU3LjQ1IDQ2Ny40OCw0NzUuMDggQzQ0OS45NSw0OTIuNzIgNDM0LjkwLDUwNy40OCA0MzQuMDUsNTA3Ljg5IEM0MzEuNDMsNTA5LjE1IDM3OS4wMCw1MDcuOTYgMzc5LjAyLDUwNi42NCBDMzc5LjAzLDUwNi4wMSAzODUuNDAsNDk5LjQyIDM5My4xNiw0OTIuMDAgQzQyMC43MCw0NjUuNjggNDcwLjAwLDQxNi4wOCA0NzAuMDAsNDE0LjcwIEM0NzAuMDAsNDEzLjkzIDQ2Mi40OCw0MDUuOTIgNDUzLjI4LDM5Ni45MCBDNDQ0LjA4LDM4Ny44OCA0MzQuNjksMzc4LjU5IDQzMi40MSwzNzYuMjUgQzQyOS45MCwzNzMuNjggNDI3LjM1LDM3Mi4wMCA0MjUuOTUsMzcyLjAwIEM0MjQuMjMsMzcyLjAwIDQwOC4zNSwzODcuNDQgMzYzLjExLDQzMy4xMiBDMzI5LjgxLDQ2Ni43MyAyOTguODQsNDk3LjU1IDI5NC4yNyw1MDEuNjIgWiIvPjwvc3ZnPg==";
@@ -736,26 +839,28 @@ const slug = (s) => String(s ?? "").replace(/[^A-Za-z0-9]+/g, "-").replace(/^-+|
 // Colecciones: obras, gastos, pagos, estimaciones, pendientes, chat, asistencia, bitacora.
 // ============================================================
 const Datos = (() => {
-  const COLS = ["obras", "gastos", "pagos", "estimaciones", "pendientes", "chat", "asistencia", "bitacora", "materiales", "supervisores", "tareas", "avisos"];
-  const BASE = ["obras", "gastos", "pagos", "estimaciones"], NUEVAS = ["materiales", "supervisores", "tareas", "avisos"];
+  const COLS = ["obras", "gastos", "pagos", "estimaciones", "pendientes", "chat", "asistencia", "bitacora", "materiales", "supervisores", "tareas", "avisos", "destajo", "destajo_lev", "destajo_av", "programa"];
+  const BASE = ["obras", "gastos", "pagos", "estimaciones"], NUEVAS = ["materiales", "supervisores", "tareas", "avisos"], NUEVAS6 = ["destajo", "destajo_lev", "destajo_av", "programa"];
   const mem = {}, subs = {};
   COLS.forEach((c) => { mem[c] = {}; subs[c] = new Set(); });
   const leerJ = (k) => { try { return JSON.parse(ls.get(k) || "null"); } catch { return null; } };
   let lentoFn = null, url = ls.get("nortea_api"), llave = ls.get("nortea_llave"), token = ls.get("nortea_sup_token"), sup = leerJ("nortea_sup");
   let rol = ls.get("nortea_rol") || (llave ? "dueno" : token ? "sup" : null);
-  let ultimo = 0, leyendo = null, servidor = Number(ls.get("nortea_srv") || 1), motivo = "", usuarioSug = "", modoIni = null;
+  let vistaId = null, guardadoDueno = null;   // «ver como supervisor» (solo el dueño): lee con `como` y no guarda nada
+  let rechazadas = [], ultimo = 0, leyendo = null, servidor = Number(ls.get("nortea_srv") || 1), motivo = "", usuarioSug = "", modoIni = null;
   // versión del código de la hoja: la 1 solo guarda las cuatro colecciones de base; desde la 2, cualquiera; desde la 5, también
   // materiales, supervisores, tareas y avisos (y las ops asis e item)
-  const soporta = (col) => BASE.includes(col) || (servidor >= 2 && !NUEVAS.includes(col)) || servidor >= 5;
+  const soporta = (col) => (BASE.includes(col) ? true : NUEVAS6.includes(col) ? servidor >= 6 : NUEVAS.includes(col) ? servidor >= 5 : servidor >= 2);   // destajo y programa piden el servidor 6
   const emitir = (c) => subs[c].forEach((s) => s.ok({ ...mem[c] }));
   const llaveCache = () => (rol === "sup" ? "nortea_cache_sup" : "nortea_cache");
+  const sinCred = () => !url || (vistaId ? !llave : rol === "sup" ? !token : !llave);
   function cargarCache() {
     try { const c = JSON.parse(localStorage.getItem(llaveCache()) || "null"); if (c) COLS.forEach((k) => (mem[k] = c[k] || {})); return !!c; } catch { return false; }
   }
-  function guardarCache() { try { localStorage.setItem(llaveCache(), JSON.stringify(mem)); } catch {} }
+  function guardarCache() { if (vistaId) return; try { localStorage.setItem(llaveCache(), JSON.stringify(mem)); } catch {} }
   async function api(cuerpo, ms, sinAuth) {
     const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), ms || 20000);
-    const auth = sinAuth ? {} : rol === "sup" ? { token } : { llave };
+    const auth = sinAuth ? {} : rol === "sup" && !vistaId ? { token } : { llave };
     try {
       const r = await fetch(url, { method: "POST", body: JSON.stringify({ ...cuerpo, ...auth }), headers: { "Content-Type": "text/plain;charset=utf-8" }, signal: ctl.signal, redirect: "follow" });
       const t = await r.text();
@@ -773,17 +878,63 @@ const Datos = (() => {
     }
     return false;
   }
+  // ---- errores a la vista (v6): lo que truene en el teléfono se junta y se manda por detrás a la hoja (`_errores`) ----
+  // En lote y con espera de unos segundos; tope diario en el teléfono; si el envío falla no se reintenta ni se reporta (sin ciclos);
+  // en la vista previa de supervisor no se manda nada.
+  const TOPE_ERR = 20, ESPERA_ERR = 4000;
+  const fechaMty = () => { try { return new Date().toLocaleDateString("en-CA", { timeZone: "America/Monterrey" }); } catch { return new Date().toISOString().slice(0, 10); } };
+  const errCola = [], errVistos = new Set();
+  let errTimer = 0, errEnviando = false;
+  function errHoy() { const x = leerJ("nortea_err"), d = fechaMty(); return x && x.d === d ? x : { d, n: 0 }; }
+  function juntarError(msg, donde) {
+    try {
+      if (errEnviando || vistaId || sinCred()) return;
+      msg = String(msg == null ? "" : msg).slice(0, 300); donde = String(donde || "").slice(0, 200);
+      const k = msg + "|" + donde;
+      if (!msg || errVistos.has(k) || errVistos.size > 100) return;
+      errVistos.add(k);
+      if (errHoy().n + errCola.length >= TOPE_ERR || errCola.length >= 10) return;
+      errCola.push({ msg, donde, ua: String(navigator.userAgent || "").slice(0, 150), version: "s" + servidor });
+      if (!errTimer) errTimer = setTimeout(enviarErrores, ESPERA_ERR);
+    } catch {}
+  }
+  async function enviarErrores() {
+    errTimer = 0;
+    if (!errCola.length || errEnviando || vistaId || sinCred()) { errCola.length = 0; return; }
+    const lote = errCola.splice(0, 10), h = errHoy();
+    h.n += lote.length; ls.set("nortea_err", JSON.stringify(h));
+    errEnviando = true;
+    try { await api({ accion: "error", errores: lote }, 15000); } catch {} finally { errEnviando = false; }
+  }
+  addEventListener("error", (e) => { if (e && e.message) juntarError(e.message, (e.filename ? String(e.filename).split("/").pop() || "página" : "página") + ":" + (e.lineno || 0)); });
+  addEventListener("unhandledrejection", (e) => { const r = e && e.reason; juntarError(r && r.message ? r.message : String(r), "promesa" + (r && r.stack && String(r.stack).split("\n")[1] ? " " + String(r.stack).split("\n")[1].trim() : "")); });
+  // ---- respaldo diario (v6, solo el dueño): una vez al día, después de leer, sin esperar ni avisar ----
+  let respaldoPedido = false, respaldoReintento = 0;
+  async function respaldoSiToca() {
+    if (respaldoPedido || vistaId || rol === "sup" || !llave || servidor < 6) return;
+    if (ls.get("nortea_respaldo") === fechaMty()) return;
+    respaldoPedido = true;
+    try {
+      const r = await api({ accion: "respaldo" }, 120000);
+      if (r && r.ok && (r.hecho || r.ya)) ls.set("nortea_respaldo", fechaMty());   // solo se marca el día si la copia ya existe
+      else if (r && r.ok) { respaldoPedido = false; if (!respaldoReintento) respaldoReintento = setTimeout(() => { respaldoReintento = 0; respaldoSiToca(); }, 10 * 60 * 1000); }   // ocupado: otra vez en 10 minutos (o la siguiente vez que abra)
+      else if (r && r.error) juntarError("respaldo: " + r.error, "respaldo");   // falló el servidor: se reporta y no se insiste en esta sesión
+    } catch { respaldoPedido = false; }   // sin señal: se vuelve a intentar en la siguiente lectura
+  }
   async function refrescar() {
     if (leyendo) return leyendo;
-    if (!url || (rol === "sup" ? !token : !llave)) return false;
+    if (sinCred()) return false;
+    const vista = vistaId;
     leyendo = (async () => {
       try {
-        const r = await api({ accion: "leer" }, 60000);
-        if (!r || !r.ok) { sinAcceso(r); return false; }
-        servidor = Number(r.version || 1); ls.set("nortea_srv", String(servidor));
-        if (r.sup) { sup = r.sup; ls.set("nortea_sup", JSON.stringify(sup)); }
+        const r = await api({ accion: "leer", ...(vista ? { como: vista } : {}) }, 60000);
+        if (vista !== vistaId) return false;   // mientras leía cambió de vista: esto ya no sirve
+        if (!r || !r.ok) { if (!vista) sinAcceso(r); return false; }
+        servidor = Number(r.version || 1); if (!vista) ls.set("nortea_srv", String(servidor));
+        if (r.sup) { sup = r.sup; if (!vista) ls.set("nortea_sup", JSON.stringify(sup)); }
         COLS.forEach((c) => { const m = {}; Object.entries((r.datos || {})[c] || {}).forEach(([id, d]) => (m[id] = { ...d, id })); mem[c] = m; });
         guardarCache(); ultimo = Date.now(); COLS.forEach(emitir); if (lentoFn) lentoFn(false);
+        if (!vista) setTimeout(respaldoSiToca, 3000);   // por detrás, sin estorbar a lo que se pinta
         return true;
       } catch { if (lentoFn) lentoFn(true); return false; }
       finally { leyendo = null; }
@@ -800,6 +951,12 @@ const Datos = (() => {
     const d = (t.match(/https:\/\/script\.google\.com\/[^\s"'<>]+/) || [""])[0].replace(/[?#].*$/, "");
     return urlValida(d) ? { url: d, usuario: "" } : null;
   }
+  function deAcceso(texto) {   // su acceso pegado: «Dirección: … Llave: …»
+    const t = String(texto || ""), k = t.match(/llave:\s*([A-Za-z0-9_-]+)/i);
+    // la dirección termina en /exec (si el teléfono juntó las líneas al pegar, «Llave:» queda pegada y no se toma)
+    const d = t.match(/https:\/\/script\.google\.com\/(?:a\/[^\/\s]+\/)?macros\/s\/[^\/\s]+\/exec/) || t.match(/https:\/\/script\.google\.com\/[^\s"'<>]+/);
+    return k && d ? { url: d[0].replace(/[?#].*$/, ""), llave: k[1] } : null;
+  }
   function leerHash() {
     if (!/^#acceso=/.test(location.hash)) return;
     const x = deLink(location.hash);
@@ -807,66 +964,103 @@ const Datos = (() => {
     if (!x || rol === "dueno") return;   // en el teléfono del dueño no se cambia nada
     url = x.url; ls.set("nortea_api", url); usuarioSug = x.usuario; modoIni = "sup";
   }
-  // ---- pantalla de entrada: supervisor (usuario y contraseña) o dueño (dirección y llave) ----
+  // ---- pantalla de entrada (v6): a la vista solo el supervisor (usuario y contraseña). El dueño entra escondido:
+  //      5 toques en el logo («Acceso del dueño») o pegando su acceso («Dirección: … Llave: …») en «Usuario». ----
+  const CSS_LOGIN = `#conf-nortea{position:fixed;inset:0;z-index:99;background:var(--bg,#f3f0e8);color:var(--fg,#0b1d2f);font:16px/1.4 var(--f-body,system-ui,sans-serif)}
+#conf-nortea form{height:100%;overflow:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;justify-content:center;padding:max(24px,env(safe-area-inset-top,0px)) max(24px,env(safe-area-inset-right,0px)) max(40px,env(safe-area-inset-bottom,0px)) max(24px,env(safe-area-inset-left,0px));margin:0}
+#conf-nortea .cn-c{width:min(380px,100%);margin:0 auto;display:grid;gap:12px;text-align:center}
+#conf-nortea .cn-logo{justify-self:center;min-width:96px;min-height:72px;display:grid;place-items:center;border-radius:20px;background:#0b1d2f;box-shadow:inset 0 0 0 2px var(--accent,#b8893a);-webkit-tap-highlight-color:transparent;border:0;padding:0}
+#conf-nortea .cn-logo i{display:block;width:60px;height:28px;background:var(--logo,none) center/contain no-repeat}
+#conf-nortea h1{margin:6px 0 0;font:700 28px/1.1 var(--f-display,system-ui,sans-serif);letter-spacing:-.02em}
+#conf-nortea .cn-s{margin:0 0 6px;color:var(--muted,#55606b);font-size:15px;text-wrap:balance}
+#conf-nortea input[type=text],#conf-nortea input[type=password]{display:block;width:100%;min-height:54px;border-radius:14px;border:1.5px solid var(--line,#ddd7c9);background:var(--panel,#faf8f3);color:inherit;padding:12px 16px;font-size:17px;text-align:left;-webkit-appearance:none;appearance:none}
+#conf-nortea input:focus{outline:none;border-color:var(--accent,#b8893a);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent,#b8893a) 28%,transparent)}
+#conf-nortea .cn-rec{display:flex;gap:12px;align-items:center;justify-content:flex-start;min-height:48px;color:var(--muted,#55606b);font-size:15px;text-align:left}
+#conf-nortea .cn-rec input{width:22px;height:22px;accent-color:var(--accent,#b8893a);margin:0}
+#conf-nortea .cn-b{min-height:56px;border-radius:16px;border:0;background:var(--accent,#b8893a);color:var(--accent-ink,#0b1d2f);font:700 17px var(--f-display,system-ui,sans-serif);margin-top:4px;text-align:center}
+#conf-nortea .cn-b:active{transform:scale(.98)}
+#conf-nortea .cn-v{min-height:48px;border:0;background:none;color:var(--accent-text,#86601b);font-size:15px;font-weight:600;text-align:center}
+#conf-nortea .e{margin:0;min-height:22px;color:var(--bad,#b3261e);font-size:14.5px;font-weight:500;text-wrap:balance}
+#conf-nortea .e.ok{color:var(--muted,#55606b)}`;
   function pedirConfig(msg, modo) {
     return new Promise((res) => {
       let v = document.getElementById("conf-nortea"); if (v) v.remove();
       modo = modo || modoIni || (ls.get("nortea_llave") ? "dueno" : "sup");   // sin llave guardada, lo normal es que sea un supervisor
-      const est = "font-size:16px;padding:12px;border-radius:10px;border:1px solid #888;width:100%;box-sizing:border-box";
-      const seg = (k, t) => `<button type="button" data-m="${k}" style="flex:1;min-height:44px;border-radius:10px;border:0;font-weight:600;font-size:15px;${modo === k ? "background:#b8893a;color:#0b1d2f" : "background:transparent;color:inherit;opacity:.8"}">${t}</button>`;
+      const dueno = modo === "dueno";
+      const info = dueno ? "Pega la dirección de tu hoja (la que termina en /exec) y tu llave, o tu acceso completo."
+        : msg || (url ? "Entra con tu usuario y contraseña." : "Abre el link que te mandó tu jefe para entrar");
       v = document.createElement("div"); v.id = "conf-nortea";
-      v.innerHTML = `<form style="position:fixed;inset:0;z-index:99;display:grid;place-items:center;padding:20px;background:var(--bg,#0b1d2f);overflow:auto" autocomplete="on">
-        <div style="width:min(420px,100%);display:grid;gap:12px;font:15px/1.4 system-ui,sans-serif;color:var(--fg,#fff)">
-          <h1 style="margin:0;font-size:26px">Nortea</h1>
-          <div style="display:flex;gap:4px;padding:3px;border-radius:12px;border:1px solid #888">${seg("sup", "Soy supervisor")}${seg("dueno", "Soy el dueño")}</div>
-          <p style="margin:0;opacity:.85">${msg || (modo === "sup" ? "Entra con el usuario y la contraseña que te dio NORTEA." : "Solo la primera vez: pega la dirección de tu hoja (la que termina en /exec) y tu llave. También puedes pegar tu acceso completo.")}</p>
-          ${modo === "sup" ? `${url ? "" : `<input name="l" placeholder="Pega aquí el link que te mandaron" autocomplete="off" style="${est}">`}
-            <input name="us" required placeholder="Usuario" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" value="${esc(usuarioSug || (sup && sup.usuario) || "")}" style="${est}">
-            <input name="pw" required type="password" placeholder="Contraseña" autocomplete="current-password" style="${est}">
-            <label style="display:flex;gap:10px;align-items:center;min-height:44px"><input type="checkbox" name="rec" checked style="width:22px;height:22px"> Recordarme en este teléfono</label>`
-          : `<input name="u" required placeholder="https://script.google.com/macros/s/…/exec" value="${esc(url || "")}" autocomplete="off" style="${est}">
-            <input name="k" required placeholder="Llave" value="${esc(llave || "")}" autocomplete="off" style="${est}">`}
-          <button style="font-size:16px;padding:13px;border-radius:12px;border:0;background:#b8893a;color:#0b1d2f;font-weight:700">Entrar</button>
-          <p class="e" style="margin:0;color:#ff8a8a"></p></div></form>`;
+      v.innerHTML = `<style>${CSS_LOGIN}</style><form autocomplete="on" novalidate><div class="cn-c">
+          <button type="button" class="cn-logo" data-logo aria-label="Nortea"><i aria-hidden="true"></i></button>
+          <h1>${dueno ? "Acceso del dueño" : "Nortea"}</h1>
+          <p class="cn-s">${esc(info)}</p>
+          ${dueno ? `<input name="u" type="text" placeholder="https://script.google.com/macros/s/…/exec" value="${esc(url || "")}" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" aria-label="Dirección de la hoja">
+            <input name="k" type="text" placeholder="Llave" value="${esc(llave || "")}" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" aria-label="Llave">`
+          : `<input name="us" type="text" placeholder="Usuario" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" aria-label="Usuario" value="${esc(usuarioSug || (sup && sup.usuario) || "")}">
+            <input name="pw" type="password" placeholder="Contraseña" autocomplete="current-password" aria-label="Contraseña">
+            <label class="cn-rec"><input type="checkbox" name="rec" checked> Recordarme en este teléfono</label>`}
+          <p class="e" role="alert" aria-live="polite"></p>
+          <button class="cn-b" type="submit">Entrar</button>
+          ${dueno ? `<button type="button" class="cn-v" data-volver>Volver</button>` : ""}
+        </div></form>`;
       document.body.appendChild(v);
-      v.querySelectorAll("[data-m]").forEach((b) => b.addEventListener("click", () => { modoIni = b.dataset.m; pedirConfig(null, b.dataset.m).then(res); }));
+      // 5 toques seguidos en el logo abren el acceso del dueño
+      let toques = 0, tt = 0;
+      v.querySelector("[data-logo]").addEventListener("click", () => {
+        clearTimeout(tt); tt = setTimeout(() => (toques = 0), 2500);
+        if (!dueno && ++toques >= 5) { modoIni = "dueno"; pedirConfig(null, "dueno").then(res); }
+      });
+      const vol = v.querySelector("[data-volver]");
+      if (vol) vol.addEventListener("click", () => { modoIni = "sup"; pedirConfig(null, "sup").then(res); });
       const fu = v.querySelector("[name=u]");
       // si pega su acceso completo («Dirección: … Llave: …») se reparte solo en los dos campos
-      if (fu) fu.addEventListener("input", () => { const t = fu.value, k = t.match(/llave:\s*([A-Za-z0-9_-]+)/i), d = t.match(/https:\/\/script\.google\.com\/[^\s"'<>]+/); if (k && d) { fu.value = d[0]; v.querySelector("[name=k]").value = k[1]; } });
-      v.querySelector("form").addEventListener("submit", async (e) => {
+      if (fu) fu.addEventListener("input", () => { const a = deAcceso(fu.value); if (a) { fu.value = a.url; v.querySelector("[name=k]").value = a.llave; } });
+      const f = v.querySelector("form"), err = f.querySelector(".e");
+      const poner = (t, ok) => { err.textContent = t; err.classList.toggle("ok", !!ok); };
+      const fallaRed = (x, soloDueno) => {
+        if (!navigator.onLine) poner("No hay señal. Inténtalo cuando tengas internet.");
+        else if (x && x.html) poner(!soloDueno ? "La hoja no contestó bien. Avísale a tu jefe." : /doGet|doPost|funci[oó]n/i.test(x.texto || "") ? "Google no encuentra el código. En Apps Script guarda el código y vuelve a implementar (Administrar implementaciones → ✏️ → Nueva versión)." : "Google contestó con una página en vez de datos. En Apps Script: Implementar → Administrar implementaciones → ✏️ → «Ejecutar como: Yo» y «Quién tiene acceso: Cualquier usuario» → Nueva versión → Implementar.");
+        else poner("No pude conectar con la hoja. Revisa tu señal e inténtalo otra vez.");
+      };
+      // entrada del dueño: dirección + llave (de los dos campos o de lo que pegó)
+      async function entrarDueno(urlTxt, llaveTxt) {
+        url = (String(urlTxt).match(/https:\/\/script\.google\.com\/[^\s"'<>]+/) || [String(urlTxt).trim()])[0].replace(/[?#].*$/, "");
+        const k = String(llaveTxt).trim().replace(/^.*llave:\s*/i, "").replace(/\s+/g, "");
+        if (f.u) { f.u.value = url; f.k.value = k; }
+        if (!urlValida(url)) { poner(/\/dev$/.test(url) ? "Esa es la dirección de prueba (/dev). Usa la de la implementación, la que termina en /exec." : "La dirección debe empezar con https://script.google.com/macros/s/ y terminar en /exec."); return false; }
+        if (!k) { poner("Falta la llave."); return false; }
+        poner("Probando…", true);
+        const antes = { llave, rol }; llave = k; rol = "dueno";
+        try {
+          const r = await api({ accion: "leer", cols: ["obras"] }, 30000);
+          if (!r || !r.ok) { llave = antes.llave; rol = antes.rol; poner(r && r.error === "llave" ? "La llave no coincide. Cópiala otra vez del «Registro de ejecución» (solo las letras y números)." : "La hoja contestó con un error: " + ((r && r.error) || "sin detalle")); return false; }
+        } catch (x) { llave = antes.llave; rol = antes.rol; fallaRed(x, true); return false; }
+        ls.set("nortea_api", url); ls.set("nortea_llave", llave); ls.set("nortea_rol", "dueno");
+        return true;
+      }
+      f.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const f = e.target, err = f.querySelector(".e");
-        const fallaRed = (x) => {
-          if (!navigator.onLine) err.textContent = "No tienes señal. Inténtalo cuando tengas internet.";
-          else if (x && x.html) err.textContent = /doGet|doPost|funci[oó]n/i.test(x.texto || "") ? "Google no encuentra el código. En Apps Script guarda el código y vuelve a implementar (Administrar implementaciones → ✏️ → Nueva versión)." : "Google contestó con una página en vez de datos. En Apps Script: Implementar → Administrar implementaciones → ✏️ → «Ejecutar como: Yo» y «Quién tiene acceso: Cualquier usuario» → Nueva versión → Implementar.";
-          else err.textContent = "Google no dejó entrar a la app. Revisa tu señal e inténtalo otra vez.";
-        };
-        if (modo === "sup") {
-          if (f.l) { const x = deLink(f.l.value); if (!x) { err.textContent = "Ese link no sirve. Cópialo completo del mensaje que te mandaron."; return; } url = x.url; ls.set("nortea_api", url); if (x.usuario && !f.us.value) f.us.value = x.usuario; }
-          if (!url) { err.textContent = "Falta el link que te mandaron."; return; }
-          err.textContent = "Entrando…";
-          try {
-            const r = await api({ accion: "entrar", usuario: f.us.value.trim(), clave: f.pw.value, recordar: !!f.rec.checked }, 30000, true);
-            if (!r || !r.ok) { err.textContent = r && r.error === "bloqueado" ? "Muchos intentos seguidos. Espera 15 minutos e inténtalo otra vez." : r && r.error === "clave" ? "El usuario o la contraseña no coinciden." : r && r.error === "baja" ? "Ya no tienes acceso a la app. Si es un error, pídeselo a NORTEA." : "La hoja contestó con un error: " + ((r && r.error) || "sin detalle"); return; }
-            token = r.token; sup = r.sup; rol = "sup";
-            ls.set("nortea_sup_token", token); ls.set("nortea_sup", JSON.stringify(sup)); ls.set("nortea_rol", "sup");
-          } catch (x) { fallaRed(x); return; }
-        } else {
-          url = (f.u.value.match(/https:\/\/script\.google\.com\/[^\s"'<>]+/) || [f.u.value.trim()])[0].replace(/[?#].*$/, "");
-          const k = f.k.value.trim().replace(/^.*llave:\s*/i, "").replace(/\s+/g, "");
-          f.u.value = url; f.k.value = k;
-          if (!urlValida(url)) {
-            err.textContent = /\/dev$/.test(url) ? "Esa es la dirección de prueba (/dev). Usa la de la implementación, la que termina en /exec." : "La dirección debe empezar con https://script.google.com/macros/s/ y terminar en /exec.";
-            return;
+        let listo = false;
+        if (dueno) listo = await entrarDueno(f.u.value, f.k.value);
+        else {
+          const us = f.us.value.trim(), acc = deAcceso(us);
+          if (acc) listo = await entrarDueno(acc.url, acc.llave);   // pegó su acceso de dueño en «Usuario»
+          else {
+            const lk = us.includes("#acceso=") || /script\.google\.com/.test(us) ? deLink(us) : null;
+            if (lk) { url = lk.url; ls.set("nortea_api", url); f.us.value = lk.usuario || ""; poner("Listo. Ahora escribe tu usuario y contraseña.", true); f.us.focus(); return; }
+            if (!url) { poner("Abre el link que te mandó tu jefe para entrar."); return; }
+            if (!us || !f.pw.value) { poner(!us ? "Escribe tu usuario." : "Escribe tu contraseña."); return; }
+            poner("Entrando…", true);
+            try {
+              const r = await api({ accion: "entrar", usuario: us, clave: f.pw.value, recordar: !!f.rec.checked }, 30000, true);
+              if (!r || !r.ok) { poner(r && r.error === "bloqueado" ? "Demasiados intentos. Espera 15 minutos e inténtalo otra vez." : r && r.error === "clave" ? "El usuario o la contraseña no coinciden." : r && r.error === "baja" ? "Ya no tienes acceso a la app. Si es un error, pídeselo a tu jefe." : "No se pudo entrar: " + ((r && r.error) || "sin detalle")); return; }
+              token = r.token; sup = r.sup; rol = "sup";
+              ls.set("nortea_sup_token", token); ls.set("nortea_sup", JSON.stringify(sup)); ls.set("nortea_rol", "sup");
+              listo = true;
+            } catch (x) { fallaRed(x); return; }
           }
-          err.textContent = "Probando…";
-          const antes = { llave, rol }; llave = k; rol = "dueno";
-          try {
-            const r = await api({ accion: "leer", cols: ["obras"] }, 30000);
-            if (!r || !r.ok) { llave = antes.llave; rol = antes.rol; err.textContent = r && r.error === "llave" ? "La llave no coincide. Cópiala otra vez del «Registro de ejecución» (solo las letras y números)." : "La hoja contestó con un error: " + ((r && r.error) || "sin detalle"); return; }
-          } catch (x) { llave = antes.llave; rol = antes.rol; fallaRed(x); return; }
-          ls.set("nortea_api", url); ls.set("nortea_llave", llave); ls.set("nortea_rol", "dueno");
         }
+        if (!listo) return;
         const cambio = (ls.get("nortea_rol_app") || rol) !== rol;
         ls.set("nortea_rol_app", rol);
         if (cambio) { location.reload(); return; }   // cambió de dueño a supervisor (o al revés): se arma la app de nuevo
@@ -906,18 +1100,43 @@ const Datos = (() => {
     guardarCache(); tocadas.forEach(emitir);
   }
   async function mandar(ops) {
-    if (!url || (rol === "sup" ? !token : !llave)) return "sin_senal";
+    if (vistaId) return "vista";   // en la vista del supervisor no se guarda nada
+    if (sinCred()) return "sin_senal";
+    rechazadas = [];
     if (ops.some((o) => !soporta(o.col))) return "error";
     try {
       const r = await api({ accion: "escribir", ops }, 25000);
       if (!r || !r.ok) { if (sinAcceso(r)) return "denegado"; return "error"; }
       const rech = r.rechazados || [], enteros = new Set(rech.filter((x) => !x.persona).map((x) => x.col + "|" + x.id));   // «persona»: asistencia que se guardó a medias
       motivo = rech.length ? String(rech[0].motivo || "") : "";
+      rechazadas = rech.filter((x) => !x.persona).map((x) => ({ col: x.col, id: x.id, motivo: String(x.motivo || "") }));   // una por operación, para avisar cada una
       aplicar(r, ops);
       return ops.length && ops.every((o) => enteros.has(o.col + "|" + o.id)) ? "rechazado" : "ok";
     } catch { return "sin_senal"; }
   }
   const escribir = (op, col, id, data) => mandar([{ op, col, id, data }]);
+  // ---- ver como supervisor (dueño): la app se pone como la vería esa persona; la sesión del dueño no se toca ----
+  async function verComo(id) {
+    if (rol === "sup" || !llave || !url || vistaId) return "error";
+    let r;
+    try { r = await api({ accion: "leer", como: id }, 60000); } catch { return "sin_senal"; }
+    if (!r || !r.ok) return "error";
+    if (!r.como) return "viejo";   // la hoja todavía no tiene la versión 6: devolvió los datos del dueño
+    guardadoDueno = { mem: { ...mem }, rol, sup, servidor, ultimo };
+    COLS.forEach((c) => (mem[c] = {}));
+    vistaId = id; rol = "sup"; sup = r.sup || { id, nombre: "", usuario: "" };
+    servidor = Number(r.version || servidor);
+    COLS.forEach((c) => { const m = {}; Object.entries((r.datos || {})[c] || {}).forEach(([i, d]) => (m[i] = { ...d, id: i })); mem[c] = m; });
+    ultimo = Date.now(); COLS.forEach(emitir);
+    return "ok";
+  }
+  function salirVista() {
+    if (!vistaId || !guardadoDueno) return;
+    const g = guardadoDueno; guardadoDueno = null; vistaId = null;
+    COLS.forEach((c) => (mem[c] = g.mem[c] || {}));
+    rol = g.rol; sup = g.sup; servidor = g.servidor; ultimo = g.ultimo;
+    COLS.forEach(emitir); refrescar();
+  }
   async function salir() {
     if (rol === "sup" && token) { try { await api({ accion: "salir" }, 8000); } catch {} }
     token = null; sup = null; ls.del("nortea_sup_token"); ls.del("nortea_sup"); ls.del("nortea_cache_sup");
@@ -926,9 +1145,9 @@ const Datos = (() => {
   }
   return {
     get modo() { return "real"; }, get soloLectura() { return false; },
-    get rol() { return rol === "sup" ? "sup" : "dueno"; }, get sup() { return sup; }, get version() { return servidor; }, get motivo() { return motivo; },
+    get rol() { return rol === "sup" ? "sup" : "dueno"; }, get sup() { return sup; }, get vista() { return !!vistaId; }, get vistaSup() { return vistaId; }, get version() { return servidor; }, get motivo() { return motivo; }, get rechazadas() { return rechazadas; },
     alLento(fn) { lentoFn = fn; },
-    iniciar, suscribir, nuevoId, refrescar, soporta, salir,
+    iniciar, suscribir, nuevoId, refrescar, soporta, salir, verComo, salirVista,
     crear: (col, id, datos) => escribir("set", col, id, datos),
     actualizar: (col, id, campos) => escribir("update", col, id, campos),
     borrar: (col, id) => escribir("del", col, id, null),
@@ -1000,6 +1219,7 @@ const obraPorSlug = (s) => Object.values(S.obras).find((o) => slug(o.clave) === 
 // ---------- datos con pendientes (cambios sin subir) ----------
 function coleccion(nombre) {
   const base = { ...S[nombre] };
+  if (Datos.vista) return Object.values(base);   // viendo como supervisor: lo pendiente del dueño no se mezcla
   for (const p of S.pend) {
     if (p.col !== nombre) continue;
     if (p.op === "del") delete base[p.id];
@@ -1141,10 +1361,13 @@ window.__calc = calc; window.__cobroEst = cobroEst; // solo para verificar en pr
 async function escribir(op, col, id, data) {
   const r = op === "set" ? await Datos.crear(col, id, data) : op === "update" ? await Datos.actualizar(col, id, data) : op === "del" ? await Datos.borrar(col, id) : await Datos.enviar(op, col, id, data);
   if (r === "denegado") render();
+  if (r === "vista") { aviso(AVISO_VISTA); render(); }
   if (r === "rechazado") { aviso(`No se guardó: ${Datos.motivo || "no tienes permiso para eso"}.`); render(); }
   return r;
 }
+const AVISO_VISTA = "Es solo para ver: sal de la vista para cambiar algo";
 function encolar(op, col, id, data) {
+  if (Datos.vista) { aviso(AVISO_VISTA); return; }   // viendo como supervisor no se guarda ni se encola nada
   if (op === "asis") {   // varios toques el mismo día se juntan en un solo envío
     const prev = S.pend.find((p) => p.op === "asis" && p.col === col && p.id === id);
     if (prev) prev.data = { ...prev.data, cambios: { ...prev.data.cambios, ...data.cambios } }; else S.pend.push({ op, col, id, data });
@@ -1166,18 +1389,35 @@ function encolar(op, col, id, data) {
   S.pend.push({ op, col, id, data });
   savePend(); render();
 }
+// las altas y cambios (set/update) que están seguidos en la cola desde `p`, para subirlos juntos (hasta 25)
+function lotePend(p) {
+  const g = []; for (let i = S.pend.indexOf(p); i >= 0 && i < S.pend.length && g.length < 25; i++) { const x = S.pend[i]; if (x.op !== "set" && x.op !== "update") break; g.push(x); }
+  return g;
+}
 function desencolar(col, id) { S.pend = S.pend.filter((p) => !(p.col === col && p.id === id)); savePend(); }
 let flushing = false;
 async function reintentar() {
-  if (flushing || !S.pend.length) return;
+  if (flushing || !S.pend.length || Datos.vista) return;
   flushing = true;
   try {
     // varias vueltas: si mientras subía algo se marcó otra cosa (asistencia), se sube en la siguiente vuelta
     for (let v = 0; v < 6 && S.pend.length; v++) {
       for (const p of [...S.pend]) {
         if (!S.pend.includes(p)) continue;
+        const grupo = (p.op === "set" || p.op === "update") && Datos.lote ? lotePend(p) : [];
+        if (grupo.length > 1) {   // varias altas o cambios seguidos: una sola subida
+          const envs = grupo.map((x) => x.data), r = await Datos.lote(grupo.map((x) => ({ op: x.op, col: x.col, id: x.id, data: x.data })));
+          if (r === "sin_senal" || r === "denegado" || r === "vista") return;
+          if (r === "error") { grupo.forEach((x) => (x.intentos = (x.intentos || 0) + 1)); savePend(); if (grupo.some((x) => x.intentos < 3)) return; aviso("Un cambio no se pudo guardar después de 3 intentos. Revisa y anótalo otra vez."); }
+          // cada operación rechazada da su aviso (igual que cuando va sola); las que sí pasaron siguen bien
+          const rech = (Datos.rechazadas || []).filter((q) => grupo.some((x) => x.col === q.col && x.id === q.id));
+          if (rech.length) aviso(`No se guardó: ${[...new Set(rech.map((q) => q.motivo || "no tienes permiso para eso"))].join("; ")}.${rech.length > 1 ? ` (${rech.length} cambios)` : ""}`);   // un solo aviso: cada rechazo cuenta, aunque el aviso es uno
+          else if (r === "rechazado") aviso(`No se guardó: ${Datos.motivo || "no tienes permiso para eso"}.`);
+          grupo.forEach((x, i) => { if (S.pend.includes(x) && x.data === envs[i]) S.pend = S.pend.filter((y) => y !== x); });
+          savePend(); continue;
+        }
         const enviado = p.data, r = await escribir(p.op, p.col, p.id, p.data);
-        if (r === "sin_senal" || r === "denegado") return;   // sin señal o sin acceso (sesión cerrada): se queda en el teléfono
+        if (r === "sin_senal" || r === "denegado" || r === "vista") return;   // sin señal o sin acceso (sesión cerrada): se queda en el teléfono
         if (r === "error") {   // Google falló (candado ocupado, hoja ocupada…): se intenta otra vez después
           p.intentos = (p.intentos || 0) + 1;
           if (p.intentos < 3) { savePend(); return; }
@@ -1223,13 +1463,14 @@ let pila = [];            // [{t, c, id, el}]
 let moviendo = 0;
 let histN = 0;            // cuántas pantallas hemos empujado al historial
 const claveRuta = (r) => `${r.t}:${r.c || ""}:${r.id || ""}`;
-const hashDe = (r) => r.t === "home" ? "" : r.t === "gastos" ? "#gastos" : r.t === "sups" ? "#supervisores" : r.t === "obra" ? "#obra-" + slug(r.c) : `#${r.t}-${slug(r.c)}--${r.id}`;
+const hashDe = (r) => r.t === "home" ? "" : r.t === "gastos" ? "#gastos" : r.t === "sups" ? "#supervisores" : r.t === "sab" ? "#sabado" : r.t === "obra" ? "#obra-" + slug(r.c) : `#${r.t}-${slug(r.c)}--${r.id}`;
 const padreDe = (r) => (r.t === "cot" || r.t === "est") ? { t: "obra", c: r.c } : { t: "home" };
 function rutaActual() {
   const h = location.hash.replace(/^#/, "");
   let m;
   if (h === "gastos") return { t: "gastos" };
   if (h === "supervisores") return { t: "sups" };
+  if (h === "sabado") return { t: "sab" };
   if ((m = h.match(/^obra-([A-Za-z0-9-]+)$/))) { const o = obraPorSlug(m[1]); return o ? { t: "obra", c: o.clave } : { t: "home" }; }
   if ((m = h.match(/^(cot|est)-([A-Za-z0-9-]+?)--([A-Za-z0-9-]+)$/))) { const o = obraPorSlug(m[2]); return o ? { t: m[1], c: o.clave, id: m[3] } : { t: "home" }; }
   return { t: "home" };
@@ -1256,6 +1497,7 @@ function pintarPant(p) {
   if (act && cu.contains(act) && /^(INPUT|TEXTAREA)$/.test(act.tagName)) { p.sucio = true; return; }
   p.sucio = false;
   const sl = [...p.el.querySelectorAll("[data-sid]")].map((x) => [x.dataset.sid, x.scrollLeft]);
+  if (p.t === "sab") pantSab(p); else
   ({ home: pantHome, obra: pantObra, gastos: pantGastos, cot: pantCot, sups: pantSups }[p.t])(p);
   sl.forEach(([id, v]) => { const x = p.el.querySelector(`[data-sid="${id}"]`); if (x) x.scrollLeft = v; });
 }
@@ -1486,7 +1728,7 @@ function pantHome(p) {
   h += `<section class="res" aria-label="Resumen general"><div><span class="lbl">En caja</span><span class="cifra num ${enCaja < 0 ? "neg" : ""}">${money0(enCaja)}</span>${enCaja < 0 ? `<span class="sub neg">Llevas puesto de tu bolsa</span>` : `<span class="sub">de obras activas</span>`}</div>
     <div class="col2"><div><span class="lbl">Por cobrar</span><span class="c2 num ${porCobrar < 0 ? "neg" : ""}">${money0(porCobrar)}</span></div><div><span class="lbl">Utilidad estimada</span><span class="c2 num ${util < 0 ? "neg" : ""}">${hayUtil ? money0(util) : "—"}</span></div></div></section>`;
   if (porPagar || meDeben) h += `<div class="mini-row">${porPagar ? `<button class="pill warn press" data-act="pend-grupo" data-g="por_pagar">Le debo <b class="num">${money0(porPagar)}</b> ›</button>` : ""}${meDeben ? `<button class="pill bad press" data-act="pend-grupo" data-g="me_debe">Me deben <b class="num">${money0(meDeben)}</b> ›</button>` : ""}</div>`;
-  h += novedadesHTML() + avisosHomeHTML();
+  h += sabadoCardHTML() + programaAvisoHTML() + novedadesHTML() + avisosHomeHTML();
   h += `<h2 class="sec">Obras activas</h2>`;
   h += act.length ? `<div class="cards">${act.map((o, i) => cardHTML(o, cs[i])).join("")}</div>` : `<p class="msg" style="margin:16px 0">No hay obras activas.</p>`;
   const np = pendientesLista().length + libresAbiertos().length;
@@ -1545,8 +1787,9 @@ async function guardarPendiente() {
     hecho: !!prev.hecho, hecho_fecha: prev.hecho_fecha || null, creado: prev.creado || ahora(), actualizado: ahora(), origen: "app" };
   const id = F.id || Datos.nuevoId("pendientes"), volver = F.volver;
   cerrarHoja(true);
-  await guardarDoc("set", "pendientes", id, data, F && F.id ? "Pendiente guardado" : "Pendiente guardado");
-  render(); if (volver === "pend") abrirHoja("pend");
+  encolar("set", "pendientes", id, data);   // al instante en la lista; se sube por detrás
+  if (!Datos.vista) { aviso("Pendiente guardado"); reintentar(); }
+  if (volver === "pend") abrirHoja("pend");
 }
 async function alternarPendiente(id) {
   const x = libres().find((y) => y.id === id); if (!x || ro()) return;
@@ -1634,18 +1877,20 @@ const IC_SEC = {
   materiales: '<path d="M3 8l9-5 9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/>',
   supervisores: '<circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.7 2.7-6 6-6 1.6 0 3 .5 4 1.4"/><path d="M15 17.5l2 2 4-4.5"/>',
   tareas: '<path d="M10 6h10M10 12h10M10 18h10"/><path d="M3.5 6l1.5 1.5L7.5 5M3.5 12l1.5 1.5 2.5-2.5M3.5 18l1.5 1.5 2.5-2.5"/>',
+  destajo: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M3 14.5h18M9 5v5M15 10v4.5M9 14.5V19"/>',
+  programa: '<rect x="3" y="4" width="9" height="4" rx="1.5"/><rect x="8" y="10" width="12" height="4" rx="1.5"/><rect x="5" y="16" width="8" height="4" rx="1.5"/>',
 };
 function tabsDe(o) {
-  if (soySup()) return [["bitacora", "Bitácora"], ["asistencia", "Asistencia"], ["materiales", "Materiales"], ["gastos", "Gastos"], ["tareas", "Pendientes"]];
+  if (soySup()) return [["bitacora", "Bitácora"], ["asistencia", "Asistencia"], ["materiales", "Materiales"], ...(v6() ? [["destajo", "Destajo"], ["programa", "Programa"]] : []), ["gastos", "Gastos"], ["tareas", "Pendientes"]];
   const t = [["resumen", "Resumen"], ["gastos", "Gastos"], ["pagos", "Ingresos"], ["cotizacion", "Cotización"], ["avance", "Avance"]];
-  if ((o.cuadrillas || []).length) t.push(["cuadrillas", "Cuadrillas"]);
-  t.push(["bitacora", "Bitácora"], ["asistencia", "Asistencia"], ["materiales", "Materiales"], ["supervisores", "Supervisores"]);
+  t.push(["bitacora", "Bitácora"], ["asistencia", "Asistencia"], ["materiales", "Materiales"], ["destajo", "Destajo"], ["programa", "Programa"], ["supervisores", "Supervisores"]);   // el cuadro «Cuadrillas» de antes ahora va dentro de Destajo
   return t;
 }
 const tabDe = (o) => { const ts = tabsDe(o), k = S.tabs[o.clave]; return ts.some((t) => t[0] === k) ? k : ts[0][0]; };
 // numerito en la esquina del cuadrito: lo que pide atención
 function marcaSec(o, k) {
   if (k === "materiales") { const n = materialesDe(o.clave).filter((m) => m.estado === "falta").length; return n ? `<i class="sec-n warn">${n}</i>` : ""; }
+  if (k === "programa") { const n = atrasadasDe(o.clave).length; return n ? `<i class="sec-n bad">${n}</i>` : ""; }
   if (k === "tareas" || k === "supervisores") { const xs = tareasDe({ obra: o.clave }).filter((t) => !t.hecho); const v = xs.filter((t) => t.fecha && t.fecha < hoy()).length; return xs.length ? `<i class="sec-n${v ? " bad" : ""}">${xs.length}</i>` : ""; }
   return "";
 }
@@ -1680,6 +1925,8 @@ function cabHTML(o, tab) {
 }
 function tabHTML(o, c, tab, p) {
   if (tab === "materiales") return materialesHTML(o);
+  if (tab === "destajo") return destajoHTML(o);
+  if (tab === "programa") return programaHTML(o);
   if (tab === "tareas") return tareasObraHTML(o);
   if (tab === "supervisores") return supObraHTML(o);
   if (tab === "bitacora") return bitacoraHTML(o);
@@ -1980,6 +2227,7 @@ function abrirHoja(mode, id) {
   mostrarHoja(f);
 }
 function mostrarHoja(f) {
+  if (Datos.vista) { aviso(AVISO_VISTA); return; }   // viendo como supervisor: solo se mira
   if (F) cerrarHoja(true);
   F = f;
   const sh = $("#sheet"), vl = $("#veil");
@@ -2009,6 +2257,7 @@ const fechaBloque = () => `<span class="fl">Fecha</span>` + chipsHTML("fechaModo
 const ivaBloque = () => `<span class="fl">IVA</span>` + chipsHTML("ivaModo", [["mas", "+ IVA"], ["incluye", "Ya trae IVA"], ["sin", "Sin IVA (no se factura)"]], F.ivaModo);
 function hojaHTML() {
   const m = F.mode;
+  if (/^d_/.test(m)) return hojaD();
   if (m === "gasto" || m === "pago") return hojaGP();
   if (m === "nueva" || m === "editar") return hojaObra();
   if (m === "cot") return hojaCot();
@@ -2267,6 +2516,7 @@ function faltan() {
 }
 function validar() {
   if (!F) return false;
+  if (isD()) { dPrev(); return true; }
   if (F.mode === "raya") return actualizarRaya();
   let ok = true;
   const b = $("#f-guardar");
@@ -2441,6 +2691,7 @@ async function borrarCot(id) {
 async function borrarDoc(col, id) {
   if (col === "cot") return borrarCot(id);
   const prev = coleccion(col).find((x) => x.id === id); if (!prev) return;
+  if (col === "gastos" && prev.origen === "destajo") return dBorrarGastoD(prev);   // el pago de destajo desmarca sus avances y adelantos
   const r = await escribir("del", col, id);
   if (r === "sin_senal") { encolar("del", col, id, null); aviso("Sin señal · se borrará al volver la conexión"); return; }
   if (r !== "ok") { aviso(r === "denegado" ? "Tu cuenta solo puede leer." : "No se pudo borrar. Intenta otra vez."); return; }
@@ -2579,6 +2830,7 @@ function pantEst(p) {
   else if (ES.restaurado) h += `<div class="note">Recuperé lo que llevabas capturado.</div>`;
   if (!cs.length) h += `<p class="msg">Las cotizaciones de esta obra todavía no tienen conceptos.</p>`;
   h += `<span class="sec" style="margin-top:22px">Fecha</span><div style="display:flex;gap:8px"><input class="fld" id="e-fecha" type="date" value="${esc(ES.fecha)}" ${ES.ro ? "disabled" : ""} aria-label="Fecha de la estimación" style="flex:1"><button class="mini press" data-act="e-hoy" ${ES.ro ? "disabled" : ""}>Hoy</button></div>`;
+  if (!ES.ro && hayLigadas(o.clave)) h += `<button class="ghost press" data-act="d-llenar" style="margin-top:14px">Llenar con el destajo</button><p class="nota" style="margin:6px 2px 0">Toma el avance de las actividades de destajo ligadas a cada concepto. Lo revisas antes de guardar.</p>`;
   h += `<span class="sec" style="margin-top:18px">Nota</span><input class="fld" id="e-nota" autocomplete="off" placeholder="Ej. Corte al viernes, pisos 1 y 2" value="${esc(ES.nota)}" ${ES.ro ? "disabled" : ""} aria-label="Nota">`;
   // partidas de cada cotización y, dentro, sus rubros (tablaroca, piso, pintura…) para ubicarse rápido
   const grupos = [];
@@ -2965,6 +3217,7 @@ function chatVoz() {
 }
 // --- leer ticket con la cámara (prueba): la foto no se guarda en ningún lado; el texto se lee en el teléfono ---
 const TESS = "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js";
+const TESS_SRI = "sha384-GJqSu7vueQ9qN0E9yLPb3Wtpd7OrgK8KmYzC8T1IysG1bcvxvIO4qtYR/D3A991F";   // integridad de esa versión exacta (si cambia la versión, se recalcula)
 function leerTotal(txt) {
   const ls_ = String(txt || "").split(/\n+/).map((x) => x.trim()).filter(Boolean);
   const montos = (l) => (l.replace(/(\d)[Oo]|[Oo](\d)/g, (m, x, y) => (x ? x + "0" : "0" + y)).replace(/(\d)\s*[,.]\s*(\d{2})\b/g, "$1.$2").match(/\d{1,3}(?:,\d{3})+(?:\.\d{2})|\d+\.\d{2}/g) || []).map((x) => Number(x.replace(/,/g, "")));
@@ -2983,7 +3236,7 @@ async function chatTicket(file) {
   CH.vista = "chat";
   chatDecir("Leyendo el ticket… (la primera vez tarda un poco porque baja el lector)");
   try {
-    if (!window.Tesseract) await new Promise((ok, mal) => { const s = document.createElement("script"); s.src = TESS; s.onload = ok; s.onerror = mal; document.head.appendChild(s); });
+    if (!window.Tesseract) await new Promise((ok, mal) => { const s = document.createElement("script"); s.src = TESS; s.integrity = TESS_SRI; s.crossOrigin = "anonymous"; s.onload = ok; s.onerror = mal; document.head.appendChild(s); });
     const { data } = await window.Tesseract.recognize(file, "spa");
     const txt = data.text || "", total = leerTotal(txt), tienda = tiendaDe(txt);
     CH.msgs.push({ de: "yo", texto: `📷 Ticket: ${tienda}${total ? " · " + money(total) : ""}` });
@@ -2996,7 +3249,7 @@ async function chatTicket(file) {
 (function () {
   let g = null;
   const pos = () => { try { return JSON.parse(ls.get("nortea_burbuja") || "null"); } catch { return null; } };
-  const poner = (x, y) => { const b = $("#burbuja"), W = innerWidth, H = innerHeight, s = b.offsetWidth || 58; x = Math.max(6, Math.min(W - s - 6, x)); y = Math.max(56, Math.min(H - s - 12, y)); b.style.left = x + "px"; b.style.top = y + "px"; b.style.right = "auto"; b.style.bottom = "auto"; return [x, y]; };
+  const poner = (x, y) => { const b = $("#burbuja"), W = innerWidth, H = innerHeight, s = b.offsetWidth || 50; x = Math.max(6, Math.min(W - s - 6, x)); y = Math.max(56, Math.min(H - s - 12, y)); b.style.left = x + "px"; b.style.top = y + "px"; b.style.right = "auto"; b.style.bottom = "auto"; return [x, y]; };
   const reponer = () => { const p = pos(); if (p) poner(p[0] * innerWidth, p[1] * innerHeight); };
   reponer(); addEventListener("load", reponer); addEventListener("resize", reponer);
   document.addEventListener("pointerdown", (e) => {
@@ -3156,6 +3409,7 @@ function personaHTML(o, p, ds, r, cfg, marca) {
   const puesto = (PUESTOS[p.puesto] || PUESTOS.otro)[0];
   const det = soySup() ? [puesto] : [puesto, Number(p.semanal) ? `${money0(Number(p.semanal))} a la semana` : `<span class="warn-t">Falta su sueldo</span>`];
   if (p.baja) det.push(`se fue el ${diaMes(p.baja)}`);
+  if (!soySup() && p.pago) det.push(p.pago === "raya" ? "por raya" : "a destajo");
   if (!soySup() && !delDueno(p)) det.push(`la agregó ${nomSup(p.autor)}`);
   return `<div class="per"><div class="per-h"><button class="nom press" data-act="pers-editar" data-p="${esc(p.id)}"${ro() ? " disabled" : ""}><b>${esc(p.nombre)}</b><small>${det.map((d) => (d.startsWith("<span") ? d : esc(d))).join(" · ")}</small></button><span class="per-m num"><small>${fmtDias(rp.dias)}</small>${soySup() ? "" : money0(rp.dinero)}</span></div><div class="dias">${bs}</div></div>`;
 }
@@ -3300,7 +3554,7 @@ function abrirPersona(pid, gid) {
   if (pid && !p) return;
   const puesto = p ? p.puesto || "otro" : "oficial";
   mostrarHoja({ mode: "persona", id: pid || null, obra: o.clave, prev: p, lunes: S.asis[o.clave] || lunesDe(hoy()), pnombre: p ? p.nombre || "" : "", ppuesto: puesto,
-    psem: p ? String(p.semanal || "") : String(PUESTOS[puesto][1]), pgrupo: p ? grupoDe(o, p) : gid || (gruposDe(o)[0] || {}).id });
+    psem: p ? String(p.semanal || "") : String(PUESTOS[puesto][1]), pgrupo: p ? grupoDe(o, p) : gid || (gruposDe(o)[0] || {}).id, ppago: p ? p.pago || "" : "" });
 }
 const personaEditable = (p) => !p || !soySup() || p.autor === yoId();
 const marcasDePersona = (obra, pid) => coleccion("asistencia").filter((a) => a.obra === obra && marcaDe(a, pid) > 0).map((a) => a.fecha).sort();
@@ -3312,6 +3566,7 @@ function hojaPersona() {
   if (!soySup()) b += `<span class="fl">Lo que gana a la semana</span>${chipsHTML("psem", SEMANALES.map((v) => [String(v), money0(v)]), F.psem)}
     <input class="field" id="pp-sem" inputmode="decimal" autocomplete="off" placeholder="Otro monto" aria-label="Sueldo semanal" value="${esc(F.psem)}" style="margin-top:8px">`;
   if (ed) b += `<span class="fl">Cuadrilla</span>${chipsHTML("pgrupo", gruposDe(o).map((g) => [g.id, g.nombre]), F.pgrupo)}`;
+  if (!soySup()) b += `<span class="fl">Se le paga</span>${chipsHTML("ppago", [["raya", "Por raya"], ["destajo", "A destajo"], ["", "No sé"]], F.ppago || "")}<p class="hint">Solo a quien va «por raya» se le calcula la raya con su asistencia en el Sábado de pagos.</p>`;
   b += `<p class="err" id="pp-err" hidden style="margin-top:10px">Escribe el nombre.</p>`;
   let pie = ed ? `<button type="button" class="btn main press" data-act="guardar">Guardar</button>` : "";
   if (F.id) {
@@ -3329,7 +3584,7 @@ async function guardarPersona() {
   if (!nombre) { $("#pp-err").hidden = false; $("#pp-nom").focus(); return; }
   const editar = !!F.id, id = F.id || "p" + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
   const item = { id, nombre, puesto: F.ppuesto || "otro", grupo: F.pgrupo || null };
-  if (!soySup()) item.semanal = parseMonto(($("#pp-sem") || {}).value) || 0;
+  if (!soySup()) { item.semanal = parseMonto(($("#pp-sem") || {}).value) || 0; item.pago = F.ppago || ""; }
   if (!editar) { item.autor = yoId(); if (soySup()) item.autor_nombre = yoNombre(); }
   cerrarHoja(true);
   return guardarItem(o.clave, "personal", item, false, editar ? "Guardado" : `${nombre} agregado`);
@@ -3360,7 +3615,12 @@ function grupoMenu(gid) {
   items.push({ t: `Agregar persona a ${g.nombre}`, fn: () => abrirPersona(null, gid) });
   if (activos.length) items.push({ t: `Ya no va nadie desde la semana del ${diaMes(lunes)}`, estilo: "peligro", fn: () => abrirAccion({ titulo: `¿Quitar a ${activos.length > 1 ? `las ${activos.length} personas` : "la persona"} de ${g.nombre}?`, texto: "Siguen en las semanas anteriores con lo que trabajaron.", items: [{ t: "Sí, quitarlos", estilo: "peligro", fn: () => bajaGrupo(o.clave, activos, lunes) }] }) });
   // las de default no están guardadas: se borran dejando una marca (solo el dueño); las demás se quitan de la lista
-  if (!todos.length && gruposDe(o).length > 1 && (soySup() ? g.autor === yoId() && !esDef : true)) items.push({ t: "Borrar cuadrilla", estilo: "peligro", fn: () => guardarItem(o.clave, "asis_grupos", esDef ? { id: gid, nombre: g.nombre, borrado: true } : { id: gid }, !esDef, "Cuadrilla borrada") });
+  if (!todos.length && gruposDe(o).length > 1 && (soySup() ? g.autor === yoId() && !esDef : true)) items.push({ t: "Borrar cuadrilla", estilo: "peligro", fn: () => {
+    // también revisa el destajo: con actividades o avances sin pagar no se borra (si no, la actividad se quedaría sin cuadrilla)
+    const acts = coleccion("destajo").filter((x) => x.obra === o.clave && x.grupo === gid), ids = new Set(acts.map((x) => x.id)), sinPagar = coleccion("destajo_av").filter((v) => ids.has(v.act) && !avPagado(v)).length;
+    if (acts.length) return aviso(`No se puede borrar ${g.nombre}: tiene ${acts.length} ${acts.length > 1 ? "actividades" : "actividad"} de destajo${sinPagar ? ` y ${sinPagar} ${sinPagar > 1 ? "avances" : "avance"} sin pagar` : ""}. Pásalas a otra cuadrilla primero.`);
+    return guardarItem(o.clave, "asis_grupos", esDef ? { id: gid, nombre: g.nombre, borrado: true } : { id: gid }, !esDef, "Cuadrilla borrada");
+  } });
   abrirAccion({ titulo: g.nombre, items });
 }
 async function bajaGrupo(clave, ps, lunes) {
@@ -3385,12 +3645,14 @@ async function guardarGrupo() {
   await guardarItem(clave, "asis_grupos", nuevo ? { id, nombre, autor: yoId() } : { id, nombre }, false, nuevo ? `${nombre} agregada` : "Nombre guardado");
 }
 // ---------- raya como gasto (opcional): primero se ve y se ajusta; nada se anota hasta confirmar. Después se cambia o se borra como cualquier gasto.
-const rayaGrupo = (o, r, gid) => gid === "todos" ? r.marcado : round2(personalDe(o, r.lunes).filter((p) => grupoDe(o, p) === gid).reduce((t, p) => t + ((r.por[p.id] || {}).dinero || 0), 0));
-function abrirRaya(lunes) {
-  const o = obraActiva(); if (!o || ro() || soySup()) return;
-  const r = rayaSemana(o, lunes); if (!(r.marcado > 0)) { aviso("No hay asistencia marcada esa semana."); return; }
+// desde el Sábado de pagos (soloRaya) solo cuenta la gente marcada «se le paga por raya»
+const rayaGrupo = (o, r, gid) => round2(personalDe(o, r.lunes).filter((p) => (gid === "todos" || grupoDe(o, p) === gid) && !(F && F.soloRaya && p.pago !== "raya")).reduce((t, p) => t + ((r.por[p.id] || {}).dinero || 0), 0));
+function abrirRaya(lunes, soloRaya, obra) {
+  const o = (obra && S.obras[obra]) || obraActiva(); if (!o || ro() || soySup()) return;
+  const r = rayaSemana(o, lunes), tot = soloRaya ? round2(personalDe(o, lunes).filter((p) => p.pago === "raya").reduce((t, p) => t + ((r.por[p.id] || {}).dinero || 0), 0)) : r.marcado;
+  if (!(tot > 0)) { aviso("No hay asistencia marcada esa semana."); return; }
   const sab = r.dias[5], f = sab <= hoy() ? sab : hoy();
-  mostrarHoja({ mode: "raya", obra: o.clave, id: null, lunes, rg: "todos", raj: "nada", forma: "efectivo", fecha: f, fechaModo: fechaModo(f), saldados: new Set() });
+  mostrarHoja({ mode: "raya", obra: o.clave, id: null, lunes, soloRaya: !!soloRaya, rg: "todos", raj: "nada", forma: "efectivo", fecha: f, fechaModo: fechaModo(f), saldados: new Set() });
 }
 function rayaTotal() {
   const o = S.obras[F.obra], r = rayaSemana(o, F.lunes), base = rayaGrupo(o, r, F.rg), n = parseMonto((($("#f-raj") || {}).value) || "") || 0;
@@ -3622,9 +3884,10 @@ async function guardarMaterial(otro) {
   if (nuevo) Object.assign(data, { creado: ahora(), orden: Date.now(), autor: yoId(), autor_nombre: yoNombre() });
   if (todo) S.mat.ultimo = { proveedor: prov, seccion: sec };
   cerrarHoja(true);
-  await guardarDoc(nuevo ? "set" : "update", "materiales", id, data, nuevo ? `${nom} agregado` : "Guardado");
-  render();
-  if (otro) abrirMaterial(null);
+  // sale al instante en la lista (cola) y se sube por detrás; no se espera a la hoja
+  encolar(nuevo ? "set" : "update", "materiales", id, data);
+  if (!Datos.vista) { aviso(nuevo ? `${nom} agregado` : "Guardado"); reintentar(); }
+  if (otro && !Datos.vista) abrirMaterial(null);
   void obra;
 }
 // pegar una lista: un material por renglón («40 pzas tablaroca 1/2», «tablaroca 1/2 - 40», «- pasta redimix»)
@@ -3673,7 +3936,8 @@ async function guardarMatLista() {
   S.mat.ultimo = { proveedor: prov, seccion: sec };
   const ops = xs.map((x, i) => ({ op: "set", col: "materiales", id: Datos.nuevoId("materiales"), data: { obra, material: x.material, cantidad: x.cantidad, unidad: x.unidad, proveedor: prov, seccion: sec, estado: "por_pedir", nota: "", orden: t + i, creado: ahora(), actualizado: ahora(), autor: yoId(), autor_nombre: yoNombre() } }));
   cerrarHoja(true);
-  await guardarLote(ops, `${ops.length} ${ops.length > 1 ? "materiales agregados" : "material agregado"}`);
+  ops.forEach((o) => encolar(o.op, o.col, o.id, o.data));
+  if (!Datos.vista) { aviso(`${ops.length} ${ops.length > 1 ? "materiales agregados" : "material agregado"}`); reintentar(); }
 }
 // el pedido de un proveedor, listo para WhatsApp: lo que falta pedir y lo que falta
 function matCopiar(grupo) {
@@ -3871,7 +4135,8 @@ function supObraHTML(o) {
   h += `<section class="panel"><h3>Supervisores de esta obra</h3>${ss.length ? `<div class="list sup-l">${ss.map(supFila).join("")}</div>` : `<p class="nota" style="margin:6px 0 10px">Todavía no le das esta obra a ningún supervisor.</p>`}</section>`;
   return h + `<button class="ghost press" data-act="sups">${IC_SUPV}Administrar supervisores</button>`;
 }
-const supFila = (x) => `<button class="item press" data-act="sup-abrir" data-id="${esc(x.id)}"><span class="ico">${IC_SUPV}</span><span class="t"><b>${esc(x.nombre || "Sin nombre")}${x.activo === false ? ' <span class="tg neutro">Dado de baja</span>' : ""}</b><small>Usuario ${esc(x.usuario || "—")} · ${(x.obras || []).filter((c) => S.obras[c]).map((c) => esc(nomCorto(S.obras[c]))).join(", ") || "sin obras"}</small><small>${x.ultimo_acceso ? "Entró " + hace(x.ultimo_acceso) : "No ha entrado"}${((n) => (n ? ` · ${n} ${n > 1 ? "pendientes" : "pendiente"}` : ""))(tareasDe({ sup: x.id }).filter((t) => !t.hecho).length)}</small></span>${IC_RIGHT}</button>`;
+const supFila = (x) => `<div class="supw">${supItem(x)}${x.activo === false ? "" : `<button class="mini press" data-act="sup-ver" data-id="${esc(x.id)}">Ver lo que ve</button>`}</div>`;
+const supItem = (x) => `<button class="item press" data-act="sup-abrir" data-id="${esc(x.id)}"><span class="ico">${IC_SUPV}</span><span class="t"><b>${esc(x.nombre || "Sin nombre")}${x.activo === false ? ' <span class="tg neutro">Dado de baja</span>' : ""}</b><small>Usuario ${esc(x.usuario || "—")} · ${(x.obras || []).filter((c) => S.obras[c]).map((c) => esc(nomCorto(S.obras[c]))).join(", ") || "sin obras"}</small><small>${x.ultimo_acceso ? "Entró " + hace(x.ultimo_acceso) : "No ha entrado"}${((n) => (n ? ` · ${n} ${n > 1 ? "pendientes" : "pendiente"}` : ""))(tareasDe({ sup: x.id }).filter((t) => !t.hecho).length)}</small></span>${IC_RIGHT}</button>`;
 // ---------- dueño: pantalla «Supervisores» (todas las obras) ----------
 function pantSups(p) {
   const nav = navHTML({ back: "Obras", titulo: "Supervisores", fade: true });
@@ -3887,6 +4152,25 @@ function pantSups(p) {
   h += `<p class="nota">Los supervisores entran con su usuario y contraseña. Ven sus obras sin dinero: bitácora, asistencia (sin raya ni sueldos), material (sin precios), sus propios gastos y lo que les encargas. Si los das de baja ya no pueden entrar.</p>`;
   setPant(p, nav, h);
 }
+// ---------- ver como supervisor (dueño, v6) ----------
+async function verComoSup(id) {
+  const x = S.supervisores[id]; if (!x || soySup() || Datos.vista) return;
+  cerrarHoja(true); aviso("Abriendo lo que ve " + (x.nombre || "el supervisor") + "…");
+  const r = await Datos.verComo(id);
+  if (r === "viejo") { aviso("Tu hoja todavía no tiene la versión nueva: no puede mostrar lo que ve."); return; }
+  if (r === "sin_senal") { aviso("No hay señal para abrir la vista."); return; }
+  if (r !== "ok") { aviso("No se pudo abrir la vista."); return; }
+  cerrarAviso(); franjaVista(); irInicio(); render();
+}
+function franjaVista() {
+  const on = Datos.vista, nom = (Datos.sup || {}).nombre || "el supervisor";
+  document.body.classList.toggle("en-vista", on); $("#franja-vista").hidden = !on;
+  if (on) $("#franja-t").textContent = "Estás viendo lo que ve " + nom;
+}
+$("#franja-salir").addEventListener("click", () => {
+  if (!Datos.vista) return;
+  cerrarHoja(true); Datos.salirVista(); franjaVista(); cerrarAviso(); const n = pila.length; irInicio(); setTimeout(() => ir({ t: "sups" }), n > 1 ? 450 : 0); render();
+});
 function chipsMulti(name, opts, set) {
   return `<div class="chips" data-g="${name}">` + opts.map(([k, t]) => `<button type="button" class="chip press" data-act="multi" data-g="${name}" data-v="${esc(k)}" aria-pressed="${set.has(k)}"><span class="brk">${esc(t)}</span></button>`).join("") + `</div>`;
 }
@@ -3907,6 +4191,7 @@ function hojaSupervisor() {
     <p class="err" id="s-err" hidden style="margin-top:10px"></p>`;
   if (x) b += `<p class="hint">${x.ultimo_acceso ? "Entró por última vez " + hace(x.ultimo_acceso) : "Todavía no entra a la app"}.</p>`;
   let pie = `<button type="button" class="btn main press" data-act="guardar">${x ? "Guardar" : "Dar de alta"}</button>`;
+  if (x && x.activo !== false) pie += `<button type="button" class="btn sec2 press" data-act="sup-ver" data-id="${esc(x.id)}">Ver lo que ve</button>`;
   if (x) pie += `<button type="button" class="btn sec2 press" data-act="sup-acceso">Mandarle su acceso</button><button type="button" class="btn sec2 press" data-act="sup-clave">Cambiar contraseña</button>` +
     (x.activo === false ? `<button type="button" class="btn sec2 press" data-act="sup-alta">Darle acceso otra vez</button>` : `<button type="button" class="btn del press" data-act="sup-baja">Dar de baja (ya no entra)</button>`);
   return shell(x ? x.nombre || "Supervisor" : "Dar de alta supervisor", b, pie);
@@ -4038,6 +4323,813 @@ function confeti() {
 }
 
 // ============================================================
+// Versión 6 (15 nov): Destajo, Programa de obra y Sábado de pagos. Contrato: tools/app-web/VERSION-6.md
+// Colecciones: «destajo» (actividades), «destajo_lev» (levantamientos), «destajo_av» (avances) y «programa» (partidas).
+// El supervisor ve y anota lo mismo que el dueño, sin precios ni dinero, y lo que puso el dueño queda con candado.
+// Todo se guarda con la cola de siempre (se ve al instante y sube por detrás); el pago de destajo va en un solo lote.
+// ============================================================
+const D_COLS = ["destajo", "destajo_lev", "destajo_av", "programa"];
+D_COLS.forEach((c) => { S[c] = {}; S.loaded[c] = false; });
+S.dest = {};
+const v6 = () => !Datos.version || Datos.version >= 6;
+const IC_LOCK = SV('<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>', 2);
+const IC_BRICK = SV(IC_SEC.destajo, 1.8);
+const nf = (n) => N2.format(round2(Number(n) || 0));
+const numD = (v) => { if (v == null || v === "") return null; const n = Number(v); return Number.isFinite(n) ? n : null; };
+// el servidor solo acepta números hasta mil millones: «orden» va en segundos desde el 1 de enero de 2026
+const ordenNuevo = () => Math.floor((Date.now() - 1767225600000) / 1000);
+const ordenD = (a, b) => (Number(a.orden) || 0) - (Number(b.orden) || 0) || String(a.creado || "").localeCompare(String(b.creado || ""));
+// ¿lo puede cambiar quien usa la app? El dueño todo; el supervisor solo lo suyo (igual que el servidor)
+const dPuede = (x) => !x || !soySup() || x.autor === yoId();
+const avPagado = (a) => !!(a && (a.pago || a.pagado));
+// cantidad de un renglón (levantamiento o avance): «cantidad» si viene; si no, largo × (alto o 1) × (piezas o 1); en piezas basta «piezas»
+function cantRenglon(r) {
+  const c = numD(r.cantidad); if (c != null) return c;
+  const l = numD(r.largo) || 0, al = numD(r.alto) || 0, pz = numD(r.piezas) || 0;
+  if (!l && !al) return pz;
+  return l * (al || 1) * (pz || 1);
+}
+function uTipo(u) {
+  const x = norm(u).replace(/\./g, "");
+  if (/^(m2|m²|mts?2|metros? cuadrados?)$/.test(x)) return "area";
+  if (/^(ml|m|mts?|metros?( lineales?)?)$/.test(x)) return "lin";
+  if (/^(pzas?|pz|piezas?|pieza|lote|lotes|juego|jgo|salida|salidas|vano|vanos)$/.test(x)) return "pza";
+  return "cant";
+}
+const UNI_D = ["m²", "ml", "pza", "lote", "m³", "kg"];
+const dEstado = (obra) => S.dest[obra] || (S.dest[obra] = { g: "todos", ab: {} });
+// todo lo del destajo de una obra, junto: actividades, levantamientos, avances y el resumen de cada actividad
+function datosDest(obra) {
+  const acts = coleccion("destajo").filter((x) => x.obra === obra).sort(ordenD), ids = new Set(acts.map((a) => a.id));
+  const levs = {}, avs = {}, res = {};
+  coleccion("destajo_lev").filter((x) => ids.has(x.act)).sort(ordenD).forEach((l) => (levs[l.act] = levs[l.act] || []).push(l));
+  coleccion("destajo_av").filter((x) => ids.has(x.act)).sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)) || String(b.creado || "").localeCompare(String(a.creado || ""))).forEach((v) => (avs[v.act] = avs[v.act] || []).push(v));
+  acts.forEach((a) => (res[a.id] = resumenAct(a, levs[a.id] || [], avs[a.id] || [])));
+  return { acts, levs, avs, res };
+}
+function resumenAct(a, levs, avs) {
+  const sumLev = levs.reduce((t, l) => t + (l.resta ? -1 : 1) * cantRenglon(l), 0);
+  // el total escrito a mano manda; el levantamiento enseña su propia suma y la diferencia. Sin total escrito, la suma del levantamiento es el total.
+  const esc_ = numD(a.total), escrito = esc_ != null && esc_ > 0, sumL = levs.length ? Math.max(0, round2(sumLev)) : null;
+  const total = escrito ? esc_ : sumL != null ? sumL : esc_;
+  const hecho = round2(avs.reduce((t, v) => t + cantRenglon(v), 0));
+  const pr = Number(a.precio) || 0;
+  const sinPagar = avs.filter((v) => !avPagado(v));
+  const importe = round2(avs.reduce((t, v) => t + cantRenglon(v) * pr, 0));
+  const debe = round2(sinPagar.reduce((t, v) => t + cantRenglon(v) * pr, 0));
+  const pct = total != null && total > 0 ? hecho / total : null;
+  return { total, totalEscrito: escrito, sumLev: sumL, difLev: escrito && sumL != null ? round2(sumL - esc_) : null, hecho, faltan: total == null ? null : Math.max(0, round2(total - hecho)), pct, pasado: total != null && hecho > total + 0.004 ? round2(hecho - total) : 0, precio: pr, importe, debe, nLev: levs.length, nAv: avs.length };
+}
+const grupoNomD = (o, gid, a) => { const g = gruposDe(o).find((x) => x.id === gid); return g ? g.nombre : (a && a.grupo_nombre) || "Cuadrilla"; };
+// las cuadrillas de la asistencia más las que quedaron en alguna actividad
+function gruposDest(o, acts) {
+  const gs = gruposDe(o).map((g) => ({ id: g.id, nombre: g.nombre }));
+  acts.forEach((a) => { if (a.grupo && !gs.some((g) => g.id === a.grupo)) gs.push({ id: a.grupo, nombre: a.grupo_nombre || "Cuadrilla" }); });
+  return gs;
+}
+const pctTxtD = (p) => (p == null ? "" : p >= 1 ? "100 %" : `${Math.floor(p * 100)} %`);
+function hechoTxt(a, r) {
+  const u = esc(a.unidad || ""), h = `<b class="num">${nf(r.hecho)}</b>`;
+  if (r.total == null) return `Hecho ${h} ${u} · todavía sin total`;
+  if (r.pasado) return `Hecho ${h} de <b class="num">${nf(r.total)} ${u}</b> · <span class="neg">se pasó ${nf(r.pasado)} ${u}</span>`;
+  return `Hecho ${h} de <b class="num">${nf(r.total)} ${u}</b> · ${r.faltan > 0 ? `faltan <b class="num">${nf(r.faltan)} ${u}</b>` : "<b class=\"pos\">completo</b>"}${r.pct != null ? ` (${pctTxtD(r.pct)})` : ""}`;
+}
+// ---------- dinero del destajo (solo el dueño) ----------
+const gastosDest = (obra) => gastosDe(obra).filter((g) => g.origen === "destajo");
+const esPagoD = (g) => g.origen === "destajo" && !g.adelanto && !g.liberacion;
+const retenidoDe = (obra, gid) => {
+  const gs = gastosDest(obra).filter((g) => g.grupo === gid);
+  return round2(gs.filter(esPagoD).reduce((t, g) => t + (Number(g.retencion && g.retencion.monto) || 0), 0) - gs.filter((g) => g.liberacion).reduce((t, g) => t + (Number(g.monto) || 0), 0));
+};
+const adelantosPend = (obra, gid) => gastosDest(obra).filter((g) => g.adelanto && g.grupo === gid && !g.descontado_en).sort((a, b) => String(a.fecha).localeCompare(String(b.fecha)));
+function retCalc(bruto, tipo, valor) {
+  const v = Number(valor) || 0;
+  if (tipo === "pct") return round2(bruto * Math.min(100, Math.max(0, v)) / 100);
+  if (tipo === "fijo") return round2(Math.min(Math.max(0, v), Math.max(0, bruto)));
+  return 0;
+}
+const retOmision = (o, gid) => { const r = ((o.destajo_cfg || {})[gid] || {}).ret; return r && (r.tipo === "pct" || r.tipo === "fijo") ? { tipo: r.tipo, valor: Number(r.valor) || 0 } : { tipo: "ninguna", valor: 0 }; };
+// avances sin pagar de una cuadrilla (hasta una fecha); los de actividades sin precio no se cuentan ni se marcan
+function pendAvs(dd, gid, hasta) {
+  const items = [], sinPrecio = [], spCant = {}; let bruto = 0, hayAv = false;
+  dd.acts.filter((a) => a.grupo === gid).forEach((a) => (dd.avs[a.id] || []).forEach((v) => {
+    hayAv = true;
+    if (avPagado(v) || (hasta && v.fecha > hasta)) return;
+    const pr = Number(a.precio) || 0, c = cantRenglon(v);
+    if (!(pr > 0)) { if (!sinPrecio.some((x) => x.id === a.id)) sinPrecio.push(a); const u = a.unidad || "unidad"; spCant[u] = round2((spCant[u] || 0) + c); return; }
+    items.push({ a, v, c, imp: c * pr }); bruto += c * pr;
+  }));
+  const fechas = items.map((x) => x.v.fecha).filter(Boolean).sort();
+  return { items, sinPrecio, spCant, hayAv, bruto: round2(bruto), desde: fechas[0] || null, hasta: fechas[fechas.length - 1] || null };
+}
+// ---------- sugerencias de actividad ----------
+const ACT_BASE = ["Muro de tablaroca", "Plafón de tablaroca", "Muro de Durock", "Bastidor metálico", "Pasta y cinta (acabado)", "Forro de columnas", "Cajillo de tablaroca", "Pintura"];
+function dSugerencias(texto) {
+  const usados = conceptosAgrupados(coleccion("destajo").map((x) => ({ concepto: x.concepto, obra: F && F.obra })), F && F.obra).map((x) => x.texto);
+  const vistos = new Set(); let xs = [...usados, ...ACT_BASE].filter((t) => { const k = norm(t); if (vistos.has(k)) return false; vistos.add(k); return true; });
+  const q = norm(texto || ""); if (q) xs = xs.filter((t) => norm(t).includes(q) && norm(t) !== q);
+  return xs.slice(0, 6);
+}
+// ============================================================
+// Pestaña «Destajo»
+// ============================================================
+function destajoHTML(o) {
+  const sup = soySup(), dd = datosDest(o.clave), ve = dEstado(o.clave), can = !ro();
+  if (sup && !v6()) return `<p class="msg">Destajo se activa cuando se actualiza el servidor.</p>`;
+  if (!dd.acts.length) {
+    return `<div class="vacio"><span class="vacio-i">${IC_BRICK}</span><h3>Todavía no hay actividades</h3><p>Aquí anotas cuánto avanzó cada cuadrilla${sup ? "" : " y cuánto se le va a pagar"}. Empieza agregando una actividad, por ejemplo «Muro de tablaroca».</p>${can ? `<button class="ghost pri press" data-act="d-act-nueva">${IC_PLUS}Agregar actividad</button>` : ""}</div>` + viejoCuadrillas(o);
+  }
+  const gs = gruposDest(o, dd.acts).filter((g) => dd.acts.some((a) => a.grupo === g.id));
+  if (ve.g !== "todos" && !gs.some((g) => g.id === ve.g)) ve.g = "todos";
+  const vis = ve.g === "todos" ? gs : gs.filter((g) => g.id === ve.g);
+  let x = can ? `<div class="bot2" style="margin-top:12px"><button class="btn main press" data-act="d-av-nuevo" style="font-size:15px">${IC_PLUS}Anotar avance</button><button class="btn sec2 press" data-act="d-act-nueva">${IC_PLUS}Actividad</button></div>` : "";
+  if (gs.length > 1) x += `<div class="fil" role="group" aria-label="Cuadrilla" data-sid="d-fil"><button data-act="d-fil" data-g="todos" aria-pressed="${ve.g === "todos"}">Todas</button>${gs.map((g) => `<button data-act="d-fil" data-g="${esc(g.id)}" aria-pressed="${ve.g === g.id}">${esc(g.nombre)}</button>`).join("")}</div>`;
+  vis.forEach((g) => {
+    const acts = dd.acts.filter((a) => a.grupo === g.id);
+    x += cuadResumenHTML(o, g, acts, dd, can);
+  });
+  vis.forEach((g) => {
+    const acts = dd.acts.filter((a) => a.grupo === g.id);
+    x += `<h2 class="sec">${esc(g.nombre)} · ${acts.length} ${acts.length > 1 ? "actividades" : "actividad"}</h2>` + acts.map((a) => actCardHTML(o, a, dd, ve.ab[a.id], can)).join("");
+  });
+  if (!sup) x += pagosDestajoHTML(o);
+  x += viejoCuadrillas(o);
+  return x + `<p class="nota">${sup ? "Toca una actividad para ver sus avances. Lo que puso el dueño lo puedes ver, no cambiar." : "Toca una actividad para ver sus avances y levantamientos."}</p>`;
+}
+// el cuadro de antes (acordado y pagado de las cuadrillas de la obra) ahora vive aquí
+function viejoCuadrillas(o) {
+  if (soySup() || !(o.cuadrillas || []).length) return "";
+  return `<h2 class="sec">Acordado con cuadrillas</h2>` + cuadHTML(calc(o));
+}
+function cuadResumenHTML(o, g, acts, dd, can) {
+  const rs = acts.map((a) => dd.res[a.id]), conTotal = rs.filter((r) => r.pct != null), prom = conTotal.length ? conTotal.reduce((t, r) => t + Math.min(1, r.pct), 0) / conTotal.length : null;
+  const porU = {}; acts.forEach((a) => { const u = a.unidad || ""; porU[u] = (porU[u] || 0) + dd.res[a.id].hecho; });
+  const hechos = Object.entries(porU).filter(([, v]) => v > 0).map(([u, v]) => `${nf(v)} ${esc(u)}`).join(" · ");
+  let h = `<section class="panel dcuad"><div class="dcuad-h"><b>${esc(g.nombre)}</b><span class="num">${prom == null ? "" : pctTxtD(prom)}</span></div>`;
+  h += `<span class="prog"><i style="width:${prom == null ? 0 : Math.min(100, prom * 100).toFixed(1)}%"></i></span><span class="ley1">${hechos ? `Hecho: ${hechos}` : "Todavía sin avance anotado"}</span>`;
+  if (!soySup()) {
+    const pp = pendAvs(dd, g.id), ret = retenidoDe(o.clave, g.id), ad = adelantosPend(o.clave, g.id), adM = round2(ad.reduce((t, x) => t + (Number(x.monto) || 0), 0));
+    h += `<div class="tiles t3"><div class="tile"><span class="lbl">Se le debe</span><b class="num">${money0(pp.bruto)}</b></div><div class="tile"><span class="lbl">Retenido</span><b class="num">${money0(Math.max(0, ret))}</b></div><div class="tile"><span class="lbl">Adelantos</span><b class="num">${money0(adM)}</b></div></div>`;
+    if (pp.sinPrecio.length) h += `<p class="ley1 warn-t">Falta el precio de: ${pp.sinPrecio.map((a) => esc(a.concepto)).join(", ")}</p>`;
+    if (can) h += `<div class="bot2" style="margin-top:10px"><button class="btn main press ${pp.items.length ? "" : "incompleto"}" data-act="d-pagar" data-g="${esc(g.id)}" style="font-size:15px;min-height:50px">Pagar</button><button class="btn sec2 press" data-act="d-cuad-menu" data-g="${esc(g.id)}" style="min-height:50px">Adelanto · retención</button></div>`;
+  }
+  return h + `</section>`;
+}
+function actCardHTML(o, a, dd, abierto, can) {
+  const r = dd.res[a.id], sup = soySup(), bloq = sup && !dPuede(a), lock = bloq ? `<small class="lock">${IC_LOCK}La puso el dueño</small>` : "";
+  const w = r.pct == null ? 0 : Math.min(100, r.pct * 100);
+  let h = `<section class="dact${abierto ? " abierta" : ""}"><button class="dact-h press" data-act="d-act-abrir" data-a="${esc(a.id)}" aria-expanded="${!!abierto}"><span class="dt"><b>${esc(a.concepto || "Actividad")}</b><small>${esc(grupoNomD(o, a.grupo, a))}${a.nota ? " · " + esc(a.nota) : ""}</small>${lock}</span><span class="tg ${r.pasado ? "late" : r.pct != null && r.pct >= 1 ? "ok" : "neutro"} num">${r.pct == null ? "—" : pctTxtD(r.pct)}</span>${IC_DOWN}</button>`;
+  h += `<span class="prog"><i class="${r.pasado ? "over" : ""}" style="width:${w.toFixed(1)}%"></i></span><p class="dact-hecho">${hechoTxt(a, r)}</p>`;
+  if (!sup) {
+    const pr = Number(a.precio) || 0;
+    h += pr > 0 ? `<p class="dact-din"><span>${money(pr)} por ${esc(a.unidad || "unidad")}</span><span>Lleva ${money0(r.importe)}</span><span>${r.debe > 0 ? `Sin pagar <b>${money0(r.debe)}</b>` : "Todo pagado"}</span></p>` : `<p class="dact-din warn-t">Falta ponerle el precio</p>`;
+  }
+  if (can) h += `<div class="dact-bot"><button class="btn main press" data-act="d-av-nuevo" data-a="${esc(a.id)}">Anotar avance</button><button class="btn sec2 press" data-act="d-levs" data-a="${esc(a.id)}">Levantamiento${r.nLev ? ` · ${r.nLev}` : ""}</button></div>`;
+  if (abierto) {
+    const avs = dd.avs[a.id] || [];
+    h += `<div class="dact-det"><span class="fl" style="margin:12px 0 4px">Avances anotados</span>`;
+    h += avs.length ? `<div class="list sup-l">${avs.map((v) => avFilaHTML(a, v)).join("")}</div>` : `<p class="nota" style="margin:4px 0 6px">Todavía no hay avances. Toca «Anotar avance».</p>`;
+    if (r.nLev) h += `<button class="cfg-l press" data-act="d-levs" data-a="${esc(a.id)}" style="margin-top:10px"><span><b>Levantamiento</b><small>${r.nLev} ${r.nLev > 1 ? "renglones" : "renglón"} · total ${nf(r.total)} ${esc(a.unidad || "")}</small></span>${IC_RIGHT}</button>`;
+    h += bloq ? `<p class="nota" style="margin:10px 2px 0"><span class="lk">${IC_LOCK}</span>La actividad la puso el dueño: no se cambia, pero sí le puedes anotar avances y levantamientos.</p>` : (can ? `<button class="ghost press" data-act="d-act-editar" data-a="${esc(a.id)}">Editar actividad</button>` : "");
+    h += `</div>`;
+  }
+  return h + `</section>`;
+}
+function avFilaHTML(a, v) {
+  const c = cantRenglon(v), pagado = avPagado(v), bloq = soySup() && !dPuede(v), pr = Number(a.precio) || 0;
+  const extra = [v.zona, v.nota].filter(Boolean).map(esc).join(" · ");
+  const quien = !soySup() && !delDueno(v) ? `<small class="quien">Lo anotó ${esc(v.autor_nombre || "un supervisor")}</small>` : "";
+  return `<button class="raya-l press" data-act="d-av-editar" data-id="${esc(v.id)}"><span><b>${esc(diaLargo(v.fecha))}</b>${extra ? `<small>${extra}</small>` : ""}${quien}</span><span class="dav-m num"><b>${nf(c)} ${esc(a.unidad || "")}</b>${!soySup() && pr > 0 ? `<small>${money0(c * pr)}</small>` : ""}${pagado ? `<i class="tg saldado">Pagado</i>` : bloq ? `<i class="tg neutro">${IC_LOCK}</i>` : ""}</span></button>`;
+}
+function pagosDestajoHTML(o) {
+  const xs = gastosDest(o.clave).sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)) || String(b.creado || "").localeCompare(String(a.creado || ""))).slice(0, 10);
+  if (!xs.length) return "";
+  return `<h2 class="sec">Pagos de destajo</h2><div class="list">${xs.map((g) => {
+    const tag = g.adelanto ? `<span class="tg por_recuperar">Adelanto</span>` : g.liberacion ? `<span class="tg saldado">Retención liberada</span>` : `<span class="tg neutro">Pago</span>`;
+    const det = esPagoD(g) ? `${g.retencion ? "retención " + money0(g.retencion.monto) : ""}${g.adelantos ? ` · adelantos ${money0(g.adelantos)}` : ""}` : "";
+    return `<button class="raya-l press" data-act="d-pago-ver" data-id="${esc(g.id)}"><span><b>${esc(g.grupo_nombre || "Cuadrilla")} ${tag}</b><small>${esc(diaLargo(g.fecha))}${det ? " · " + esc(det) : ""}</small></span><span class="num">${money0(g.monto)}</span></button>`;
+  }).join("")}</div>`;
+}
+// ============================================================
+// Hojas del destajo y del programa (se arman desde F; los campos con data-f se copian a F al escribir)
+// ============================================================
+const isD = () => F && /^d_/.test(F.mode);
+const dChips = (campo, opts, sel) => `<div class="chips" data-g="${campo}">` + opts.map(([k, t]) => `<button type="button" class="chip press" data-dchip="${campo}" data-v="${esc(k)}" aria-pressed="${String(sel ?? "") === String(k)}"><span class="brk">${esc(t)}</span></button>`).join("") + `</div>`;
+const dFechaBloque = (rep) => `<span class="fl">Fecha</span>` + dChips("fechaModo", [["hoy", "Hoy"], ["ayer", "Ayer"], ["otra", "Otra fecha"]], F.fechaModo) + `<div ${F.fechaModo === "otra" ? "" : "hidden"} style="margin-top:8px"><input class="field" type="date" data-f="fecha"${rep ? ' data-rep="1"' : ""} value="${esc(F.fecha)}" aria-label="Fecha"></div>`;
+const dMonto = (campo, valor, ph) => `<div class="monto" style="margin-top:2px"><span>$</span><input inputmode="decimal" autocomplete="off" data-f="${campo}" placeholder="${ph || "0"}" value="${esc(valor)}"></div>`;
+function hojaD() {
+  return ({ d_act: hActD, d_levs: hLevs, d_lev: hLev, d_av: hAv, d_pagar: hPagar, d_adel: hAdel, d_lib: hLib, d_part: hPart, d_quien: hQuien }[F.mode] || (() => ""))();
+}
+const dOkBtn = (txt) => `<button type="button" class="btn main press" id="d-ok" data-act="d-guardar">${txt}</button>`;
+// ---- actividad ----
+function abrirActD(id, obra, grupo) {
+  const o = S.obras[obra]; if (!o || ro()) return;
+  const p = id ? coleccion("destajo").find((x) => x.id === id) : null; if (id && !p) return;
+  const gs = gruposDe(o), g0 = p ? p.grupo : (grupo && grupo !== "todos" ? grupo : (gs[0] || {}).id);
+  const cot = p && p.cot ? `${p.cot.cot}|${p.cot.concepto}` : "";
+  mostrarHoja({ mode: "d_act", id: id || null, prev: p, obra, saldados: new Set(), concepto: p ? p.concepto || "" : "", grupo: g0, unidad: p ? p.unidad || "" : "m²", total: p && p.total != null ? String(p.total) : "", precio: p && p.precio != null ? String(p.precio) : "", cot, nota: p ? p.nota || "" : "" });
+}
+function hActD() {
+  const o = S.obras[F.obra], p = F.prev;
+  let b = `<p class="ctx">${esc(nomCorto(o))}</p>`;
+  if (p && !dPuede(p)) return shell("Actividad", `${b}<p style="font-size:17px;font-weight:600;margin:10px 0 0;overflow-wrap:anywhere">${esc(p.concepto)}</p><div class="ok-l lock">${IC_LOCK}La puso el dueño: solo la puedes ver. Sí puedes anotarle avances.</div>`, `<button type="button" class="btn sec2 press" data-act="cerrar">Cerrar</button>`);
+  const dd = p ? datosDest(F.obra) : null, tieneLev = !!(dd && (dd.levs[p.id] || []).length);
+  b += `<label class="fl" for="da-conc">¿Qué actividad es?</label><input class="field" id="da-conc" data-f="concepto" autocomplete="off" placeholder="Ej. Muro de tablaroca a doble cara" value="${esc(F.concepto)}"><div class="chips dos" id="da-sug" style="margin-top:8px"></div>`;
+  const gsAct = gruposDe(o).map((g) => [g.id, g.nombre]), perdida = !!(p && p.grupo && !gsAct.some((x) => x[0] === p.grupo));   // la cuadrilla de la actividad ya no existe
+  b += `<span class="fl">Cuadrilla</span>` + dChips("grupo", perdida ? [[p.grupo, `${p.grupo_nombre || "Cuadrilla"} (se borró)`], ...gsAct] : gsAct, F.grupo);
+  if (perdida) b += `<p class="hint">La cuadrilla «${esc(p.grupo_nombre || "Cuadrilla")}» ya no existe. La actividad se queda con ese nombre hasta que elijas otra.</p>`;
+  b += `<span class="fl">Se mide en</span>` + dChips("unidad", UNI_D.map((u) => [u, u]), F.unidad) + `<input class="field" data-f="unidad" maxlength="20" autocomplete="off" placeholder="Otra unidad (si no está arriba)" value="${esc(UNI_D.includes(F.unidad) ? "" : F.unidad)}" style="margin-top:8px" aria-label="Unidad">`;
+  b += `<label class="fl" for="da-total">¿Cuánto hay que hacer en total?</label><input class="field" id="da-total" data-f="total" inputmode="decimal" autocomplete="off" placeholder="Ej. 320" value="${esc(F.total)}">`;
+  b += `<p class="hint">${tieneLev ? (dd.res[p.id].totalEscrito ? `El total escrito aquí (${nf(dd.res[p.id].total)}) es el que cuenta. El levantamiento suma ${nf(dd.res[p.id].sumLev)}: se compara, pero no lo cambia.` : `Esta actividad tiene levantamiento: sin total escrito, cuenta su suma (${nf(dd.res[p.id].total)}).`) : "Si prefieres, déjalo vacío y mídelo después en el «Levantamiento»."}</p>`;
+  if (!soySup()) {
+    b += `<label class="fl">Precio de destajo, sin IVA</label>${dMonto("precio", F.precio)}<p class="hint" id="da-uhint"></p>`;
+    const cs = conceptosDe(o);
+    if (cs.length) b += `<label class="fl" for="da-cot">Ligar a la cotización (opcional, a veces no aplica)</label><select class="field" id="da-cot" data-f="cot" data-cot="1"><option value="">No ligar</option>${cs.map((k) => `<option value="${esc(k.cot.id + "|" + k.id)}"${F.cot === k.cot.id + "|" + k.id ? " selected" : ""}>${esc(((k.clave ? k.clave + " · " : "") + String(k.concepto || "")).slice(0, 70))}</option>`).join("")}</select>`;
+  }
+  b += `<label class="fl" for="da-nota">Nota (opcional)</label><input class="field" id="da-nota" data-f="nota" maxlength="1000" autocomplete="off" placeholder="Ej. Planta alta, lado norte" value="${esc(F.nota)}"><p class="err" id="d-err" hidden></p>`;
+  const nAv = p ? (dd.avs[p.id] || []).length : 0;
+  let pie = dOkBtn(F.id ? "Guardar cambios" : "Agregar actividad");
+  if (F.id) pie += `<button type="button" class="btn del press" data-act="d-borrar">${nAv || tieneLev ? "Borrar actividad (primero sus avances)" : "Borrar actividad"}</button>`;
+  return shell(F.id ? "Actividad" : "Nueva actividad", b, pie);
+}
+async function dGuardarAct() {
+  const o = S.obras[F.obra]; if (!o) return cerrarHoja();
+  const err = (t) => { const e = $("#d-err"); if (e) { e.textContent = t; e.hidden = false; } };
+  const concepto = F.concepto.trim(), unidad = (F.unidad || "").trim();
+  if (!concepto) return err("Escribe qué actividad es.");
+  if (!unidad) return err("Elige en qué se mide (m², ml, pza…).");
+  const prevA = F.prev, perdidaG = prevA && prevA.grupo && prevA.grupo === F.grupo && !gruposDe(o).some((x) => x.id === F.grupo);   // su cuadrilla se borró: no se pasa sola a otra
+  const g = gruposDe(o).find((x) => x.id === F.grupo) || (perdidaG ? { id: prevA.grupo, nombre: prevA.grupo_nombre || "Cuadrilla" } : gruposDe(o)[0]);
+  const data = { obra: F.obra, grupo: g.id, grupo_nombre: g.nombre, concepto, unidad, total: parseMonto(F.total), nota: (F.nota || "").trim() };
+  if (!soySup()) {
+    data.precio = parseMonto(F.precio);
+    const [c, k] = String(F.cot || "").split("|"); data.cot = c && k ? { cot: c, concepto: k } : null;
+  }
+  const nuevo = !F.id, id = F.id || Datos.nuevoId("destajo");
+  if (nuevo) Object.assign(data, { orden: ordenNuevo(), autor: yoId(), autor_nombre: yoNombre(), creado: ahora() });
+  data.actualizado = ahora();
+  const ve = dEstado(F.obra); if (nuevo) ve.ab[id] = true;
+  cerrarHoja(true);
+  dEscribir(nuevo ? "set" : "update", "destajo", id, data, nuevo ? `${concepto} agregada` : "Actividad guardada");
+}
+function dEscribir(op, col, id, data, texto, deshacer) {
+  encolar(op, col, id, data);
+  if (texto) aviso(texto, deshacer || null);
+  reintentar();
+}
+async function dBorrar(col, id, texto) {
+  const prev = coleccion(col).find((x) => x.id === id); if (!prev) return;
+  encolar("del", col, id, null); reintentar();
+  aviso(texto, async () => { desencolar(col, id); const { id: _i, ...resto } = prev; const r = await escribir("set", col, id, resto); if (r === "sin_senal") encolar("set", col, id, resto); render(); });
+}
+function dBorrarAct() {
+  const id = F.id, dd = datosDest(F.obra);
+  if ((dd.avs[id] || []).length || (dd.levs[id] || []).length) { aviso("Tiene avances o levantamientos: primero bórralos."); return; }
+  abrirAccion({ titulo: "¿Borrar esta actividad?", texto: F.concepto, items: [{ t: "Borrar", estilo: "peligro", fn: () => dBorrar("destajo", id, "Actividad borrada") }] });
+}
+// ---- medidas (largo × alto × piezas, o cantidad directa) ----
+function medidaHTML(unidad) {
+  const t = uTipo(unidad), c = (k, l, ph) => `<label class="dm"><span class="lbl">${l}</span><input class="field" inputmode="decimal" autocomplete="off" data-f="${k}" placeholder="${ph || ""}" value="${esc(F[k])}"></label>`;
+  if (t === "area") return `<div class="dgrid3">${c("largo", "Largo (m)", "0")}${c("alto", "Alto (m)", "0")}${c("piezas", "Piezas", "1")}</div><p class="hint" style="margin-top:6px">Largo × alto × piezas. Si es una sola, deja piezas vacío.</p><label class="fl" style="margin-top:10px">O escribe la cantidad ya sumada (opcional)</label><input class="field" inputmode="decimal" autocomplete="off" data-f="cantidad" placeholder="${esc(unidad || "m²")}" value="${esc(F.cantidad)}">`;
+  if (t === "lin") return `<div class="dgrid3" style="grid-template-columns:1fr 1fr">${c("largo", "Largo (m)", "0")}${c("piezas", "Piezas", "1")}</div><label class="fl" style="margin-top:10px">O escribe la cantidad ya sumada (opcional)</label><input class="field" inputmode="decimal" autocomplete="off" data-f="cantidad" placeholder="${esc(unidad || "ml")}" value="${esc(F.cantidad)}">`;
+  if (t === "pza") return `<label class="fl">¿Cuántas ${esc(unidad || "piezas")}?</label><input class="field" inputmode="decimal" autocomplete="off" data-f="piezas" placeholder="0" value="${esc(F.piezas)}">`;
+  return `<label class="fl">¿Cuánto? (${esc(unidad || "cantidad")})</label><input class="field" inputmode="decimal" autocomplete="off" data-f="cantidad" placeholder="0" value="${esc(F.cantidad)}">`;
+}
+const medidaVacia = { largo: "", alto: "", piezas: "", cantidad: "" };
+const medidaDe = (r) => ({ largo: r && r.largo != null ? String(r.largo) : "", alto: r && r.alto != null ? String(r.alto) : "", piezas: r && r.piezas != null ? String(r.piezas) : "", cantidad: r && r.cantidad != null ? String(r.cantidad) : "" });
+// lo que se escribió en la hoja, como números (null si está vacío)
+function medidaLeida() {
+  const t = uTipo(F.unidad), n = (k) => (F[k] === "" || F[k] == null ? null : parseMonto(F[k]));
+  const m = { largo: null, alto: null, piezas: null, cantidad: null };
+  if (t === "area") { m.largo = n("largo"); m.alto = n("alto"); m.piezas = n("piezas"); m.cantidad = n("cantidad"); }
+  else if (t === "lin") { m.largo = n("largo"); m.piezas = n("piezas"); m.cantidad = n("cantidad"); }
+  else if (t === "pza") m.piezas = n("piezas");
+  else m.cantidad = n("cantidad");
+  return m;
+}
+// ---- levantamiento ----
+function abrirLevs(act) {
+  const a = coleccion("destajo").find((x) => x.id === act); if (!a || ro()) return;
+  mostrarHoja({ mode: "d_levs", id: null, obra: a.obra, act, saldados: new Set() });
+}
+function hLevs() {
+  const a = coleccion("destajo").find((x) => x.id === F.act); if (!a) return shell("Levantamiento", `<p class="msg">Esa actividad ya no existe.</p>`, `<button type="button" class="btn sec2 press" data-act="cerrar">Cerrar</button>`);
+  const levs = coleccion("destajo_lev").filter((l) => l.act === a.id).sort(ordenD), r = resumenAct(a, levs, []), u = esc(a.unidad || ""), ICL = IC_LOCK.replace("<svg", '<svg style="width:13px;height:13px;vertical-align:-2px"');
+  let b = `<p class="ctx">${esc(a.concepto)} · ${esc(grupoNomD(S.obras[a.obra], a.grupo, a))}</p>`;
+  b += levs.length ? `<div class="list sup-l" style="margin-top:10px">${levs.map((l) => {
+    const c = cantRenglon(l), bloq = soySup() && !dPuede(l), medida = [l.largo != null && l.largo !== "" ? nf(l.largo) : "", l.alto != null && l.alto !== "" ? nf(l.alto) : "", l.piezas != null && l.piezas !== "" && Number(l.piezas) !== 1 ? nf(l.piezas) : ""].filter(Boolean).join(" × ");
+    return `<button class="raya-l press" data-act="d-lev-editar" data-id="${esc(l.id)}"><span><b>${l.resta ? "Restar · " : ""}${esc(l.zona || (l.resta ? "Hueco" : "Zona"))}</b><small>${[medida ? esc(medida) : "", l.nota ? esc(l.nota) : ""].filter(Boolean).join(" · ") || "Cantidad directa"}${bloq ? " " + ICL : ""}</small></span><span class="num ${l.resta ? "neg" : ""}"><b>${l.resta ? "−" : ""}${nf(c)} ${u}</b></span></button>`;
+  }).join("")}</div><div class="dtot"><span>Suma del levantamiento</span><b class="num">${nf(r.sumLev)} ${u}</b></div>${r.totalEscrito ? `<div class="dtot" style="padding-top:2px"><span>Total escrito (el que cuenta)</span><b class="num">${nf(r.total)} ${u}</b></div><div class="dtot" style="padding-top:2px"><span>Diferencia</span><b class="num ${r.difLev === 0 ? "pos" : "neg"}">${r.difLev > 0 ? "+" : r.difLev < 0 ? "−" : ""}${nf(Math.abs(r.difLev))} ${u}</b></div>${r.difLev !== 0 && dPuede(a) && !ro() ? `<button type="button" class="ghost pri press" data-act="d-lev-usar" data-a="${esc(a.id)}" style="margin-top:8px">Usar ${nf(r.sumLev)} ${u} como total</button>` : ""}` : `<p class="hint" style="margin-top:6px">Esta actividad no tiene total escrito: la suma del levantamiento es su total.</p>`}` : `<div class="vacio chico"><p>Aquí vas sumando los metros de cada zona (largo × alto × piezas). Los huecos de puertas y ventanas se restan. Si la actividad no tiene total escrito, la suma queda como su total.</p></div>`;
+  return shell("Levantamiento", b, `<button type="button" class="btn main press" data-act="d-lev-nuevo">${IC_PLUS}Agregar renglón</button><button type="button" class="btn sec2 press" data-act="cerrar">Listo</button>`);
+}
+function abrirLev(act, id) {
+  const a = coleccion("destajo").find((x) => x.id === act); if (!a) return;
+  const l = id ? coleccion("destajo_lev").find((x) => x.id === id) : null; if (id && !l) return;
+  mostrarHoja({ mode: "d_lev", id: id || null, prev: l, obra: a.obra, act, unidad: a.unidad || "", saldados: new Set(), zona: l ? l.zona || "" : "", resta: !!(l && l.resta), nota: l ? l.nota || "" : "", ...medidaDe(l) });
+}
+function hLev() {
+  const l = F.prev, bloq = l && !dPuede(l), a = coleccion("destajo").find((x) => x.id === F.act);
+  if (bloq) return shell("Renglón", `<p class="ctx">${esc(a ? a.concepto : "")}</p><p style="font-size:17px;font-weight:600;margin:10px 0 0">${esc(l.zona || "Zona")} · ${l.resta ? "−" : ""}${nf(cantRenglon(l))} ${esc(F.unidad)}</p><div class="ok-l lock">${IC_LOCK}Lo puso el dueño: solo lo puedes ver.</div>`, `<button type="button" class="btn sec2 press" data-act="d-levs" data-a="${esc(F.act)}">Regresar</button>`);
+  let b = `<p class="ctx">${esc(a ? a.concepto : "")}</p><label class="fl" for="dl-zona">Zona o lugar</label><input class="field" id="dl-zona" data-f="zona" maxlength="100" autocomplete="off" placeholder="Ej. Pasillo norte, planta alta" value="${esc(F.zona)}">`;
+  b += `<span class="fl">Medidas</span>${medidaHTML(F.unidad)}<div class="prev num" id="dm-prev" style="margin-top:12px"></div>`;
+  b += `<button type="button" class="sw-t" role="switch" aria-checked="${!!F.resta}" data-act="d-tog" data-f="resta" style="margin-top:10px">Restar (hueco de puerta o ventana)<i></i></button>`;
+  b += `<label class="fl" for="dl-nota">Nota (opcional)</label><input class="field" id="dl-nota" data-f="nota" maxlength="1000" autocomplete="off" placeholder="Ej. Incluye el muro del cuarto" value="${esc(F.nota)}">`;
+  let pie = dOkBtn(F.id ? "Guardar renglón" : "Agregar renglón");
+  pie += `<div class="bot2">${!F.id ? `<button type="button" class="btn sec2 press" data-act="d-guardar" data-otro="1" style="font-size:14px">Guardar y otro</button>` : `<button type="button" class="btn del press" data-act="d-borrar">Borrar</button>`}<button type="button" class="btn sec2 press" data-act="d-levs" data-a="${esc(F.act)}" style="font-size:14px">Ver la lista</button></div>`;
+  return shell(F.id ? "Renglón del levantamiento" : "Nuevo renglón", b, pie);
+}
+function dGuardarLev(otro) {
+  const m = medidaLeida(), c = cantRenglon(m); if (!(c > 0)) return;
+  const nuevo = !F.id, id = F.id || Datos.nuevoId("destajo_lev"), act = F.act, obra = F.obra;
+  const data = { obra, act, zona: (F.zona || "").trim(), ...m, resta: !!F.resta, nota: (F.nota || "").trim(), actualizado: ahora() };
+  if (nuevo) Object.assign(data, { orden: ordenNuevo(), autor: yoId(), autor_nombre: yoNombre(), creado: ahora() });
+  cerrarHoja(true);
+  dEscribir(nuevo ? "set" : "update", "destajo_lev", id, data, null);
+  setTimeout(() => (otro ? abrirLev(act, null) : abrirLevs(act)), 60);
+}
+// ---- avance ----
+function abrirAv(id, obra, act) {
+  const o = S.obras[obra]; if (!o || ro()) return;
+  const v = id ? coleccion("destajo_av").find((x) => x.id === id) : null; if (id && !v) return;
+  const acts = coleccion("destajo").filter((x) => x.obra === obra).sort(ordenD);
+  const a0 = v ? v.act : act || (acts.length === 1 ? acts[0].id : null), a = acts.find((x) => x.id === a0);
+  const f = v ? v.fecha : hoy();
+  mostrarHoja({ mode: "d_av", id: id || null, prev: v, obra, act: a0, unidad: a ? a.unidad || "" : "", saldados: new Set(), fecha: f, fechaModo: fechaModo(f), zona: v ? v.zona || "" : "", nota: v ? v.nota || "" : "", ...medidaDe(v) });
+}
+function hAv() {
+  const o = S.obras[F.obra], v = F.prev, acts = coleccion("destajo").filter((x) => x.obra === F.obra).sort(ordenD), a = acts.find((x) => x.id === F.act);
+  const bloq = v && (avPagado(v) || !dPuede(v));
+  if (bloq) return shell("Avance", `<p class="ctx">${esc(a ? a.concepto : "")}</p><p style="font-size:17px;font-weight:600;margin:10px 0 0">${esc(diaLargo(v.fecha))} · ${nf(cantRenglon(v))} ${esc(F.unidad)}</p>${avPagado(v) ? `<div class="ok-l">${IC_OK}Ya se pagó: ${soySup() ? "ya no se puede cambiar." : "para cambiarlo, primero borra el pago."}</div>` : `<div class="ok-l lock">${IC_LOCK}Lo anotó otra persona: solo lo puedes ver.</div>`}`, `<button type="button" class="btn sec2 press" data-act="cerrar">Cerrar</button>`);
+  let b = `<p class="ctx">${esc(nomCorto(o))}</p>`;
+  if (!acts.length) return shell("Anotar avance", `${b}<p class="msg" style="margin:24px 0">Primero agrega una actividad.</p>`, `<button type="button" class="btn main press" data-act="d-act-nueva">${IC_PLUS}Agregar actividad</button>`);
+  if (!F.id && acts.length > 1) b += `<span class="fl">¿De cuál actividad?</span>` + dChips("act", acts.map((x) => [x.id, `${x.concepto} · ${grupoNomD(o, x.grupo, x)}`]), F.act);
+  else b += `<p style="font-size:17px;font-weight:600;margin:6px 0 0;overflow-wrap:anywhere">${esc(a ? a.concepto : "")}</p><small class="sub">${esc(a ? grupoNomD(o, a.grupo, a) : "")}</small>`;
+  if (!a) return shell(F.id ? "Avance" : "Anotar avance", b, `<button type="button" class="btn sec2 press" data-act="cerrar">Cerrar</button>`);
+  b += dFechaBloque(false);
+  b += `<span class="fl">¿Cuánto avanzaron?</span>${medidaHTML(F.unidad)}<div class="prev num" id="dm-prev" style="margin-top:12px"></div>`;
+  const zonas = [...new Set(coleccion("destajo_lev").filter((l) => l.act === F.act && l.zona).map((l) => l.zona))].slice(0, 6);
+  b += `<label class="fl" for="dv-zona">Zona (opcional)</label><input class="field" id="dv-zona" data-f="zona" maxlength="100" autocomplete="off" placeholder="Ej. Pasillo norte" value="${esc(F.zona)}">${zonas.length ? `<div class="chips dos" style="margin-top:8px">${zonas.map((z, i) => `<button type="button" class="chip sug press" data-act="d-zona" data-i="${i}"><span class="ell">${esc(z)}</span></button>`).join("")}</div>` : ""}`;
+  b += `<label class="fl" for="dv-nota">Nota (opcional)</label><input class="field" id="dv-nota" data-f="nota" maxlength="1000" autocomplete="off" value="${esc(F.nota)}">`;
+  let pie = dOkBtn(F.id ? "Guardar cambios" : "Anotar avance");
+  if (F.id) pie += `<button type="button" class="btn del press" data-act="d-borrar">Borrar avance</button>`;
+  return shell(F.id ? "Avance" : "Anotar avance", b, pie);
+}
+function dGuardarAv() {
+  const m = medidaLeida(), c = cantRenglon(m); if (!(c > 0) || !F.act) return;
+  const a = coleccion("destajo").find((x) => x.id === F.act), nuevo = !F.id, id = F.id || Datos.nuevoId("destajo_av");
+  const data = { obra: F.obra, act: F.act, fecha: F.fecha || hoy(), zona: (F.zona || "").trim(), ...m, nota: (F.nota || "").trim(), actualizado: ahora() };
+  if (nuevo) Object.assign(data, { orden: ordenNuevo(), autor: yoId(), autor_nombre: yoNombre(), creado: ahora() });
+  const ve = dEstado(F.obra); ve.ab[F.act] = true;
+  cerrarHoja(true);
+  dEscribir(nuevo ? "set" : "update", "destajo_av", id, data, `Avance anotado · ${nf(c)} ${a ? a.unidad || "" : ""}`.trim());
+}
+// ---- pagar el destajo (solo dueño): se ve y se ajusta; nada se anota hasta confirmar ----
+function abrirPagarD(obra, gid) {
+  const o = S.obras[obra]; if (!o || ro() || soySup()) return;
+  const dd = datosDest(obra), r = retOmision(o, gid), f = hoy();
+  // lo que se le enseña al dueño se fija aquí: si llega un avance nuevo mientras la hoja está abierta, no entra en este pago (queda para el siguiente)
+  mostrarHoja({ mode: "d_pagar", id: null, obra, grupo: gid, snapDd: dd, snapAd: adelantosPend(obra, gid), saldados: new Set(), fecha: f, fechaModo: "hoy", rtipo: r.tipo, rvalor: r.valor ? String(r.valor) : "", adel: new Set(adelantosPend(obra, gid).map((g) => g.id)), ajm: "nada", ajv: "", ajmot: "", forma: "efectivo" });
+}
+function calcPagoD() {
+  const o = S.obras[F.obra], dd = F.snapDd || datosDest(F.obra), pp = pendAvs(dd, F.grupo, F.fecha);
+  const ret = retCalc(pp.bruto, F.rtipo, parseMonto(F.rvalor)), ad = (F.snapAd || adelantosPend(F.obra, F.grupo)).filter((g) => F.adel.has(g.id)), adM = round2(ad.reduce((t, g) => t + (Number(g.monto) || 0), 0));
+  const n = parseMonto(F.ajv) || 0, aj = F.ajm === "menos" ? -n : F.ajm === "mas" ? n : 0;
+  return { o, dd, pp, ret, ad, adM, aj, monto: round2(pp.bruto - ret - adM + aj) };
+}
+function hPagar() {
+  const o = S.obras[F.obra], c = calcPagoD(), gnom = grupoNomD(o, F.grupo, (c.dd.acts.find((a) => a.grupo === F.grupo) || {}));
+  let b = `<p class="ctx">${esc(nomCorto(o))} · ${esc(gnom)}</p>`;
+  b += `<span class="fl">Se le paga hasta el</span>` + dChips("fechaModo", [["hoy", "Hoy"], ["ayer", "Ayer"], ["otra", "Otra fecha"]], F.fechaModo) + `<div ${F.fechaModo === "otra" ? "" : "hidden"} style="margin-top:8px"><input class="field" type="date" data-f="fecha" data-rep="1" value="${esc(F.fecha)}" aria-label="Fecha"></div>`;
+  const porAct = new Map(); c.pp.items.forEach((x) => { const k = x.a.id; if (!porAct.has(k)) porAct.set(k, { a: x.a, c: 0, imp: 0, n: 0 }); const q = porAct.get(k); q.c += x.c; q.imp += x.imp; q.n++; });
+  b += `<span class="fl">Avances por pagar</span>`;
+  b += porAct.size ? `<div class="list sup-l">${[...porAct.values()].map((q) => `<div class="raya-l"><span><b>${esc(q.a.concepto)}</b><small>${nf(q.c)} ${esc(q.a.unidad || "")} × ${money(q.a.precio)} · ${q.n} ${q.n > 1 ? "avances" : "avance"}</small></span><b class="num">${money0(q.imp)}</b></div>`).join("")}</div>` : `<p class="nota" style="margin:0">No hay avances sin pagar hasta esa fecha.</p>`;
+  if (c.pp.sinPrecio.length) b += `<p class="av-c" style="margin-top:10px">Sin precio, no se cuentan: ${c.pp.sinPrecio.map((a) => esc(a.concepto)).join(", ")}. Ponles precio en la actividad.</p>`;
+  b += `<span class="fl">Retención</span>` + dChips("rtipo", [["ninguna", "Ninguna"], ["pct", "Porcentaje"], ["fijo", "Cantidad fija"]], F.rtipo);
+  b += `<div ${F.rtipo === "ninguna" ? "hidden" : ""} id="dp-rv" style="margin-top:8px"><div class="monto"><span>${F.rtipo === "pct" ? "%" : "$"}</span><input inputmode="decimal" autocomplete="off" data-f="rvalor" placeholder="${F.rtipo === "pct" ? "Ej. 10" : "0"}" value="${esc(F.rvalor)}" aria-label="Retención"></div></div>`;
+  const adAll = F.snapAd || adelantosPend(F.obra, F.grupo);
+  if (adAll.length) b += `<span class="fl">Adelantos que se le descuentan</span><div class="list sup-l">${adAll.map((g) => `<button type="button" class="raya-l press" data-act="d-adel-tog" data-id="${esc(g.id)}"><span><b>${F.adel.has(g.id) ? "✓ " : ""}${esc(diaLargo(g.fecha))}</b><small>${F.adel.has(g.id) ? "Se descuenta" : "No se descuenta ahora"}${g.nota ? " · " + esc(g.nota) : ""}</small></span><b class="num">${money0(g.monto)}</b></button>`).join("")}</div>`;
+  b += `<span class="fl">Ajuste (opcional)</span>` + dChips("ajm", [["nada", "Sin ajuste"], ["menos", "Descuento"], ["mas", "Agregar"]], F.ajm);
+  b += `<div ${F.ajm === "nada" ? "hidden" : ""} style="margin-top:8px">${dMonto("ajv", F.ajv)}<input class="field" data-f="ajmot" autocomplete="off" placeholder="¿Por qué? Ej. retrabajo, bono" value="${esc(F.ajmot)}" style="margin-top:8px"></div>`;
+  b += `<div class="prev num" id="dp-res" style="margin-top:14px"></div>`;
+  b += `<span class="fl">¿Cómo pagaste?</span>` + dChips("forma", Object.entries(FORMAS_G), F.forma);
+  return shell("¿Anotar el pago de destajo?", b, `<button type="button" class="btn main press" id="d-ok" data-act="d-guardar"></button><button type="button" class="btn sec2 press" data-act="cerrar">No, solo era el cálculo</button>`);
+}
+function dPrevPagar() {
+  const c = calcPagoD(), box = $("#dp-res"), ok = $("#d-ok"); if (!box) return;
+  const fila = (l, v, cls) => `<div class="dres ${cls || ""}"><span>${l}</span><b>${v}</b></div>`;
+  box.innerHTML = fila("Avances por pagar", money(c.pp.bruto)) + (c.ret ? fila(F.rtipo === "pct" ? `Retención ${N1.format(Number(parseMonto(F.rvalor)) || 0)} %` : "Retención", "− " + money(c.ret)) : "") + (c.adM ? fila("Adelantos", "− " + money(c.adM)) : "") + (c.aj ? fila(c.aj < 0 ? "Descuento" : "Se agrega", (c.aj < 0 ? "− " : "+ ") + money(Math.abs(c.aj))) : "") + fila("A pagar", money(c.monto), "tot");
+  const bien = c.monto > 0 && c.pp.items.length > 0;
+  if (ok) { ok.textContent = !c.pp.items.length ? "No hay avances por pagar" : c.monto > 0 ? `Sí, anotar ${money(c.monto)} como gasto` : "El total tiene que ser mayor a cero"; ok.disabled = !bien; }
+}
+async function dGuardarPago() {
+  const c = calcPagoD(); if (!(c.monto > 0) || !c.pp.items.length) return;
+  const o = c.o, gid = F.grupo, gnom = grupoNomD(o, gid, c.dd.acts.find((a) => a.grupo === gid)), id = Datos.nuevoId("gastos"), mot = (F.ajmot || "").trim();
+  const avIds = c.pp.items.map((x) => x.v.id), fecha = F.fecha || hoy();
+  // por si mientras tanto otro teléfono ya pagó alguno de estos avances o descontó el adelanto: no se paga dos veces
+  const avsAhora = new Map(coleccion("destajo_av").map((v) => [v.id, v])), gsAhora = new Map(coleccion("gastos").map((g) => [g.id, g]));
+  if (avIds.some((i) => !avsAhora.has(i) || avPagado(avsAhora.get(i))) || c.ad.some((g) => !gsAhora.has(g.id) || gsAhora.get(g.id).descontado_en)) { cerrarHoja(true); aviso("Mientras tanto cambió algo de estos avances o adelantos. Abre «Pagar» otra vez para verlo al día."); return; }
+  const nota = [c.ret ? `Retención ${money(c.ret)}` : "", c.adM ? `Adelantos ${money(c.adM)}` : "", c.aj ? `${c.aj < 0 ? "Descuento" : "Se agregó"} ${money(Math.abs(c.aj))}${mot ? ` (${mot})` : ""}` : ""].filter(Boolean).join("; ") || "Calculado con los avances";
+  const gasto = { obra: F.obra, monto: c.monto, tipo: "trabajadores", concepto: `Destajo ${gnom} · al ${diaMes(fecha)}`, origen: "destajo", grupo: gid, grupo_nombre: gnom, hasta: fecha, avances: avIds, bruto: c.pp.bruto,
+    retencion: c.ret > 0 ? { tipo: F.rtipo, valor: Number(parseMonto(F.rvalor)) || 0, monto: c.ret } : null, adelantos: c.adM, adelantos_ids: c.ad.map((g) => g.id), ajuste: c.aj, ajuste_motivo: mot,
+    cuadrilla: (o.cuadrillas || []).some((q) => q.nombre === gnom) ? gnom : null, factura: false, forma: F.forma || "efectivo", fecha, nota, marca: null, resuelto: false, creado: ahora() };
+  const ops = [{ op: "set", col: "gastos", id, data: gasto }];
+  avIds.forEach((v) => ops.push({ op: "update", col: "destajo_av", id: v, data: { pago: id, actualizado: ahora() } }));
+  c.ad.forEach((g) => ops.push({ op: "update", col: "gastos", id: g.id, data: { descontado_en: id, actualizado: ahora() } }));
+  const r0 = retOmision(o, gid), nueva = F.rtipo === "ninguna" ? { tipo: "ninguna", valor: 0 } : { tipo: F.rtipo, valor: Number(parseMonto(F.rvalor)) || 0 };
+  if (r0.tipo !== nueva.tipo || r0.valor !== nueva.valor) ops.push({ op: "update", col: "obras", id: F.obra, data: { destajo_cfg: { ...(o.destajo_cfg || {}), [gid]: { ret: nueva } }, actualizado: ahora() } });
+  cerrarHoja(true);
+  aviso("Guardando el pago…");
+  await guardarLote(ops, `Pago de ${money0(c.monto)} anotado como gasto`);
+}
+// borrar un gasto de destajo (pago, adelanto o liberación) deja todo como estaba
+async function dBorrarGastoD(g) {
+  if (g.adelanto && g.descontado_en && coleccion("gastos").some((x) => x.id === g.descontado_en)) { aviso("Ese adelanto ya se descontó en un pago. Primero borra ese pago."); return; }
+  const ops = [{ op: "del", col: "gastos", id: g.id }], inv = [], av = coleccion("destajo_av"), gs = coleccion("gastos");
+  (g.avances || []).forEach((id) => { if (av.some((v) => v.id === id && v.pago === g.id)) { ops.push({ op: "update", col: "destajo_av", id, data: { pago: null, actualizado: ahora() } }); inv.push({ op: "update", col: "destajo_av", id, data: { pago: g.id, actualizado: ahora() } }); } });
+  (g.adelantos_ids || []).forEach((id) => { if (gs.some((x) => x.id === id)) { ops.push({ op: "update", col: "gastos", id, data: { descontado_en: null, actualizado: ahora() } }); inv.push({ op: "update", col: "gastos", id, data: { descontado_en: g.id, actualizado: ahora() } }); } });
+  const { id: _i, ...resto } = g;
+  const r = await guardarLote(ops, " ");
+  if (r === "ok") aviso(g.adelanto ? "Adelanto borrado" : g.liberacion ? "Liberación borrada" : "Pago borrado: los avances quedaron sin pagar", async () => { await guardarLote([{ op: "set", col: "gastos", id: g.id, data: resto }, ...inv], "Restaurado"); });
+}
+function verPagoD(id) {
+  const g = coleccion("gastos").find((x) => x.id === id); if (!g || ro()) return;
+  const n = (g.avances || []).length;
+  const det = g.adelanto ? "Adelanto a la cuadrilla." : g.liberacion ? "Se le entregó lo que se había retenido." : `${n} ${n === 1 ? "avance" : "avances"} · bruto ${money(g.bruto || 0)}${g.retencion ? ` · retención ${money(g.retencion.monto)}` : ""}${g.adelantos ? ` · adelantos ${money(g.adelantos)}` : ""}${g.ajuste ? ` · ajuste ${g.ajuste < 0 ? "−" : "+"}${money(Math.abs(g.ajuste))}${g.ajuste_motivo ? " (" + g.ajuste_motivo + ")" : ""}` : ""}`;
+  abrirAccion({ titulo: `${money(g.monto)} · ${g.grupo_nombre || "Cuadrilla"}`, texto: `${diaLargo(g.fecha)} · ${det}`, items: [
+    { t: "Corregir fecha o forma de pago", fn: () => abrirHoja("gasto", g.id) },
+    { t: g.adelanto || g.liberacion ? "Borrar" : "Borrar el pago (los avances quedan sin pagar)", estilo: "peligro", fn: () => dBorrarGastoD(g) },
+  ] });
+}
+// ---- adelanto y retención ----
+function abrirAdelD(obra, gid) {
+  if (ro() || soySup() || !S.obras[obra]) return;
+  mostrarHoja({ mode: "d_adel", id: null, obra, grupo: gid, saldados: new Set(), monto: "", forma: "efectivo", fecha: hoy(), fechaModo: "hoy", nota: "" });
+}
+function hAdel() {
+  const o = S.obras[F.obra], gnom = grupoNomD(o, F.grupo);
+  let b = `<p class="ctx">${esc(nomCorto(o))} · ${esc(gnom)}</p><label class="fl">¿Cuánto le das?</label>${dMonto("monto", F.monto)}<p class="hint">Se le descuenta en su siguiente pago de destajo.</p>`;
+  b += `<span class="fl">¿Cómo pagaste?</span>` + dChips("forma", Object.entries(FORMAS_G), F.forma) + dFechaBloque(false);
+  b += `<label class="fl">Nota (opcional)</label><input class="field" data-f="nota" autocomplete="off" placeholder="Ej. Para material de la semana" value="${esc(F.nota)}">`;
+  return shell("Dar adelanto", b, dOkBtn("Anotar adelanto"));
+}
+function dGuardarAdel() {
+  const m = parseMonto(F.monto); if (!(m > 0)) return;
+  const o = S.obras[F.obra], gnom = grupoNomD(o, F.grupo), id = Datos.nuevoId("gastos");
+  const data = { obra: F.obra, monto: m, tipo: "trabajadores", concepto: `Adelanto destajo · ${gnom}`, origen: "destajo", adelanto: true, grupo: F.grupo, grupo_nombre: gnom, factura: false, forma: F.forma || "efectivo", fecha: F.fecha || hoy(), nota: (F.nota || "").trim(), marca: null, resuelto: false, creado: ahora() };
+  cerrarHoja(true);
+  guardarDoc("set", "gastos", id, data, `Adelanto de ${money0(m)} anotado`, () => escribir("del", "gastos", id)).then(render);
+}
+function abrirLibD(obra, gid) {
+  if (ro() || soySup() || !S.obras[obra]) return;
+  const ret = retenidoDe(obra, gid);
+  if (!(ret > 0)) { aviso("Esa cuadrilla no tiene nada retenido."); return; }
+  mostrarHoja({ mode: "d_lib", id: null, obra, grupo: gid, ret, saldados: new Set(), monto: String(ret), forma: "efectivo", fecha: hoy(), fechaModo: "hoy" });
+}
+function hLib() {
+  const o = S.obras[F.obra], gnom = grupoNomD(o, F.grupo);
+  let b = `<p class="ctx">${esc(nomCorto(o))} · ${esc(gnom)}</p><div class="prev num">Retenido hasta ahora: <b>${money(F.ret)}</b></div><label class="fl">¿Cuánto se le entrega?</label>${dMonto("monto", F.monto)}`;
+  b += `<span class="fl">¿Cómo pagaste?</span>` + dChips("forma", Object.entries(FORMAS_G), F.forma) + dFechaBloque(false);
+  return shell("Liberar retención", b, dOkBtn("Liberar retención"));
+}
+function dGuardarLib() {
+  const m = parseMonto(F.monto); if (!(m > 0) || m > F.ret + 0.004) return;
+  const o = S.obras[F.obra], gnom = grupoNomD(o, F.grupo), id = Datos.nuevoId("gastos");
+  const data = { obra: F.obra, monto: m, tipo: "trabajadores", concepto: `Retención liberada · ${gnom}`, origen: "destajo", liberacion: true, grupo: F.grupo, grupo_nombre: gnom, factura: false, forma: F.forma || "efectivo", fecha: F.fecha || hoy(), nota: "", marca: null, resuelto: false, creado: ahora() };
+  cerrarHoja(true);
+  guardarDoc("set", "gastos", id, data, `Retención de ${money0(m)} liberada`, () => escribir("del", "gastos", id)).then(render);
+}
+function menuCuadD(obra, gid) {
+  const o = S.obras[obra]; if (!o || ro() || soySup()) return;
+  const gnom = grupoNomD(o, gid), ret = retenidoDe(obra, gid), ad = adelantosPend(obra, gid);
+  abrirAccion({ titulo: gnom, texto: `${ret > 0 ? `Retenido ${money(ret)}` : "Sin retención"}${ad.length ? ` · adelantos sin descontar ${money(ad.reduce((t, g) => t + Number(g.monto), 0))}` : ""}`, items: [
+    { t: "Dar adelanto", fn: () => abrirAdelD(obra, gid) },
+    ...(ret > 0 ? [{ t: "Liberar retención", fn: () => abrirLibD(obra, gid) }] : []),
+    { t: "Agregar actividad", fn: () => abrirActD(null, obra, gid) },
+  ] });
+}
+// ============================================================
+// Programa de obra
+// ============================================================
+function estPartida(p, dd) {
+  const h = hoy(), a = p.act ? dd.res[p.act] : null;
+  let real = a ? (a.pct == null ? null : Math.min(1, a.pct)) : Math.min(1, Math.max(0, (Number(p.avance) || 0) / 100));
+  const r = { real, esp: null, estado: "sin_fechas", dias: 0, act: p.act ? dd.acts.find((x) => x.id === p.act) : null };
+  if (!esF(p.inicio) || !esF(p.fin) || p.fin < p.inicio) return r;
+  const dur = dias(p.inicio, p.fin) + 1, esp = h <= p.inicio ? 0 : h > p.fin ? 1 : dias(p.inicio, h) / dur;   // el día de inicio lo esperado es 0: cuenta solo días completos
+  r.esp = esp; r.dur = dur;
+  if (real == null) { r.estado = "sin_dato"; return r; }
+  if (real >= 1) { r.estado = "terminada"; return r; }
+  if (h < p.inicio && real === 0) { r.estado = "por_empezar"; return r; }
+  const dif = (esp - real) * dur;
+  if (dif >= 1) { r.estado = "atrasada"; r.dias = Math.max(1, Math.round(dif)); }
+  else if (dif <= -1) { r.estado = "adelantada"; r.dias = Math.max(1, Math.round(-dif)); }
+  else r.estado = "a_tiempo";
+  return r;
+}
+function estTxt(e, p) {
+  return { terminada: ["Terminada", "ok"], por_empezar: [`Empieza el ${diaMes(p.inicio)}`, "neutro"], atrasada: [`Atrasada ${nDias(e.dias)}`, "late"], adelantada: [`Adelantada ${nDias(e.dias)}`, "info"], a_tiempo: ["A tiempo", "ok"], sin_dato: ["Falta el total de su actividad", "neutro"], sin_fechas: ["Sin fechas", "neutro"] }[e.estado];
+}
+const partidasDe = (obra) => coleccion("programa").filter((x) => x.obra === obra).sort((a, b) => String(a.inicio || "9999").localeCompare(String(b.inicio || "9999")) || ordenD(a, b));
+const atrasadasDe = (obra, dd) => partidasDe(obra).filter((p) => estPartida(p, dd || datosDest(obra)).estado === "atrasada");
+function programaHTML(o) {
+  const sup = soySup(), can = !ro(), dd = datosDest(o.clave), ps = partidasDe(o.clave);
+  if (sup && !v6()) return `<p class="msg">El programa se activa cuando se actualiza el servidor.</p>`;
+  if (!ps.length) {
+    return `<div class="vacio"><span class="vacio-i">${IC_SEC_PROG}</span><h3>Todavía no hay programa</h3><p>Aquí ves en qué semana va cada parte de la obra y si va a tiempo. ${dd.acts.length ? "Puedes crearlo con las actividades de destajo que ya tienes, o agregar las partidas una por una." : "Agrega la primera partida con su fecha de inicio y de fin."}</p>${can && dd.acts.length ? `<button class="ghost pri press" data-act="d-prog-crear" data-c="${esc(o.clave)}">Crear desde el destajo</button>` : ""}${can ? `<button class="ghost ${dd.acts.length ? "" : "pri"} press" data-act="d-part-nueva" data-c="${esc(o.clave)}">${IC_PLUS}Agregar partida</button>` : ""}</div>`;
+  }
+  const es = ps.map((p) => estPartida(p, dd)), atr = es.filter((e) => e.estado === "atrasada").length;
+  let x = can ? `<div class="bot2" style="margin-top:12px"><button class="btn main press" data-act="d-part-nueva" data-c="${esc(o.clave)}" style="font-size:15px">${IC_PLUS}Partida</button>${dd.acts.some((a) => !ps.some((p) => p.act === a.id)) ? `<button class="btn sec2 press" data-act="d-prog-crear" data-c="${esc(o.clave)}">Crear desde el destajo</button>` : `<span></span>`}</div>` : "";
+  if (atr) x += `<div class="note bad" style="margin-top:12px"><span>${atr} ${atr > 1 ? "partidas atrasadas" : "partida atrasada"}</span></div>`;
+  x += lineaTiempoHTML(ps, es);
+  x += `<h2 class="sec">Partidas</h2><div class="list">${ps.map((p, i) => partidaFilaHTML(p, es[i])).join("")}</div>`;
+  return x + `<p class="nota">La barra oscura es lo que debería llevar hoy; lo dorado, lo que va de verdad. ${sup ? "" : "Si la partida está ligada a una actividad de destajo, su avance sale solo de ahí."}</p>`;
+}
+const IC_SEC_PROG = SV(IC_SEC.programa, 1.8);
+function partidaFilaHTML(p, e) {
+  const [t, cls] = estTxt(e, p), rl = e.real == null ? "—" : pctTxtD(e.real);
+  const esp = e.esp == null ? "" : ` · debería ir ${pctTxtD(e.esp)}`;
+  return `<button class="raya-l press" data-act="d-part-editar" data-id="${esc(p.id)}"><span><b>${esc(p.nombre)}</b><small>${esF(p.inicio) ? diaMes(p.inicio) : "—"} → ${esF(p.fin) ? diaMes(p.fin) : "—"} · va ${rl}${esp}${e.act ? ` · ${esc(e.act.concepto)}` : ""}</small></span><span class="tg ${cls}">${esc(t)}</span></button>`;
+}
+// vista por semanas: una barra por partida; lo dorado es lo real, la rayita oscura lo que debería llevar hoy; la semana de hoy va marcada
+function lineaTiempoHTML(ps, es) {
+  const conF = ps.filter((p) => esF(p.inicio) && esF(p.fin) && p.fin >= p.inicio); if (!conF.length) return "";
+  const a = lunesDe(conF.map((p) => p.inicio).sort()[0]), b = masDias(lunesDe(conF.map((p) => p.fin).sort().pop()), 6), span = dias(a, b) + 1, n = span / 7, h = hoy(), lh = lunesDe(h);
+  const pos = (f) => (dias(a, f) / span) * 100;
+  let x = `<div class="tl" data-sid="tl"><div class="tl-in" style="--n:${n};min-width:${Math.max(n * 46, 0)}px"><div class="tl-h">`;
+  for (let i = 0; i < n; i++) { const l = masDias(a, i * 7); x += `<span class="${l === lh ? "hoy" : ""}">${diaMes(l)}</span>`; }
+  x += `</div>`;
+  if (h >= a && h <= b) x += `<i class="tl-hoy" style="left:${(((dias(a, h) + 0.5) / span) * 100).toFixed(2)}%"></i>`;
+  ps.forEach((p, i) => {
+    if (!conF.includes(p)) return;
+    const e = es[i], [t, cls] = estTxt(e, p), l = pos(p.inicio), w = ((dias(p.inicio, p.fin) + 1) / span) * 100, real = e.real == null ? 0 : e.real * 100, esp = e.esp == null ? 0 : e.esp * 100;
+    x += `<div class="tl-n"><b>${esc(p.nombre)}</b><span class="tg ${cls}">${esc(t)}</span></div><div class="tl-r"><span class="tl-b" style="left:${l.toFixed(2)}%;width:${w.toFixed(2)}%"><i style="width:${real.toFixed(1)}%"></i>${e.esp != null ? `<em style="left:${Math.min(100, esp).toFixed(1)}%"></em>` : ""}</span></div>`;
+  });
+  return x + `</div></div>`;
+}
+function abrirPartD(id, obra) {
+  const o = S.obras[obra]; if (!o || ro()) return;
+  const p = id ? coleccion("programa").find((x) => x.id === id) : null; if (id && !p) return;
+  const h = hoy(), ini = o.inicio && o.inicio > h ? o.inicio : h;
+  mostrarHoja({ mode: "d_part", id: id || null, prev: p, obra, saldados: new Set(), nombre: p ? p.nombre || "" : "", inicio: p ? p.inicio || "" : ini, fin: p ? p.fin || "" : masDias(ini, 13), act: p ? p.act || "" : "", avance: p && p.avance != null ? String(p.avance) : "", nota: p ? p.nota || "" : "" });
+}
+function hPart() {
+  const p = F.prev, o = S.obras[F.obra];
+  if (p && !dPuede(p)) return shell("Partida", `<p class="ctx">${esc(nomCorto(o))}</p><p style="font-size:17px;font-weight:600;margin:10px 0 0">${esc(p.nombre)}</p><p class="ctx">${diaMes(p.inicio)} → ${diaMes(p.fin)}</p><div class="ok-l lock">${IC_LOCK}La puso el dueño: solo la puedes ver.</div>`, `<button type="button" class="btn sec2 press" data-act="cerrar">Cerrar</button>`);
+  const acts = coleccion("destajo").filter((x) => x.obra === F.obra).sort(ordenD);
+  let b = `<p class="ctx">${esc(nomCorto(o))}</p><label class="fl" for="dp-nom">¿Qué parte de la obra es?</label><input class="field" id="dp-nom" data-f="nombre" maxlength="200" autocomplete="off" placeholder="Ej. Muros de planta alta" value="${esc(F.nombre)}">`;
+  b += `<div class="dgrid3" style="grid-template-columns:1fr 1fr;margin-top:12px"><label class="dm"><span class="lbl">Empieza</span><input class="field" type="date" data-f="inicio" value="${esc(F.inicio)}"></label><label class="dm"><span class="lbl">Termina</span><input class="field" type="date" data-f="fin" value="${esc(F.fin)}"></label></div>`;
+  b += `<span class="fl">O dura (desde que empieza)</span><div class="chips">${[1, 2, 3, 4, 6, 8].map((n) => `<button type="button" class="chip press" data-act="d-sem" data-n="${n}">${n} ${n > 1 ? "semanas" : "semana"}</button>`).join("")}</div>`;
+  if (acts.length) b += `<span class="fl">Su avance sale de una actividad (opcional)</span>` + dChips("act", [["", "Ninguna, lo anoto yo"], ...acts.map((a) => [a.id, a.concepto])], F.act);
+  if (!F.act) b += `<label class="fl" for="dp-av">¿Cuánto lleva? (de 0 a 100 %)</label><input class="field" id="dp-av" data-f="avance" inputmode="decimal" autocomplete="off" placeholder="0" value="${esc(F.avance)}">`;
+  b += `<label class="fl" for="dp-nota">Nota (opcional)</label><input class="field" id="dp-nota" data-f="nota" maxlength="1000" autocomplete="off" value="${esc(F.nota)}"><p class="err" id="d-err" hidden></p>`;
+  let pie = dOkBtn(F.id ? "Guardar cambios" : "Agregar partida");
+  if (F.id) pie += `<button type="button" class="btn del press" data-act="d-borrar">Borrar partida</button>`;
+  return shell(F.id ? "Partida del programa" : "Nueva partida", b, pie);
+}
+function dGuardarPart() {
+  const err = (t) => { const e = $("#d-err"); if (e) { e.textContent = t; e.hidden = false; } };
+  const nombre = (F.nombre || "").trim();
+  if (!nombre) return err("Escribe qué parte de la obra es.");
+  if (!esF(F.inicio) || !esF(F.fin)) return err("Pon la fecha en que empieza y en que termina.");
+  if (F.fin < F.inicio) return err("La fecha de fin no puede ser antes del inicio.");
+  const av = F.act ? null : Math.min(100, Math.max(0, parseMonto(F.avance) || 0));
+  const nuevo = !F.id, id = F.id || Datos.nuevoId("programa");
+  const data = { obra: F.obra, nombre, inicio: F.inicio, fin: F.fin, act: F.act || null, avance: av, nota: (F.nota || "").trim(), actualizado: ahora() };
+  if (nuevo) Object.assign(data, { orden: ordenNuevo(), autor: yoId(), autor_nombre: yoNombre(), creado: ahora() });
+  cerrarHoja(true);
+  dEscribir(nuevo ? "set" : "update", "programa", id, data, nuevo ? `${nombre} agregada al programa` : "Partida guardada");
+}
+function crearProgramaD(obra) {
+  const o = S.obras[obra]; if (!o || ro()) return;
+  const dd = datosDest(obra), ps = partidasDe(obra), sin = dd.acts.filter((a) => !ps.some((p) => p.act === a.id)); if (!sin.length) { aviso("Todas las actividades ya están en el programa."); return; }
+  const h = hoy(), ini = o.inicio || h, fin = o.entrega && o.entrega > ini ? o.entrega : masDias(ini, 27);
+  abrirAccion({ titulo: `¿Crear ${sin.length} ${sin.length > 1 ? "partidas" : "partida"}?`, texto: `Una por actividad, del ${diaMes(ini)} al ${diaMes(fin)} (las fechas de la obra). Luego le ajustas inicio y fin a cada una.`, items: [{ t: "Sí, crearlas", estilo: "pri", fn: async () => {
+    const ops = sin.map((a, i) => ({ op: "set", col: "programa", id: Datos.nuevoId("programa") + i, data: { obra, nombre: a.concepto, inicio: ini, fin, act: a.id, avance: null, nota: "", orden: ordenNuevo() + i, autor: yoId(), autor_nombre: yoNombre(), creado: ahora(), actualizado: ahora() } }));
+    await guardarLote(ops, `${ops.length} ${ops.length > 1 ? "partidas creadas" : "partida creada"} desde el destajo`);
+  } }] });
+}
+// aviso en el inicio del dueño: partidas atrasadas
+function programaAvisoHTML() {
+  const xs = activas().map((o) => [o, atrasadasDe(o.clave)]).filter(([, a]) => a.length);
+  if (!xs.length) return "";
+  return xs.map(([o, a]) => `<button class="linea warnl press" data-act="d-ir-tab" data-c="${esc(o.clave)}" data-k="programa"><span>${esc(nomCorto(o))}: ${a.length} ${a.length > 1 ? "partidas atrasadas" : "partida atrasada"}</span>${IC_RIGHT}</button>`).join("");
+}
+function irTabObra(clave, tab) {
+  ir({ t: "obra", c: clave });
+  setTimeout(() => { S.tabs[clave] = tab; const p = pila.find((x) => x.t === "obra" && x.c === clave); if (p) pintarPant(p); }, 420);
+}
+// ============================================================
+// Sábado de pagos (solo dueño): lo de la semana, bien cuadrado y sin inventar números
+// ============================================================
+const sabadoDe = (h) => masDias(lunesDe(h || hoy()), 5);
+function sabadoObra(o, lunes) {
+  const dd = datosDest(o.clave), h = hoy(), r = { o, lunes, destajo: [], raya: { estado: "nadie", personas: [], marcado: 0, ya: 0, pend: 0, sinSueldo: 0 }, debo: [], pagado: [], total: 0, sumas: { destajo: 0, raya: 0, debo: 0 } };
+  gruposDest(o, dd.acts).forEach((g) => {
+    const acts = dd.acts.filter((a) => a.grupo === g.id); if (!acts.length) return;
+    const pp = pendAvs(dd, g.id, h), ret0 = retOmision(o, g.id), ret = retCalc(pp.bruto, ret0.tipo, ret0.valor), ad = adelantosPend(o.clave, g.id), adM = round2(ad.reduce((t, x) => t + (Number(x.monto) || 0), 0));
+    const q = { g, pp, ret, adM, neto: 0, sinAvance: !pp.items.length, sinPrecio: pp.sinPrecio };
+    if (pp.items.length) { q.neto = Math.max(0, round2(pp.bruto - ret - adM)); r.sumas.destajo += q.neto; }
+    r.destajo.push(q);
+  });
+  const personas = personalDe(o, lunes).filter((p) => p.pago === "raya");
+  if (personas.length) {
+    const rs = rayaSemana(o, lunes), hay = personas.some((p) => ((rs.por[p.id] || {}).dias || 0) > 0 || ((rs.por[p.id] || {}).dinero || 0) > 0);
+    const marcado = round2(personas.reduce((t, p) => t + ((rs.por[p.id] || {}).dinero || 0), 0)), ya = round2(rayasDe(o, lunes).reduce((t, g) => t + (Number(g.monto) || 0), 0));
+    r.raya = { estado: hay ? "ok" : "sin_asistencia", personas, marcado, ya, pend: hay ? Math.max(0, round2(marcado - ya)) : 0, sinSueldo: personas.filter((p) => !(Number(p.semanal) > 0) && ((rs.por[p.id] || {}).dias || 0) > 0).length };
+    r.sumas.raya = r.raya.pend;
+  }
+  r.debo = gastosDe(o.clave).filter((g) => g.marca === "por_pagar" && !g.resuelto).sort((a, b) => String(a.fecha).localeCompare(String(b.fecha)));
+  r.sumas.debo = round2(sum(r.debo, "monto"));
+  const dom = masDias(lunes, 6);
+  r.pagado = gastosDe(o.clave).filter((g) => (g.origen === "asistencia" || g.origen === "destajo") && g.fecha >= lunes && g.fecha <= dom).sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)));
+  r.total = round2(r.sumas.destajo + r.sumas.raya + r.sumas.debo);
+  r.hay = r.destajo.length || personas.length || r.debo.length || r.pagado.length || (o.personal || []).length;
+  return r;
+}
+function sabadoTodo() {
+  const lunes = lunesDe(hoy()), os = activas().map((o) => sabadoObra(o, lunes));
+  const sumas = { destajo: 0, raya: 0, debo: 0 }; os.forEach((x) => Object.keys(sumas).forEach((k) => (sumas[k] += x.sumas[k])));
+  const total = round2(sumas.destajo + sumas.raya + sumas.debo), caja = activas().reduce((t, o) => t + calc(o).en_caja, 0);
+  return { lunes, sab: masDias(lunes, 5), os, sumas, total, caja: round2(caja) };
+}
+function sabadoCardHTML() {
+  const activasN = activas(); if (!activasN.length) return "";
+  const s = sabadoTodo(), parte = [["Destajo", s.sumas.destajo], ["Raya", s.sumas.raya], ["Lo que debes", s.sumas.debo]].filter(([, v]) => v > 0);
+  const dif = round2(s.caja - s.total);
+  return `<button class="sabcard press" data-act="sabado"><span class="sabcard-h"><b>Sábado de pagos</b><span class="tag on">${esc(diaMes(s.sab))}</span></span>
+    <span class="sab-t"><span class="lbl">Total estimado</span><b class="num">${money0(s.total)}</b></span>
+    ${parte.length ? `<span class="sab-p">${parte.map(([l, v]) => `<span>${l} <b class="num">${money0(v)}</b></span>`).join("")}</span>` : `<span class="sab-cap">Nada por pagar por ahora. Anota avances de destajo o marca quién va por raya.</span>`}
+    <span class="sab-caja"><b>En caja</b><span class="num ${s.caja < 0 ? "neg" : ""}">${money0(s.caja)}</span></span>
+    ${s.total > 0 ? `<span class="sab-cap num ${dif < 0 ? "neg" : "pos"}">${dif < 0 ? `Te faltarían ${money0(-dif)} para cubrirlo` : `Alcanza: quedarían ${money0(dif)}`}</span>` : ""}</button>`;
+}
+function pantSab(p) {
+  const nav = navHTML({ back: "Obras", titulo: "Sábado de pagos", fade: true });
+  if (soySup()) return setPant(p, nav, `<p class="msg">Esta pantalla es del dueño.</p>`);
+  const s = sabadoTodo();
+  let h = `<h1 class="titulo m">Sábado de pagos</h1>${avisos()}<p class="cab-s" style="margin:-8px 0 0;color:var(--muted)">${esc(diaLargo(s.sab))} · semana del ${diaMes(s.lunes)} al ${diaMes(masDias(s.lunes, 6))}</p>`;
+  const dif = round2(s.caja - s.total);
+  h += `<section class="panel"><div class="hero"><b class="num" style="color:var(--fg)">${money0(s.total)}</b><span>total estimado</span></div><div class="tiles t2"><div class="tile"><span class="lbl">En caja</span><b class="num ${s.caja < 0 ? "neg" : ""}">${money0(s.caja)}</b></div><div class="tile ${dif < 0 ? "neg" : "pos"}"><span class="lbl">${dif < 0 ? "Te faltarían" : "Quedarían"}</span><b class="num">${money0(Math.abs(dif))}</b></div></div></section>`;
+  const con = s.os.filter((x) => x.hay);
+  if (!con.length) h += `<p class="msg" style="margin:30px 0">Todavía no hay nada para el sábado. Anota avances de destajo o marca a quién se le paga por raya.</p>`;
+  con.forEach((x) => (h += sabadoObraHTML(x)));
+  setPant(p, nav, h + `<p class="nota">Solo cuenta lo anotado: avances de destajo sin pagar (menos retención y adelantos), la raya de quien está marcado «por raya» y lo que debes. Lo ya pagado esta semana va aparte.</p>`);
+}
+function sabadoObraHTML(x) {
+  const o = x.o, c = esc(o.clave);
+  let h = `<h2 class="sec"><span>${esc(nomCorto(o))}</span><span class="num">${money0(x.total)}</span></h2>`;
+  // destajo
+  h += `<section class="panel"><h3>Destajo</h3>`;
+  if (!x.destajo.length) h += `<p class="nota" style="margin:6px 0 10px">Esta obra no tiene actividades de destajo.</p>`;
+  else h += `<div class="list sup-l">${x.destajo.map((q) => {
+    const spTxt = Object.entries(q.pp.spCant || {}).filter(([, c]) => c > 0).map(([u, c]) => `${nf(c)} ${u}`).join(" y ");
+    if (q.sinAvance) {
+      // sin avances que se puedan pagar: se distingue «hay avance pero sin precio», «todo pagado» y «nada anotado»
+      const txt = q.sinPrecio.length ? `<span class="neg">${esc(spTxt)} sin precio</span> · ponle precio` : q.pp.hayAv ? "Todo pagado" : "Sin avance anotado";
+      return q.sinPrecio.length ? `<button class="raya-l press" data-act="d-ir-tab" data-c="${c}" data-k="destajo"><span><b>${esc(q.g.nombre)}</b><small>${txt}</small></span><span class="num" style="color:var(--muted)">›</span></button>` : `<div class="raya-l"><span><b>${esc(q.g.nombre)}</b><small>${txt}</small></span><span class="num" style="color:var(--muted)">—</span></div>`;
+    }
+    const sub = [`Avances del ${diaMes(q.pp.desde)} al ${diaMes(q.pp.hasta)}`, q.ret ? `retención ${money0(q.ret)}` : "", q.adM ? `adelantos ${money0(q.adM)}` : "", q.sinPrecio.length ? `${spTxt} sin precio · ponle precio` : ""].filter(Boolean).join(" · ");
+    return `<button class="raya-l press" data-act="d-pagar" data-c="${c}" data-g="${esc(q.g.id)}"><span><b>${esc(q.g.nombre)}</b><small>${esc(sub)}</small></span><span class="num"><b>${money0(q.neto)}</b> ›</span></button>`;
+  }).join("")}</div>`;
+  h += `</section>`;
+  // raya
+  const r = x.raya;
+  h += `<section class="panel"><h3>Raya</h3>`;
+  if (r.estado === "nadie") h += `<p class="nota" style="margin:6px 2px 10px">Nadie está marcado «se le paga por raya». Marca a quién, y su asistencia de la semana se vuelve su raya.</p><button class="ghost press" data-act="d-quien" data-c="${c}" style="margin-top:0">Marcar quién va por raya</button>`;
+  else if (r.estado === "sin_asistencia") h += `<div class="raya-l"><span><b>${r.personas.length} ${r.personas.length > 1 ? "personas" : "persona"} por raya</b><small>Sin asistencia esta semana</small></span><span class="num" style="color:var(--muted)">—</span></div><button class="ghost press" data-act="d-ir-tab" data-c="${c}" data-k="asistencia">Pasar asistencia</button>`;
+  else h += `<button class="raya-l press" data-act="d-raya" data-c="${c}"><span><b>${r.personas.length} ${r.personas.length > 1 ? "personas" : "persona"} por raya</b><small>Calculado con la asistencia${r.ya ? ` · ya anotaste ${money0(r.ya)}` : ""}${r.sinSueldo ? ` · falta el sueldo de ${r.sinSueldo}` : ""}</small></span><span class="num"><b>${money0(r.pend)}</b> ›</span></button>` + (r.estado === "ok" ? `<button class="gadd press" data-act="d-quien" data-c="${c}">Cambiar quién va por raya</button>` : "");
+  h += `</section>`;
+  // lo que se debe
+  if (x.debo.length) h += `<section class="panel"><h3>Lo que debes</h3><div class="list sup-l">${x.debo.map((g) => `<button class="raya-l press" data-act="d-debo" data-id="${esc(g.id)}"><span><b>${esc(conceptoDe(g))}</b><small>${esc(diaMes(g.fecha))}${g.pagado_por ? " · " + esc(g.pagado_por) : ""} · toca para saldarlo</small></span><span class="num"><b>${money0(g.monto)}</b></span></button>`).join("")}</div></section>`;
+  // ya pagado esta semana
+  if (x.pagado.length) h += `<section class="panel"><h3>Ya pagado esta semana (aparte)</h3><div class="list sup-l">${x.pagado.map((g) => `<button class="raya-l press" data-act="${g.origen === "destajo" ? "d-pago-ver" : "edit-gasto"}" data-id="${esc(g.id)}"><span><b>${esc(conceptoDe(g))}</b><small>${esc(diaLargo(g.fecha))}</small></span><span class="num">${money0(g.monto)}</span></button>`).join("")}</div></section>`;
+  return h;
+}
+// quién se paga por raya y quién a destajo (en la hoja de cada persona y aquí, para marcarlos rápido)
+function abrirQuienD(obra) {
+  const o = S.obras[obra]; if (!o || ro() || soySup()) return;
+  mostrarHoja({ mode: "d_quien", id: null, obra, saldados: new Set() });
+}
+function hQuien() {
+  const o = S.obras[F.obra], ps = personalDe(o, lunesDe(hoy())).filter((p) => !p.baja);
+  let b = `<p class="ctx">${esc(nomCorto(o))}</p><p class="hint" style="margin:0 0 10px">Solo a quien marques «por raya» se le calcula la raya con su asistencia. Los de destajo se pagan por lo que avanzan.</p>`;
+  b += ps.length ? ps.map((p) => `<div class="per"><div class="per-h"><span class="nom"><b>${esc(p.nombre)}</b><small>${esc((PUESTOS[p.puesto] || PUESTOS.otro)[0])}</small></span></div><div class="chips" style="gap:6px">${[["raya", "Por raya"], ["destajo", "A destajo"], ["", "No sé"]].map(([k, t]) => `<button type="button" class="chip press" data-act="d-pago-p" data-p="${esc(p.id)}" data-v="${k}" aria-pressed="${(p.pago || "") === k}" style="min-height:44px">${t}</button>`).join("")}</div></div>`).join("") : `<p class="msg" style="margin:20px 0">Esta obra todavía no tiene gente. Agrégala en Asistencia.</p>`;
+  return shell("¿A quién se le paga cómo?", b, `<button type="button" class="btn main press" data-act="cerrar">Listo</button>`);
+}
+// ---------- llenar la estimación con el destajo (opcional) ----------
+function llenarEstConDestajo() {
+  if (!ES || ES.ro) return;
+  const dd = datosDest(ES.obra), por = {};
+  dd.acts.forEach((a) => { if (!a.cot || !a.cot.cot) return; const k = a.cot.cot + "|" + a.cot.concepto, r = dd.res[a.id]; if (!r || !(r.total > 0)) return; const q = por[k] || (por[k] = { h: 0, t: 0 }); q.h += Math.min(r.hecho, r.total); q.t += r.total; });
+  let n = 0;
+  ES.cs.forEach((k, i) => { const q = por[k.key]; if (!q) return; const v = round2(Math.min(100, q.h / q.t * 100)), prev = ES.prev[k.key] || 0; ES.pct[k.key] = Math.max(prev, v); const inp = ES.p.el.querySelector(`.pct-in input[data-i="${i}"]`); if (inp) inp.value = N1.format(ES.pct[k.key]); pintarConceptoEst(i); n++; });
+  pintarTotalesEst(); guardarBorradorLocal();
+  aviso(n ? `Avance de ${n} ${n > 1 ? "conceptos" : "concepto"} llenado con el destajo. Revísalo.` : "Ninguna actividad está ligada a un concepto de esta cotización.");
+}
+const hayLigadas = (obra) => coleccion("destajo").some((a) => a.obra === obra && a.cot && a.cot.cot);
+// ============================================================
+// Eventos de lo nuevo
+// ============================================================
+function dRepintar() {
+  if (!F) return;
+  const b = $("#sheet-body"), y = b ? b.scrollTop : 0;
+  $("#sheet").innerHTML = hojaD();
+  const n = $("#sheet-body"); if (n) n.scrollTop = y;
+  dPrev();
+}
+// lo que cambia mientras se escribe: vista previa y si el botón se puede tocar
+function dPrev() {
+  if (!isD()) return;
+  const ok = $("#d-ok"), m = F.mode;
+  if (m === "d_act") {
+    const s = $("#da-sug"); if (s) { F.sug = dSugerencias(F.concepto); s.innerHTML = F.sug.map((c, i) => `<button type="button" class="chip sug press" data-act="d-sug" data-i="${i}"><span class="ell">${esc(c)}</span></button>`).join(""); }
+    const uh = $("#da-uhint"); if (uh) uh.textContent = (parseMonto(F.precio) || 0) > 0 ? `${money(parseMonto(F.precio))} por ${F.unidad || "unidad"}` : "Es lo que se le paga a la cuadrilla por cada unidad.";
+    if (ok) ok.disabled = !F.concepto.trim();
+  } else if (m === "d_lev" || m === "d_av") {
+    const c = cantRenglon(medidaLeida()), p = $("#dm-prev");
+    if (p) p.innerHTML = c > 0 ? `${F.resta ? "Resta " : "Son "}<b>${nf(c)} ${esc(F.unidad)}</b>` : "Escribe las medidas para ver cuánto es.";
+    if (ok) ok.disabled = !(c > 0) || (m === "d_av" && !F.act);
+    document.querySelectorAll('[data-act="d-guardar"][data-otro]').forEach((b) => (b.disabled = !(c > 0)));
+  } else if (m === "d_pagar") dPrevPagar();
+  else if (m === "d_adel") { if (ok) ok.disabled = !(parseMonto(F.monto) > 0); }
+  else if (m === "d_lib") { const v = parseMonto(F.monto); if (ok) ok.disabled = !(v > 0 && v <= F.ret + 0.004); }
+  else if (m === "d_part") { if (ok) ok.disabled = !F.nombre.trim(); }
+}
+function dChip(campo, v) {
+  if (campo === "fechaModo") { F.fechaModo = v; if (v === "hoy") F.fecha = hoy(); else if (v === "ayer") F.fecha = ayer(); }
+  else if (campo === "unidad") { F.unidad = v; }
+  else if (campo === "act" && F.mode === "d_av") { F.act = v; const a = coleccion("destajo").find((x) => x.id === v); F.unidad = a ? a.unidad || "" : ""; }
+  else if (campo === "act" && F.mode === "d_part") { F.act = v; const a = coleccion("destajo").find((x) => x.id === v); if (a && !F.nombre.trim()) F.nombre = a.concepto; }
+  else F[campo] = v;
+  dRepintar();
+}
+document.addEventListener("input", (e) => {
+  const t = e.target; if (!isD() || !t.dataset || !t.dataset.f) return;
+  F[t.dataset.f] = t.value;
+  if (t.dataset.rep) return;
+  if (t.dataset.f === "unidad") { document.querySelectorAll('#sheet [data-g="unidad"] .chip').forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.v === t.value))); }
+  dPrev();
+});
+document.addEventListener("change", (e) => {
+  const t = e.target; if (!isD() || !t.dataset || !t.dataset.f) return;
+  F[t.dataset.f] = t.value;
+  // con levantamiento no se escribe un total solo: el escrito mandaría sobre la suma
+  if (t.dataset.cot) { const k = (conceptosDe(S.obras[F.obra]).find((c) => c.cot.id + "|" + c.id === t.value)); if (k) { if (!F.concepto.trim()) F.concepto = String(k.concepto || "").slice(0, 80); if (!F.total.trim() && k.cantidad && !(F.id && coleccion("destajo_lev").some((l) => l.act === F.id))) F.total = String(k.cantidad); dRepintar(); } return; }
+  if (t.dataset.rep || t.dataset.f === "inicio" || t.dataset.f === "fin") { if (t.dataset.f === "fecha" && F.fechaModo !== "otra") F.fechaModo = "otra"; dRepintar(); }
+});
+document.addEventListener("click", (e) => {
+  const chip = e.target.closest("[data-dchip]");
+  if (chip && isD()) { dChip(chip.dataset.dchip, chip.dataset.v); return; }
+  const el = e.target.closest("[data-act]"); if (!el) return;
+  const a = el.dataset.act; if (!/^d-|^sabado$/.test(a)) return;
+  const p = pantDe(el), ve = (c) => dEstado(c);
+  const obraP = () => { const o = (p && p.c && S.obras[p.c]) || obraActiva(); return o ? o.clave : null; };
+  if (a === "sabado") ir({ t: "sab" });
+  else if (a === "d-act-nueva") { const c = (F && F.obra) || obraP(); if (!c) return; const g = ve(c).g; if (F) { cerrarHoja(true); } abrirActD(null, c, g); }
+  else if (a === "d-act-editar") { const x = coleccion("destajo").find((y) => y.id === el.dataset.a); if (x) abrirActD(x.id, x.obra); }
+  else if (a === "d-act-abrir") { const x = coleccion("destajo").find((y) => y.id === el.dataset.a); if (!x) return; const v = ve(x.obra); v.ab[x.id] = !v.ab[x.id]; if (p) pintarPant(p); }
+  else if (a === "d-fil") { const c = obraP(); if (!c) return; ve(c).g = el.dataset.g; if (p) pintarPant(p); }
+  else if (a === "d-av-nuevo") { const c = (F && F.obra) || obraP(); if (!c) return; if (F) cerrarHoja(true); abrirAv(null, c, el.dataset.a || null); }
+  else if (a === "d-av-editar") { const v = coleccion("destajo_av").find((y) => y.id === el.dataset.id); if (v) abrirAv(v.id, v.obra, v.act); }
+  else if (a === "d-levs") { if (F) cerrarHoja(true); abrirLevs(el.dataset.a); }
+  else if (a === "d-lev-nuevo") { const act = F && F.act; if (act) { cerrarHoja(true); abrirLev(act, null); } }
+  else if (a === "d-lev-usar") { const ac = coleccion("destajo").find((y) => y.id === el.dataset.a); if (ac && dPuede(ac) && !ro()) { const r = resumenAct(ac, coleccion("destajo_lev").filter((l) => l.act === ac.id), []); if (r.sumLev != null) { cerrarHoja(true); dEscribir("update", "destajo", ac.id, { total: r.sumLev, actualizado: ahora() }, `Total de la actividad: ${nf(r.sumLev)} ${ac.unidad || ""}`.trim()); } } }
+  else if (a === "d-lev-editar") { const l = coleccion("destajo_lev").find((y) => y.id === el.dataset.id); if (l) { cerrarHoja(true); abrirLev(l.act, l.id); } }
+  else if (a === "d-tog") { if (isD()) { F[el.dataset.f] = !F[el.dataset.f]; el.setAttribute("aria-checked", String(!!F[el.dataset.f])); dPrev(); } }
+  else if (a === "d-zona") { if (isD()) { const zs = [...new Set(coleccion("destajo_lev").filter((l) => l.act === F.act && l.zona).map((l) => l.zona))]; F.zona = zs[Number(el.dataset.i)] || ""; const i = $("#dv-zona"); if (i) i.value = F.zona; } }
+  else if (a === "d-sug") { if (isD() && F.sug) { F.concepto = F.sug[Number(el.dataset.i)] || F.concepto; const i = $("#da-conc"); if (i) i.value = F.concepto; dPrev(); } }
+  else if (a === "d-sem") { if (isD() && esF(F.inicio)) { F.fin = masDias(F.inicio, 7 * Number(el.dataset.n) - 1); dRepintar(); } }
+  else if (a === "d-guardar") {
+    if (!isD()) return; const m = F.mode;
+    if (m === "d_act") dGuardarAct(); else if (m === "d_lev") dGuardarLev(!!el.dataset.otro); else if (m === "d_av") dGuardarAv(); else if (m === "d_pagar") dGuardarPago();
+    else if (m === "d_adel") dGuardarAdel(); else if (m === "d_lib") dGuardarLib(); else if (m === "d_part") dGuardarPart();
+  }
+  else if (a === "d-borrar") {
+    if (!isD()) return; const m = F.mode, id = F.id, act = F.act;
+    if (m === "d_act") dBorrarAct();
+    else if (m === "d_lev") abrirAccion({ titulo: "¿Borrar este renglón?", items: [{ t: "Borrar", estilo: "peligro", fn: async () => { await dBorrar("destajo_lev", id, "Renglón borrado"); setTimeout(() => abrirLevs(act), 80); } }] });
+    else if (m === "d_av") abrirAccion({ titulo: "¿Borrar este avance?", items: [{ t: "Borrar", estilo: "peligro", fn: () => dBorrar("destajo_av", id, "Avance borrado") }] });
+    else if (m === "d_part") abrirAccion({ titulo: "¿Borrar esta partida?", items: [{ t: "Borrar", estilo: "peligro", fn: () => dBorrar("programa", id, "Partida borrada") }] });
+  }
+  else if (a === "d-pagar") { const c = el.dataset.c || obraP(); if (c) abrirPagarD(c, el.dataset.g); }
+  else if (a === "d-cuad-menu") { const c = obraP(); if (c) menuCuadD(c, el.dataset.g); }
+  else if (a === "d-adel-tog") { if (isD() && F.adel) { const id = el.dataset.id; if (F.adel.has(id)) F.adel.delete(id); else F.adel.add(id); dRepintar(); } }
+  else if (a === "d-pago-ver") verPagoD(el.dataset.id);
+  else if (a === "d-debo") abrirHoja("gasto", el.dataset.id);
+  else if (a === "d-raya") abrirRaya(lunesDe(hoy()), true, el.dataset.c);
+  else if (a === "d-quien") abrirQuienD(el.dataset.c);
+  else if (a === "d-pago-p") {
+    if (!isD()) return; const pid = el.dataset.p, v = el.dataset.v, o = S.obras[F.obra]; if (!o) return;
+    guardarItem(o.clave, "personal", { id: pid, pago: v }, false, null);
+    setTimeout(() => dRepintar(), 30);
+  }
+  else if (a === "d-prog-crear") crearProgramaD(el.dataset.c || obraP());
+  else if (a === "d-part-nueva") abrirPartD(null, el.dataset.c || obraP());
+  else if (a === "d-part-editar") { const x = coleccion("programa").find((y) => y.id === el.dataset.id); if (x) abrirPartD(x.id, x.obra); }
+  else if (a === "d-ir-tab") irTabObra(el.dataset.c, el.dataset.k);
+  else if (a === "d-llenar") llenarEstConDestajo();
+});
+
+// ============================================================
 // Eventos
 // ============================================================
 document.addEventListener("click", (e) => {
@@ -4117,6 +5209,7 @@ document.addEventListener("click", (e) => {
   else if (a === "avisos-ver") { ls.del("nortea_avisos_visto"); ls.del("nortea_avisos_ocultos"); render(); }
   else if (a === "sups") ir({ t: "sups" });
   else if (a === "sup-abrir") abrirSupervisor(el.dataset.id);
+  else if (a === "sup-ver") verComoSup(el.dataset.id);
   else if (a === "sup-nuevo") abrirSupervisor(null);
   else if (a === "sup-acceso") { const x = F && F.prev; if (x) mostrarAcceso(x.id, x.nombre || "", x.usuario || "", ""); }
   else if (a === "sup-clave") abrirClaveSup();
@@ -4245,6 +5338,7 @@ async function iniciar() {
   Datos.alLento((v) => { S.slow = v; render(); });
   const ini = await Datos.iniciar();
   if (ini.sinCuenta) { S.sinCuenta = true; renderTodo(); return; }
+  window.__v6 = { S, Datos, ir, hoy, lunesDe, datosDest, resumenAct, estPartida, sabadoObra, sabadoObraHTML, abrirPagarD, abrirActD, abrirLevs, grupoMenu, cerrarHoja };   // solo para verificar en pruebas (arreglos-v6.js)
   if (ini.modo === "mock") window.__t = { S, ir, volver, pila: () => pila, ES: () => ES, Datos, conceptosAgrupados, plazo, avanceObra, totalEstimacion };
   COLECCIONES.forEach((col) => {
     Datos.suscribir(col, (m) => {
@@ -4254,12 +5348,32 @@ async function iniciar() {
       if (primera && col === "obras") listo(); else render();
     }, (err) => { S.loaded[col] = true; if (err === "revocado") S.sinCuenta = true; render(); });
   });
+  // versión 6: si el Datos de esta página todavía no las trae, se quedan vacías y no pasa nada
+  D_COLS.forEach((col) => {
+    try { Datos.suscribir(col, (m) => { S[col] = m; S.loaded[col] = true; render(); }, () => { S.loaded[col] = true; render(); }); } catch { S.loaded[col] = true; }
+  });
 }
 iniciar();
 })();
 </script>
-<script>
-if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("/obras/sw.js", { scope: "/obras/" }).catch(() => {}));
+<script>if (top !== self) throw 0;
+
+if ("serviceWorker" in navigator) {
+  // «Hay versión nueva»: solo si ya había una versión controlando la página (en la primera instalación no sale)
+  let habia = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (!habia) { habia = true; return; }
+    if (document.getElementById("version-nueva")) return;
+    const f = document.createElement("div"); f.id = "version-nueva"; f.setAttribute("role", "status");
+    f.style.cssText = "position:fixed;left:0;right:0;top:0;z-index:2147483000;display:flex;gap:12px;align-items:center;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 8px) 12px 8px;background:#0B1D2F;color:#fff;font:600 14px/1.2 system-ui,sans-serif;box-shadow:0 2px 10px rgba(0,0,0,.3)";
+    const t = document.createElement("span"); t.textContent = "Hay versión nueva";
+    const b = document.createElement("button"); b.type = "button"; b.textContent = "Actualizar";
+    b.style.cssText = "min-height:34px;padding:0 14px;border:0;border-radius:10px;background:#b8893a;color:#0B1D2F;font:700 14px system-ui,sans-serif";
+    b.addEventListener("click", () => location.reload());
+    f.append(t, b); document.body.appendChild(f);
+  });
+  addEventListener("load", () => navigator.serviceWorker.register("/obras/sw.js", { scope: "/obras/" }).catch(() => {}));
+}
 </script>
 </body>
 </html>
