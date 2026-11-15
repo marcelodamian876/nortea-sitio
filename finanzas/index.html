@@ -1,0 +1,1890 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050706">
+<title>Finanzas</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-E0FINn7+2aPWl//sGe6VccsSdeSkc5i1Jujdbp7bd9g=' 'sha256-TEKXqOue7pp4s7aHY+TgyyqYSqkPBE02iAlxfe4ZM00=' 'sha256-1Kskbp9swOdspgJHxUeBbAIDrmCx0TziOImLxMNzBOo=' 'sha256-HqIGCnVfKouHqVTR7BVFUk2XjJS65NZ4IcyEWLmbHek='; worker-src 'self'; connect-src https://script.google.com https://script.googleusercontent.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="robots" content="noindex,nofollow">
+<script>if (top !== self) { try { top.location.replace(self.location.href); } catch (e) {} document.documentElement.textContent = ""; document.documentElement.style.cssText = "display:none!important"; }</script>
+<link rel="manifest" href="/finanzas/manifest.webmanifest">
+<link rel="icon" href="/finanzas/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="/finanzas/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Finanzas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root {
+  --bg: #050706; --panel: #0f1412; --panel2: #151c19; --line: #1f2925; --fg: #eef3ef; --muted: #8a978f;
+  --verde: #2fd47a; --verde-bg: #0f2a1c; --rojo: #ff7a6e; --rojo-bg: #2c1513; --oro: #e8c777; --azul: #7fb2ff;
+  --f: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; min-width: 0; -webkit-tap-highlight-color: transparent; }
+html, body { background: var(--bg); color: var(--fg); }
+body { font: 15px/1.4 var(--f); min-height: 100vh; overflow-x: hidden; padding-top: env(safe-area-inset-top, 0px); -webkit-text-size-adjust: 100%; }
+button { font-family: var(--f); color: inherit; cursor: pointer; }
+input, select { font-family: var(--f); color: var(--fg); }
+.num { font-variant-numeric: tabular-nums; }
+#app { max-width: 560px; margin: 0 auto; }
+.wrap { padding: 12px 16px calc(120px + env(safe-area-inset-bottom, 0px)); }
+h1 { font-size: 26px; font-weight: 700; letter-spacing: -.02em; overflow-wrap: anywhere; }
+h2 { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin: 22px 0 8px; }
+.sub { color: var(--muted); font-size: 14px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 16px; }
+.big { font-size: 38px; font-weight: 700; letter-spacing: -.03em; overflow-wrap: anywhere; }
+.row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 9px 0; border-top: 1px solid var(--line); }
+.row:first-child, .card > .row:first-of-type { border-top: 0; }
+.row > span:first-child { overflow-wrap: anywhere; }
+.der { display: flex; align-items: center; gap: 10px; flex: none; text-align: right; }
+.ok { color: var(--verde); } .bad { color: var(--rojo); } .mut { color: var(--muted); } .oro { color: var(--oro); }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.mini { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 10px; }
+.mini b { display: block; font-size: 17px; margin-top: 2px; overflow-wrap: anywhere; }
+.mini span { font-size: 12px; color: var(--muted); }
+.bar { height: 8px; background: var(--panel2); border-radius: 6px; overflow: hidden; margin-top: 6px; }
+.bar i { display: block; height: 100%; border-radius: 6px; background: var(--verde); }
+.jarra { padding: 10px 0; border-top: 1px solid var(--line); }
+.jarra:first-child { border-top: 0; }
+.jarra .t { display: flex; justify-content: space-between; gap: 10px; font-size: 14px; }
+.jarra small { color: var(--muted); font-size: 12px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { background: var(--panel2); border: 1px solid var(--line); border-radius: 999px; padding: 9px 13px; font-size: 14px; min-height: 40px; }
+.chip.sel { border-color: var(--verde); background: var(--verde-bg); color: var(--verde); }
+.mini-b { background: var(--panel2); border: 1px solid var(--line); border-radius: 999px; padding: 6px 11px; font-size: 12.5px; color: var(--muted); min-height: 32px; }
+.top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 10px; }
+.atras { background: none; border: 0; color: var(--verde); font-size: 16px; font-weight: 600; min-height: 44px; padding: 0; }
+.tabbar { position: fixed; left: 0; right: 0; bottom: 0; background: rgba(5,7,6,.98); border-top: 1px solid var(--line); z-index: 20; }
+.tabbar > div { max-width: 560px; margin: 0 auto; display: flex; gap: 10px; padding: 12px 16px calc(14px + env(safe-area-inset-bottom, 0px)); }
+.tabbar button { flex: 1; border: 0; border-radius: 16px; font: 600 16px var(--f); min-height: 54px; }
+.b-gasto { background: var(--rojo-bg); color: var(--rojo) !important; }
+.b-ing { background: var(--verde-bg); color: var(--verde) !important; }
+.b-mas { flex: 0 0 54px !important; background: var(--panel2); color: var(--fg); }
+.rowb { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; text-align: left; background: none; border: 0; border-top: 1px solid var(--line); padding: 11px 0; min-height: 52px; }
+.card > .rowb:first-child { border-top: 0; }
+.rowb .izq { display: flex; gap: 10px; align-items: center; flex: 1; }
+.rowb .izq > span:last-child { display: block; overflow-wrap: anywhere; }
+.rowb .e { font-size: 22px; flex: none; width: 28px; text-align: center; }
+.rowb small { display: block; color: var(--muted); font-size: 12.5px; }
+.rowb .fin { flex: none; text-align: right; }
+.campo { display: block; width: 100%; background: var(--panel2); border: 1.5px solid var(--line); border-radius: 14px; padding: 13px 14px; font-size: 17px; -webkit-appearance: none; appearance: none; min-height: 52px; }
+.campo:focus { outline: none; border-color: var(--verde); }
+.campo.gr { border-color: var(--verde); font-size: 20px; }
+input[type=date].campo { min-height: 52px; }
+label.et { display: block; font-size: 12.5px; color: var(--muted); margin: 12px 0 5px; }
+.btn { display: block; width: 100%; border: 0; border-radius: 16px; padding: 16px; font: 700 17px var(--f); background: var(--verde); color: #04140b !important; margin-top: 14px; min-height: 54px; text-align: center; }
+.btn:disabled { opacity: .4; }
+.btn.rojo { background: var(--rojo); color: #240a07 !important; }
+.btn2 { display: block; width: 100%; border: 1px solid var(--line); border-radius: 16px; padding: 14px; font: 600 16px var(--f); background: var(--panel2); margin-top: 10px; min-height: 52px; text-align: center; }
+.enlace { display: block; margin: 8px auto 0; background: none; border: 0; color: var(--muted); font-size: 14.5px; font-weight: 600; min-height: 44px; padding: 6px 10px; text-align: center; }
+.err { min-height: 22px; margin-top: 8px; color: var(--rojo); font-size: 14.5px; text-align: center; overflow-wrap: anywhere; }
+.err.ok { color: var(--muted); }
+.scrim { position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 40; }
+.sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 41; max-width: 560px; margin: 0 auto; background: #0c110f; border-top: 1px solid var(--line); border-radius: 22px 22px 0 0; padding: 10px 16px calc(24px + env(safe-area-inset-bottom, 0px)); max-height: 92vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.grab { width: 40px; height: 5px; border-radius: 3px; background: #2a3530; margin: 0 auto 14px; }
+.sheet h1 { font-size: 21px; }
+.entiendo { background: var(--verde-bg); border-radius: 14px; padding: 12px 14px; margin-top: 10px; font-size: 14px; overflow-wrap: anywhere; }
+.entiendo.aviso2 { background: var(--panel2); color: var(--muted); }
+.entiendo.mal { background: var(--rojo-bg); }
+.cats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
+.cat { background: var(--panel2); border: 1px solid var(--line); border-radius: 14px; padding: 10px 2px; text-align: center; font-size: 12px; min-height: 64px; overflow-wrap: anywhere; }
+.cat em { display: block; font-style: normal; font-size: 22px; margin-bottom: 2px; }
+.cat.sel { border-color: var(--verde); background: var(--verde-bg); }
+.aviso { background: #10213a; border: 1px solid #23406a; color: #cfe0ff; border-radius: 14px; padding: 10px 14px; font-size: 13.5px; margin-bottom: 12px; }
+.alerta { background: var(--rojo-bg); border: 1px solid #5a2a25; color: #ffd5d0; border-radius: 16px; padding: 12px 14px; margin-bottom: 12px; font-size: 14px; }
+.alerta .al { padding: 8px 0; border-top: 1px solid #5a2a25; margin-top: 8px; }
+.alerta .al span { display: block; font-weight: 600; }
+.alerta small { color: #f0b4ad; font-size: 12.5px; overflow-wrap: anywhere; }
+.alerta .btn2 { margin-top: 8px; background: #3a1b18; border-color: #5a2a25; }
+.banda { position: fixed; left: 10px; right: 10px; top: calc(8px + env(safe-area-inset-top, 0px)); z-index: 90; max-width: 540px; margin: 0 auto; background: var(--rojo-bg); border: 1px solid #5a2a25; color: #ffd5d0; border-radius: 14px; padding: 10px 12px; font-size: 13.5px; display: flex; gap: 10px; align-items: flex-start; }
+.banda button { background: none; border: 0; color: #ffd5d0; font-size: 18px; min-width: 32px; min-height: 32px; flex: none; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(110px + env(safe-area-inset-bottom, 0px)); z-index: 30; background: #1b2a22; border: 1px solid #2c4a3a; color: var(--fg); padding: 10px 16px; border-radius: 999px; font-size: 14px; max-width: 90vw; text-align: center; }
+.chart { display: flex; align-items: flex-end; gap: 4px; height: 150px; padding-top: 10px; }
+.mes { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.mes .cols { display: flex; align-items: flex-end; gap: 2px; height: 128px; }
+.mes .cols i { width: 9px; border-radius: 3px 3px 0 0; }
+.chart.fino .cols i { width: 4px; }
+.mes span { font-size: 10px; color: var(--muted); white-space: nowrap; height: 14px; }
+.ley { display: flex; gap: 14px; font-size: 12px; color: var(--muted); margin-top: 8px; flex-wrap: wrap; }
+.ley i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+.seg { display: flex; background: var(--panel2); border-radius: 12px; padding: 3px; margin: 14px 0 10px; }
+.seg button { flex: 1; text-align: center; padding: 8px 2px; font-size: 13px; font-weight: 600; color: var(--muted); border-radius: 9px; border: 1px solid transparent; background: none; min-height: 38px; }
+.seg button.on { background: var(--panel); color: var(--fg); border-color: var(--line); }
+.stack { display: flex; height: 14px; border-radius: 7px; overflow: hidden; margin: 6px 0 8px; background: var(--panel2); }
+.nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 10px 0; }
+.nav button { background: var(--panel2); border: 1px solid var(--line); border-radius: 12px; min-width: 46px; min-height: 44px; font-size: 18px; }
+.nav b { text-transform: capitalize; }
+.nota { font-size: 13px; color: var(--muted); margin-top: 8px; }
+.codigo { font: 700 22px/1.3 ui-monospace, Menlo, monospace; letter-spacing: .04em; text-align: center; background: var(--panel2); border: 1.5px dashed var(--verde); border-radius: 14px; padding: 16px 10px; margin: 14px 0 6px; color: var(--verde); overflow-wrap: anywhere; user-select: all; }
+.marca { display: flex; gap: 10px; align-items: center; justify-content: center; margin: 12px 0 0; font-size: 15px; min-height: 44px; }
+.marca input { width: 22px; height: 22px; accent-color: var(--verde); }
+.copia { background: var(--panel2); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; font-size: 13.5px; white-space: pre-wrap; overflow-wrap: anywhere; margin-top: 8px; user-select: all; }
+/* entrada y bloqueo */
+#acceso, #bloqueo { position: fixed; inset: 0; z-index: 200; background: var(--bg); overflow-y: auto; -webkit-overflow-scrolling: touch; padding-top: env(safe-area-inset-top, 0px); }
+#bloqueo { z-index: 300; }
+.acc { width: min(380px, 100%); margin: 0 auto; padding: 56px 24px calc(40px + env(safe-area-inset-bottom, 0px)); text-align: center; }
+.acc h1 { margin-top: 18px; }
+.acc .sub { margin: 8px 0 20px; }
+.acc form { display: grid; gap: 12px; }
+.icono { width: 92px; height: 92px; border-radius: 22px; background: #000; border: 1px solid #1d2a23; display: grid; place-items: center; font: 800 58px var(--f); color: var(--verde); box-shadow: 0 0 40px rgba(47,212,122,.15); margin: 0 auto; }
+.lock { display: flex; flex-direction: column; align-items: center; padding: 56px 16px calc(30px + env(safe-area-inset-bottom, 0px)); text-align: center; }
+.lock h1 { margin-top: 18px; }
+.dots { display: flex; gap: 16px; margin: 26px 0 8px; min-height: 14px; }
+.dots i { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--muted); }
+.dots i.on { background: var(--fg); border-color: var(--fg); }
+.lock .err { margin: 0 0 14px; }
+.pad { display: grid; grid-template-columns: repeat(3, 78px); gap: 14px 26px; }
+.pad button { width: 78px; height: 78px; border-radius: 50%; background: var(--panel2); border: 0; font-size: 30px; font-weight: 400; display: grid; place-items: center; }
+.pad button.v { background: none; font-size: 15px; color: var(--muted); }
+.pad button:active { background: #1f2925; }
+.pad button:disabled { opacity: .35; }
+.faceid { margin-top: 22px; color: var(--verde); font-weight: 600; font-size: 16px; background: none; border: 0; min-height: 44px; padding: 6px 12px; }
+.lock .enlace { margin-top: 4px; }
+</style>
+<script>if (top !== self) throw 0;
+(function () { var l = document.querySelector('link[href*="fonts.googleapis.com/css2"]'); if (!l) return; l.media = "print"; function a() { l.media = "all"; } l.addEventListener("load", a); if (l.sheet) a(); })();</script>
+</head>
+<body>
+<div id="app"></div>
+<div id="hoja"></div>
+<div id="aviso"></div>
+<script>if (top !== self) throw 0;
+
+"use strict";
+// ============================================================
+// Finanzas · app de finanzas personales (un solo archivo, sin datos dentro). Los datos viven en la hoja de Google del
+// propietario; tools/finanzas-app/build.py cambia el bloque DATOS (abajo) por tools/finanzas-app/datos.js.
+// Contrato de datos y de seguridad: tools/finanzas-app/README.md.
+// ============================================================
+const $ = (s, r) => (r || document).querySelector(s);
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const ls = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} }, del(k) { try { localStorage.removeItem(k); } catch {} } };
+
+/*NUCLEO:INICIO*/
+// ============================================================
+// NÚCLEO (funciones puras, sin pantalla ni red): fechas, saldos, resúmenes del mes, panel e intérprete de frases.
+// Se prueba con node (tools/finanzas-app/prueba-frases.mjs saca este bloque de aquí y lo corre solo).
+// ============================================================
+const Nucleo = (() => {
+  const norm = (s) => String(s == null ? "" : s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  const r2 = (n) => Math.round((Number(n) || 0) * 100) / 100;
+  const pad = (n) => String(n).padStart(2, "0");
+  const esFecha = (f) => /^\d{4}-\d\d-\d\d$/.test(String(f));
+  const hoyMty = () => { try { return new Date().toLocaleDateString("en-CA", { timeZone: "America/Monterrey" }); } catch { return new Date().toISOString().slice(0, 10); } };
+  const diasMes = (y, m) => new Date(Date.UTC(y, m, 0)).getUTCDate();
+  const sumarDias = (f, n) => { const d = new Date(f + "T12:00:00Z"); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+  const diaSemana = (f) => new Date(f + "T12:00:00Z").getUTCDay();   // 0 = domingo
+  const mesDe = (f) => String(f).slice(0, 7);
+  const sumarMeses = (ym, n) => { const [y, m] = ym.split("-").map(Number), t = y * 12 + (m - 1) + n; return Math.floor(t / 12) + "-" + pad((t % 12) + 1); };
+  const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+  const MESES_CORTO = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+  const DIAS = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+  const nombreMes = (ym) => { const [y, m] = ym.split("-").map(Number); return MESES[m - 1] + " " + y; };
+  const cap = (s) => String(s || "").charAt(0).toUpperCase() + String(s || "").slice(1);
+  // «$1,250» o «$1,250.50» (sin toLocaleString: no se fía en todos los teléfonos)
+  function pesos(n) {
+    const x = r2(n), p = Math.abs(x).toFixed(Number.isInteger(x) ? 0 : 2).split(".");
+    return (x < 0 ? "−$" : "$") + p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (p[1] ? "." + p[1] : "");
+  }
+  // día `dia` del mes de la fecha `f` (si el mes no llega a ese día, el último)
+  const diaEnMes = (ym, dia) => { const [y, m] = ym.split("-").map(Number); return y + "-" + pad(m) + "-" + pad(Math.min(dia, diasMes(y, m))); };
+  // primera fecha con ese día del mes que sea >= f (o > f si estricto)
+  function diaDesde(f, dia, estricto) {
+    let ym = mesDe(f), c = diaEnMes(ym, dia);
+    if (estricto ? c <= f : c < f) c = diaEnMes(sumarMeses(ym, 1), dia);
+    return c;
+  }
+  // última fecha con ese día del mes que sea < f
+  function diaAntes(f, dia) {
+    let ym = mesDe(f), c = diaEnMes(ym, dia);
+    if (c >= f) c = diaEnMes(sumarMeses(ym, -1), dia);
+    return c;
+  }
+
+  // ---------- lo de arranque ----------
+  const BASE_JARRAS = [
+    { id: "necesidades", nombre: "Necesidades", pct: 55 }, { id: "inversion", nombre: "Inversión", pct: 10 }, { id: "ahorro", nombre: "Ahorro", pct: 10 },
+    { id: "educacion", nombre: "Educación", pct: 10 }, { id: "diversion", nombre: "Diversión", pct: 10 }, { id: "dar", nombre: "Dar", pct: 5 },
+  ];
+  const BASE_NEGOCIOS = [
+    { id: "nortea", nombre: "Nortea", emoji: "🏗️" }, { id: "frontera", nombre: "Frontera", emoji: "🖨️" }, { id: "novafit", nombre: "NovaFit", emoji: "💻" },
+    { id: "bounce", nombre: "Bounce", emoji: "🏋️" }, { id: "otro", nombre: "Otro", emoji: "•" },
+  ];
+  const BASE_CATS = [
+    { id: "cat_comida", nombre: "Comida", emoji: "🌮", jarra: "necesidades", orden: 1 }, { id: "cat_gasolina", nombre: "Gasolina", emoji: "⛽", jarra: "necesidades", orden: 2 },
+    { id: "cat_super", nombre: "Súper", emoji: "🛒", jarra: "necesidades", orden: 3 }, { id: "cat_salidas", nombre: "Salidas", emoji: "🍻", jarra: "diversion", orden: 4 },
+    { id: "cat_compras", nombre: "Compras", emoji: "🛍️", jarra: "diversion", orden: 5 }, { id: "cat_viajes", nombre: "Viajes", emoji: "✈️", jarra: "diversion", orden: 6 },
+    { id: "cat_uber", nombre: "Uber", emoji: "🚗", jarra: "necesidades", orden: 7 }, { id: "cat_servicios", nombre: "Servicios", emoji: "📱", jarra: "necesidades", orden: 8 },
+    { id: "cat_sin_detalle", nombre: "Sin detalle", emoji: "❔", jarra: "necesidades", orden: 99, especial: true },
+  ];
+  const SIN_DETALLE = "cat_sin_detalle";
+  // Diccionario base de palabras por categoría (la llave es el nombre de la categoría sin acentos). Se suma a las `palabras` de cada categoría.
+  const DICC = {
+    comida: "tacos taco comida desayuno cena almuerzo restaurante pizza hamburguesa hamburguesas cafe starbucks elote elotes torta tortas sushi pollo carne tamales antojitos snack lonche comer fonda birria",
+    gasolina: "gasolina magna premium diesel gasolinera pemex litros",
+    super: "super walmart soriana heb costco despensa mercado chedraui sams abarrotes oxxo",
+    salidas: "cheve cheves chela chelas cerveza cervezas bar antro cine fiesta copas drinks trago tragos concierto boliche",
+    compras: "ropa zapatos amazon mercadolibre tenis regalo playera camisa pantalon liverpool shein farmacia",
+    viajes: "viaje vuelo hotel airbnb avion boleto boletos hospedaje caseta casetas maleta",
+    uber: "uber didi taxi cabify indrive",
+    servicios: "luz agua internet telcel netflix spotify telefono celular cfe renta suscripcion gas izzi att disney hbo",
+  };
+  const ITER_ES = {};   // (reservado)
+
+  // ---------- saldos de las cuentas ----------
+  // Tarjeta = deuda (su valor sale negativo). Solo cuentan los movimientos con fecha >= fecha_inicial de la cuenta; los ingresos
+  // importados no tienen cuenta y no mueven ningún saldo. Inversión: lo que vale hoy = última valuación (si no hay, lo aportado).
+  function estadoCuenta(c, movs, vals) {
+    const signo = c.tipo === "tarjeta" ? -1 : 1, ini = c.fecha_inicial || "";
+    let valor = signo * (Number(c.saldo_inicial) || 0), aportes = 0, retiros = 0, hay = false;
+    const flujos = [];   // traspasos de la inversión (fecha, +aporte / −retiro): los posteriores a la última valuación se suman a lo que vale
+    (movs || []).forEach((m) => {
+      if (!m || (ini && m.fecha < ini)) return;
+      const mt = Number(m.monto) || 0;
+      if (m.tipo === "traspaso") {
+        if (m.cuenta === c.id) { valor -= mt; retiros += mt; hay = true; flujos.push([m.fecha, -mt]); }
+        if (m.cuenta_destino === c.id) { valor += mt; aportes += mt; hay = true; flujos.push([m.fecha, mt]); }
+      } else if (m.cuenta === c.id) {
+        hay = true;
+        if (m.tipo === "gasto") valor -= mt; else if (m.tipo === "ingreso" || m.tipo === "ajuste") valor += mt;
+      }
+    });
+    if (c.tipo === "inversion") {
+      const aportado = r2((Number(c.saldo_inicial) || 0) + aportes - retiros);
+      let ult = null;
+      (vals || []).forEach((v) => { if (v && v.cuenta === c.id && esFecha(v.fecha) && (!ult || v.fecha >= ult.fecha)) ult = v; });
+      // lo que vale = última valuación + lo que entró o salió DESPUÉS de esa fecha (un aporte nuevo no es pérdida)
+      const vale = ult ? r2((Number(ult.valor) || 0) + flujos.reduce((s, f) => s + (f[0] > ult.fecha ? f[1] : 0), 0)) : aportado, rend = r2(vale - aportado);
+      return { valor: vale, aportado, vale, rend, pct: aportado > 0 ? Math.round((rend / aportado) * 1000) / 10 : null, valFecha: ult ? ult.fecha : null, hay: hay || aportado > 0 };
+    }
+    return { valor: r2(valor), hay: hay };
+  }
+  function estadoCuentas(cuentas, movs, vals) {
+    const porId = {}; let total = 0;
+    (cuentas || []).forEach((c) => { const e = estadoCuenta(c, movs, vals); porId[c.id] = e; if (!c.archivada) total += e.valor; });
+    return { porId, total: r2(total) };
+  }
+
+  // ---------- el mes ----------
+  const catDeId = (cats) => { const m = {}; (cats || []).forEach((c) => { m[c.id] = c; }); return m; };
+  // Entró, gastaste, «sin anotar» (ajustes con signo), gasto por categoría y lo usado de cada jarra.
+  function resumenMes(movs, cats, jarras, metas, cuentas, ym) {
+    const C = catDeId(cats), tipoDe = {}; (cuentas || []).forEach((c) => { tipoDe[c.id] = c.tipo; });
+    const R = { entro: 0, gasto: 0, sinAnotar: 0, porCat: {}, uso: {}, aportado: 0, abonado: 0 };
+    (movs || []).forEach((m) => {
+      if (!m || mesDe(m.fecha) !== ym) return;
+      const mt = Number(m.monto) || 0;
+      if (m.tipo === "ingreso") R.entro += mt;
+      else if (m.tipo === "gasto") {
+        R.gasto += mt; R.porCat[m.categoria || SIN_DETALLE] = (R.porCat[m.categoria || SIN_DETALLE] || 0) + mt;
+        const j = (C[m.categoria] && C[m.categoria].jarra) || "necesidades"; R.uso[j] = (R.uso[j] || 0) + mt;
+      } else if (m.tipo === "ajuste") R.sinAnotar += mt;
+      else if (m.tipo === "traspaso" && tipoDe[m.cuenta_destino] === "inversion") R.aportado += mt;   // aporte a inversión = jarra «Inversión»
+    });
+    (metas || []).forEach((x) => (x.abonos || []).forEach((a) => { if (a && mesDe(a.fecha) === ym) R.abonado += Number(a.monto) || 0; }));
+    R.uso.inversion = (R.uso.inversion || 0) + R.aportado; R.uso.ahorro = (R.uso.ahorro || 0) + R.abonado;
+    R.entro = r2(R.entro); R.gasto = r2(R.gasto); R.sinAnotar = r2(R.sinAnotar); R.queda = r2(R.entro - R.gasto);
+    Object.keys(R.uso).forEach((k) => { R.uso[k] = r2(R.uso[k]); });
+    R.jarras = (jarras || []).map((j) => ({ ...j, tope: r2((R.entro * (Number(j.pct) || 0)) / 100), usado: R.uso[j.id] || 0 }));
+    return R;
+  }
+  // barras mes a mes: los últimos n meses que terminan en ym
+  function serieMeses(movs, ym, n) {
+    const out = [], idx = {};
+    for (let i = n - 1; i >= 0; i--) { const k = sumarMeses(ym, -i); idx[k] = out.length; out.push({ ym: k, entro: 0, gasto: 0 }); }
+    (movs || []).forEach((m) => { const i = idx[mesDe(m && m.fecha)]; if (i === undefined) return; const mt = Number(m.monto) || 0; if (m.tipo === "ingreso") out[i].entro += mt; else if (m.tipo === "gasto") out[i].gasto += mt; });
+    out.forEach((o) => { o.entro = r2(o.entro); o.gasto = r2(o.gasto); });
+    return out;
+  }
+  function ingresosPorNegocio(movs, anio) {
+    const m = {}; let total = 0;
+    (movs || []).forEach((x) => { if (x && x.tipo === "ingreso" && String(x.fecha).slice(0, 4) === String(anio)) { const k = x.negocio || "otro"; m[k] = (m[k] || 0) + (Number(x.monto) || 0); total += Number(x.monto) || 0; } });
+    Object.keys(m).forEach((k) => { m[k] = r2(m[k]); });
+    return { porNegocio: m, total: r2(total) };
+  }
+  const gastosPorCategoria = (movs, ym) => { const m = {}; (movs || []).forEach((x) => { if (x && x.tipo === "gasto" && mesDe(x.fecha) === ym) { const k = x.categoria || SIN_DETALLE; m[k] = r2((m[k] || 0) + (Number(x.monto) || 0)); } }); return m; };
+  const sinAnotarEn = (movs, prefijo) => r2((movs || []).reduce((s, x) => s + (x && x.tipo === "ajuste" && String(x.fecha).startsWith(prefijo) ? Number(x.monto) || 0 : 0), 0));
+  // periodo de una tarjeta: desde el día después del último corte, próximo corte y fecha límite de pago
+  function periodoTarjeta(c, hoy) {
+    if (!c || !c.corte) return { desde: hoy.slice(0, 8) + "01", corte: null, limite: null };
+    const desde = sumarDias(diaAntes(hoy, Number(c.corte)), 1), corte = diaDesde(hoy, Number(c.corte), false);
+    return { desde, corte, limite: c.pago ? diaDesde(corte, Number(c.pago), true) : null };
+  }
+  // ¿cuánto le sobra a una jarra de gasto? (para el «tip del mes»)
+  function tipDelMes(R, metas) {
+    let mejor = null;
+    (R.jarras || []).forEach((j) => { if (j.id === "inversion" || j.id === "ahorro") return; const s = r2(j.tope - j.usado); if (s >= 100 && (!mejor || s > mejor.sobra)) mejor = { jarra: j, sobra: s }; });
+    if (!mejor) return null;
+    const m = (metas || []).filter((x) => (x.abonos || []).reduce((s, a) => s + (Number(a.monto) || 0), 0) < (Number(x.objetivo) || 0))[0];
+    return { jarra: mejor.jarra, sobra: mejor.sobra, meta: m || null };
+  }
+
+  // ---------- intérprete de frases de gasto ----------
+  // «150 tacos», «uber 85», «ayer 300 gasolina efectivo», «tacos 150 con tarjeta», «el lunes 450 super», «12/11 cena 800»…
+  // ctx = { hoy:'AAAA-MM-DD', categorias:[{id,nombre,palabras,oculta,especial}], cuentas:[{id,nombre,tipo,archivada}], ultimaCuenta:id }
+  const STOP = new Set("de del en con la el los las un una unos por para a al y pesos peso mxn mx pague gaste compre me salio fue pago pagado use mi cargo cargue este pasado pasada hoy ayer antier anteayer anoche lo que fueron fui pagamos".split(" "));
+  const GENERICAS = new Set("banco tarjeta efectivo cuenta de la el mi".split(" "));
+  const CENTENAS = { cien: 100, ciento: 100, doscientos: 200, trescientos: 300, cuatrocientos: 400, quinientos: 500, seiscientos: 600, setecientos: 700, ochocientos: 800, novecientos: 900 };
+  const UNIDADES = { un: 1, uno: 1, una: 1, dos: 2, tres: 3, cuatro: 4, cinco: 5, seis: 6, siete: 7, ocho: 8, nueve: 9, diez: 10, once: 11, doce: 12, quince: 15, veinte: 20, treinta: 30, cuarenta: 40, cincuenta: 50, sesenta: 60, setenta: 70, ochenta: 80, noventa: 90 };
+  const mesDeNombre = (t) => { const i = MESES.indexOf(t); if (i >= 0) return i + 1; const j = MESES_CORTO.indexOf(t.slice(0, 3)); return j >= 0 && (t.length === 3 || t === "sept") ? j + 1 : 0; };
+  function interpretar(frase, ctx) {
+    ctx = ctx || {};
+    const hoy = ctx.hoy || hoyMty(), [hy, hm, hd] = hoy.split("-").map(Number);
+    const tk = String(frase || "").trim().split(/\s+/).filter(Boolean).map((o) => ({ o, n: norm(o).replace(/^[^a-z0-9$]+|[^a-z0-9]+$/g, ""), uso: false }));
+    const R = { monto: null, categoria: null, categoriaNombre: "", fecha: hoy, cuenta: null, concepto: "", fechaDicha: false, cuentaDicha: false, faltan: [] };
+    const marca = (...ix) => ix.forEach((i) => { if (tk[i]) tk[i].uso = true; });
+    const antes = (i, w) => tk[i - 1] && !tk[i - 1].uso && tk[i - 1].n === w;
+    // --- fecha ---
+    const ponerFecha = (y, m, d, ix) => {
+      if (m < 1 || m > 12 || d < 1 || d > diasMes(y, m)) return false;
+      let f = y + "-" + pad(m) + "-" + pad(d);
+      if (f > hoy && !ix.anio) f = y - 1 + "-" + pad(m) + "-" + pad(d);
+      R.fecha = f; R.fechaDicha = true; return true;
+    };
+    for (let i = 0; i < tk.length && !R.fechaDicha; i++) {
+      const n = tk[i].n;
+      if (n === "hoy") { R.fecha = hoy; R.fechaDicha = true; marca(i); }
+      else if (n === "ayer" || n === "anoche") { R.fecha = sumarDias(hoy, -1); R.fechaDicha = true; marca(i); }
+      else if (n === "antier" || n === "anteayer") { R.fecha = sumarDias(hoy, -2); R.fechaDicha = true; marca(i); }
+      else if (DIAS.includes(n)) {   // «el lunes»: el más reciente anterior a hoy
+        let k = (diaSemana(hoy) - DIAS.indexOf(n) + 7) % 7; if (k === 0) k = 7;
+        R.fecha = sumarDias(hoy, -k); R.fechaDicha = true; marca(i); if (antes(i, "el") || antes(i, "este") || antes(i, "del")) marca(i - 1);
+      } else {
+        let m = n.match(/^(\d{1,2})[\/-](\d{1,2})(?:[\/-](\d{2,4}))?$/);
+        if (m) { let y = hy, anio = false; if (m[3]) { y = Number(m[3]) < 100 ? 2000 + Number(m[3]) : Number(m[3]); anio = true; } if (ponerFecha(y, Number(m[2]), Number(m[1]), { anio })) marca(i); continue; }
+        m = n.match(/^(\d{1,2})$/);
+        if (m) {
+          let k = i + 1; if (tk[k] && tk[k].n === "de") k++;
+          const mm = tk[k] ? mesDeNombre(tk[k].n) : 0;
+          if (mm && Number(m[1]) >= 1 && ponerFecha(hy, mm, Number(m[1]), {})) { marca(i, k); if (k === i + 2) marca(i + 1); if (antes(i, "el")) marca(i - 1); }
+        }
+      }
+    }
+    // --- cuenta ---
+    const cuentas = (ctx.cuentas || []).filter((c) => !c.archivada);
+    const dePorTipo = (tipo) => { const l = cuentas.filter((c) => c.tipo === tipo); return (l.find((c) => c.id === ctx.ultimaCuenta) || l[0] || {}).id || null; };
+    let porTipo = null;
+    for (let i = 0; i < tk.length; i++) {
+      const n = tk[i].n;
+      if (n === "tarjeta" && tk[i + 1] && tk[i + 1].n === "de" && tk[i + 2] && /^(debito|credito)$/.test(tk[i + 2].n)) { porTipo = tk[i + 2].n === "debito" ? "banco" : "tarjeta"; marca(i, i + 1, i + 2); }
+      else if (/^(tarjeta|tdc|credito)$/.test(n) && !porTipo) { porTipo = "tarjeta"; marca(i); }
+      else if (/^(debito|banco|transferencia|transfer|spei)$/.test(n) && !porTipo) { porTipo = "banco"; marca(i); }
+      else if (/^(efectivo|cash)$/.test(n) && !porTipo) { porTipo = "efectivo"; marca(i); }
+    }
+    let porNombre = null;
+    cuentas.forEach((c) => norm(c.nombre).split(/[^a-z0-9]+/).filter((w) => w.length >= 2 && !GENERICAS.has(w)).forEach((w) => { tk.forEach((t, i) => { if (!t.uso && t.n === w) { porNombre = c.id; marca(i); } }); }));
+    if (porNombre) { R.cuenta = porNombre; R.cuentaDicha = true; }
+    else if (porTipo) { const id = dePorTipo(porTipo); if (id) { R.cuenta = id; R.cuentaDicha = true; } }
+    if (!R.cuenta) R.cuenta = (cuentas.find((c) => c.id === ctx.ultimaCuenta) || cuentas[0] || {}).id || null;
+    // --- monto ---
+    const num = (t) => { const m = t.match(/^\$?(\d{1,3}(?:,\d{3})+|\d+)(?:\.(\d{1,2}))?(k?)$/); return m ? { v: Number(m[1].replace(/,/g, "") + (m[2] ? "." + m[2] : "")) * (m[3] ? 1000 : 1), peso: t.startsWith("$") } : null; };
+    const cand = [];
+    for (let i = 0; i < tk.length; i++) {
+      if (tk[i].uso) continue;
+      let v = null, peso = false, fin = i;
+      const x = num(tk[i].n);
+      if (x) { v = x.v; peso = x.peso; if (tk[i + 1] && tk[i + 1].n === "mil" && !tk[i + 1].uso) { v *= 1000; fin = i + 1; } }
+      else if ((CENTENAS[tk[i].n] || UNIDADES[tk[i].n]) && tk[i + 1] && tk[i + 1].n === "mil") { v = (CENTENAS[tk[i].n] || UNIDADES[tk[i].n]) * 1000; fin = i + 1; }
+      else if (CENTENAS[tk[i].n]) v = CENTENAS[tk[i].n];
+      else if (tk[i].n === "mil") v = 1000;
+      if (v === null) continue;
+      const sig = tk[fin + 1] && !tk[fin + 1].uso && CENTENAS[tk[fin + 1].n] && v >= 1000 ? CENTENAS[tk[fin + 1].n] : 0;   // «mil quinientos»
+      if (sig) fin++;
+      cand.push({ i, fin, v: v + sig, peso });
+    }
+    // «el 12» (día del mes) solo si hay otro número que sea el monto
+    if (!R.fechaDicha) {
+      for (let i = 0; i < tk.length - 1; i++) {
+        if (tk[i].n === "el" && !tk[i].uso && /^\d{1,2}$/.test(tk[i + 1].n) && cand.length > 1) {
+          const d = Number(tk[i + 1].n); let ym = mesDe(hoy); if (d > hd) ym = sumarMeses(ym, -1);
+          if (d >= 1 && d <= diasMes(...ym.split("-").map(Number))) { R.fecha = ym + "-" + pad(d); R.fechaDicha = true; marca(i, i + 1); const k = cand.findIndex((c) => c.i === i + 1); cand.splice(k, 1); break; }
+        }
+      }
+    }
+    if (cand.length) {
+      const conPeso = cand.filter((c) => c.peso), pool = conPeso.length ? conPeso : cand;
+      const e = pool.reduce((a, b) => (b.v > a.v ? b : a));
+      R.monto = e.v; for (let k = e.i; k <= e.fin; k++) marca(k);
+    } else R.faltan.push("monto");
+    // --- categoría ---
+    const libres = tk.filter((t) => !t.uso).map((t) => t.n), texto = " " + libres.join(" ") + " ";
+    const igualP = (t, k) => t === k || t === k + "s" || k === t + "s" || t === k + "es";
+    let mejor = null;
+    (ctx.categorias || []).forEach((c, ci) => {
+      if (c.oculta) return;
+      let pts = 0;
+      const prueba = (k, peso) => { k = norm(k).trim(); if (!k) return; if (k.includes(" ")) { if (texto.includes(" " + k + " ")) pts += peso + 1; } else if (libres.some((t) => igualP(t, k))) pts += peso; };
+      (c.palabras || []).forEach((k) => prueba(k, 30));
+      prueba(c.nombre, 20);
+      if (!c.especial) (DICC[norm(c.nombre).replace(/[^a-z]/g, "")] || "").split(" ").forEach((k) => prueba(k, 10));
+      if (pts && (!mejor || pts > mejor.pts)) mejor = { c, pts };
+    });
+    if (mejor) { R.categoria = mejor.c.id; R.categoriaNombre = mejor.c.nombre; } else R.faltan.push("categoria");
+    // --- concepto: lo que sobra, sin las palabras de relleno ---
+    const sobra = tk.filter((t) => !t.uso && !STOP.has(t.n) && !/^\$?[\d.,]+$/.test(t.n)).map((t) => t.o.replace(/^[^\p{L}\p{N}$]+|[^\p{L}\p{N}]+$/gu, "")).filter(Boolean);
+    R.concepto = cap(sobra.join(" "));
+    return R;
+  }
+
+  return { norm, r2, pad, esFecha, hoyMty, diasMes, sumarDias, diaSemana, mesDe, sumarMeses, nombreMes, MESES, MESES_CORTO, cap, pesos, diaEnMes, diaDesde, diaAntes,
+    BASE_JARRAS, BASE_NEGOCIOS, BASE_CATS, SIN_DETALLE, DICC, estadoCuenta, estadoCuentas, resumenMes, serieMeses, ingresosPorNegocio, gastosPorCategoria, sinAnotarEn, periodoTarjeta, tipDelMes, interpretar };
+})();
+/*NUCLEO:FIN*/
+
+/*DATOS:INICIO*/
+const Cripto = (() => {
+  const te = new TextEncoder(), td = new TextDecoder(), sub = () => crypto.subtle;
+  const hex = (b) => Array.from(new Uint8Array(b), (x) => x.toString(16).padStart(2, "0")).join("");
+  const deHex = (h) => new Uint8Array(h.match(/../g).map((x) => parseInt(x, 16)));
+  const b64 = (b) => { let s = ""; const u = new Uint8Array(b); for (let i = 0; i < u.length; i++) s += String.fromCharCode(u[i]); return btoa(s); };
+  const deB64 = (t) => Uint8Array.from(atob(t), (c) => c.charCodeAt(0));
+  const azar = (n) => crypto.getRandomValues(new Uint8Array(n));
+  const juntar = (a, b) => { const o = new Uint8Array(a.length + b.length); o.set(a, 0); o.set(b, a.length); return o; };
+  const ITER = 600000;   // vueltas de PBKDF2-SHA256 (lo que pide OWASP; el servidor acepta de 100 000 a 2 000 000). El dueño tiene la hoja: entre más vueltas, más caro adivinar su contraseña
+  // De una contraseña (o código) salen DOS cosas aparte: el verificador (lo único que viaja al servidor) y la llave que envuelve la
+  // llave de datos (nunca sale del teléfono). PBKDF2 → HKDF con dos etiquetas distintas: del verificador no se puede sacar la llave.
+  async function derivar(secreto, salHex, iter) {
+    // las vueltas y la sal vienen del servidor: si alguien lo cambia para pedir pocas vueltas (verificador fácil de adivinar), no se deriva nada
+    if (!Number.isInteger(iter) || iter < 100000 || iter > 2000000 || !/^[0-9a-f]{16,128}$/.test(String(salHex))) throw new Error("parámetros de cifrado no válidos");
+    const base = await sub().importKey("raw", te.encode(String(secreto)), "PBKDF2", false, ["deriveBits"]);
+    const bits = await sub().deriveBits({ name: "PBKDF2", hash: "SHA-256", salt: deHex(salHex), iterations: iter }, base, 256);
+    const hk = await sub().importKey("raw", bits, "HKDF", false, ["deriveBits", "deriveKey"]);
+    const vacio = new Uint8Array(0);
+    const verificador = hex(await sub().deriveBits({ name: "HKDF", hash: "SHA-256", salt: vacio, info: te.encode("finanzas-verificador") }, hk, 256));
+    const kek = await sub().deriveKey({ name: "HKDF", hash: "SHA-256", salt: vacio, info: te.encode("finanzas-cifrado") }, hk, { name: "AES-GCM", length: 256 }, false, ["wrapKey", "unwrapKey"]);
+    return { verificador, kek };
+  }
+  const nuevaLlave = () => sub().generateKey({ name: "AES-GCM", length: 256 }, true, ["encrypt", "decrypt"]);
+  async function envolver(llave, kek) { const iv = azar(12), w = await sub().wrapKey("raw", llave, kek, { name: "AES-GCM", iv }); return b64(juntar(iv, new Uint8Array(w))); }
+  async function abrirLlave(txt, kek, extraible) {
+    const u = deB64(txt);
+    return sub().unwrapKey("raw", u.slice(12), kek, { name: "AES-GCM", iv: u.slice(0, 12) }, { name: "AES-GCM" }, !!extraible, ["encrypt", "decrypt"]);
+  }
+  // cada registro: IV al azar + AES-GCM, atado a «colección|id» (no se puede cambiar de lugar un registro cifrado)
+  async function cifrar(llave, obj, aad) {
+    const iv = azar(12), c = await sub().encrypt({ name: "AES-GCM", iv, additionalData: te.encode(aad) }, llave, te.encode(JSON.stringify(obj)));
+    return b64(juntar(iv, new Uint8Array(c)));
+  }
+  async function descifrar(llave, txt, aad) {
+    const u = deB64(txt), p = await sub().decrypt({ name: "AES-GCM", iv: u.slice(0, 12), additionalData: te.encode(aad) }, llave, u.slice(12));
+    return JSON.parse(td.decode(p));
+  }
+  // código de recuperación: 20 letras y números (100 bits), sin O/0/I/1; se enseña en grupos de 4
+  function codigo() { const A = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789", b = azar(20); let s = ""; for (const x of b) s += A[x % 32]; return s.match(/.{4}/g).join("-"); }
+  const limpiarCodigo = (t) => String(t || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+  // ---- candado del teléfono del dueño (llave y caché cifradas con el PIN) ----
+  const ITER_PIN = 600000;
+  // PBKDF2 del PIN (600 000 vueltas, sal guardada) y luego una «pimienta» que vive en IndexedDB como llave HMAC NO extraíble: sin ese aparato, el PIN solo no abre nada
+  async function kekPin(pin, salHex, iter, pimienta) {
+    const base = await sub().importKey("raw", te.encode(String(pin)), "PBKDF2", false, ["deriveBits"]);
+    const bits = await sub().deriveBits({ name: "PBKDF2", hash: "SHA-256", salt: deHex(salHex), iterations: iter }, base, 256);
+    return sub().importKey("raw", await sub().sign("HMAC", pimienta, bits), "AES-GCM", false, ["encrypt", "decrypt"]);
+  }
+  // el secreto que da Face ID (extensión PRF de WebAuthn) → llave que envuelve la llave de caché
+  async function kekFace(prf) {
+    const hk = await sub().importKey("raw", prf, "HKDF", false, ["deriveKey"]);
+    return sub().deriveKey({ name: "HKDF", hash: "SHA-256", salt: new Uint8Array(0), info: te.encode("finanzas-face-prf") }, hk, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+  }
+  async function cifrarBytes(kek, bytes) { const iv = azar(12), c = await sub().encrypt({ name: "AES-GCM", iv }, kek, bytes); return b64(juntar(iv, new Uint8Array(c))); }
+  async function descifrarBytes(kek, txt) { const u = deB64(txt); return new Uint8Array(await sub().decrypt({ name: "AES-GCM", iv: u.slice(0, 12) }, kek, u.slice(12))); }
+  const llaveAes = (bytes) => sub().importKey("raw", bytes, "AES-GCM", false, ["encrypt", "decrypt"]);
+  return { ITER, ITER_PIN, kekPin, kekFace, cifrarBytes, descifrarBytes, llaveAes, azarBytes: azar, hex, azarHex: (n) => hex(azar(n)), derivar, nuevaLlave, envolver, abrirLlave, cifrar, descifrar, codigo, limpiarCodigo };
+})();
+
+// La llave de datos de ella, ya abierta, vive en el teléfono como CryptoKey NO extraíble en IndexedDB (nadie puede leer sus bytes).
+const LlaveLocal = (() => {
+  const abrir = () => new Promise((ok, no) => { const q = indexedDB.open("finanzas", 1); q.onupgradeneeded = () => q.result.createObjectStore("k"); q.onsuccess = () => ok(q.result); q.onerror = () => no(q.error); });
+  const pedir = async (modo, f) => { const db = await abrir(); return new Promise((ok, no) => { const t = db.transaction("k", modo), r = f(t.objectStore("k")); t.oncomplete = () => ok(r && r.result); t.onerror = () => no(t.error); t.onabort = () => no(t.error); }); };
+  // «datos» = la llave de datos de ella; «pimienta» = la llave HMAC no extraíble que se mezcla con el PIN del dueño
+  return { get: (k) => pedir("readonly", (s) => s.get(k || "datos")).catch(() => null), put: (v, k) => pedir("readwrite", (s) => s.put(v, k || "datos")), del: () => pedir("readwrite", (s) => { s.delete("datos"); s.delete("pimienta"); }).catch(() => {}) };
+})();
+
+const Datos = (() => {
+  const COLS = ["cuentas", "movimientos", "valuaciones", "categorias", "config", "metas"], PRE = "fin_";
+  const mem = {}, raw = {}, subs = {};
+  COLS.forEach((c) => { mem[c] = {}; raw[c] = {}; subs[c] = new Set(); });
+  const leerJ = (k) => { try { return JSON.parse(ls.get(k) || "null"); } catch { return null; } };
+  // la llave del dueño: en el teléfono vive CIFRADA (fin_llave_c); en claro solo un instante, antes de crear el PIN (o de una versión vieja que se migra al primer PIN)
+  let url = ls.get(PRE + "api"), llave = ls.get(PRE + "llave"), token = ls.get(PRE + "token"), usuario = ls.get(PRE + "usuario") || "";
+  let rol = ls.get(PRE + "rol") || (llave || ls.get(PRE + "llave_c") ? "dueno" : token ? "pareja" : null);
+  let alertas = [], respaldoUltimo = null;
+  const aparato = (() => { let a = ls.get(PRE + "aparato"); if (!/^[0-9a-f]{32}$/.test(a || "")) { a = Cripto.azarHex(16); ls.set(PRE + "aparato", a); } return a; })();   // id al azar de ESTE teléfono: el servidor avisa si uno nuevo usa la llave
+  let perfil = leerJ(PRE + "perfil"), keyDatos = null, parejaRes = leerJ(PRE + "pareja_res"), servidor = 1;
+  let cola = (ls.get(PRE + "cola_c") ? [] : leerJ(PRE + "cola")) || [], cambios = 0, ultimo = 0, leyendo = null, enviando = null, sincronizado = false, ilegibles = 0, sinSenal = false, timerCola = 0;
+  const estadoFns = new Set(), parejaFns = new Set(), errFns = new Set(), sincFns = new Set();
+  const llaveCache = () => PRE + "cache_" + (rol === "pareja" ? "p" : "d");
+  const sinCred = () => !url || (rol === "pareja" ? !token : !llave);
+  const laLlaveEstaGuardada = () => !!(llave || ls.get(PRE + "llave_c"));
+  const urlValida = (u) => /^https:\/\/script\.google\.com\/(a\/[^/]+\/)?macros\/s\/[^/]+\/exec$/.test(u || "");
+  const avisarEstado = () => estadoFns.forEach((f) => { try { f({ pendientes: cola.length, sinSenal, ilegibles }); } catch {} });
+  const nuevoId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+  const emitir = (c) => subs[c].forEach((s) => s({ ...mem[c] }));
+  const fechaMty = () => { try { return new Date().toLocaleDateString("en-CA", { timeZone: "America/Monterrey" }); } catch { return new Date().toISOString().slice(0, 10); } };
+  // El dueño, con PIN: caché y cola van CIFRADAS (AES-GCM con la llave de caché, que solo se abre con el PIN). Se escriben en segundo plano y en orden.
+  const cifrado = () => rol === "dueno" && Boveda.configurada();
+  const volcador = (clave, dato) => { let sucio = false, escribiendo = false; return async () => { sucio = true; if (escribiendo) return; escribiendo = true; try { while (sucio) { sucio = false; const k = Boveda.llaveCache(); if (!k) break; ls.set(clave, await Cripto.cifrar(k, dato(), "fin|" + clave)); } } catch {} finally { escribiendo = false; } }; };
+  const volcarCache = volcador(PRE + "cache_dc", () => raw), volcarCola = volcador(PRE + "cola_c", () => cola);
+  function guardarCache() { if (cifrado()) { volcarCache(); return; } try { localStorage.setItem(llaveCache(), JSON.stringify(raw)); } catch {} }
+  function guardarCola() { if (cifrado()) volcarCola(); else { try { localStorage.setItem(PRE + "cola", JSON.stringify(cola)); } catch {} } avisarEstado(); }
+  async function cargarCache() {
+    let c = null;
+    if (cifrado()) {
+      const k = Boveda.llaveCache(), t = ls.get(PRE + "cache_dc"), tc = ls.get(PRE + "cola_c");
+      try { if (k && t) c = await Cripto.descifrar(k, t, "fin|" + PRE + "cache_dc"); } catch { c = null; }
+      try { if (k && tc) cola = (await Cripto.descifrar(k, tc, "fin|" + PRE + "cola_c")) || []; } catch { cola = []; }
+    } else c = leerJ(llaveCache());
+    if (c) COLS.forEach((k) => (raw[k] = c[k] || {}));
+    return !!c;
+  }
+  async function api(cuerpo, ms, sinAuth) {
+    const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), ms || 20000);
+    const auth = sinAuth ? {} : rol === "pareja" ? { token } : { llave, aparato, ua: String(navigator.userAgent || "").slice(0, 150) };
+    try {
+      const r = await fetch(url, { method: "POST", body: JSON.stringify({ ...cuerpo, ...auth }), headers: { "Content-Type": "text/plain;charset=utf-8" }, signal: ctl.signal, redirect: "follow" });
+      const x = await r.text();
+      try { return JSON.parse(x); } catch { const e = new Error("html"); e.html = true; e.texto = x.slice(0, 400); throw e; }
+    } finally { clearTimeout(t); }
+  }
+  // la llave dejó de servir (dueño) o la sesión se cerró / le dieron de baja (pareja)
+  function sinAcceso(r) {
+    if (!r || r.ok) return false;
+    if (r.error === "llave" && rol !== "pareja") { Acceso.pedir("dueno", "La llave ya no es válida. Escríbela otra vez.").then(() => refrescar()); return true; }
+    if (r.error === "aparato_pendiente") { errFns.forEach((f) => f("Este aparato es nuevo y todavía no tiene permiso: apruébalo desde tu teléfono de siempre (Mi cuenta → Mis aparatos). Si ya no lo tienes, corre cambiarLlave en Apps Script y pega aquí la llave nueva.", "aparato")); return true; }
+    if (r.error === "aparato") { errFns.forEach((f) => f("Este aparato ya no tiene permiso de usar tu llave. Si no lo quitaste tú, corre cambiarLlave en Apps Script.", "aparato")); return true; }
+    if (r.error === "bloqueado_llave") { errFns.forEach((f) => f("El servidor bloqueó las llaves por 1 hora por demasiados intentos equivocados.", "llave")); return true; }
+    if (r.error === "sesion" || r.error === "baja") {
+      token = null; ls.del(PRE + "token");
+      Acceso.pedir("pareja", r.error === "baja" ? "Ya no tienes acceso a la app. Si es un error, avísale a quien te la dio." : "Tu sesión se cerró. Entra otra vez con tu contraseña.").then(() => refrescar());
+      return true;
+    }
+    return false;
+  }
+  // ---- errores a la vista: lo que truene en el teléfono se muestra en pantalla y se manda por detrás a la hoja (`_errores`) ----
+  const TOPE_ERR = 20, ESPERA_ERR = 4000, errCola = [], errVistos = new Set();
+  let errTimer = 0, errEnviando = false;
+  const errHoy = () => { const x = leerJ(PRE + "err"), d = fechaMty(); return x && x.d === d ? x : { d, n: 0 }; };
+  function juntarError(msg, donde) {
+    try {
+      msg = String(msg == null ? "" : msg).slice(0, 300); donde = String(donde || "").slice(0, 200);
+      if (!msg) return;
+      const k = msg + "|" + donde; if (errVistos.has(k) || errVistos.size > 100) return;
+      errVistos.add(k);
+      const L = leerJ(PRE + "errores_local") || []; L.unshift({ t: Date.now(), msg, donde }); ls.set(PRE + "errores_local", JSON.stringify(L.slice(0, 20)));   // para verlos en «Mi cuenta»
+      errFns.forEach((f) => { try { f(msg, donde); } catch {} });   // se le enseña a quien usa la app
+      if (errEnviando || sinCred() || errHoy().n + errCola.length >= TOPE_ERR || errCola.length >= 10) return;
+      errCola.push({ msg, donde, ua: String(navigator.userAgent || "").slice(0, 150), version: "s" + servidor });   // solo el texto del error: nunca datos
+      if (!errTimer) errTimer = setTimeout(enviarErrores, ESPERA_ERR);
+    } catch {}
+  }
+  async function enviarErrores() {
+    errTimer = 0;
+    if (!errCola.length || errEnviando || sinCred()) { errCola.length = 0; return; }
+    const lote = errCola.splice(0, 10), h = errHoy(); h.n += lote.length; ls.set(PRE + "err", JSON.stringify(h));
+    errEnviando = true;
+    try { await api({ accion: "error", errores: lote }, 15000); } catch {} finally { errEnviando = false; }
+  }
+  addEventListener("error", (e) => { if (e && e.message) juntarError(e.message, (e.filename ? String(e.filename).split("/").pop() || "página" : "página") + ":" + (e.lineno || 0)); });
+  addEventListener("unhandledrejection", (e) => { const r = e && e.reason; juntarError(r && r.message ? r.message : String(r), "promesa"); });
+  // ---- respaldo diario (solo el dueño): una vez al día, después de leer, sin esperar ni avisar ----
+  let respaldoPedido = false, respaldoReintento = 0;
+  async function respaldoSiToca() {
+    if (respaldoPedido || rol === "pareja" || !llave) return;   // (el respaldo diario de verdad lo hace el servidor solo, con su activador; esto es un refuerzo)
+    if (ls.get(PRE + "respaldo") === fechaMty()) return;
+    respaldoPedido = true;
+    try {
+      const r = await api({ accion: "respaldo" }, 120000);
+      if (r && r.ok && r.ultimo) respaldoUltimo = r.ultimo;
+      if (r && r.ok && (r.hecho || r.ya)) ls.set(PRE + "respaldo", fechaMty());
+      else if (r && r.ok) { respaldoPedido = false; if (!respaldoReintento) respaldoReintento = setTimeout(() => { respaldoReintento = 0; respaldoSiToca(); }, 10 * 60 * 1000); }
+      else if (r && r.error) juntarError("respaldo: " + r.error, "respaldo");
+    } catch { respaldoPedido = false; }
+  }
+  // ---- de lo guardado a lo que ve la app (la pareja descifra) ----
+  async function abrirDoc(col, id, d) {
+    if (rol !== "pareja") return { ...d, id };
+    try { return { ...(await Cripto.descifrar(keyDatos, d.c, "p_" + col + "|" + id)), id }; } catch { ilegibles++; return null; }
+  }
+  async function rawAMem(soloCol) {
+    ilegibles = 0;
+    for (const c of soloCol ? [soloCol] : COLS) {
+      const m = {};
+      await Promise.all(Object.entries(raw[c]).map(async ([id, d]) => { const x = await abrirDoc(c, id, d); if (x) m[id] = x; }));
+      mem[c] = m;
+    }
+  }
+  async function refrescar() {
+    if (leyendo) return leyendo;
+    if (sinCred()) return false;
+    leyendo = (async () => {
+      const c0 = cambios;
+      try {
+        if (cola.length) await vaciarCola();
+        const r = await api({ accion: "leer" }, 60000);
+        sinSenal = false;
+        if (!r || !r.ok) { sinAcceso(r); avisarEstado(); return false; }
+        servidor = Number(r.version || 1);
+        if (r.perfil) { perfil = r.perfil; ls.set(PRE + "perfil", JSON.stringify(perfil)); }
+        if (rol === "dueno") { alertas = Array.isArray(r.alertas) ? r.alertas : []; respaldoUltimo = (r.respaldo && r.respaldo.ultimo) || respaldoUltimo; }
+        if (r.pareja) { parejaRes = r.pareja; ls.set(PRE + "pareja_res", JSON.stringify(parejaRes)); parejaFns.forEach((f) => f(parejaRes)); }
+        if (cola.length || cambios !== c0) return false;   // mientras leía se guardó algo: esta lectura ya no sirve (se vuelve a leer en un rato)
+        COLS.forEach((c) => { raw[c] = (r.datos || {})[(rol === "pareja" ? "p_" : "") + c] || {}; });
+        await rawAMem();
+        if (cambios !== c0) return false;
+        guardarCache(); ultimo = Date.now(); sincronizado = true; avisarEstado();
+        COLS.forEach(emitir); sincFns.forEach((f) => f());
+        setTimeout(respaldoSiToca, 3000);
+        return true;
+      } catch (x) { sinSenal = true; avisarEstado(); return false; }
+      finally { leyendo = null; }
+    })();
+    return leyendo;
+  }
+  // ---- escribir: se aplica al momento y se manda en cola ----
+  const fusionar = (base, data) => { const d = { ...(base || {}), ...data }; Object.keys(d).forEach((k) => { if (d[k] && d[k].__delete__) delete d[k]; }); return d; };
+  async function mandar(ops) {
+    if (!ops.length) return "ok";
+    if (sinCred()) return "error";
+    const tocadas = new Set();
+    for (const o of ops) {
+      const { op, col, id } = o; if (!mem[col]) continue;
+      tocadas.add(col);
+      if (op === "del") { delete mem[col][id]; delete raw[col][id]; cola.push({ op: "del", col: (rol === "pareja" ? "p_" : "") + col, id }); continue; }
+      const plano = op === "update" ? fusionar(mem[col][id], o.data) : fusionar({}, o.data);
+      delete plano.id;
+      mem[col][id] = { ...plano, id };
+      if (rol === "pareja") { const d = { v: 1, c: await Cripto.cifrar(keyDatos, plano, "p_" + col + "|" + id) }; raw[col][id] = d; cola.push({ op: "set", col: "p_" + col, id, data: d }); }
+      else { raw[col][id] = plano; cola.push({ op: "set", col, id, data: plano }); }   // el dueño manda el registro completo: así un cambio en cola nunca pisa de más
+    }
+    cambios++; guardarCache(); guardarCola(); tocadas.forEach(emitir);
+    return await vaciarCola();
+  }
+  let intentosLote = 0;
+  async function vaciarCola() {
+    if (enviando) return enviando;
+    enviando = (async () => {
+      try {
+        while (cola.length) {
+          const lote = cola.slice(0, rol === "pareja" ? 50 : 100);
+          let r;
+          try { r = await api({ accion: "escribir", ops: lote }, 25000); }
+          catch { sinSenal = true; avisarEstado(); programarCola(); return "en_cola"; }
+          sinSenal = false;
+          if (!r || !r.ok) {
+            if (sinAcceso(r)) return "denegado";
+            if (++intentosLote >= 3) { cola.splice(0, lote.length); intentosLote = 0; guardarCola(); juntarError("no se pudo guardar: " + ((r && r.error) || "sin detalle"), "cola"); return "error"; }
+            programarCola(); return "error";
+          }
+          intentosLote = 0;
+          cola.splice(0, lote.length); guardarCola();
+          (r.rechazados || []).forEach((x) => juntarError("el servidor rechazó un cambio (" + x.motivo + ")", "cola"));
+        }
+        avisarEstado(); return "ok";
+      } finally { enviando = null; }
+    })();
+    return enviando;
+  }
+  function programarCola() { if (timerCola) return; timerCola = setTimeout(() => { timerCola = 0; if (cola.length) vaciarCola(); }, 15000); }
+  addEventListener("online", () => { sinSenal = false; if (cola.length) vaciarCola(); refrescar(); });
+  // ---- pantallas de entrada (la primera vez, o cuando la llave o la sesión ya no sirven) ----
+  const Acceso = (() => {
+    let raiz = null, listo = null;
+    const ver = (html) => { if (!raiz) { raiz = document.createElement("div"); raiz.id = "acceso"; document.body.appendChild(raiz); } raiz.innerHTML = html; raiz.scrollTop = 0; return raiz; };
+    const cerrar = () => { if (raiz) { raiz.remove(); raiz = null; } };
+    const pie = '<p class="err" role="alert" aria-live="polite"></p>';
+    const cab = (t, s) => `<div class="acc"><div class="icono">$</div><h1>${esc(t)}</h1><p class="sub">${esc(s || "")}</p>`;
+    const poner = (r, t, ok) => { const e = r.querySelector(".err"); e.textContent = t; e.classList.toggle("ok", !!ok); };
+    const fallaRed = (r, x) => poner(r, !navigator.onLine ? "No hay señal. Inténtalo cuando tengas internet." : x && x.html ? "La hoja no contestó bien. Revisa que esté implementada como aplicación web." : "No pude conectar con la hoja. Revisa tu señal e inténtalo otra vez.");
+    function deAcceso(texto) {
+      const t = String(texto || ""), k = t.match(/llave:\s*([A-Za-z0-9_-]+)/i);
+      const d = t.match(/https:\/\/script\.google\.com\/(?:a\/[^\/\s]+\/)?macros\/s\/[^\/\s]+\/exec/) || t.match(/https:\/\/script\.google\.com\/[^\s"'<>]+/);
+      return k && d ? { url: d[0].replace(/[?#].*$/, ""), llave: k[1] } : null;
+    }
+    const b64u = (t) => btoa(t).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    const deB64u = (t) => atob(String(t).replace(/-/g, "+").replace(/_/g, "/"));
+    function leerHash() {   // link de la pareja: #acceso=<dirección en base64url>&u=<usuario>
+      const m = location.hash.match(/#acceso=([A-Za-z0-9_-]+)(?:&u=([^&\s]*))?/); if (!m) return null;
+      try { history.replaceState(history.state, "", location.pathname + location.search); } catch {}
+      try { const u = deB64u(m[1]); if (urlValida(u)) return { url: u, usuario: decodeURIComponent(m[2] || "") }; } catch {}
+      return null;
+    }
+    function pElegir(msg) {
+      const r = ver(cab("Finanzas", msg || "Elige cómo entras") + `<button class="btn" data-d type="button">Soy el dueño</button><button class="btn2" data-p type="button">Tengo usuario y contraseña</button>${pie}</div>`);
+      r.querySelector("[data-d]").onclick = () => pDueno(); r.querySelector("[data-p]").onclick = () => pPareja();
+    }
+    function pDueno(msg) {
+      const r = ver(cab("Acceso del dueño", msg || "Pega la dirección de tu hoja (la que termina en /exec) y tu llave, o tu acceso completo.") + `<form novalidate>
+        <input class="campo" name="u" type="text" placeholder="https://script.google.com/macros/s/…/exec" value="${esc(url || "")}" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" aria-label="Dirección de la hoja">
+        <input class="campo" name="k" type="text" placeholder="Llave" value="${esc(llave || "")}" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" aria-label="Llave">
+        ${pie}<button class="btn" type="submit">Entrar</button><button class="enlace" data-v type="button">Volver</button></form></div>`);
+      const f = r.querySelector("form");
+      f.u.addEventListener("input", () => { const a = deAcceso(f.u.value); if (a) { f.u.value = a.url; f.k.value = a.llave; } });
+      r.querySelector("[data-v]").onclick = () => pElegir();
+      f.onsubmit = async (e) => {
+        e.preventDefault();
+        const u = (String(f.u.value).match(/https:\/\/script\.google\.com\/[^\s"'<>]+/) || [String(f.u.value).trim()])[0].replace(/[?#].*$/, ""), k = String(f.k.value).trim().replace(/^.*llave:\s*/i, "").replace(/\s+/g, "");
+        if (!urlValida(u)) return poner(r, /\/dev$/.test(u) ? "Esa es la dirección de prueba (/dev). Usa la de la implementación, la que termina en /exec." : "La dirección debe empezar con https://script.google.com/macros/s/ y terminar en /exec.");
+        if (!k) return poner(r, "Falta la llave.");
+        poner(r, "Probando…", true);
+        const antes = { url, llave, rol }; url = u; llave = k; rol = "dueno";
+        try {
+          const x = await api({ accion: "leer", cols: ["config"] }, 30000);
+          if (!x || (!x.ok && x.error !== "aparato_pendiente")) { url = antes.url; llave = antes.llave; rol = antes.rol; return poner(r, x && x.error === "llave" ? "La llave no coincide. Cópiala otra vez del «Registro de ejecución» (solo las letras y números)." : "La hoja contestó con un error: " + ((x && x.error) || "sin detalle")); }
+        } catch (x) { url = antes.url; llave = antes.llave; rol = antes.rol; return fallaRed(r, x); }
+        ls.set(PRE + "api", url); await Boveda.guardarLlave(); ls.set(PRE + "rol", "dueno"); ls.del(PRE + "token"); token = null;
+        terminar();
+      };
+    }
+    function pPareja(msg, sug) {
+      const r = ver(cab("Finanzas", msg || (url ? "Entra con tu usuario y contraseña." : "Abre el link que te mandaron, o pega aquí la dirección.")) + `<form novalidate>
+        ${url ? "" : `<input class="campo" name="d" type="text" placeholder="Dirección (https://script.google.com/…/exec)" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" aria-label="Dirección de la hoja">`}
+        <input class="campo" name="us" type="text" placeholder="Usuario" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" aria-label="Usuario" value="${esc(sug || usuario || "")}">
+        <input class="campo" name="pw" type="password" placeholder="Contraseña" autocomplete="current-password" aria-label="Contraseña">
+        ${pie}<button class="btn" type="submit">Entrar</button>${llave || usuario ? "" : `<button class="enlace" data-v type="button">Soy el dueño</button>`}</form></div>`);
+      const v = r.querySelector("[data-v]"); if (v) v.onclick = () => pDueno();
+      const f = r.querySelector("form");
+      f.onsubmit = async (e) => {
+        e.preventDefault();
+        if (f.d) { const d = String(f.d.value).match(/https:\/\/script\.google\.com\/[^\s"'<>]+/); if (!d || !urlValida(d[0].replace(/[?#].*$/, ""))) return poner(r, "La dirección debe empezar con https://script.google.com/macros/s/ y terminar en /exec."); url = d[0].replace(/[?#].*$/, ""); }
+        const us = f.us.value.trim(), pw = f.pw.value;
+        if (!us || !pw) return poner(r, !us ? "Escribe tu usuario." : "Escribe tu contraseña.");
+        poner(r, "Entrando…", true);
+        try { await entrarPareja(r, us, pw); } catch (x) { fallaRed(r, x); }
+      };
+    }
+    async function entrarPareja(r, us, pw) {
+      const s = await api({ accion: "sal", usuario: us }, 30000, true);
+      if (!s || !s.ok) return poner(r, "El usuario o la contraseña no coinciden.");
+      const { verificador, kek } = await Cripto.derivar(pw, s.sal_kdf, s.iter);
+      const e = await api({ accion: "entrar", usuario: us, verificador }, 30000, true);
+      if (!e || !e.ok) return poner(r, e && e.error === "bloqueado" ? "Demasiados intentos. Espera 15 minutos e inténtalo otra vez." : e && e.error === "baja" ? "Ya no tienes acceso a la app. Si es un error, avísale a quien te la dio." : "El usuario o la contraseña no coinciden.");
+      token = e.token; rol = "pareja"; usuario = String(us).toLowerCase(); perfil = e.perfil;
+      if (perfil.temporal) {   // contraseña que le dio el dueño: la cambia por la suya y (primera vez) se crea su llave de datos
+        if (perfil.envuelta_rec) return pRecuperar();
+        return pClaveNueva(null, null);
+      }
+      try { keyDatos = await Cripto.abrirLlave(perfil.envuelta_pw, kek, false); } catch { token = null; return poner(r, "No pude abrir tus datos con esa contraseña."); }
+      await guardarAcceso(); terminar();
+    }
+    // primera vez (llaveExtraible = null: se crea) o ya recuperada (se vuelve a envolver con la contraseña nueva)
+    function pClaveNueva(llaveExtraible, rec) {
+      const r = ver(cab("Elige tu contraseña", "Tus datos se cifran con ella en tu teléfono: en la nube solo queda texto cifrado, que sin tu contraseña (o tu código) no se puede leer. Mínimo 10 caracteres; mejor una frase. Usa solo una contraseña y un código que hayas elegido tú.") + `<form novalidate>
+        <input class="campo" name="a" type="password" placeholder="Contraseña nueva" autocomplete="new-password" aria-label="Contraseña nueva">
+        <input class="campo" name="b" type="password" placeholder="Repítela" autocomplete="new-password" aria-label="Repite la contraseña">
+        ${pie}<button class="btn" type="submit">Continuar</button></form></div>`);
+      const f = r.querySelector("form");
+      f.onsubmit = async (e) => {
+        e.preventDefault();
+        if (f.a.value.length < 10) return poner(r, "Mínimo 10 caracteres.");
+        if (f.a.value !== f.b.value) return poner(r, "No son iguales.");
+        poner(r, "Guardando…", true);
+        try {
+          const salKdf = Cripto.azarHex(16), { verificador, kek } = await Cripto.derivar(f.a.value, salKdf, Cripto.ITER);
+          const dk = llaveExtraible || (await Cripto.nuevaLlave());
+          const cuerpo = { accion: "cambiar_clave", verificador, sal_kdf: salKdf, iter: Cripto.ITER, envuelta_pw: await Cripto.envolver(dk, kek) };
+          let codigo = null;
+          if (!rec) {   // primera vez: se crea su código de recuperación
+            codigo = Cripto.codigo(); const salRec = Cripto.azarHex(16), kr = await Cripto.derivar(Cripto.limpiarCodigo(codigo), salRec, Cripto.ITER);
+            Object.assign(cuerpo, { sal_rec: salRec, iter_rec: Cripto.ITER, envuelta_rec: await Cripto.envolver(dk, kr.kek) });
+          }
+          const x = await api(cuerpo, 30000);
+          if (!x || !x.ok) return poner(r, "No se pudo guardar: " + ((x && x.error) || "sin detalle"));
+          perfil = x.perfil; keyDatos = await Cripto.abrirLlave(cuerpo.envuelta_pw, kek, false);
+          await guardarAcceso();
+          if (codigo) pCodigo(codigo); else terminar();
+        } catch (x) { fallaRed(r, x); }
+      };
+    }
+    function pRecuperar() {
+      const r = ver(cab("Recupera tus datos", "El dueño reinició tu contraseña. Escribe tu código de recuperación (el que te dio la app al crear tu cuenta) y elige tu contraseña nueva.") + `<form novalidate>
+        <input class="campo" name="c" type="text" placeholder="Código de recuperación" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" aria-label="Código de recuperación">
+        ${pie}<button class="btn" type="submit">Recuperar mis datos</button><button class="enlace" data-sin type="button">No tengo mi código (empezar de cero)</button></form></div>`);
+      const f = r.querySelector("form");
+      f.onsubmit = async (e) => {
+        e.preventDefault(); poner(r, "Abriendo…", true);
+        try {
+          const kr = await Cripto.derivar(Cripto.limpiarCodigo(f.c.value), perfil.sal_rec, perfil.iter_rec);
+          let dk; try { dk = await Cripto.abrirLlave(perfil.envuelta_rec, kr.kek, true); } catch { return poner(r, "Ese código no es el correcto."); }
+          pClaveNueva(dk, true);
+        } catch (x) { fallaRed(r, x); }
+      };
+      r.querySelector("[data-sin]").onclick = () => {
+        const r2 = ver(cab("¿Empezar de cero?", "Se borran tus movimientos, cuentas y metas guardados (ya no se pueden abrir sin tu código). Esto no se puede deshacer.") + `${pie}<button class="btn rojo" data-si type="button">Sí, borrar y empezar de cero</button><button class="enlace" data-no type="button">No, volver</button></div>`);
+        r2.querySelector("[data-no]").onclick = () => pRecuperar();
+        r2.querySelector("[data-si]").onclick = async () => {
+          try { const x = await api({ accion: "vaciar" }, 30000); if (!x || !x.ok) return poner(r2, "No se pudo: " + ((x && x.error) || "sin detalle")); delete perfil.envuelta_rec; pClaveNueva(null, null); } catch (x) { fallaRed(r2, x); }
+        };
+      };
+    }
+    function pCodigo(codigo) {
+      const r = ver(cab("Tu código de recuperación", "Guárdalo en un lugar seguro (foto, notas, papel). Se muestra solo esta vez. Si algún día te reinician la contraseña, con este código recuperas tus datos; sin él se pierden.") + `<div class="codigo" data-codigo>${esc(codigo)}</div>
+        <button class="btn2" data-copiar type="button">Copiar código</button>
+        <label class="marca"><input type="checkbox" data-ok> Ya lo guardé</label>
+        ${pie}<button class="btn" data-seguir type="button" disabled>Continuar</button></div>`);
+      const ok = r.querySelector("[data-ok]"), seguir = r.querySelector("[data-seguir]");
+      ok.onchange = () => { seguir.disabled = !ok.checked; };
+      r.querySelector("[data-copiar]").onclick = async () => { try { await navigator.clipboard.writeText(codigo); poner(r, "Copiado.", true); } catch { poner(r, "No se pudo copiar: anótalo."); } };
+      seguir.onclick = () => terminar();
+    }
+    async function guardarAcceso() {
+      ls.set(PRE + "api", url); ls.set(PRE + "token", token); ls.set(PRE + "rol", "pareja"); ls.set(PRE + "usuario", usuario); ls.set(PRE + "perfil", JSON.stringify(perfil)); ls.del(PRE + "llave"); llave = null;
+      await LlaveLocal.put(keyDatos);
+    }
+    function terminar() { cerrar(); const f = listo; listo = null; if (f) f(); }
+    // `modo`: «dueno» | «pareja» | undefined (primera vez: elegir)
+    function pedir(modo, msg) {
+      if (listo) return listo.p;
+      let res; const p = new Promise((ok) => { res = ok; }); listo = Object.assign(() => res(), { p });
+      const h = leerHash();
+      if (h) { url = h.url; ls.set(PRE + "api", url); pPareja(msg, h.usuario); }
+      else if (modo === "dueno") pDueno(msg); else if (modo === "pareja") pPareja(msg); else pElegir(msg);
+      return p;
+    }
+    return { pedir, b64u };
+  })();
+
+  // ---- la bóveda del teléfono del dueño ----
+  // Sin PIN no se puede abrir nada: la llave del dueño, la caché y la cola están cifradas con una «llave de caché» (AES-GCM, al azar) que
+  // se guarda envuelta con el PIN (PBKDF2 de 600 000 vueltas + una pimienta no extraíble en IndexedDB). Ya abierta vive solo en memoria
+  // (no extraíble). Con Face ID: si el navegador da la extensión PRF de WebAuthn, el secreto de Face ID envuelve la llave y no se pide el PIN;
+  // si no, Face ID solo quita la pantalla y la llave se abre con el PIN una vez por sesión de la app (al abrirla).
+  const Boveda = (() => {
+    const BOV = PRE + "bov", BOVF = PRE + "bov_face", LLC = PRE + "llave_c";
+    let kc = null;
+    const pimienta = async () => { let k = await LlaveLocal.get("pimienta"); if (!k) { k = await crypto.subtle.generateKey({ name: "HMAC", hash: "SHA-256" }, false, ["sign"]); await LlaveLocal.put(k, "pimienta"); } return k; };
+    const duenoYa = () => rol === "dueno";
+    const configurada = () => duenoYa() && !!ls.get(BOV);
+    // guarda lo que haya en claro (llave, caché, cola de versiones anteriores) cifrado y borra el claro
+    async function guardarTodo() {
+      if (!kc) return;
+      if (llave) { ls.set(LLC, await Cripto.cifrar(kc, llave, "fin|llave")); ls.del(PRE + "llave"); }
+      const c = leerJ(PRE + "cache_d"); if (c) { ls.set(PRE + "cache_dc", await Cripto.cifrar(kc, c, "fin|" + PRE + "cache_dc")); } ls.del(PRE + "cache_d");
+      const q = leerJ(PRE + "cola"); if (q) { ls.set(PRE + "cola_c", await Cripto.cifrar(kc, q, "fin|" + PRE + "cola_c")); } ls.del(PRE + "cola");
+    }
+    async function envolver(pin, rawKc) {
+      const sal = Cripto.azarHex(16), kek = await Cripto.kekPin(pin, sal, Cripto.ITER_PIN, await pimienta());
+      ls.set(BOV, JSON.stringify({ v: 1, sal, it: Cripto.ITER_PIN, kc: await Cripto.cifrarBytes(kek, rawKc) }));
+    }
+    async function configurar(pin) {   // PIN nuevo (primera vez, o versión anterior que guardaba todo en claro: migra en silencio)
+      if (!duenoYa()) return true;
+      const rawKc = Cripto.azarBytes(32); kc = await Cripto.llaveAes(rawKc);
+      await envolver(pin, rawKc);
+      if (!llave) llave = ls.get(PRE + "llave");
+      await guardarTodo();
+      return true;
+    }
+    async function desenvolver(pin) { const b = leerJ(BOV); return Cripto.descifrarBytes(await Cripto.kekPin(pin, b.sal, b.it, await pimienta()), b.kc); }
+    async function cargarLlave() { const t = ls.get(LLC); if (t && kc) llave = await Cripto.descifrar(kc, t, "fin|llave"); }
+    async function abrirPin(pin) {
+      if (!duenoYa()) return true;
+      if (!configurada()) return configurar(pin);
+      if (kc) return true;
+      kc = await Cripto.llaveAes(await desenvolver(pin));
+      await cargarLlave(); await guardarTodo();   // por si quedó algo en claro
+      return true;
+    }
+    async function abrirFace(prf) {
+      if (!duenoYa() || !configurada() || kc) return true;
+      const t = ls.get(BOVF); if (!t || !prf) return false;
+      try { kc = await Cripto.llaveAes(await Cripto.descifrarBytes(await Cripto.kekFace(prf), t)); await cargarLlave(); return true; } catch { kc = null; return false; }
+    }
+    async function envolverFace(pin, prf) { if (!configurada() || !prf) return false; ls.set(BOVF, await Cripto.cifrarBytes(await Cripto.kekFace(prf), await desenvolver(pin))); return true; }
+    async function cambiarPin(viejo, nuevo) { if (!configurada()) return configurar(nuevo); await envolver(nuevo, await desenvolver(viejo)); return true; }
+    async function guardarLlave() {   // la llave que acaba de escribir el dueño
+      if (configurada() && kc) { ls.set(LLC, await Cripto.cifrar(kc, llave, "fin|llave")); ls.del(PRE + "llave"); } else ls.set(PRE + "llave", llave);
+    }
+    async function probar(pin) { if (!configurada()) return false; try { await desenvolver(pin); return true; } catch { return false; } }
+    return { configurada, probar, configurar, abrirPin, abrirFace, envolverFace, cambiarPin, guardarLlave, llaveCache: () => kc,
+      quitarFace: () => ls.del(BOVF), tieneFacePrf: () => !!ls.get(BOVF), puedeFace: () => !duenoYa() || !configurada() || !!kc || !!ls.get(BOVF) };
+  })();
+  // ---- alertas, respaldo y aparatos (solo el dueño) ----
+  async function llamar(cuerpo, ms) { try { const r = await api(cuerpo, ms || 30000); if (r && !r.ok) sinAcceso(r); return r || { ok: false, error: "sin respuesta" }; } catch { return { ok: false, error: "sin_senal" }; } }
+  async function alertasVistas() { const r = await llamar({ accion: "alertas_vistas" }); if (r.ok) { alertas = []; sincFns.forEach((f) => f()); } return r.ok ? "ok" : r.error; }
+  async function respaldarAhora() { const r = await llamar({ accion: "respaldo", ahora: true }, 120000); if (r.ok && r.ultimo) { respaldoUltimo = r.ultimo; ls.set(PRE + "respaldo", fechaMty()); } return r.ok ? "ok" : (r.error || "error"); }
+  async function aparatos() { const r = await llamar({ accion: "aparatos" }); return r.ok ? r.aparatos : null; }
+  async function quitarAparato(id) { const r = await llamar({ accion: "quitar_aparato", id }); return r.ok ? "ok" : r.error; }
+  async function aprobarAparato(id) { const r = await llamar({ accion: "aprobar_aparato", id }); return r.ok ? "ok" : r.error; }
+
+  function hayAcceso() { return !!rol && !!url && (rol === "pareja" ? !!token : laLlaveEstaGuardada()); }
+  async function abrir() {
+    if (rol === "dueno" && Boveda.configurada() && !llave) { await Acceso.pedir("dueno", "Escribe tu llave otra vez."); }
+    await cargarCache();
+    if (rol === "pareja") {
+      keyDatos = await LlaveLocal.get();
+      if (!keyDatos) { await Acceso.pedir("pareja", "Escribe tu contraseña para abrir tus datos en este teléfono."); keyDatos = await LlaveLocal.get(); await cargarCache(); }
+    }
+    await rawAMem(); COLS.forEach(emitir); avisarEstado();
+    refrescar();
+    document.addEventListener("visibilitychange", () => { if (!document.hidden && Date.now() - ultimo > 15000) refrescar(); });
+    setInterval(() => { if (!document.hidden) { if (cola.length) vaciarCola(); refrescar(); } }, 120000);
+    return { rol };
+  }
+  async function salir() {
+    if (rol === "pareja" && token) { try { await api({ accion: "salir" }, 8000); } catch {} }
+    await LlaveLocal.del();
+    Object.keys(localStorage).filter((k) => k.startsWith(PRE) && k !== PRE + "aparato").forEach((k) => ls.del(k));
+    location.reload();
+  }
+  function suscribir(col, f) { subs[col].add(f); Promise.resolve().then(() => f({ ...mem[col] })); return () => subs[col].delete(f); }
+  // ---- cuenta de la pareja (lo hace el dueño; la contraseña temporal se convierte en verificador aquí, nunca viaja) ----
+  async function credenciales(clave) { const sal = Cripto.azarHex(16), { verificador } = await Cripto.derivar(clave, sal, Cripto.ITER); return { verificador, sal_kdf: sal, iter: Cripto.ITER }; }
+  async function accionPareja(op, extra) {
+    try {
+      const r = await api({ accion: "pareja", op, ...extra }, 60000);
+      if (r && r.ok && r.pareja) { parejaRes = r.pareja; ls.set(PRE + "pareja_res", JSON.stringify(parejaRes)); parejaFns.forEach((f) => f(parejaRes)); }
+      return r && r.ok ? "ok" : (r && r.error) || "error";
+    } catch { return "sin_senal"; }
+  }
+  // ella: abrir su llave con su contraseña actual (para cambiar la contraseña o sacar un código nuevo)
+  async function llaveConClave(actual) {
+    if (!perfil || !perfil.envuelta_pw) throw new Error("sin perfil");
+    const { kek } = await Cripto.derivar(actual, perfil.sal_kdf, perfil.iter);
+    return Cripto.abrirLlave(perfil.envuelta_pw, kek, true);
+  }
+  async function cambiarClave(actual, nueva) {
+    let dk; try { dk = await llaveConClave(actual); } catch { return "clave"; }
+    const salKdf = Cripto.azarHex(16), { verificador, kek } = await Cripto.derivar(nueva, salKdf, Cripto.ITER);
+    const envuelta_pw = await Cripto.envolver(dk, kek);
+    try { const r = await api({ accion: "cambiar_clave", verificador, sal_kdf: salKdf, iter: Cripto.ITER, envuelta_pw }, 30000); if (r && r.ok) { perfil = r.perfil; ls.set(PRE + "perfil", JSON.stringify(perfil)); return "ok"; } return (r && r.error) || "error"; } catch { return "sin_senal"; }
+  }
+  async function codigoNuevo(actual) {
+    let dk; try { dk = await llaveConClave(actual); } catch { return { error: "clave" }; }
+    const codigo = Cripto.codigo(), salRec = Cripto.azarHex(16), kr = await Cripto.derivar(Cripto.limpiarCodigo(codigo), salRec, Cripto.ITER);
+    const { kek } = await Cripto.derivar(actual, perfil.sal_kdf, perfil.iter);
+    const cuerpo = { accion: "cambiar_clave", verificador: (await Cripto.derivar(actual, perfil.sal_kdf, perfil.iter)).verificador, sal_kdf: perfil.sal_kdf, iter: perfil.iter, envuelta_pw: await Cripto.envolver(dk, kek), sal_rec: salRec, iter_rec: Cripto.ITER, envuelta_rec: await Cripto.envolver(dk, kr.kek) };
+    try { const r = await api(cuerpo, 30000); if (r && r.ok) { perfil = r.perfil; ls.set(PRE + "perfil", JSON.stringify(perfil)); return { codigo }; } return { error: (r && r.error) || "error" }; } catch { return { error: "sin_senal" }; }
+  }
+  // importación de un paquete {ops:[…]} (importar-ingresos.py): en lotes de 100, mismos ids = no duplica
+  async function importar(ops, progreso) {
+    for (let i = 0; i < ops.length; i += 100) {
+      const s = await mandar(ops.slice(i, i + 100).map(({ op, col, id, data }) => ({ op, col, id, data })));
+      if (s !== "ok") return s;
+      if (progreso) progreso(Math.min(ops.length, i + 100), ops.length);
+    }
+    return "ok";
+  }
+  const lote = (ops) => mandar(ops.map(({ op, col, id, data }) => ({ op, col, id, data })));
+  return {
+    get modo() { return "real"; }, get rol() { return rol === "pareja" ? "pareja" : "dueno"; }, get usuario() { return usuario; }, get version() { return servidor; },
+    get pendientes() { return cola.length; }, get sinSenal() { return sinSenal; }, get ilegibles() { return ilegibles; }, get sincronizado() { return sincronizado; }, get pareja() { return parejaRes; }, get url() { return url; },
+    get alertas() { return alertas; }, get respaldoUltimo() { return respaldoUltimo; }, get aparatoId() { return aparato; }, boveda: Boveda, alertasVistas, respaldarAhora, aparatos, quitarAparato, aprobarAparato,
+    hayAcceso, pantallaAcceso: () => Acceso.pedir(), abrir, salir, refrescar, suscribir, nuevoId, lote, importar,
+    crear: (col, id, datos) => mandar([{ op: "set", col, id, data: datos }]),
+    actualizar: (col, id, campos) => mandar([{ op: "update", col, id, data: campos }]),
+    borrar: (col, id) => mandar([{ op: "del", col, id }]),
+    alEstado(f) { estadoFns.add(f); f({ pendientes: cola.length, sinSenal, ilegibles }); }, alError(f) { errFns.add(f); }, alPareja(f) { parejaFns.add(f); }, alSincronizar(f) { sincFns.add(f); },
+    parejaCrear: async (usuario, clave) => accionPareja("crear", { usuario, ...(await credenciales(clave)) }),
+    parejaReiniciar: async (clave) => accionPareja("reiniciar", await credenciales(clave)),
+    parejaBaja: () => accionPareja("baja"), parejaReactivar: () => accionPareja("reactivar"),
+    cambiarClave, codigoNuevo,
+    linkPareja: (u) => (url ? `${location.origin}${location.pathname}#acceso=${Acceso.b64u(url)}${u ? "&u=" + encodeURIComponent(u) : ""}` : ""),
+    accesoTexto: () => (llave && url ? `Finanzas · acceso del dueño\nDirección: ${url}\nLlave: ${llave}` : ""),
+    erroresLocales: () => leerJ(PRE + "errores_local") || [],
+  };
+})();
+
+/*DATOS:FIN*/
+
+// ============================================================
+// Candado local: PIN de 4 a 6 números (PBKDF2 en el teléfono, nunca viaja) y Face ID con WebAuthn de plataforma
+// (userVerification «required»). Es un candado de la pantalla, no la llave de los datos. 5 fallos = espera creciente.
+// Se bloquea al abrir la app y al pasar 2 minutos en segundo plano.
+// ============================================================
+const Candado = (() => {
+  const IT = 150000, ESPERA_FONDO = 2 * 60 * 1000, K_PIN = "fin_pin", K_FALLOS = "fin_pin_f", K_FACE = "fin_face";
+  let alDesbloquear = null, bloqueado = true, ocultoDesde = 0, corriendo = false, faceOk = null;
+  const te = new TextEncoder();
+  const hex = (b) => Array.from(new Uint8Array(b), (x) => x.toString(16).padStart(2, "0")).join("");
+  const leerJ = (k) => { try { return JSON.parse(ls.get(k) || "null"); } catch { return null; } };
+  async function hashPin(pin, salHex, it) {
+    const base = await crypto.subtle.importKey("raw", te.encode(pin), "PBKDF2", false, ["deriveBits"]);
+    return hex(await crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt: Uint8Array.from(salHex.match(/../g), (x) => parseInt(x, 16)), iterations: it }, base, 256));
+  }
+  const igual = (a, b) => { let d = a.length ^ b.length; for (let i = 0; i < a.length; i++) d |= a.charCodeAt(i) ^ (b.charCodeAt(i) || 0); return d === 0; };
+  const hayPin = () => { const p = leerJ(K_PIN); return !!(p && ((p.hash && p.sal) || p.boveda)); };
+  // con la bóveda del dueño configurada, el PIN se revisa abriéndola (PBKDF2 600k + pimienta del aparato): no queda un hash del PIN de 4 a 6
+  // números en localStorage que se pudiera adivinar aparte (150k vueltas, sin pimienta) y luego usar para abrir la bóveda
+  const soloBoveda = () => { const p = leerJ(K_PIN); if (p && p.hash && Datos.boveda.configurada()) ls.set(K_PIN, JSON.stringify({ len: p.len, boveda: 1 })); };
+  async function guardarPin(pin) {
+    const sal = Array.from(crypto.getRandomValues(new Uint8Array(16)), (x) => x.toString(16).padStart(2, "0")).join("");
+    ls.set(K_PIN, JSON.stringify({ sal, it: IT, len: pin.length, hash: await hashPin(pin, sal, IT) })); ls.del(K_FALLOS);
+  }
+  const espera = () => { const f = leerJ(K_FALLOS); return f && f.hasta > Date.now() ? Math.ceil((f.hasta - Date.now()) / 1000) : 0; };
+  async function probarPin(pin) {
+    const p = leerJ(K_PIN); if (!p) return false;
+    if (espera()) return false;
+    if (p.hash ? igual(await hashPin(pin, p.sal, p.it || IT), p.hash) : await Datos.boveda.probar(pin)) { ls.del(K_FALLOS); return true; }
+    const f = leerJ(K_FALLOS) || { n: 0 }; f.n++;
+    if (f.n >= 5) f.hasta = Date.now() + Math.min(3600, 30 * Math.pow(2, f.n - 5)) * 1000;   // 30 s, 60 s, 2 min, 4 min… hasta 1 hora
+    ls.set(K_FALLOS, JSON.stringify(f)); return false;
+  }
+  // ---- Face ID (WebAuthn de plataforma) ----
+  const b64u = (b) => btoa(String.fromCharCode(...new Uint8Array(b))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const deB64u = (t) => Uint8Array.from(atob(String(t).replace(/-/g, "+").replace(/_/g, "/")), (c) => c.charCodeAt(0));
+  async function faceDisponible() {
+    if (faceOk !== null) return faceOk;
+    try { faceOk = !!(window.PublicKeyCredential && navigator.credentials && PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable && (await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable())); } catch { faceOk = false; }
+    return faceOk;
+  }
+  const tieneFace = () => !!ls.get(K_FACE);
+  async function registrarFace() {
+    try {
+      const c = await navigator.credentials.create({ publicKey: { challenge: crypto.getRandomValues(new Uint8Array(32)), rp: { name: "Finanzas", id: location.hostname }, user: { id: crypto.getRandomValues(new Uint8Array(16)), name: "finanzas", displayName: "Finanzas" },
+        pubKeyCredParams: [{ type: "public-key", alg: -7 }, { type: "public-key", alg: -257 }], authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "required", residentKey: "discouraged" }, extensions: { prf: {} }, timeout: 60000, attestation: "none" } });
+      if (!c) return false; ls.set(K_FACE, b64u(c.rawId)); return true;
+    } catch { return false; }
+  }
+  // Si el navegador da la extensión PRF de WebAuthn, Face ID entrega un secreto que envuelve la llave del teléfono (no se pide el PIN).
+  // Si no, `prf` viene vacío: Face ID solo quita la pantalla y la llave se abre con el PIN una vez por sesión de la app.
+  const PRF_SALT = new TextEncoder().encode("finanzas-face-id-prf-salt-v1");
+  async function probarFace() {
+    try {
+      const id = ls.get(K_FACE); if (!id) return null;
+      const c = await navigator.credentials.get({ publicKey: { challenge: crypto.getRandomValues(new Uint8Array(32)), allowCredentials: [{ type: "public-key", id: deB64u(id), transports: ["internal"] }], userVerification: "required", extensions: { prf: { eval: { first: PRF_SALT } } }, timeout: 60000 } });
+      if (!c) return null;
+      let prf = null; try { const e = c.getClientExtensionResults(); if (e && e.prf && e.prf.results && e.prf.results.first) prf = new Uint8Array(e.prf.results.first); } catch {}
+      return { prf };
+    } catch { return null; }
+  }
+  // ---- pantalla con teclado numérico ----
+  function leerPin(c) {   // c: {titulo, sub, len (fijo) | null (de 4 a 6, con «OK»), face, olvide, error}; resuelve con el PIN, «FACE» u «OLVIDE»
+    return new Promise((res) => {
+      let v = $("#bloqueo"); if (!v) { v = document.createElement("div"); v.id = "bloqueo"; document.body.appendChild(v); }
+      let pin = "", tick = 0;
+      const max = c.len || 6;
+      v.innerHTML = `<div class="lock"><div class="icono">$</div><h1>${esc(c.titulo)}</h1><p class="sub" data-sub>${esc(c.sub || "")}</p>
+        <div class="dots" data-dots></div><p class="err" role="alert" data-err>${esc(c.error || "")}</p>
+        <div class="pad">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `<button type="button" data-k="${n}" aria-label="${n}">${n}</button>`).join("")}
+        ${c.len ? (c.face ? `<button type="button" class="v" data-k="face" aria-label="Face ID">Face ID</button>` : `<span></span>`) : `<button type="button" class="v" data-k="ok" aria-label="Continuar" disabled>OK</button>`}
+        <button type="button" data-k="0" aria-label="0">0</button><button type="button" class="v" data-k="borrar" aria-label="Borrar">Borrar</button></div>
+        ${c.face ? `<button type="button" class="faceid" data-k="face">Entrar con Face ID</button>` : ""}${c.olvide ? `<button type="button" class="enlace" data-k="olvide">Olvidé mi PIN</button>` : ""}${c.cancelar ? `<button type="button" class="enlace" data-k="cancelar">Cancelar</button>` : ""}</div>`;
+      const pintar = () => {
+        $("[data-dots]", v).innerHTML = Array.from({ length: c.len || Math.max(4, pin.length) }, (_, i) => `<i class="${i < pin.length ? "on" : ""}"></i>`).join("");
+        const ok = $("[data-k=ok]", v); if (ok) ok.disabled = pin.length < 4;
+      };
+      const fin = (x) => { clearInterval(tick); res(x); };
+      const bloquearPorEspera = () => {
+        const s = espera(), e = $("[data-err]", v);
+        v.querySelectorAll(".pad button").forEach((b) => { b.disabled = s > 0 && b.dataset.k !== "face"; });
+        if (s > 0) e.textContent = "Demasiados intentos. Espera " + (s >= 60 ? Math.ceil(s / 60) + " min" : s + " s") + ".";
+        else if (/Espera/.test(e.textContent)) e.textContent = "";
+        const ok = $("[data-k=ok]", v); if (ok && !s) ok.disabled = pin.length < 4;
+      };
+      if (c.len) { bloquearPorEspera(); tick = setInterval(bloquearPorEspera, 1000); }
+      v.onclick = (e) => {
+        const b = e.target.closest("[data-k]"); if (!b || b.disabled) return;
+        const k = b.dataset.k;
+        if (k === "face") return fin("FACE"); if (k === "olvide") return fin("OLVIDE"); if (k === "cancelar") return fin("CANCELAR");
+        if (k === "borrar") pin = pin.slice(0, -1);
+        else if (k === "ok") return fin(pin);
+        else if (/^\d$/.test(k) && pin.length < max) { pin += k; if (c.len && pin.length === c.len) { pintar(); return fin(pin); } }
+        $("[data-err]", v).textContent = ""; pintar();
+      };
+      pintar();
+    });
+  }
+  const cerrarPantalla = () => { const v = $("#bloqueo"); if (v) v.remove(); };
+  const saludo = () => (Datos.rol === "pareja" ? "Hola 👋" : "Hola, " + (ls.get("fin_nombre") || "Marcelo"));
+  async function crearPin() {   // devuelve el PIN nuevo
+    let error = "", a;
+    for (;;) {
+      a = await leerPin({ titulo: "Crea tu PIN", sub: "De 4 a 6 números. Es para que nadie que agarre tu teléfono pueda entrar.", error });
+      const b = await leerPin({ titulo: "Repite tu PIN", sub: "Escríbelo otra vez", len: a.length });
+      if (a === b) { await guardarPin(a); break; }
+      error = "No coinciden. Intenta de nuevo.";
+    }
+    return a;
+  }
+  // Face ID: se registra la credencial y, si el navegador da PRF, se envuelve la llave del teléfono con su secreto (hace falta el PIN en la mano)
+  async function activarFaceConPin(pin) {
+    if (!(await registrarFace())) return false;
+    if (Datos.boveda.configurada()) { const f = await probarFace(); if (f && f.prf) await Datos.boveda.envolverFace(pin, f.prf); }
+    return true;
+  }
+  async function ofrecerFace(pin) {
+    if (!(await faceDisponible()) || tieneFace()) return;
+    const v = $("#bloqueo");
+    v.innerHTML = `<div class="acc"><div class="icono">$</div><h1>¿Face ID?</h1><p class="sub">Quita la pantalla de bloqueo con tu cara o tu huella.</p><button class="btn" data-si type="button">Activar Face ID</button><button class="enlace" data-no type="button">Ahora no</button></div>`;
+    await new Promise((ok) => { $("[data-si]", v).onclick = async () => { await activarFaceConPin(pin); ok(); }; $("[data-no]", v).onclick = ok; });
+  }
+  async function desbloquear() {
+    if (corriendo) return; corriendo = true;
+    try {
+      if (!hayPin()) { const pin = await crearPin(); await Datos.boveda.configurar(pin); soloBoveda(); await ofrecerFace(pin); }
+      else {
+        const p = leerJ(K_PIN); let error = "";
+        for (;;) {
+          const face = (await faceDisponible()) && tieneFace() && Datos.boveda.puedeFace();
+          const x = await leerPin({ titulo: "Finanzas", sub: saludo(), len: p.len, face, olvide: true, error });
+          if (x === "FACE") { const f = await probarFace(); if (f && (await Datos.boveda.abrirFace(f.prf))) break; error = "No se pudo con Face ID. Usa tu PIN."; continue; }
+          if (x === "OLVIDE") {
+            const v = $("#bloqueo");
+            v.innerHTML = `<div class="acc"><div class="icono">$</div><h1>¿Olvidaste tu PIN?</h1><p class="sub">Se sale de la cuenta en este teléfono y se borra lo guardado aquí (la llave y los datos del dueño están cifrados con tu PIN). Tus datos siguen en la hoja: al volver a entrar los recuperas. El dueño necesita su llave; la pareja, su contraseña (y su código si se la reiniciaron).</p><button class="btn rojo" data-si type="button">Salir y borrar de este teléfono</button><button class="enlace" data-no type="button">Volver</button></div>`;
+            const r = await new Promise((ok) => { $("[data-si]", v).onclick = () => ok(true); $("[data-no]", v).onclick = () => ok(false); });
+            if (r) { Datos.salir(); await new Promise(() => {}); }
+            continue;
+          }
+          if (await probarPin(x)) {
+            try { await Datos.boveda.abrirPin(x); soloBoveda(); break; } catch (e) { error = "No se pudo abrir lo guardado en este teléfono. Usa «Olvidé mi PIN» y entra otra vez con tu llave."; continue; }
+          }
+          error = espera() ? "" : "PIN incorrecto.";
+        }
+      }
+      bloqueado = false; cerrarPantalla();
+    } finally { corriendo = false; }
+  }
+  // pide el PIN actual (para cambiarlo o para activar Face ID); devuelve el PIN o null si cancela
+  async function pedirPinActual(titulo, sub) {
+    const p = leerJ(K_PIN);
+    try {
+      for (let error = ""; ;) {
+        const x = await leerPin({ titulo, sub, len: p.len, cancelar: true, error });
+        if (x === "CANCELAR") return null;
+        if (await probarPin(x)) return x;
+        error = espera() ? "" : "PIN incorrecto.";
+      }
+    } finally { cerrarPantalla(); }
+  }
+  // Se bloquea al pasar 2 minutos en segundo plano
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) { ocultoDesde = Date.now(); return; }
+    const t = ocultoDesde; ocultoDesde = 0;
+    if (!bloqueado && t && Date.now() - t >= ESPERA_FONDO) bloquear();
+  });
+  function bloquear() { if (bloqueado) return; bloqueado = true; $("#app").innerHTML = ""; $("#hoja").innerHTML = ""; $("#aviso").innerHTML = ""; desbloquear().then(() => { if (alDesbloquear) alDesbloquear(); }); }
+  async function cambiarPin() {
+    const viejo = await pedirPinActual("Tu PIN actual", "Para cambiarlo"); if (!viejo) return false;
+    try { const nuevo = await crearPin(); await Datos.boveda.cambiarPin(viejo, nuevo); soloBoveda(); return true; } finally { cerrarPantalla(); }
+  }
+  async function activarFace() { const pin = await pedirPinActual("Activa Face ID", "Escribe tu PIN"); if (!pin) return null; return activarFaceConPin(pin); }
+  return {
+    get bloqueado() { return bloqueado; }, alDesbloquear(f) { alDesbloquear = f; }, desbloquear, bloquear, cambiarPin, hayPin, faceDisponible, tieneFace, activarFace, quitarFace() { ls.del(K_FACE); Datos.boveda.quitarFace(); },
+    
+  };
+})();
+// ============================================================
+// La app
+// ============================================================
+const N = Nucleo, { pesos } = N;
+const D = { cuentas: {}, movimientos: {}, valuaciones: {}, categorias: {}, config: {}, metas: {} };
+const A = { vista: "inicio", mes: N.hoyMty().slice(0, 7), busca: "", rango: 6, anio: N.hoyMty().slice(0, 4), tarjeta: null, verArchivadas: false };
+const hoy = () => N.hoyMty();
+const iso = () => new Date().toISOString();
+const lista = (c) => Object.values(D[c]);
+const TIPOS = { banco: { n: "Banco", e: "🏦", o: 1 }, efectivo: { n: "Efectivo", e: "💵", o: 2 }, tarjeta: { n: "Tarjeta", e: "💳", o: 3 }, inversion: { n: "Inversión", e: "📈", o: 4 } };
+const porOrden = (a, b) => (a.orden || 0) - (b.orden || 0) || String(a.nombre).localeCompare(String(b.nombre));
+const todasCuentas = () => lista("cuentas");
+const cuentas = () => todasCuentas().filter((c) => !c.archivada).sort((a, b) => (TIPOS[a.tipo] || { o: 9 }).o - (TIPOS[b.tipo] || { o: 9 }).o || porOrden(a, b));
+const cuentasPago = () => cuentas().filter((c) => c.tipo !== "inversion");
+const cats = () => lista("categorias").sort(porOrden);
+const catsVisibles = () => cats().filter((c) => !c.oculta);
+const cfg = () => ({ negocios: N.BASE_NEGOCIOS, jarras: N.BASE_JARRAS, ...(D.config.general || {}) });
+const cuentaPor = (id) => D.cuentas[id];
+const catPor = (id) => D.categorias[id] || { id, nombre: id === N.SIN_DETALLE ? "Sin detalle" : "Sin categoría", emoji: "❔", jarra: "necesidades" };
+const negPor = (id) => cfg().negocios.find((n) => n.id === id) || { id, nombre: id || "Otro", emoji: "•" };
+const num = (s) => { const t = String(s == null ? "" : s).trim(); if (!t) return null; const x = Number(t.replace(/[$,\s]/g, "")); return isFinite(x) ? x : null; };
+const fechaCorta = (f) => { if (!N.esFecha(f)) return ""; const h = hoy(); if (f === h) return "hoy"; if (f === N.sumarDias(h, -1)) return "ayer"; if (f === N.sumarDias(h, -2)) return "antier"; const [y, m, d] = f.split("-").map(Number); return d + " " + N.MESES_CORTO[m - 1] + (y !== Number(h.slice(0, 4)) ? " " + y : ""); };
+const mesLargo = (ym) => N.nombreMes(ym);
+const fechaHora = (iso) => { try { const d = new Date(iso); return fechaCorta(d.toLocaleDateString("en-CA", { timeZone: "America/Monterrey" })) + ", " + d.toLocaleTimeString("es-MX", { timeZone: "America/Monterrey", hour: "2-digit", minute: "2-digit", hour12: false }); } catch { return String(iso).slice(0, 10); } };
+const soloMes = (ym) => N.MESES[Number(ym.slice(5)) - 1];
+const ultimaCuenta = () => { const id = ls.get("fin_ultima_cuenta"); return id && D.cuentas[id] && !D.cuentas[id].archivada ? id : (cuentasPago()[0] || {}).id || null; };
+const pct = (a, b) => (b > 0 ? Math.min(100, (a / b) * 100) : 0);
+let rolApp = "dueno";
+
+// ---------- avisos ----------
+let toastT = 0;
+function toast(t) { let e = $(".toast"); if (!e) { e = document.createElement("div"); e.className = "toast"; e.setAttribute("role", "status"); document.body.appendChild(e); } e.textContent = t; clearTimeout(toastT); toastT = setTimeout(() => e.remove(), 2600); }
+function bandaError(msg) {
+  const a = $("#aviso"); a.innerHTML = `<div class="banda" role="alert"><span>⚠️ Algo falló: ${esc(String(msg).slice(0, 140))}. Ya se avisó.</span><button type="button" data-a="quitarBanda" aria-label="Cerrar">✕</button></div>`;
+}
+
+// ---------- hojas (ventanas de abajo) ----------
+function hoja(html) { $("#hoja").innerHTML = `<div class="scrim" data-a="cerrar"></div><div class="sheet" role="dialog" aria-modal="true"><div class="grab"></div>${html}</div>`; }
+function cerrarHoja() { $("#hoja").innerHTML = ""; }
+const aviso = (t, mal) => `<div class="entiendo ${mal ? "mal" : "aviso2"}" data-aviso>${t}</div>`;
+
+// ---------- cálculo de la pantalla ----------
+const movs = () => lista("movimientos");
+const estado = () => N.estadoCuentas(todasCuentas(), movs(), lista("valuaciones"));
+const resumen = (ym) => N.resumenMes(movs(), cats(), cfg().jarras, lista("metas"), todasCuentas(), ym);
+const colorSigno = (x) => (x < 0 ? "bad" : x > 0 ? "ok" : "");
+const estadoRed = () => {
+  const n = Datos.pendientes;
+  if (!n && !Datos.sinSenal) return "";
+  return `<div class="aviso" data-red>${Datos.sinSenal ? "Sin señal: " : ""}${n ? `tienes ${n} cambio${n === 1 ? "" : "s"} guardado${n === 1 ? "" : "s"} en tu teléfono que se mandarán al volver la señal.` : "se muestra lo último que se guardó en tu teléfono."}</div>`;
+};
+const barra = () => `<div class="tabbar"><div><button type="button" class="b-gasto" data-a="gasto">− Gasto</button><button type="button" class="b-ing" data-a="ingreso">+ Ingreso</button><button type="button" class="b-mas" data-a="menu" aria-label="Menú">☰</button></div></div>`;
+const atras = (t) => `<div class="top"><button type="button" class="atras" data-a="ir" data-v="inicio">‹ Inicio</button>${t || ""}</div>`;
+
+// ---------- Inicio ----------
+// «Alertas de seguridad» (solo el dueño): lo que el servidor registró (llave equivocada, aparato nuevo…) hasta que dice «Ya lo vi»
+function tarjetaAlertas() {
+  const l = rolApp === "pareja" ? [] : Datos.alertas || [];
+  if (!l.length) return "";
+  const t = { llave_equivocada: "Llave equivocada", bloqueo_llave: "Llaves bloqueadas", aparato_nuevo: "Aparato nuevo", aparato_sin_id: "Llave usada sin aparato", aparato_revocado: "Aparato quitado intentó entrar", pareja_bloqueo: "Cuenta de pareja bloqueada", coleccion_invalida: "Colección no válida", peticion_rara: "Petición rara", errores_servidor: "Errores del servidor", respaldo_fallo: "Falló el respaldo" };
+  return `<div class="alerta" data-alertas role="alert"><b>🚨 Alertas de seguridad</b>${l.map((a) => `<div class="al"><span>${esc(t[a.tipo] || a.tipo)}${a.n > 1 ? " ×" + esc(a.n) : ""} <small>${esc(fechaCorta(String(a.ultima || a.fecha).slice(0, 10)))}</small></span><small>${esc(a.texto)}</small></div>`).join("")}<button type="button" class="btn2" data-a="alertasVistas">Ya lo vi</button></div>`;
+}
+function vInicio() {
+  const E = estado(), mes = hoy().slice(0, 7), R = resumen(mes), cs = cuentas();
+  const saludo = rolApp === "pareja" ? "Hola 👋" : "Hola, " + esc(cfg().nombre || ls.get("fin_nombre") || "Marcelo");
+  const filas = cs.map((c) => {
+    const e = E.porId[c.id], v = e ? e.valor : 0;
+    return `<div class="row"><span>${esc(c.emoji || (TIPOS[c.tipo] || {}).e || "")} ${esc(c.nombre)}</span><span class="der"><b class="num ${c.tipo === "inversion" ? "ok" : v < 0 ? "bad" : ""}">${pesos(v)}</b><button type="button" class="mini-b" data-a="${c.tipo === "inversion" ? "valuar" : "ajustar"}" data-id="${esc(c.id)}">${c.tipo === "inversion" ? "Actualizar" : "Ajustar"}</button></span></div>`;
+  }).join("");
+  const jarras = R.jarras.map((j) => {
+    const p = pct(j.usado, j.tope), alto = j.usado > j.tope && j.id !== "inversion" && j.id !== "ahorro" ? "background:var(--rojo)" : p > 85 && j.id !== "inversion" && j.id !== "ahorro" ? "background:var(--oro)" : "";
+    return `<div class="jarra"><div class="t"><span>${esc(j.nombre)} <small>${esc(j.pct)} %</small></span><span class="num">${pesos(j.usado)} <small>de ${pesos(j.tope)}</small></span></div><div class="bar"><i style="width:${p}%;${alto}"></i></div></div>`;
+  }).join("");
+  return `<div class="wrap">${estadoRed()}${tarjetaAlertas()}<p class="sub">${esc(N.cap(mesLargo(mes)))}</p><h1>${saludo}</h1>
+  <h2>Lo que tienes hoy</h2>
+  <div class="card"><div class="big num ${E.total < 0 ? "bad" : ""}" data-total>${pesos(E.total)}</div><p class="sub" style="margin-bottom:8px">Total, ya restada la tarjeta</p>${filas || `<p class="sub">Aún no tienes cuentas. Agrégalas en ☰ → Cuentas.</p>`}</div>
+  <h2>Este mes</h2>
+  <div class="grid3"><div class="mini"><span>Entró</span><b class="num ok">${pesos(R.entro)}</b></div><div class="mini"><span>Gastaste</span><b class="num bad">${pesos(R.gasto)}</b></div><div class="mini"><span>Te queda</span><b class="num ${R.queda < 0 ? "bad" : ""}">${pesos(R.queda)}</b></div></div>
+  ${R.sinAnotar ? `<p class="nota">Sin anotar este mes: <b class="num ${colorSigno(R.sinAnotar)}">${pesos(R.sinAnotar)}</b> (ajustes de saldo; no entra a las jarras)</p>` : ""}
+  <button type="button" class="btn2" data-a="ir" data-v="movs">Ver movimientos</button>
+  <h2>Tus jarras de ${esc(soloMes(mes))}</h2>
+  <div class="card">${jarras}${R.entro ? "" : `<p class="nota">Las jarras se llenan con lo que entra: cuando anotes un ingreso este mes, verás cuánto toca a cada una.</p>`}</div></div>${barra()}`;
+}
+
+// ---------- Movimientos ----------
+function textoMov(m) {
+  const c = cuentaPor(m.cuenta), cd = cuentaPor(m.cuenta_destino), nom = (x) => (x ? esc(x.nombre) : "sin cuenta");
+  if (m.tipo === "gasto") { const k = catPor(m.categoria); return { e: k.emoji, t: m.concepto || k.nombre, s: `${fechaCorta(m.fecha)} · ${esc(k.nombre)} · ${nom(c)}`, m: "−" + pesos(m.monto), cls: "bad" }; }
+  if (m.tipo === "ingreso") { const n = negPor(m.negocio); return { e: n.emoji, t: m.concepto || n.nombre, s: `${fechaCorta(m.fecha)} · ${esc(n.nombre)}${c ? " · " + esc(c.nombre) : ""}`, m: "+" + pesos(m.monto), cls: "ok" }; }
+  if (m.tipo === "traspaso") return { e: "↔️", t: m.concepto || "Traspaso", s: `${fechaCorta(m.fecha)} · ${nom(c)} → ${nom(cd)}`, m: pesos(m.monto), cls: "mut" };
+  return { e: "❔", t: "Sin anotar", s: `${fechaCorta(m.fecha)} · ajuste de ${nom(c)}`, m: (m.monto > 0 ? "+" : "") + pesos(m.monto), cls: colorSigno(m.monto) };
+}
+function listaMovs() {
+  const q = N.norm(A.busca).trim();
+  let l = movs().filter((m) => N.mesDe(m.fecha) === A.mes);
+  if (q) l = movs().filter((m) => { const t = textoMov(m); return N.norm([t.t, t.s, m.nota, m.monto, m.concepto].join(" ")).includes(q); });   // al buscar se mira todo el historial
+  l.sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)) || String(b.creado || "").localeCompare(String(a.creado || "")));
+  if (!l.length) return `<p class="sub" style="padding:14px 0">${q ? "Nada coincide con esa búsqueda." : "Sin movimientos este mes."}</p>`;
+  return l.slice(0, 300).map((m) => { const t = textoMov(m); return `<button type="button" class="rowb" data-a="editarMov" data-id="${esc(m.id)}"><span class="izq"><span class="e">${esc(t.e)}</span><span>${esc(t.t)}<small>${t.s}</small></span></span><b class="fin num ${t.cls}">${t.m}</b></button>`; }).join("") + (l.length > 300 ? `<p class="nota">Se muestran los 300 más recientes.</p>` : "");
+}
+function vMovs() {
+  const R = resumen(A.mes);
+  return `<div class="wrap">${atras()}<h1>Movimientos</h1>
+  <div class="nav"><button type="button" data-a="mes" data-d="-1" aria-label="Mes anterior">‹</button><b>${esc(mesLargo(A.mes))}</b><button type="button" data-a="mes" data-d="1" aria-label="Mes siguiente">›</button></div>
+  <div class="grid3"><div class="mini"><span>Entró</span><b class="num ok">${pesos(R.entro)}</b></div><div class="mini"><span>Gastaste</span><b class="num bad">${pesos(R.gasto)}</b></div><div class="mini"><span>Sin anotar</span><b class="num ${colorSigno(R.sinAnotar)}">${pesos(R.sinAnotar)}</b></div></div>
+  <input class="campo" style="margin-top:12px" id="busca" data-i="busca" type="search" placeholder="Buscar (concepto, monto, categoría…)" value="${esc(A.busca)}" autocomplete="off" aria-label="Buscar">
+  <div class="card" style="margin-top:10px;padding:4px 16px" id="movs-lista">${listaMovs()}</div></div>${barra()}`;
+}
+
+// ---------- Tarjeta ----------
+function vTarjeta() {
+  const tj = cuentas().filter((c) => c.tipo === "tarjeta");
+  if (!tj.length) return `<div class="wrap">${atras()}<h1>💳 Tarjeta</h1><div class="card" style="margin-top:14px"><p>Aún no tienes una tarjeta. Agrégala como cuenta (con lo que debes hoy y los días de corte y pago).</p></div><button type="button" class="btn" data-a="nuevaCuenta" data-t="tarjeta">Agregar tarjeta</button></div>${barra()}`;
+  const c = tj.find((x) => x.id === A.tarjeta) || tj[0]; A.tarjeta = c.id;
+  const E = estado().porId[c.id], deuda = Math.max(0, -E.valor), P = N.periodoTarjeta(c, hoy());
+  const ini = c.fecha_inicial || "", por = {}; let suma = 0;
+  movs().forEach((m) => { if (m.tipo === "gasto" && m.cuenta === c.id && m.fecha >= P.desde && (!ini || m.fecha >= ini)) { por[m.categoria || N.SIN_DETALLE] = (por[m.categoria || N.SIN_DETALLE] || 0) + Number(m.monto || 0); suma += Number(m.monto || 0); } });
+  const filas = Object.entries(por).sort((a, b) => b[1] - a[1]).map(([k, v]) => { const x = catPor(k); return `<div class="row"><span>${esc(x.emoji)} ${esc(x.nombre)}</span><span class="num ${k === N.SIN_DETALLE ? "mut" : ""}">${pesos(v)}</span></div>`; }).join("");
+  const antes = N.r2(deuda - suma);
+  return `<div class="wrap">${atras()}${tj.length > 1 ? `<div class="chips" style="margin-bottom:10px">${tj.map((x) => `<button type="button" class="chip ${x.id === c.id ? "sel" : ""}" data-a="tarjetaSel" data-id="${esc(x.id)}">${esc(x.emoji || "💳")} ${esc(x.nombre)}</button>`).join("")}</div>` : ""}
+  <h1>${esc(c.emoji || "💳")} ${esc(c.nombre)}</h1>
+  <p class="sub">${P.corte ? `Corte el ${esc(c.corte)}${P.limite ? " · pagar antes del " + esc(fechaCorta(P.limite)) : ""}` : "Sin día de corte (edítala en Cuentas)"}</p>
+  <h2>${E.valor > 0 ? "A tu favor" : "Debes hoy"}</h2>
+  <div class="card"><div class="big num ${E.valor > 0 ? "ok" : "bad"}" data-deuda>${pesos(Math.abs(E.valor))}</div><p class="sub" style="margin-bottom:8px">Ya está contado en tus gastos, por categoría${P.corte ? " (desde el " + esc(fechaCorta(P.desde)) + ")" : " (este mes)"}</p>${filas || `<p class="nota">Sin compras en este periodo.</p>`}${antes > 0.5 && deuda > 0 ? `<div class="row"><span>📆 De antes del corte</span><span class="num mut">${pesos(antes)}</span></div>` : ""}</div>
+  <button type="button" class="btn" data-a="pagarTarjeta" data-id="${esc(c.id)}">Pagar tarjeta</button>
+  <div class="card" style="margin-top:14px;font-size:14px">Al pagar, el dinero pasa de <b>Banco</b> a la <b>Tarjeta</b>. <b>No cuenta como gasto otra vez</b>: el gasto ya se contó cuando compraste.</div></div>${barra()}`;
+}
+
+// ---------- Ahorro ----------
+function vAhorro() {
+  const E = estado(), inv = cuentas().filter((c) => c.tipo === "inversion"), R = resumen(hoy().slice(0, 7)), tip = N.tipDelMes(R, lista("metas"));
+  const ultMs = (f) => { if (!f) return ""; const d = Math.round((Date.parse(hoy() + "T12:00:00Z") - Date.parse(f + "T12:00:00Z")) / 86400000); return d <= 0 ? "actualizado hoy" : "hace " + d + (d === 1 ? " día" : " días"); };
+  const filaInv = inv.map((c) => {
+    const e = E.porId[c.id], neg = c.subtipo === "negocio";
+    return `<div class="row" style="align-items:flex-start"><span>${esc(c.emoji || "📈")} ${esc(c.nombre)} <small class="mut">· ${neg ? "negocio" : "rendimiento"}</small><br><small class="mut">Pusiste ${pesos(e.aportado)}${e.valFecha ? " · " + ultMs(e.valFecha) : ""}</small><br><button type="button" class="mini-b" style="margin-top:6px" data-a="aportar" data-id="${esc(c.id)}">＋ Aportar</button></span>
+      <span style="text-align:right"><b class="num">${pesos(e.vale)}</b><br>${e.valFecha || !neg ? `<small class="${colorSigno(e.rend)}">${e.rend > 0 ? "▲" : e.rend < 0 ? "▼" : ""} ${pesos(Math.abs(e.rend))}${e.pct != null ? " · " + Math.abs(e.pct) + " %" : ""}</small>` : `<small class="mut">sin valuar</small>`}</span></div>`;
+  }).join("");
+  const metas = lista("metas").sort(porOrden).map((m) => {
+    const ab = (m.abonos || []).reduce((s, a) => s + (Number(a.monto) || 0), 0), p = pct(ab, m.objetivo);
+    return `<div class="jarra"><div class="t"><button type="button" class="enlace" style="margin:0;padding:0;color:var(--fg);text-align:left;min-height:0" data-a="editarMeta" data-id="${esc(m.id)}">${esc(m.emoji || "🎯")} ${esc(m.nombre)}</button><span class="num">${Math.round(p)} %</span></div><div class="bar"><i style="width:${p}%"></i></div><div class="row" style="border:0;padding:6px 0 0"><small class="num mut">${pesos(ab)} de ${pesos(m.objetivo)}${m.fecha_meta ? " · para " + esc(fechaCorta(m.fecha_meta)) : ""}</small><button type="button" class="mini-b" data-a="abonar" data-id="${esc(m.id)}">Abonar</button></div></div>`;
+  }).join("");
+  return `<div class="wrap">${atras()}<h1>Ahorro</h1><p class="sub">Inversiones y metas</p>
+  <h2>Inversiones</h2><div class="card">${filaInv || `<p class="sub">Aún no tienes inversiones. Agrégalas en ☰ → Cuentas (tipo Inversión).</p>`}
+  ${inv.length ? `<button type="button" class="chip" style="margin:10px 0 2px" data-a="valuar">✏️ Actualizar lo que vale hoy</button>` : ""}<p class="nota">Lo que te regrese un negocio entra como ingreso de ese negocio.</p></div>
+  <h2>Metas de ahorro</h2><div class="card">${metas || `<p class="sub">Aún no tienes metas.</p>`}<button type="button" class="btn2" data-a="nuevaMeta">＋ Nueva meta</button></div>
+  ${tip ? `<h2>Tip del mes</h2><div class="card" style="font-size:14px">Este mes te sobran <b class="ok">${pesos(tip.sobra)}</b> de la jarra de ${esc(tip.jarra.nombre)}.${tip.meta ? ` ¿Los mandas a «${esc(tip.meta.nombre)}»?` : ""}${tip.meta ? `<button type="button" class="btn2" data-a="abonar" data-id="${esc(tip.meta.id)}" data-m="${tip.sobra}">Abonar ${pesos(tip.sobra)}</button>` : ""}</div>` : ""}</div>${barra()}`;
+}
+
+// ---------- Panel ----------
+const PAL = ["var(--verde)", "var(--azul)", "#c38bff", "var(--oro)", "var(--muted)", "#ff9f6b", "#5ad1d1", "#f48fb1"];
+function vPanel() {
+  const ym = hoy().slice(0, 7), n = A.rango, serie = N.serieMeses(movs(), ym, n), max = Math.max(1, ...serie.flatMap((o) => [o.entro, o.gasto])), h = (v) => (v > 0 ? Math.max(2, Math.round((v / max) * 128)) : 0);
+  const paso = n <= 6 ? 1 : n <= 12 ? 2 : 4, totE = N.r2(serie.reduce((s, o) => s + o.entro, 0)), totG = N.r2(serie.reduce((s, o) => s + o.gasto, 0));
+  const rangos = [[3, "3 m"], [6, "6 m"], [12, "1 año"], [24, "2 años"]];
+  const anios = [...new Set(movs().filter((m) => m.tipo === "ingreso").map((m) => String(m.fecha).slice(0, 4)).concat([ym.slice(0, 4)]))].sort().reverse();
+  const IN = N.ingresosPorNegocio(movs(), A.anio), negs = cfg().negocios.map((x) => x.id).concat(Object.keys(IN.porNegocio).filter((k) => !cfg().negocios.some((x) => x.id === k)));
+  const fil = negs.filter((k) => IN.porNegocio[k]).sort((a, b) => IN.porNegocio[b] - IN.porNegocio[a]);
+  const prev = N.sumarMeses(ym, -1), cur = N.gastosPorCategoria(movs(), ym), ant = N.gastosPorCategoria(movs(), prev);
+  const ks = [...new Set(Object.keys(cur).concat(Object.keys(ant)))].sort((a, b) => (cur[b] || 0) - (cur[a] || 0));
+  const cmp = ks.map((k) => {
+    const c = cur[k] || 0, a = ant[k] || 0, x = catPor(k); let t;
+    if (!a) t = `<small class="mut">nuevo</small>`; else { const p = Math.round(((c - a) / a) * 100); t = Math.abs(p) < 1 ? `<small class="mut">igual</small>` : p > 0 ? `<small class="bad">▲ ${p} %</small>` : `<small class="ok">▼ ${Math.abs(p)} %</small>`; }
+    return `<div class="row"><span>${esc(x.emoji)} ${esc(x.nombre)}</span><span class="num">${pesos(c)} ${t}</span></div>`;
+  }).join("");
+  const sa = N.sinAnotarEn(movs(), ym), saA = N.sinAnotarEn(movs(), ym.slice(0, 4));
+  const lab = (o, i) => (i % paso === 0 ? N.MESES_CORTO[Number(o.ym.slice(5)) - 1] : "");
+  return `<div class="wrap">${atras()}<h1>Panel</h1><p class="sub">Mes a mes, ${{ 3: "últimos 3 meses", 6: "últimos 6 meses", 12: "último año", 24: "últimos 2 años" }[n]}</p>
+  <div class="seg">${rangos.map(([v, t]) => `<button type="button" class="${v === n ? "on" : ""}" data-a="rango" data-v="${v}">${t}</button>`).join("")}</div>
+  <div class="card"><div class="chart ${n > 12 ? "fino" : ""}">${serie.map((o, i) => `<div class="mes"><div class="cols"><i style="height:${h(o.entro)}px;background:var(--verde)"></i><i style="height:${h(o.gasto)}px;background:var(--rojo)"></i></div><span>${lab(o, i)}</span></div>`).join("")}</div>
+  <div class="ley"><span><i style="background:var(--verde)"></i>Entró ${pesos(totE)}</span><span><i style="background:var(--rojo)"></i>Gastaste ${pesos(totG)}</span></div></div>
+  <h2>Ingresos por negocio · ${esc(A.anio)}</h2>
+  <div class="chips" style="margin-bottom:8px">${anios.map((a) => `<button type="button" class="chip ${a === A.anio ? "sel" : ""}" data-a="anio" data-v="${esc(a)}">${esc(a)}</button>`).join("")}</div>
+  <div class="card">${IN.total ? `<div class="stack">${fil.map((k) => `<i style="width:${(IN.porNegocio[k] / IN.total) * 100}%;background:${PAL[negs.indexOf(k) % PAL.length]}"></i>`).join("")}</div>${fil.map((k) => `<div class="row"><span><i style="display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;background:${PAL[negs.indexOf(k) % PAL.length]}"></i>${esc(negPor(k).emoji)} ${esc(negPor(k).nombre)}</span><span class="num">${pesos(IN.porNegocio[k])} <small class="mut">${Math.round((IN.porNegocio[k] / IN.total) * 100)} %</small></span></div>`).join("")}<div class="row"><b>Total</b><b class="num">${pesos(IN.total)}</b></div>` : `<p class="sub">Sin ingresos en ${esc(A.anio)}.</p>`}</div>
+  <h2>Gastos por categoría · ${esc(N.MESES_CORTO[Number(ym.slice(5)) - 1])} vs ${esc(N.MESES_CORTO[Number(prev.slice(5)) - 1])}</h2>
+  <div class="card">${cmp || `<p class="sub">Aún no hay gastos.</p>`}</div>
+  <h2>Sin anotar</h2><div class="card"><div class="row"><span>Este mes</span><b class="num ${colorSigno(sa)}">${pesos(sa)}</b></div><div class="row"><span>Este año</span><b class="num ${colorSigno(saA)}">${pesos(saA)}</b></div><p class="nota">Lo que cambió en tus saldos y no anotaste. No entra a las jarras ni a las categorías.</p></div></div>${barra()}`;
+}
+
+// ---------- Cuentas, Categorías, Jarras, Mi cuenta ----------
+function vCuentas() {
+  const E = estado(), todas = todasCuentas().sort((a, b) => (TIPOS[a.tipo] || { o: 9 }).o - (TIPOS[b.tipo] || { o: 9 }).o || porOrden(a, b));
+  const fila = (c) => { const v = E.porId[c.id] ? E.porId[c.id].valor : 0; return `<button type="button" class="rowb" data-a="editarCuenta" data-id="${esc(c.id)}"><span class="izq"><span class="e">${esc(c.emoji || (TIPOS[c.tipo] || {}).e || "")}</span><span>${esc(c.nombre)}<small>${esc((TIPOS[c.tipo] || { n: c.tipo }).n)}${c.tipo === "inversion" ? " · " + (c.subtipo === "negocio" ? "negocio" : "rendimiento") : ""}${c.tipo === "tarjeta" && c.corte ? " · corte " + esc(c.corte) : ""}</small></span></span><b class="fin num ${v < 0 ? "bad" : ""}">${pesos(v)}</b></button>`; };
+  const vivas = todas.filter((c) => !c.archivada), arch = todas.filter((c) => c.archivada);
+  return `<div class="wrap">${atras()}<h1>Cuentas</h1><p class="sub">Toca una para editarla</p><div class="card" style="margin-top:12px;padding:4px 16px">${vivas.map(fila).join("") || `<p class="sub" style="padding:12px 0">Sin cuentas.</p>`}</div>
+  <button type="button" class="btn" data-a="nuevaCuenta">＋ Nueva cuenta</button>
+  ${arch.length ? `<button type="button" class="enlace" data-a="verArch">${A.verArchivadas ? "Ocultar" : "Ver"} cuentas archivadas (${arch.length})</button>${A.verArchivadas ? `<div class="card" style="padding:4px 16px">${arch.map(fila).join("")}</div>` : ""}` : ""}</div>${barra()}`;
+}
+function vCategorias() {
+  return `<div class="wrap">${atras()}<h1>Categorías</h1><p class="sub">Con ellas se clasifican tus gastos. Toca una para cambiarla.</p><div class="card" style="margin-top:12px;padding:4px 16px">${cats().map((c) => `<button type="button" class="rowb" data-a="editarCat" data-id="${esc(c.id)}"><span class="izq"><span class="e">${esc(c.emoji)}</span><span>${esc(c.nombre)}${c.oculta ? ` <span class="mut">(oculta)</span>` : ""}<small>Jarra: ${esc((cfg().jarras.find((j) => j.id === c.jarra) || { nombre: "—" }).nombre)}${(c.palabras || []).length ? " · " + esc(c.palabras.slice(0, 4).join(", ")) : ""}</small></span></span></button>`).join("")}</div>
+  <button type="button" class="btn" data-a="nuevaCat">＋ Nueva</button></div>${barra()}`;
+}
+function vJarras() {
+  const js = cfg().jarras, suma = js.reduce((s, j) => s + (Number(j.pct) || 0), 0);
+  return `<div class="wrap">${atras()}<h1>Jarras</h1><p class="sub">Qué parte de lo que entra cada mes va a cada cosa. Tienen que sumar 100.</p>
+  <div class="card" style="margin-top:12px">${js.map((j) => `<div class="row"><input class="campo" style="flex:1;min-height:46px;padding:9px 12px;font-size:16px" data-i="jnombre" data-id="${esc(j.id)}" value="${esc(j.nombre)}" aria-label="Nombre de la jarra"><span class="der"><input class="campo num" style="width:76px;min-height:46px;padding:9px 10px;font-size:16px;text-align:right" inputmode="numeric" data-i="jpct" data-id="${esc(j.id)}" value="${esc(j.pct)}" aria-label="Porcentaje de ${esc(j.nombre)}"> %</span></div>`).join("")}
+  <div class="row"><b>Suma</b><b class="num ${suma === 100 ? "ok" : "bad"}" id="j-suma">${suma} %</b></div></div>
+  <p class="err" id="j-err"></p><button type="button" class="btn" id="j-guardar" data-a="guardarJarras">Guardar jarras</button>
+  <button type="button" class="enlace" data-a="jarrasBase">Volver a las de arranque (55 · 10 · 10 · 10 · 10 · 5)</button></div>${barra()}`;
+}
+function vMiCuenta() {
+  const dueno = rolApp !== "pareja", P = Datos.pareja, err = Datos.erroresLocales();
+  const pareja = !dueno ? "" : `<h2>Perfil de pareja</h2><div class="card">${P && P.existe
+    ? `<div class="row"><span>Usuario</span><b>${esc(P.usuario)}</b></div><div class="row"><span>Estado</span><b class="${P.activa ? "ok" : "bad"}">${P.activa ? "Activa" : "De baja"}</b></div>${P.activa && P.temporal ? `<p class="nota" style="margin:0 0 6px">Todavía no entra con su contraseña propia.</p>` : ""}<div class="row"><span>Último acceso</span><span class="num">${P.ultimo_acceso ? esc(fechaCorta(P.ultimo_acceso.slice(0, 10))) : "nunca"}</span></div>
+       <p class="nota">Solo ves que existe, si está activa y su último acceso. Lo suyo va cifrado en su teléfono con su contraseña: nadie más puede leerlo.</p>
+       <button type="button" class="btn2" data-a="parejaReiniciar">Reiniciar su contraseña</button>${P.activa ? `<button type="button" class="btn2" data-a="parejaBaja">Dar de baja</button>` : `<button type="button" class="btn2" data-a="parejaReactivar">Reactivar</button>`}`
+    : `<p class="sub">Ella tiene su propia app con sus cuentas y gastos. Tú no puedes ver nada de lo suyo.</p><button type="button" class="btn2" data-a="parejaCrear">Crear perfil de pareja</button>`}</div>`;
+  return `<div class="wrap">${atras()}<h1>Mi cuenta</h1><p class="sub">${dueno ? "Dueño" : "Tu cuenta · " + esc(Datos.usuario)}</p>
+  <h2>Seguridad</h2><div class="card"><button type="button" class="btn2" style="margin:0" data-a="cambiarPin">Cambiar mi PIN</button><div id="face-fila"></div>
+  ${dueno ? "" : `<button type="button" class="btn2" data-a="cambiarClave">Cambiar mi contraseña</button><button type="button" class="btn2" data-a="codigoNuevo">Sacar un código de recuperación nuevo</button>`}</div>
+  ${pareja}
+  <h2>Mis datos</h2><div class="card"><button type="button" class="btn2" style="margin:0" data-a="negocios">Mis negocios (de dónde entra tu dinero)</button>
+  ${dueno ? `<label class="btn2" style="cursor:pointer">Importar ingresos (paquete .json)<input type="file" id="imp-file" accept=".json,application/json" style="display:none" data-i="importar"></label><button type="button" class="btn2" data-a="accesoDueno">Copiar mi acceso (para volver a instalar)</button>` : ""}</div>
+  <h2>Estado</h2><div class="card"><div class="row"><span>Servidor</span><span class="num">v${Datos.version || "—"}${Datos.modo === "demo" ? " · demo" : ""}</span></div><div class="row"><span>Cambios por mandar</span><span class="num">${Datos.pendientes}</span></div>${Datos.ilegibles ? `<div class="row"><span>Registros que no se pudieron abrir</span><span class="num bad">${Datos.ilegibles}</span></div>` : ""}${dueno ? `<div class="row"><span>Último respaldo</span><span class="mut" data-respaldo>${Datos.respaldoUltimo ? esc(fechaHora(Datos.respaldoUltimo)) : "pendiente"}</span></div><button type="button" class="btn2" data-a="respaldarAhora">Respaldar ahora</button><button type="button" class="btn2" data-a="aparatos">Mis aparatos</button>` : ""}
+  ${err.length ? `<p class="nota">Últimos errores en este teléfono:</p>${err.slice(0, 5).map((e) => `<p class="nota" style="color:var(--rojo)">${esc(e.msg)}</p>`).join("")}` : ""}</div>
+  <button type="button" class="btn2" style="margin-top:22px" data-a="salirTel">Cerrar sesión en este teléfono</button></div>${barra()}`;
+}
+const VISTAS = { inicio: vInicio, movs: vMovs, tarjeta: vTarjeta, ahorro: vAhorro, panel: vPanel, cuentas: vCuentas, categorias: vCategorias, jarras: vJarras, cuenta: vMiCuenta };
+
+// ---------- menú ----------
+function hMenu() {
+  const it = [["movs", "🧾", "Movimientos"], ["tarjeta", "💳", "Tarjeta"], ["ahorro", "🐷", "Ahorro"], ["panel", "📊", "Panel"], ["cuentas", "🏦", "Cuentas"], ["categorias", "🏷️", "Categorías"], ["jarras", "🫙", "Jarras"], ["cuenta", "👤", "Mi cuenta"]];
+  hoja(`<h1>Menú</h1><div style="margin-top:8px">${it.map(([v, e, t]) => `<button type="button" class="rowb" data-a="ir" data-v="${v}"><span class="izq"><span class="e">${e}</span><span>${t}</span></span><span class="mut">›</span></button>`).join("")}</div>`);
+}
+
+// ---------- gasto rápido ----------
+let G = null;
+const ctxFrase = () => ({ hoy: hoy(), categorias: cats(), cuentas: cuentasPago(), ultimaCuenta: ultimaCuenta() });
+function entendiGasto() {
+  if (!G.frase.trim()) return `<div class="entiendo aviso2" data-ent>Ejemplos: «150 tacos» · «uber 85» · «ayer 300 gasolina efectivo» · «tacos 150 con tarjeta»</div>`;
+  if (G.monto == null) return `<div class="entiendo mal" data-ent>Falta el monto. Escríbelo con número, por ejemplo «150 ${esc(G.frase.trim().split(/\s+/)[0] || "tacos")}».</div>`;
+  const k = G.cat ? catPor(G.cat) : null, c = cuentaPor(G.cuenta);
+  return `<div class="entiendo" data-ent>Entendí: <b>${pesos(G.monto)}</b> · ${k ? `<b>${esc(k.nombre)}</b>` : `<b class="oro">falta la categoría: toca una abajo</b>`} · ${esc(fechaCorta(G.fecha))} · pagado con <b>${c ? esc(c.nombre) : "—"}</b></div>`;
+}
+function pintarGasto() {
+  $("#g-ent").innerHTML = entendiGasto();
+  $("#g-cats").innerHTML = catsVisibles().map((c) => `<button type="button" class="cat ${G.cat === c.id ? "sel" : ""}" data-a="gCat" data-id="${esc(c.id)}"><em>${esc(c.emoji)}</em>${esc(c.nombre)}</button>`).join("") + `<button type="button" class="cat" data-a="gNuevaCat"><em>＋</em>Nueva</button>`;
+  $("#g-cuentas").innerHTML = cuentasPago().map((c) => `<button type="button" class="chip ${G.cuenta === c.id ? "sel" : ""}" data-a="gCuenta" data-id="${esc(c.id)}">${esc(c.emoji || (TIPOS[c.tipo] || {}).e)} ${esc(c.nombre)}</button>`).join("");
+  const b = $("#g-guardar"), ok = G.monto > 0 && G.cat && G.cuenta;
+  b.disabled = !ok; b.textContent = G.monto > 0 ? (G.cat ? "Guardar " + pesos(G.monto) : "Elige una categoría") : "Guardar";
+  const f = $("#g-fecha"); if (f && f.value !== G.fecha) f.value = G.fecha;
+}
+function abrirGasto(prev) {
+  G = prev || { frase: "", monto: null, cat: null, catManual: false, cuenta: ultimaCuenta(), cuentaManual: false, fecha: hoy(), fechaManual: false, concepto: "" };
+  hoja(`<h1>Nuevo gasto</h1><p class="sub" style="margin-bottom:12px">Escríbelo como lo dirías</p>
+    <input class="campo gr" id="g-frase" data-i="gFrase" type="text" placeholder="150 tacos" value="${esc(G.frase)}" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="done" aria-label="Escríbelo como lo dirías">
+    <p class="nota">Para dictar toca el 🎤 del teclado.</p><div id="g-ent"></div>
+    <div class="cats" id="g-cats"></div><div class="chips" style="margin-top:12px" id="g-cuentas"></div>
+    <label class="et" for="g-fecha">Fecha</label><input class="campo" id="g-fecha" data-i="gFecha" type="date" value="${esc(G.fecha)}" max="${hoy()}">
+    <button type="button" class="btn" id="g-guardar" data-a="gGuardar">Guardar</button>`);
+  pintarGasto();
+}
+function gasInterpretar() {
+  const r = N.interpretar(G.frase, ctxFrase());
+  G.monto = r.monto; G.concepto = r.concepto;
+  if (!G.catManual) G.cat = r.categoria;
+  if (!G.cuentaManual) G.cuenta = r.cuenta;
+  if (!G.fechaManual) G.fecha = r.fecha;
+  pintarGasto();
+}
+async function gGuardar() {
+  if (!G || !(G.monto > 0) || !G.cat || !G.cuenta) return;
+  const m = { tipo: "gasto", monto: N.r2(G.monto), fecha: G.fecha, cuenta: G.cuenta, categoria: G.cat, concepto: G.concepto || catPor(G.cat).nombre, nota: "", origen: G.frase.trim() ? "frase" : "app", creado: iso(), actualizado: iso() };
+  const txt = pesos(m.monto) + " · " + catPor(m.categoria).nombre;
+  ls.set("fin_ultima_cuenta", m.cuenta); G = null; cerrarHoja();
+  const s = await Datos.crear("movimientos", Datos.nuevoId(), m);
+  toast(s === "ok" ? "Guardado · " + txt : s === "en_cola" ? "Guardado en tu teléfono · " + txt : "Guardado · " + txt);
+}
+
+// ---------- ingreso / editar movimiento ----------
+let F = null;
+function pintarMov() {
+  const o = $("#f-opc"); if (!o) return;
+  let h = "";
+  if (F.tipo === "gasto") h = `<div class="cats">${catsVisibles().map((c) => `<button type="button" class="cat ${F.categoria === c.id ? "sel" : ""}" data-a="fCat" data-id="${esc(c.id)}"><em>${esc(c.emoji)}</em>${esc(c.nombre)}</button>`).join("")}</div>`;
+  if (F.tipo === "ingreso") h = `<label class="et">Negocio</label><div class="cats">${cfg().negocios.map((n) => `<button type="button" class="cat ${F.negocio === n.id ? "sel" : ""}" data-a="fNeg" data-id="${esc(n.id)}"><em>${esc(n.emoji)}</em>${esc(n.nombre)}</button>`).join("")}</div>`;
+  if (F.tipo === "gasto" || F.tipo === "ingreso") h += `<label class="et">${F.tipo === "gasto" ? "Pagado con" : "Cayó en"}</label><div class="chips">${cuentasPago().map((c) => `<button type="button" class="chip ${F.cuenta === c.id ? "sel" : ""}" data-a="fCuenta" data-id="${esc(c.id)}">${esc(c.emoji || (TIPOS[c.tipo] || {}).e)} ${esc(c.nombre)}</button>`).join("")}${F.tipo === "ingreso" ? `<button type="button" class="chip ${!F.cuenta ? "sel" : ""}" data-a="fCuenta" data-id="">Sin cuenta</button>` : ""}</div>${F.tipo === "ingreso" && !F.cuenta ? `<p class="nota">Sin cuenta: cuenta para el panel, pero no mueve ningún saldo.</p>` : ""}`;
+  if (F.tipo === "traspaso") h = `<p class="nota" style="margin-top:12px">${esc((cuentaPor(F.cuenta) || { nombre: "—" }).nombre)} → ${esc((cuentaPor(F.cuenta_destino) || { nombre: "—" }).nombre)}</p>`;
+  if (F.tipo === "ajuste") h = `<p class="nota" style="margin-top:12px">Ajuste de saldo en ${esc((cuentaPor(F.cuenta) || { nombre: "—" }).nombre)}. Si lo quitas, el saldo vuelve a lo que decía la app.</p>`;
+  o.innerHTML = h;
+}
+function abrirMov(m, tipo) {
+  F = m ? { ...m } : { id: null, tipo, monto: "", fecha: hoy(), cuenta: tipo === "ingreso" ? (cuentas().find((c) => c.tipo === "banco") || cuentasPago()[0] || {}).id || "" : ultimaCuenta(), categoria: null, negocio: null, concepto: "", nota: "", origen: "app" };
+  const nuevo = !m, t = F.tipo;
+  hoja(`<h1>${nuevo ? (t === "ingreso" ? "Nuevo ingreso" : "Nuevo gasto") : t === "gasto" ? "Gasto" : t === "ingreso" ? "Ingreso" : t === "traspaso" ? "Traspaso" : "Ajuste (sin anotar)"}</h1>
+    <label class="et" for="f-monto">Monto${t === "ajuste" ? " (con signo)" : ""}</label><input class="campo gr num" id="f-monto" data-i="fMonto" inputmode="decimal" placeholder="$0" value="${esc(F.monto === "" ? "" : F.monto)}" autocomplete="off">
+    <label class="et" for="f-fecha">Fecha en que ${t === "ingreso" ? "te cayó" : "fue"}</label><input class="campo" id="f-fecha" data-i="fFecha" type="date" value="${esc(F.fecha)}">
+    ${t === "gasto" || t === "ingreso" ? `<label class="et" for="f-concepto">${t === "ingreso" ? "A qué se debió" : "Concepto"}</label><input class="campo" id="f-concepto" data-i="fConcepto" type="text" placeholder="${t === "ingreso" ? "Obra Gayosso, anticipo…" : "Tacos, gasolina…"}" value="${esc(F.concepto || "")}" autocomplete="off">` : ""}
+    <div id="f-opc"></div><p class="err" id="f-err"></p>
+    <button type="button" class="btn" data-a="fGuardar">${nuevo ? "Guardar" : "Guardar cambios"}</button>${nuevo ? "" : `<button type="button" class="btn2" style="color:var(--rojo)" data-a="fBorrar">Borrar</button>`}`);
+  pintarMov();
+}
+async function fGuardar() {
+  const e = (t) => { $("#f-err").textContent = t; };
+  const monto = num($("#f-monto").value), fecha = $("#f-fecha").value;
+  if (monto == null || (F.tipo !== "ajuste" && monto <= 0) || (F.tipo === "ajuste" && monto === 0)) return e("Escribe el monto.");
+  if (!N.esFecha(fecha)) return e("Escribe la fecha.");
+  if (F.tipo === "gasto" && !F.categoria) return e("Elige una categoría.");
+  if (F.tipo === "gasto" && !F.cuenta) return e("Elige con qué pagaste.");
+  if (F.tipo === "ingreso" && !F.negocio) return e("Elige el negocio.");
+  const c = $("#f-concepto");
+  const d = { tipo: F.tipo, monto: N.r2(monto), fecha, cuenta: F.cuenta || "", concepto: c ? c.value.trim() : F.concepto || "", nota: F.nota || "", origen: F.origen || "app", actualizado: iso() };
+  if (F.tipo === "gasto") d.categoria = F.categoria; if (F.tipo === "ingreso") d.negocio = F.negocio; if (F.tipo === "traspaso") d.cuenta_destino = F.cuenta_destino;
+  const nuevo = !F.id; if (nuevo) d.creado = iso();
+  const id = F.id || Datos.nuevoId(); if (F.tipo === "gasto" || F.tipo === "ingreso") ls.set("fin_ultima_cuenta", d.cuenta);
+  cerrarHoja(); F = null;
+  const s = await Datos.crear("movimientos", id, nuevo ? d : { ...(D.movimientos[id] || {}), ...d });
+  toast(s === "ok" || s === "en_cola" ? (nuevo ? "Guardado · " : "Cambiado · ") + pesos(d.monto) : "No se pudo guardar");
+}
+function fBorrar() {
+  hoja(`<h1>¿Borrar este movimiento?</h1><p class="sub" style="margin:8px 0">${esc(textoMov(F).t)} · ${pesos(F.monto)}. No se puede deshacer.</p><button type="button" class="btn rojo" data-a="fBorrarSi">Sí, borrar</button><button type="button" class="btn2" data-a="cerrar">No, dejarlo</button>`);
+}
+
+// ---------- ajustar saldo ----------
+let AJ = null;
+function abrirAjuste(id) {
+  const c = cuentaPor(id); if (!c) return;
+  const e = estado().porId[id], tj = c.tipo === "tarjeta", app = tj ? -e.valor : e.valor;
+  AJ = { id, app, tj, hay: e.hay };
+  hoja(`<h1>Ajustar ${esc(c.emoji || (TIPOS[c.tipo] || {}).e)} ${esc(c.nombre)}</h1><p class="sub" style="margin-bottom:12px">Pon ${tj ? "lo que de verdad debes" : "lo que de verdad tienes"} hoy</p>
+    <div class="row"><span class="mut">La app dice</span><b class="num">${pesos(app)}</b></div>
+    <input class="campo gr num" style="margin-top:8px" id="aj-monto" data-i="ajMonto" inputmode="decimal" placeholder="$0" value="${esc(app)}" autocomplete="off" aria-label="Lo que de verdad tienes">
+    <div id="aj-dif"></div><button type="button" class="btn" data-a="ajGuardar">Guardar ajuste</button>`);
+  pintarAjuste();
+}
+function pintarAjuste() {
+  const real = num($("#aj-monto").value), d = $("#aj-dif");
+  if (real == null) { d.innerHTML = ""; return; }
+  const dif = N.r2((AJ.tj ? -1 : 1) * (real - AJ.app));   // en «valor» (la tarjeta: más deuda = menos valor)
+  if (!AJ.hay) { d.innerHTML = aviso("Esta cuenta todavía no tiene movimientos: se guarda como su <b>saldo inicial</b> de hoy (no sale como «Sin anotar»)."); return; }
+  d.innerHTML = dif === 0 ? aviso("Sin diferencia.") : `<div class="entiendo" style="background:var(--rojo-bg)" data-dif>Diferencia: <b class="${colorSigno(dif)}">${dif > 0 ? "+" : ""}${pesos(dif)}</b>. Se guarda como <b>«Sin anotar»</b> y no se mete en tus jarras.</div>`;
+}
+async function ajGuardar() {
+  const real = num($("#aj-monto").value); if (real == null) return;
+  const c = cuentaPor(AJ.id), dif = N.r2((AJ.tj ? -1 : 1) * (real - AJ.app)), a = AJ; AJ = null; cerrarHoja();
+  if (!a.hay) { await Datos.actualizar("cuentas", a.id, { saldo_inicial: N.r2(real), fecha_inicial: hoy() }); return toast("Saldo de " + c.nombre + ": " + pesos(real)); }
+  if (dif === 0) return;
+  await Datos.crear("movimientos", Datos.nuevoId(), { tipo: "ajuste", monto: dif, fecha: hoy(), cuenta: a.id, concepto: "Ajuste de saldo", nota: "", origen: "app", creado: iso(), actualizado: iso() });
+  toast("Ajustado · sin anotar " + (dif > 0 ? "+" : "") + pesos(dif));
+}
+
+// ---------- pagar tarjeta ----------
+let PG = null;
+function abrirPago(id) {
+  const tj = cuentas().filter((c) => c.tipo === "tarjeta"), c = cuentaPor(id) || tj[0]; if (!c) return;
+  const deuda = Math.max(0, -estado().porId[c.id].valor);
+  PG = { tarjeta: c.id, desde: (cuentas().find((x) => x.tipo === "banco") || cuentasPago().find((x) => x.tipo !== "tarjeta") || {}).id || "", fecha: hoy(), deuda };
+  hoja(`<h1>Pagar ${esc(c.emoji || "💳")} ${esc(c.nombre)}</h1><p class="sub" style="margin-bottom:10px">Debes hoy: <b class="num bad">${pesos(deuda)}</b></p>
+    <label class="et" for="pg-monto">Cuánto pagas</label><input class="campo gr num" id="pg-monto" data-i="pgMonto" inputmode="decimal" value="${deuda || ""}" placeholder="$0" autocomplete="off">
+    <label class="et">Desde</label><div class="chips" id="pg-desde"></div>
+    <label class="et" for="pg-fecha">Fecha</label><input class="campo" id="pg-fecha" data-i="pgFecha" type="date" value="${hoy()}" max="${hoy()}">
+    <div id="pg-paso"></div><p class="err" id="pg-err"></p><button type="button" class="btn" data-a="pgSeguir">Pagar</button>`);
+  pintarPago();
+}
+function pintarPago() {
+  $("#pg-desde").innerHTML = cuentasPago().filter((c) => c.tipo !== "tarjeta").map((c) => `<button type="button" class="chip ${PG.desde === c.id ? "sel" : ""}" data-a="pgDesde" data-id="${esc(c.id)}">${esc(c.emoji || (TIPOS[c.tipo] || {}).e)} ${esc(c.nombre)}</button>`).join("");
+}
+function pgSeguir() {
+  const m = num($("#pg-monto").value), fecha = $("#pg-fecha").value, e = (t) => { $("#pg-err").textContent = t; };
+  if (!(m > 0)) return e("Escribe cuánto pagas."); if (!PG.desde) return e("Elige desde qué cuenta pagas."); if (!N.esFecha(fecha)) return e("Escribe la fecha.");
+  PG.monto = N.r2(m); PG.fecha = fecha;
+  const dif = N.r2(m - PG.deuda);
+  if (dif > 0.5) {
+    $("#pg-paso").innerHTML = `<div class="entiendo mal" data-sindetalle>Pagas <b>${pesos(m)}</b> pero la app solo tiene anotado <b>${pesos(PG.deuda)}</b>. ¿Metes los <b>${pesos(dif)}</b> de diferencia como gasto en <b>«Sin detalle»</b>?</div>
+      <button type="button" class="btn" data-a="pgGuardar" data-sd="1">Sí, meter ${pesos(dif)} como Sin detalle</button><button type="button" class="btn2" data-a="pgGuardar" data-sd="0">No, solo el pago</button>`;
+    $("#pg-paso").scrollIntoView({ block: "nearest" }); return;
+  }
+  return pgGuardar(false);
+}
+async function pgGuardar(conSD) {
+  const p = PG, dif = N.r2(p.monto - p.deuda); PG = null; cerrarHoja();
+  const ops = [];
+  if (conSD && dif > 0.5) ops.push({ op: "set", col: "movimientos", id: Datos.nuevoId(), data: { tipo: "gasto", monto: dif, fecha: p.fecha, cuenta: p.tarjeta, categoria: N.SIN_DETALLE, concepto: "Sin detalle (compras no anotadas)", nota: "", origen: "app", creado: iso(), actualizado: iso() } });
+  ops.push({ op: "set", col: "movimientos", id: Datos.nuevoId(), data: { tipo: "traspaso", monto: p.monto, fecha: p.fecha, cuenta: p.desde, cuenta_destino: p.tarjeta, concepto: "Pago de tarjeta", nota: "", origen: "app", creado: iso(), actualizado: iso() } });
+  await Datos.lote(ops); toast("Pago de " + pesos(p.monto) + " guardado");
+}
+
+// ---------- cuentas (nueva / editar) ----------
+let CU = null;
+const EMOJI_TIPO = { banco: "🏦", tarjeta: "💳", efectivo: "💵", inversion: "📈" };
+function abrirCuenta(id, tipo) {
+  const c = id ? cuentaPor(id) : null;
+  CU = c ? { ...c } : { id: null, tipo: tipo || "banco", subtipo: "rendimiento", emoji: "", nombre: "", saldo_inicial: "", fecha_inicial: hoy(), corte: "", pago: "" };
+  pintarCuenta();
+}
+function pintarCuenta() {
+  const t = CU.tipo, nuevo = !CU.id;
+  hoja(`<h1>${nuevo ? "Nueva cuenta" : "Editar cuenta"}</h1>
+    <label class="et" for="cu-nombre">Nombre</label><input class="campo" id="cu-nombre" data-i="cuNombre" type="text" placeholder="BBVA, Efectivo, GBM…" value="${esc(CU.nombre)}" autocomplete="off">
+    <label class="et">Tipo</label><div class="chips">${Object.entries(TIPOS).map(([k, v]) => `<button type="button" class="chip ${t === k ? "sel" : ""}" ${nuevo ? `data-a="cuTipo" data-id="${k}"` : "disabled"}>${v.e} ${v.n}</button>`).join("")}</div>
+    ${t === "inversion" ? `<label class="et">Clase de inversión</label><div class="chips"><button type="button" class="chip ${CU.subtipo !== "negocio" ? "sel" : ""}" data-a="cuSub" data-id="rendimiento">📈 Rendimiento (acciones, CETES…)</button><button type="button" class="chip ${CU.subtipo === "negocio" ? "sel" : ""}" data-a="cuSub" data-id="negocio">🤝 Negocio</button></div>` : ""}
+    <label class="et" for="cu-emoji">Emoji</label><input class="campo" id="cu-emoji" data-i="cuEmoji" type="text" maxlength="4" placeholder="${EMOJI_TIPO[t]}" value="${esc(CU.emoji || "")}" autocomplete="off">
+    <label class="et" for="cu-saldo">${t === "tarjeta" ? "Lo que debes hoy" : t === "inversion" ? "Lo que has puesto hasta hoy" : "Lo que tienes hoy"}</label><input class="campo num" id="cu-saldo" data-i="cuSaldo" inputmode="decimal" placeholder="$0" value="${esc(CU.saldo_inicial === "" ? "" : CU.saldo_inicial)}" autocomplete="off">
+    <label class="et" for="cu-fecha">Desde qué fecha cuenta (los movimientos anteriores no mueven su saldo)</label><input class="campo" id="cu-fecha" data-i="cuFecha" type="date" value="${esc(CU.fecha_inicial || hoy())}">
+    ${t === "tarjeta" ? `<div style="display:flex;gap:10px"><div style="flex:1"><label class="et" for="cu-corte">Día de corte</label><input class="campo num" id="cu-corte" inputmode="numeric" placeholder="20" value="${esc(CU.corte || "")}"></div><div style="flex:1"><label class="et" for="cu-pago">Día límite de pago</label><input class="campo num" id="cu-pago" inputmode="numeric" placeholder="10" value="${esc(CU.pago || "")}"></div></div>` : ""}
+    <p class="err" id="cu-err"></p><button type="button" class="btn" data-a="cuGuardar">Guardar</button>
+    ${nuevo ? "" : `<button type="button" class="btn2" data-a="cuArchivar">${CU.archivada ? "Volver a usarla" : "Archivar (ya no la uso)"}</button>`}`);
+}
+const leerCuenta = () => { const g = (s) => ($(s) ? $(s).value : ""); CU.nombre = g("#cu-nombre"); CU.emoji = g("#cu-emoji").trim(); CU.saldo_inicial = g("#cu-saldo"); CU.fecha_inicial = g("#cu-fecha"); if (CU.tipo === "tarjeta") { CU.corte = g("#cu-corte"); CU.pago = g("#cu-pago"); } };
+async function cuGuardar() {
+  leerCuenta();
+  const e = (t) => { $("#cu-err").textContent = t; };
+  if (!CU.nombre.trim()) return e("Ponle un nombre.");
+  const saldo = CU.saldo_inicial === "" ? 0 : num(CU.saldo_inicial); if (saldo == null) return e("El saldo no es un número.");
+  if (!N.esFecha(CU.fecha_inicial)) return e("Escribe la fecha.");
+  const dia = (v) => { if (v === "" || v == null) return null; const x = Number(v); return Number.isInteger(x) && x >= 1 && x <= 31 ? x : NaN; };
+  const corte = CU.tipo === "tarjeta" ? dia(CU.corte) : null, pago = CU.tipo === "tarjeta" ? dia(CU.pago) : null;
+  if (Number.isNaN(corte) || Number.isNaN(pago)) return e("Los días van del 1 al 31.");
+  const d = { nombre: CU.nombre.trim(), tipo: CU.tipo, emoji: CU.emoji || EMOJI_TIPO[CU.tipo], saldo_inicial: N.r2(saldo), fecha_inicial: CU.fecha_inicial, orden: CU.orden || Object.keys(D.cuentas).length + 1, archivada: !!CU.archivada };
+  if (CU.tipo === "inversion") d.subtipo = CU.subtipo === "negocio" ? "negocio" : "rendimiento";
+  if (CU.tipo === "tarjeta") { d.corte = corte; d.pago = pago; }
+  const id = CU.id || Datos.nuevoId(); CU = null; cerrarHoja();
+  await Datos.crear("cuentas", id, { ...(D.cuentas[id] || {}), ...d }); toast("Cuenta guardada");
+}
+
+// ---------- inversiones: lo que valen hoy y aportes ----------
+function abrirValuar() {
+  const E = estado(), inv = cuentas().filter((c) => c.tipo === "inversion");
+  if (!inv.length) return toast("Primero agrega una inversión en Cuentas");
+  hoja(`<h1>Lo que vale hoy</h1><p class="sub" style="margin-bottom:6px">Pon lo que dice tu app de inversión</p>${inv.map((c) => `<label class="et" for="va-${esc(c.id)}">${esc(c.emoji || "📈")} ${esc(c.nombre)} <span class="mut">(pusiste ${pesos(E.porId[c.id].aportado)})</span></label><input class="campo num" id="va-${esc(c.id)}" data-cta="${esc(c.id)}" inputmode="decimal" value="${E.porId[c.id].vale}" autocomplete="off">`).join("")}<p class="err" id="va-err"></p><button type="button" class="btn" data-a="vaGuardar">Guardar</button>`);
+}
+async function vaGuardar() {
+  const E = estado(), ops = [];
+  for (const i of document.querySelectorAll("[data-cta]")) {
+    const v = num(i.value); if (v == null || v < 0) return ($("#va-err").textContent = "Revisa los números.");
+    if (N.r2(v) !== E.porId[i.dataset.cta].vale || !E.porId[i.dataset.cta].valFecha) ops.push({ op: "set", col: "valuaciones", id: "val_" + i.dataset.cta + "_" + hoy(), data: { cuenta: i.dataset.cta, fecha: hoy(), valor: N.r2(v) } });
+  }
+  cerrarHoja(); if (ops.length) { await Datos.lote(ops); toast("Actualizado"); }
+}
+let AP = null;
+function abrirAportar(id) {
+  const c = cuentaPor(id); AP = { id, desde: (cuentas().find((x) => x.tipo === "banco") || cuentasPago().find((x) => x.tipo !== "tarjeta") || {}).id || "" };
+  hoja(`<h1>Aportar a ${esc(c.emoji || "📈")} ${esc(c.nombre)}</h1><p class="sub" style="margin-bottom:8px">El dinero pasa de tu cuenta a la inversión (no es un gasto)</p>
+    <label class="et" for="ap-monto">Cuánto</label><input class="campo gr num" id="ap-monto" inputmode="decimal" placeholder="$0" autocomplete="off">
+    <label class="et">Desde</label><div class="chips" id="ap-desde"></div><label class="et" for="ap-fecha">Fecha</label><input class="campo" id="ap-fecha" type="date" value="${hoy()}" max="${hoy()}">
+    <p class="err" id="ap-err"></p><button type="button" class="btn" data-a="apGuardar">Aportar</button>`);
+  pintarAporte();
+}
+const pintarAporte = () => { $("#ap-desde").innerHTML = cuentasPago().filter((c) => c.tipo !== "tarjeta").map((c) => `<button type="button" class="chip ${AP.desde === c.id ? "sel" : ""}" data-a="apDesde" data-id="${esc(c.id)}">${esc(c.emoji || (TIPOS[c.tipo] || {}).e)} ${esc(c.nombre)}</button>`).join(""); };
+async function apGuardar() {
+  const m = num($("#ap-monto").value), f = $("#ap-fecha").value;
+  if (!(m > 0)) return ($("#ap-err").textContent = "Escribe cuánto."); if (!AP.desde) return ($("#ap-err").textContent = "Elige de dónde sale.");
+  const a = AP; AP = null; cerrarHoja();
+  await Datos.crear("movimientos", Datos.nuevoId(), { tipo: "traspaso", monto: N.r2(m), fecha: N.esFecha(f) ? f : hoy(), cuenta: a.desde, cuenta_destino: a.id, concepto: "Aporte a inversión", nota: "", origen: "app", creado: iso(), actualizado: iso() }); toast("Aporte guardado");
+}
+
+// ---------- metas ----------
+function abrirMeta(id) {
+  const m = id ? D.metas[id] : null;
+  hoja(`<h1>${m ? "Meta" : "Nueva meta"}</h1>
+    <label class="et" for="me-nombre">Nombre</label><input class="campo" id="me-nombre" type="text" placeholder="Viaje a Japón" value="${esc(m ? m.nombre : "")}" autocomplete="off">
+    <label class="et" for="me-emoji">Emoji</label><input class="campo" id="me-emoji" type="text" maxlength="4" placeholder="🎯" value="${esc(m ? m.emoji || "" : "")}" autocomplete="off">
+    <label class="et" for="me-obj">Cuánto quieres juntar</label><input class="campo num" id="me-obj" inputmode="decimal" placeholder="$0" value="${esc(m ? m.objetivo : "")}" autocomplete="off">
+    <label class="et" for="me-fecha">Para cuándo (opcional)</label><input class="campo" id="me-fecha" type="date" value="${esc(m ? m.fecha_meta || "" : "")}">
+    ${m && (m.abonos || []).length ? `<label class="et">Abonos (toca ✕ para quitar uno)</label><div class="card" style="padding:4px 12px">${m.abonos.map((a, i) => `<div class="row"><span>${esc(fechaCorta(a.fecha))}</span><span class="der"><b class="num">${pesos(a.monto)}</b><button type="button" class="mini-b" data-a="quitarAbono" data-id="${esc(id)}" data-n="${i}" aria-label="Quitar abono">✕</button></span></div>`).join("")}</div>` : ""}
+    <p class="err" id="me-err"></p><button type="button" class="btn" data-a="meGuardar" data-id="${esc(id || "")}">Guardar</button>${m ? `<button type="button" class="btn2" style="color:var(--rojo)" data-a="meBorrar" data-id="${esc(id)}">Borrar meta</button>` : ""}`);
+}
+async function meGuardar(id) {
+  const nombre = $("#me-nombre").value.trim(), obj = num($("#me-obj").value), f = $("#me-fecha").value, e = (t) => { $("#me-err").textContent = t; };
+  if (!nombre) return e("Ponle un nombre."); if (!(obj > 0)) return e("Escribe cuánto quieres juntar.");
+  const d = { nombre, emoji: $("#me-emoji").value.trim() || "🎯", objetivo: N.r2(obj), fecha_meta: N.esFecha(f) ? f : "", abonos: id && D.metas[id] ? D.metas[id].abonos || [] : [], orden: id && D.metas[id] ? D.metas[id].orden : Object.keys(D.metas).length + 1 };
+  cerrarHoja(); await Datos.crear("metas", id || Datos.nuevoId(), d); toast("Meta guardada");
+}
+function abrirAbono(id, sugerido) {
+  const m = D.metas[id]; if (!m) return;
+  const ab = (m.abonos || []).reduce((s, a) => s + (Number(a.monto) || 0), 0);
+  hoja(`<h1>Abonar a ${esc(m.emoji || "🎯")} ${esc(m.nombre)}</h1><p class="sub" style="margin-bottom:8px">Llevas ${pesos(ab)} de ${pesos(m.objetivo)}</p>
+    <label class="et" for="ab-monto">Cuánto abonas</label><input class="campo gr num" id="ab-monto" inputmode="decimal" placeholder="$0" value="${sugerido || ""}" autocomplete="off">
+    <label class="et" for="ab-fecha">Fecha</label><input class="campo" id="ab-fecha" type="date" value="${hoy()}" max="${hoy()}">
+    <p class="err" id="ab-err"></p><button type="button" class="btn" data-a="abGuardar" data-id="${esc(id)}">Abonar</button>`);
+}
+async function abGuardar(id) {
+  const m = num($("#ab-monto").value), f = $("#ab-fecha").value; if (!(m > 0)) return ($("#ab-err").textContent = "Escribe cuánto.");
+  const meta = D.metas[id]; cerrarHoja();
+  await Datos.actualizar("metas", id, { abonos: [...(meta.abonos || []), { fecha: N.esFecha(f) ? f : hoy(), monto: N.r2(m) }] }); toast("Abono guardado · " + pesos(m));
+}
+
+// ---------- categorías, jarras, negocios ----------
+let CA = null;
+function abrirCat(id) {
+  const c = id ? D.categorias[id] : null;
+  CA = { id: id || null, jarra: c ? c.jarra : "diversion", oculta: c ? !!c.oculta : false, vuelveAGasto: !id && !!G };
+  if (CA.vuelveAGasto) { G.frase = ($("#g-frase") || { value: G.frase }).value; }
+  const esp = c && c.especial;
+  hoja(`<h1>${c ? "Categoría" : "Nueva categoría"}</h1>
+    <label class="et" for="ca-nombre">Nombre</label><input class="campo" id="ca-nombre" type="text" placeholder="Mascotas" value="${esc(c ? c.nombre : "")}" ${esp ? "disabled" : ""} autocomplete="off">
+    <label class="et" for="ca-emoji">Emoji</label><input class="campo" id="ca-emoji" type="text" maxlength="4" placeholder="🐶" value="${esc(c ? c.emoji : "")}" autocomplete="off">
+    <label class="et">Jarra (de dónde sale este gasto)</label><div class="chips" id="ca-jarras">${cfg().jarras.map((j) => `<button type="button" class="chip ${CA.jarra === j.id ? "sel" : ""}" data-a="caJarra" data-id="${esc(j.id)}">${esc(j.nombre)}</button>`).join("")}</div>
+    <label class="et" for="ca-palabras">Palabras para reconocerla (separadas por coma)</label><input class="campo" id="ca-palabras" type="text" placeholder="perro, veterinario, croquetas" value="${esc(c ? (c.palabras || []).join(", ") : "")}" autocomplete="off">
+    <p class="err" id="ca-err"></p><button type="button" class="btn" data-a="caGuardar">Guardar</button>
+    ${c && !esp ? `<button type="button" class="btn2" data-a="caOcultar">${CA.oculta ? "Volver a mostrarla" : "Ocultar (ya no sale en los botones)"}</button>` : ""}`);
+}
+async function caGuardar() {
+  const nombre = $("#ca-nombre").value.trim(), e = (t) => { $("#ca-err").textContent = t; };
+  if (!nombre) return e("Ponle un nombre.");
+  if (!CA.id && cats().some((c) => N.norm(c.nombre) === N.norm(nombre))) return e("Ya tienes una categoría con ese nombre.");
+  const emoji = $("#ca-emoji").value.trim() || "🏷️", palabras = $("#ca-palabras").value.split(",").map((x) => x.trim()).filter(Boolean);
+  const id = CA.id || "cat_" + Datos.nuevoId(), prev = D.categorias[id] || {}, vuelve = CA.vuelveAGasto, nueva = !CA.id;
+  CA = null;
+  const jarra = (($("#ca-jarras .sel") || { dataset: {} }).dataset.id) || prev.jarra || "diversion";
+  await Datos.crear("categorias", id, { ...prev, nombre: prev.especial ? prev.nombre : nombre, emoji, jarra, oculta: !!prev.oculta, palabras, orden: prev.orden || Object.keys(D.categorias).length + 1 });
+  if (vuelve && G) { G.cat = id; G.catManual = true; abrirGasto(G); toast("Categoría creada"); } else { cerrarHoja(); toast("Categoría guardada"); }
+}
+function guardarJarras() {
+  const js = cfg().jarras.map((j) => ({ ...j })); let suma = 0;
+  document.querySelectorAll("[data-i=jnombre]").forEach((i) => { const j = js.find((x) => x.id === i.dataset.id); j.nombre = i.value.trim() || j.nombre; });
+  document.querySelectorAll("[data-i=jpct]").forEach((i) => { const j = js.find((x) => x.id === i.dataset.id), v = num(i.value); j.pct = v == null ? 0 : Math.max(0, N.r2(v)); });
+  js.forEach((j) => { suma += j.pct; });
+  if (Math.round(suma * 100) !== 10000) return ($("#j-err").textContent = "Las jarras suman " + N.r2(suma) + " %: tienen que sumar 100.");
+  return guardarConfig({ jarras: js }).then(() => toast("Jarras guardadas"));
+}
+const guardarConfig = (campos) => Datos.crear("config", "general", { ...cfg(), ...campos });
+let NE = null;
+function abrirNegocios() {
+  NE = cfg().negocios.map((n) => ({ ...n }));
+  const pintar = () => { $("#ne-lista").innerHTML = NE.map((n, i) => `<div class="row"><input class="campo" style="width:64px;flex:none;text-align:center;min-height:46px;padding:9px 6px" data-i="neEmoji" data-n="${i}" value="${esc(n.emoji)}" maxlength="4" aria-label="Emoji"><input class="campo" style="flex:1;min-height:46px;padding:9px 12px;font-size:16px" data-i="neNombre" data-n="${i}" value="${esc(n.nombre)}" aria-label="Nombre del negocio"></div>`).join(""); };
+  hoja(`<h1>Mis negocios</h1><p class="sub" style="margin-bottom:8px">De dónde te entra el dinero. Puedes cambiar sus nombres y agregar más.</p><div class="card" style="padding:4px 12px" id="ne-lista"></div><button type="button" class="btn2" data-a="neAgregar">＋ Agregar negocio</button><p class="err" id="ne-err"></p><button type="button" class="btn" data-a="neGuardar">Guardar</button>`);
+  pintar(); NE.pintar = pintar;
+}
+
+// ---------- perfil de pareja (lo hace el dueño) y cuenta de ella ----------
+const generarClave = () => { const A = "abcdefghjkmnpqrstuvwxyz23456789", b = crypto.getRandomValues(new Uint8Array(10)); return Array.from(b, (x) => A[x % A.length]).join(""); };
+function abrirParejaCrear() {
+  hoja(`<h1>Crear perfil de pareja</h1><p class="sub" style="margin:6px 0">Le das un usuario y una contraseña temporal. Al entrar, ella elige su propia contraseña y su app cifra lo suyo: tú no podrás ver nada.</p>
+    <label class="et" for="pa-us">Usuario</label><input class="campo" id="pa-us" type="text" placeholder="su nombre, sin espacios" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
+    <label class="et" for="pa-pw">Contraseña temporal</label><input class="campo" id="pa-pw" type="text" value="${generarClave()}" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
+    <p class="err" id="pa-err"></p><button type="button" class="btn" data-a="paCrear">Crear</button>`);
+}
+async function paCrear() {
+  const us = $("#pa-us").value.trim(), pw = $("#pa-pw").value, e = (t, ok) => { const x = $("#pa-err"); x.textContent = t; x.classList.toggle("ok", !!ok); };
+  if (!/^[A-Za-z0-9._-]{3,30}$/.test(us)) return e("El usuario: 3 a 30 letras o números, sin espacios.");
+  if (pw.length < 8) return e("La contraseña temporal: mínimo 8 caracteres.");
+  e("Creando…", true);
+  const r = await Datos.parejaCrear(us, pw);
+  if (r === "existe") return e("Ya existe un perfil de pareja.");
+  if (r !== "ok") return e(r === "sin_senal" ? "Sin señal. Inténtalo otra vez." : "No se pudo crear: " + r);
+  mostrarAccesoPareja(us, pw, "Perfil creado");
+}
+function mostrarAccesoPareja(us, pw, titulo) {
+  const msg = `Finanzas\nLink: ${Datos.linkPareja(us.toLowerCase())}\nUsuario: ${us.toLowerCase()}\nContraseña temporal: ${pw}\n(Al entrar elige tu propia contraseña y guarda tu código de recuperación.)`;
+  hoja(`<h1>${esc(titulo)}</h1><p class="sub" style="margin:6px 0">Mándale esto. La contraseña temporal solo sirve para la primera vez.</p><div class="copia" data-acceso>${esc(msg)}</div><button type="button" class="btn" data-a="copiar" data-t="${esc(msg)}">Copiar mensaje</button><button type="button" class="btn2" data-a="cerrar">Listo</button>`);
+}
+function abrirParejaReiniciar() {
+  const P = Datos.pareja || {};
+  hoja(`<h1>Reiniciar su contraseña</h1><p class="sub" style="margin:6px 0">Se le cierra la sesión y entra con una contraseña temporal. Si ella guardó su código de recuperación, no pierde sus datos; si no lo tiene, tendrá que empezar de cero.</p>
+    <label class="et" for="pr-pw">Contraseña temporal nueva</label><input class="campo" id="pr-pw" type="text" value="${generarClave()}" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"><p class="err" id="pr-err"></p><button type="button" class="btn" data-a="prGuardar" data-u="${esc(P.usuario || "")}">Reiniciar</button>`);
+}
+async function prGuardar(u) {
+  const pw = $("#pr-pw").value; if (pw.length < 8) return ($("#pr-err").textContent = "Mínimo 8 caracteres.");
+  $("#pr-err").textContent = "Reiniciando…"; const r = await Datos.parejaReiniciar(pw);
+  if (r !== "ok") return ($("#pr-err").textContent = r === "sin_senal" ? "Sin señal." : "No se pudo: " + r);
+  mostrarAccesoPareja(u, pw, "Contraseña reiniciada");
+}
+function confirmar(titulo, texto, accion, boton, extra) { hoja(`<h1>${esc(titulo)}</h1><p class="sub" style="margin:8px 0">${esc(texto)}</p><p class="err" id="cf-err"></p><button type="button" class="btn rojo" data-a="${accion}" ${extra || ""}>${esc(boton)}</button><button type="button" class="btn2" data-a="cerrar">Cancelar</button>`); }
+function abrirCambiarClave() {
+  hoja(`<h1>Cambiar mi contraseña</h1><label class="et" for="cc-a">Contraseña actual</label><input class="campo" id="cc-a" type="password" autocomplete="current-password"><label class="et" for="cc-n">Contraseña nueva (mínimo 10)</label><input class="campo" id="cc-n" type="password" autocomplete="new-password"><label class="et" for="cc-r">Repítela</label><input class="campo" id="cc-r" type="password" autocomplete="new-password"><p class="err" id="cc-err"></p><button type="button" class="btn" data-a="ccGuardar">Cambiar</button>`);
+}
+async function ccGuardar() {
+  const a = $("#cc-a").value, n = $("#cc-n").value, e = (t) => { $("#cc-err").textContent = t; };
+  if (n.length < 10) return e("Mínimo 10 caracteres."); if (n !== $("#cc-r").value) return e("No son iguales.");
+  e("Cambiando…"); const r = await Datos.cambiarClave(a, n);
+  if (r === "clave") return e("Esa no es tu contraseña actual."); if (r !== "ok") return e("No se pudo: " + r);
+  cerrarHoja(); toast("Contraseña cambiada");
+}
+function abrirCodigoNuevo() {
+  hoja(`<h1>Código de recuperación nuevo</h1><p class="sub" style="margin:6px 0">El anterior deja de servir. Escribe tu contraseña para sacar uno nuevo.</p><label class="et" for="cn-a">Contraseña actual</label><input class="campo" id="cn-a" type="password" autocomplete="current-password"><p class="err" id="cn-err"></p><button type="button" class="btn" data-a="cnGuardar">Sacar código nuevo</button>`);
+}
+async function cnGuardar() {
+  $("#cn-err").textContent = "Un momento…"; const r = await Datos.codigoNuevo($("#cn-a").value);
+  if (r.error) return ($("#cn-err").textContent = r.error === "clave" ? "Esa no es tu contraseña actual." : "No se pudo: " + r.error);
+  hoja(`<h1>Tu código nuevo</h1><p class="sub" style="margin:6px 0">Guárdalo en un lugar seguro. Se muestra solo esta vez.</p><div class="codigo" data-codigo>${esc(r.codigo)}</div><button type="button" class="btn2" data-a="copiar" data-t="${esc(r.codigo)}">Copiar código</button><button type="button" class="btn" data-a="cerrar">Ya lo guardé</button>`);
+}
+async function importarArchivo(f) {
+  if (!f) return;
+  let j; try { j = JSON.parse(await f.text()); } catch { return toast("Ese archivo no es un paquete válido"); }
+  const ops = j && Array.isArray(j.ops) ? j.ops.filter((o) => o && o.op === "set" && o.col === "movimientos" && o.id && o.data && typeof o.data === "object") : [];
+  if (!ops.length) return toast("El paquete no trae movimientos");
+  hoja(`<h1>Importar ${ops.length} movimientos</h1><p class="sub" style="margin:8px 0">Si ya los habías importado, no se duplican (mismos ids). No mueven saldos de cuentas; sí cuentan en el panel.</p><p class="err" id="im-err"></p><button type="button" class="btn" data-a="imSi">Importar</button><button type="button" class="btn2" data-a="cerrar">Cancelar</button>`);
+  window.__paquete = ops;
+}
+async function imSi() {
+  const ops = window.__paquete || []; window.__paquete = null; $("#im-err") && ($("#im-err").textContent = "Importando…");
+  const s = await Datos.importar(ops, (a, b) => { const e = $("#im-err"); if (e) e.textContent = "Importando " + a + " de " + b + "…"; });
+  cerrarHoja(); toast(s === "ok" ? "Importados " + ops.length + " movimientos" : "No se pudo terminar la importación (" + s + ")");
+}
+
+// ---------- acciones (todos los botones pasan por aquí: la página no usa atributos «on…» en línea) ----------
+const ACC = {
+  ir(el) { A.vista = el.dataset.v; if (A.vista === "movs") A.mes = hoy().slice(0, 7); cerrarHoja(); render(true); scrollTo(0, 0); },
+  menu: hMenu, cerrar() { G = null; F = null; AJ = null; PG = null; CU = null; AP = null; CA = null; cerrarHoja(); },
+  quitarBanda() { $("#aviso").innerHTML = ""; },
+  gasto() { abrirGasto(); }, ingreso() { abrirMov(null, "ingreso"); },
+  gCat(el) { G.cat = el.dataset.id; G.catManual = true; pintarGasto(); }, gCuenta(el) { G.cuenta = el.dataset.id; G.cuentaManual = true; pintarGasto(); },
+  gNuevaCat() { abrirCat(null); }, gGuardar,
+  fCat(el) { F.categoria = el.dataset.id; pintarMov(); }, fNeg(el) { F.negocio = el.dataset.id; pintarMov(); }, fCuenta(el) { F.cuenta = el.dataset.id; pintarMov(); }, fGuardar, fBorrar,
+  async fBorrarSi() { const id = F.id; F = null; cerrarHoja(); await Datos.borrar("movimientos", id); toast("Borrado"); },
+  editarMov(el) { const m = D.movimientos[el.dataset.id]; if (m) abrirMov(m); },
+  mes(el) { A.mes = N.sumarMeses(A.mes, Number(el.dataset.d)); render(true); },
+  ajustar(el) { abrirAjuste(el.dataset.id); }, ajGuardar,
+  pagarTarjeta(el) { abrirPago(el.dataset.id); }, pgDesde(el) { PG.desde = el.dataset.id; pintarPago(); }, pgSeguir, pgGuardar(el) { return pgGuardar(el.dataset.sd === "1"); },
+  tarjetaSel(el) { A.tarjeta = el.dataset.id; render(true); },
+  valuar() { abrirValuar(); }, vaGuardar, aportar(el) { abrirAportar(el.dataset.id); }, apDesde(el) { AP.desde = el.dataset.id; pintarAporte(); }, apGuardar,
+  nuevaMeta() { abrirMeta(null); }, editarMeta(el) { abrirMeta(el.dataset.id); }, meGuardar(el) { return meGuardar(el.dataset.id); },
+  async meBorrar(el) { cerrarHoja(); await Datos.borrar("metas", el.dataset.id); toast("Meta borrada"); },
+  async quitarAbono(el) { const m = D.metas[el.dataset.id], i = Number(el.dataset.n); await Datos.actualizar("metas", el.dataset.id, { abonos: (m.abonos || []).filter((_, k) => k !== i) }); abrirMeta(el.dataset.id); },
+  abonar(el) { abrirAbono(el.dataset.id, el.dataset.m); }, abGuardar(el) { return abGuardar(el.dataset.id); },
+  rango(el) { A.rango = Number(el.dataset.v); render(true); }, anio(el) { A.anio = el.dataset.v; render(true); },
+  nuevaCuenta(el) { abrirCuenta(null, el.dataset.t); }, editarCuenta(el) { abrirCuenta(el.dataset.id); },
+  cuTipo(el) { leerCuenta(); CU.tipo = el.dataset.id; pintarCuenta(); }, cuSub(el) { leerCuenta(); CU.subtipo = el.dataset.id; pintarCuenta(); }, cuGuardar,
+  async cuArchivar() { const id = CU.id, v = !CU.archivada; CU = null; cerrarHoja(); await Datos.actualizar("cuentas", id, { archivada: v }); toast(v ? "Cuenta archivada" : "Cuenta activa otra vez"); },
+  verArch() { A.verArchivadas = !A.verArchivadas; render(true); },
+  nuevaCat() { abrirCat(null); }, editarCat(el) { abrirCat(el.dataset.id); }, caJarra(el) { document.querySelectorAll("#ca-jarras .chip").forEach((c) => c.classList.toggle("sel", c === el)); }, caGuardar,
+  async caOcultar() { const id = CA.id, v = !CA.oculta; CA = null; cerrarHoja(); await Datos.actualizar("categorias", id, { oculta: v }); toast(v ? "Categoría oculta" : "Categoría visible"); },
+  guardarJarras, async jarrasBase() { await guardarConfig({ jarras: N.BASE_JARRAS }); toast("Jarras de arranque"); },
+  negocios: abrirNegocios, neAgregar() { NE.push({ id: "neg_" + Datos.nuevoId(), nombre: "", emoji: "•" }); NE.pintar(); },
+  async neGuardar() {
+    const l = NE.filter((n) => String(n.nombre).trim()); if (!l.length) return ($("#ne-err").textContent = "Deja al menos un negocio.");
+    NE = null; cerrarHoja(); await guardarConfig({ negocios: l.map((n) => ({ ...n, nombre: String(n.nombre).trim(), emoji: String(n.emoji || "•").trim() || "•" })) }); toast("Negocios guardados");
+  },
+  async cambiarPin() { cerrarHoja(); const ok = await Candado.cambiarPin(); render(true); if (ok) toast("PIN cambiado"); },
+  async faceOn() { const r = await Candado.activarFace(); if (r === true) toast("Face ID activado"); else if (r === false) toast("No se pudo activar Face ID"); pintarFace(); }, faceOff() { Candado.quitarFace(); pintarFace(); toast("Face ID desactivado"); },
+  parejaCrear: abrirParejaCrear, paCrear, parejaReiniciar: abrirParejaReiniciar, prGuardar(el) { return prGuardar(el.dataset.u); },
+  parejaBaja() { confirmar("¿Dar de baja a tu pareja?", "Se le cierra la sesión y ya no puede entrar. Sus datos cifrados se quedan guardados; la puedes reactivar cuando quieras.", "paBajaSi", "Sí, dar de baja"); },
+  async paBajaSi() { const r = await Datos.parejaBaja(); cerrarHoja(); render(true); toast(r === "ok" ? "Perfil dado de baja" : "No se pudo: " + r); },
+  async parejaReactivar() { const r = await Datos.parejaReactivar(); render(true); toast(r === "ok" ? "Perfil reactivado" : "No se pudo: " + r); },
+  cambiarClave: abrirCambiarClave, ccGuardar, codigoNuevo: abrirCodigoNuevo, cnGuardar, imSi,
+  async copiar(el) { try { await navigator.clipboard.writeText(el.dataset.t); toast("Copiado"); } catch { toast("No se pudo copiar: selecciona el texto"); } },
+  async accesoDueno() { const t = Datos.accesoTexto(); if (!t) return toast("No hay acceso guardado"); try { await navigator.clipboard.writeText(t); toast("Acceso copiado: guárdalo en un lugar seguro"); } catch { toast("No se pudo copiar"); } },
+  salirTel() { confirmar("¿Cerrar sesión en este teléfono?", rolApp === "pareja" ? "Se borra lo guardado aquí. Tus datos siguen cifrados en la nube: al volver a entrar con tu contraseña los recuperas." : "Se borra lo guardado en este teléfono (PIN y acceso). Tus datos siguen en la hoja; necesitarás tu llave para volver a entrar.", "salirSi", "Sí, cerrar sesión"); },
+  salirSi() { Datos.salir(); },
+  async alertasVistas() { const r = await Datos.alertasVistas(); if (r !== "ok") toast("No se pudo: " + r); render(true); },
+  async respaldarAhora(el) { el.disabled = true; el.textContent = "Respaldando…"; const r = await Datos.respaldarAhora(); toast(r === "ok" ? "Respaldo hecho" : "No se pudo respaldar: " + r); render(true); },
+  async aparatos() {
+    hoja(`<h1>Mis aparatos</h1><p class="sub" style="margin:6px 0">Los teléfonos y navegadores que han usado tu llave. Uno nuevo no entra hasta que lo apruebas aquí; si quitas uno, ya no entra aunque tenga la llave. Si perdiste un teléfono, corre también cambiarLlave en Apps Script.</p><div id="ap-lista" class="card" style="padding:4px 14px"><p class="sub" style="padding:12px 0">Cargando…</p></div><button type="button" class="btn2" data-a="cerrar">Listo</button>`);
+    const l = await Datos.aparatos(); const c = $("#ap-lista"); if (!c) return;
+    c.innerHTML = !l ? `<p class="sub" style="padding:12px 0">No se pudo cargar.</p>` : l.map((a) => `<div class="row" data-aparato="${esc(a.id)}"><span>${a.este ? "📱 Este aparato" : "📱 " + esc(String(a.ua || "sin dato").slice(0, 60))}<br><small class="mut">${!a.activo ? "Quitado" : a.pendiente ? "⏳ Pide permiso desde " + esc(fechaHora(a.primera)) : "Último uso " + esc(fechaHora(a.ultima))}</small></span>${a.este || !a.activo ? "" : `<span class="der">${a.pendiente ? `<button type="button" class="mini-b" data-a="aprobarAparato" data-id="${esc(a.id)}">Aprobar</button>` : ""}<button type="button" class="mini-b" data-a="quitarAparato" data-id="${esc(a.id)}">Quitar</button></span>`}</div>`).join("");
+  },
+  async aprobarAparato(el) { const r = await Datos.aprobarAparato(el.dataset.id); toast(r === "ok" ? "Aparato aprobado" : "No se pudo: " + r); ACC.aparatos(); },
+  async quitarAparato(el) { const r = await Datos.quitarAparato(el.dataset.id); toast(r === "ok" ? "Aparato quitado" : "No se pudo: " + r); ACC.aparatos(); },
+};
+const INP = {
+  busca(el) { if (A.busca === el.value) return; A.busca = el.value; const l = $("#movs-lista"); if (l) l.innerHTML = listaMovs(); },
+  gFrase(el) { G.frase = el.value; gasInterpretar(); }, gFecha(el) { if (N.esFecha(el.value)) { G.fecha = el.value; G.fechaManual = true; pintarGasto(); } },
+  fMonto() {}, fFecha() {}, fConcepto() {}, cuNombre() {}, cuEmoji() {}, cuSaldo() {}, cuFecha() {}, ajMonto() { pintarAjuste(); }, pgMonto() {}, pgFecha() {},
+  jnombre() {}, jpct(el) { let s = 0; document.querySelectorAll("[data-i=jpct]").forEach((i) => { s += num(i.value) || 0; }); const e = $("#j-suma"); e.textContent = N.r2(s) + " %"; e.className = "num " + (Math.round(s * 100) === 10000 ? "ok" : "bad"); },
+  neEmoji(el) { NE[el.dataset.n].emoji = el.value; }, neNombre(el) { NE[el.dataset.n].nombre = el.value; },
+  importar(el) { const f = el.files && el.files[0]; el.value = ""; importarArchivo(f); },
+};
+document.addEventListener("click", (e) => { const el = e.target.closest("[data-a]"); if (!el || el.disabled) return; const f = ACC[el.dataset.a]; if (!f) return; if (el.tagName === "BUTTON") e.preventDefault(); Promise.resolve(f(el, e)).catch((x) => bandaError(x && x.message ? x.message : x)); });
+// «change» solo para fechas y archivos: en los campos de texto ya se atendió cada «input», y repintar al soltar el foco se comía el toque siguiente
+const alEscribir = (e) => { const el = e.target.closest("[data-i]"); if (!el || !INP[el.dataset.i]) return; if (e.type === "change" && !/^(date|file)$/.test(el.type)) return; INP[el.dataset.i](el, e); };
+document.addEventListener("input", alEscribir); document.addEventListener("change", alEscribir);
+
+// ---------- pintar ----------
+let pendiente = 0;
+function render(ya) {
+  if (Candado.bloqueado) return;
+  if (ya) { cancelAnimationFrame(pendiente); pendiente = 0; }
+  else { if (pendiente) return; pendiente = requestAnimationFrame(() => { pendiente = 0; render(true); }); return; }
+  const y = window.scrollY, v = VISTAS[A.vista] || vInicio;
+  $("#app").innerHTML = v();
+  if (A.vista === "cuenta") pintarFace();
+  window.scrollTo(0, y);
+  const n = cfg().nombre; if (n) ls.set("fin_nombre", n);
+}
+async function pintarFace() {
+  const f = $("#face-fila"); if (!f) return;
+  if (!(await Candado.faceDisponible())) { f.innerHTML = ""; return; }
+  f.innerHTML = Candado.tieneFace() ? `<button type="button" class="btn2" data-a="faceOff">Desactivar Face ID</button>` : `<button type="button" class="btn2" data-a="faceOn">Activar Face ID</button>`;
+}
+
+
+// ---------- primer arranque: categorías, jarras, negocios y cuentas de arranque ----------
+let sembrando = false;
+function sembrar() {
+  if (sembrando || !(Datos.sincronizado || Datos.modo === "demo") || Datos.ilegibles) return;   // con registros que no se abren (otra llave) no se siembra: se pisarían
+  if (D.config.general || Object.keys(D.categorias).length || Object.keys(D.cuentas).length) return;   // ya hay algo: no se toca
+  sembrando = true;
+  const f = hoy(), ops = [{ op: "set", col: "config", id: "general", data: { negocios: N.BASE_NEGOCIOS, jarras: N.BASE_JARRAS } }];
+  N.BASE_CATS.forEach((c) => ops.push({ op: "set", col: "categorias", id: c.id, data: { ...c, palabras: [], oculta: false } }));
+  [["cta_banco", "banco", "Banco", 1], ["cta_efectivo", "efectivo", "Efectivo", 2], ["cta_tarjeta", "tarjeta", "Tarjeta", 3]].forEach(([id, tipo, nombre, o]) => ops.push({ op: "set", col: "cuentas", id, data: { nombre, tipo, emoji: EMOJI_TIPO[tipo], saldo_inicial: 0, fecha_inicial: f, orden: o, archivada: false } }));
+  Datos.lote(ops).finally(() => { sembrando = false; });
+}
+
+// ---------- arranque ----------
+Candado.alDesbloquear(() => render(true));
+Datos.alError((msg) => bandaError(msg));
+Datos.alEstado(() => { if (!Candado.bloqueado && (A.vista === "inicio" || A.vista === "cuenta")) render(); });
+Datos.alPareja(() => { if (A.vista === "cuenta") render(); });
+Datos.alSincronizar(() => { sembrar(); render(); });
+["cuentas", "movimientos", "valuaciones", "categorias", "config", "metas"].forEach((c) => Datos.suscribir(c, (m) => { D[c] = m; render(); }));
+(async function arrancar() {
+  try {
+    if (!Datos.hayAcceso()) await Datos.pantallaAcceso();
+    rolApp = Datos.rol;
+    await Candado.desbloquear();
+    await Datos.abrir();
+    rolApp = Datos.rol;
+    render(true);
+    if (Datos.modo === "demo" || Datos.sincronizado) sembrar();   // sin señal y sin nada guardado no se siembra (para no duplicar)
+  } catch (e) { bandaError(e && e.message ? e.message : e); }
+})();
+</script>
+<script>if (top !== self) throw 0;
+
+if ("serviceWorker" in navigator) {
+  // «Hay versión nueva»: solo si ya había una versión controlando la página (en la primera instalación no sale)
+  let habia = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (!habia) { habia = true; return; }
+    if (document.getElementById("version-nueva")) return;
+    const f = document.createElement("div"); f.id = "version-nueva"; f.setAttribute("role", "status");
+    f.style.cssText = "position:fixed;left:0;right:0;top:0;z-index:2147483000;display:flex;gap:12px;align-items:center;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 8px) 12px 8px;background:#0f2a1c;color:#eef3ef;font:600 14px/1.2 system-ui,sans-serif;box-shadow:0 2px 10px rgba(0,0,0,.3)";
+    const t = document.createElement("span"); t.textContent = "Hay versión nueva";
+    const b = document.createElement("button"); b.type = "button"; b.textContent = "Actualizar";
+    b.style.cssText = "min-height:34px;padding:0 14px;border:0;border-radius:10px;background:#2fd47a;color:#04140b;font:700 14px system-ui,sans-serif";
+    b.addEventListener("click", () => location.reload());
+    f.append(t, b); document.body.appendChild(f);
+  });
+  addEventListener("load", () => navigator.serviceWorker.register("/finanzas/sw.js", { scope: "/finanzas/" }).catch(() => {}));
+}
+</script>
+</body>
+</html>
