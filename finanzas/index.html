@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#050706">
 <title>Finanzas</title>
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-E0FINn7+2aPWl//sGe6VccsSdeSkc5i1Jujdbp7bd9g=' 'sha256-TEKXqOue7pp4s7aHY+TgyyqYSqkPBE02iAlxfe4ZM00=' 'sha256-1Kskbp9swOdspgJHxUeBbAIDrmCx0TziOImLxMNzBOo=' 'sha256-HqIGCnVfKouHqVTR7BVFUk2XjJS65NZ4IcyEWLmbHek='; worker-src 'self'; connect-src https://script.google.com https://script.googleusercontent.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-E0FINn7+2aPWl//sGe6VccsSdeSkc5i1Jujdbp7bd9g=' 'sha256-TEKXqOue7pp4s7aHY+TgyyqYSqkPBE02iAlxfe4ZM00=' 'sha256-gzydpReMaHGWhS/A6B/HKyYVw7c3a9QsTrGPIbnzw9c=' 'sha256-/rWtCsz6sqfBHFiEGmeC2kgqH85IykYsRYaYebCSFLY=' 'sha256-HqIGCnVfKouHqVTR7BVFUk2XjJS65NZ4IcyEWLmbHek='; worker-src 'self'; connect-src https://script.google.com https://script.googleusercontent.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="robots" content="noindex,nofollow">
 <script>if (top !== self) { try { top.location.replace(self.location.href); } catch (e) {} document.documentElement.textContent = ""; document.documentElement.style.cssText = "display:none!important"; }</script>
 <link rel="manifest" href="/finanzas/manifest.webmanifest">
@@ -126,6 +126,7 @@ label.et { display: block; font-size: 12.5px; color: var(--muted); margin: 12px 
 /* entrada y bloqueo */
 #acceso, #bloqueo { position: fixed; inset: 0; z-index: 200; background: var(--bg); overflow-y: auto; -webkit-overflow-scrolling: touch; padding-top: env(safe-area-inset-top, 0px); }
 #bloqueo { z-index: 300; }
+#rescate { position: fixed; inset: 0; z-index: 500; background: var(--bg); overflow-y: auto; padding-top: env(safe-area-inset-top, 0px); }
 .acc { width: min(380px, 100%); margin: 0 auto; padding: 56px 24px calc(40px + env(safe-area-inset-bottom, 0px)); text-align: center; }
 .acc h1 { margin-top: 18px; }
 .acc .sub { margin: 8px 0 20px; }
@@ -152,6 +153,51 @@ label.et { display: block; font-size: 12.5px; color: var(--muted); margin: 12px 
 <div id="app"></div>
 <div id="hoja"></div>
 <div id="aviso"></div>
+<script>if (top !== self) throw 0;
+
+"use strict";
+// ============================================================
+// Vigía del arranque. Va en su propio bloque de script, antes que la app: aunque la app no llegue a correr, este sí responde.
+// Si una etapa automática (abrir la app, abrir la bóveda con el PIN, cargar los datos) tarda de más —algo se colgó en el teléfono, por
+// ejemplo IndexedDB o WebCrypto en Safari— enseña «Reintentar» y «Borrar caché de la app» (sin borrar la llave cifrada, el PIN ni los
+// cambios por mandar) y avisa del error a la hoja. Mientras la app espera a la persona (PIN, contraseña) el vigía no cuenta.
+// ============================================================
+const Vigia = (() => {
+  let t = 0, etapa = "abrir la app", escala = 1;
+  
+  function guardar(msg) { try { const l = JSON.parse(localStorage.getItem("fin_err_pend") || "[]"); l.unshift({ t: Date.now(), msg: String(msg).slice(0, 300), donde: etapa }); localStorage.setItem("fin_err_pend", JSON.stringify(l.slice(0, 10))); } catch (e) {} }
+  function mandar(msg) {   // directo a la hoja: con el token de ella, o con el id de este aparato (el servidor solo lo acepta de un aparato ya aprobado)
+    try {
+      const url = localStorage.getItem("fin_api"), tok = localStorage.getItem("fin_token"), ap = localStorage.getItem("fin_aparato");
+      if (!url || !/^https:\/\/script\.google\.com\//.test(url)) return;
+      const errores = [{ msg: String(msg).slice(0, 300), donde: "vigía · " + etapa, ua: String(navigator.userAgent || "").slice(0, 150), version: "vigia" }];
+      const cuerpo = tok ? { accion: "error", token: tok, errores } : ap ? { accion: "error_aparato", aparato: ap, errores } : null;
+      if (cuerpo) fetch(url, { method: "POST", body: JSON.stringify(cuerpo), headers: { "Content-Type": "text/plain;charset=utf-8" } }).catch(() => {});
+    } catch (e) {}
+  }
+  function reportar(msg) { guardar(msg); mandar(msg); }
+  async function borrarCache() {
+    try { if (navigator.serviceWorker) { const rs = await navigator.serviceWorker.getRegistrations(); await Promise.all(rs.map((x) => x.unregister())); } } catch (e) {}
+    try { if (window.caches) { const ks = await caches.keys(); await Promise.all(ks.map((k) => caches.delete(k))); } } catch (e) {}
+    try { ["fin_cache_dc", "fin_cache_d", "fin_cache_p"].forEach((k) => localStorage.removeItem(k)); } catch (e) {}   // la llave cifrada, la bóveda, el PIN y la cola se quedan
+    location.reload();
+  }
+  function mostrar(msg) {
+    clearTimeout(t); t = 0;
+    const texto = msg || "La app se tardó demasiado en «" + etapa + "».";
+    reportar(texto);
+    let r = document.getElementById("rescate");
+    if (!r) { r = document.createElement("div"); r.id = "rescate"; r.setAttribute("role", "alertdialog"); document.body.appendChild(r); }
+    r.innerHTML = '<div class="acc"><div class="icono">$</div><h1>Algo se trabó</h1><p class="sub"></p><button class="btn" type="button" data-r="otra">Reintentar</button><button class="btn2" type="button" data-r="cache">Borrar caché de la app</button><p class="nota">Tu llave, tu PIN y lo que no se ha mandado no se borran. Ya se avisó del error.</p></div>';
+    r.querySelector(".sub").textContent = texto;
+    r.onclick = (e) => { const b = e.target.closest("[data-r]"); if (!b) return; b.disabled = true; if (b.dataset.r === "otra") location.reload(); else borrarCache(); };
+  }
+  function poner(e, seg) { clearTimeout(t); etapa = e; t = setTimeout(() => mostrar(), (seg * 1000) / escala); }
+  function listo() { clearTimeout(t); t = 0; }
+  poner("abrir la app", 15);
+  return { poner, listo, mostrar, reportar, get etapa() { return etapa; } };
+})();
+</script>
 <script>if (top !== self) throw 0;
 
 "use strict";
@@ -497,10 +543,34 @@ const Cripto = (() => {
 
 // La llave de datos de ella, ya abierta, vive en el teléfono como CryptoKey NO extraíble en IndexedDB (nadie puede leer sus bytes).
 const LlaveLocal = (() => {
-  const abrir = () => new Promise((ok, no) => { const q = indexedDB.open("finanzas", 1); q.onupgradeneeded = () => q.result.createObjectStore("k"); q.onsuccess = () => ok(q.result); q.onerror = () => no(q.error); });
-  const pedir = async (modo, f) => { const db = await abrir(); return new Promise((ok, no) => { const t = db.transaction("k", modo), r = f(t.objectStore("k")); t.oncomplete = () => ok(r && r.result); t.onerror = () => no(t.error); t.onabort = () => no(t.error); }); };
+  // WebKit (iPhone, sobre todo la app de la pantalla de inicio) a veces deja colgada la apertura de IndexedDB o pierde la conexión al volver
+  // del segundo plano («Connection to Indexed Database server lost»). Por eso cada operación tiene tiempo límite y hasta 3 intentos con una
+  // conexión nueva, y un fallo se REPORTA como fallo (error con `idb`), nunca como «no hay»: así nunca se crea una pimienta nueva encima de la buena.
+  const ESPERA = 4000;
+  const conTiempo = (p, ms, que) => new Promise((ok, no) => { const t = setTimeout(() => no(new Error("IndexedDB no contestó (" + que + ")")), ms); p.then((x) => { clearTimeout(t); ok(x); }, (e) => { clearTimeout(t); no(e); }); });
+  let db = null;
+  const empujon = () => { try { if (indexedDB.databases) return conTiempo(indexedDB.databases(), 1500, "databases").catch(() => {}); } catch {} return Promise.resolve(); };   // truco conocido: despierta IndexedDB en Safari
+  async function abrir() {
+    if (db) return db;
+    await empujon();
+    const d = await conTiempo(new Promise((ok, no) => { const q = indexedDB.open("finanzas", 1); q.onupgradeneeded = () => q.result.createObjectStore("k"); q.onsuccess = () => ok(q.result); q.onerror = () => no(q.error || new Error("open")); q.onblocked = () => no(new Error("IndexedDB bloqueada")); }), ESPERA, "abrir");
+    d.onclose = () => { if (db === d) db = null; }; d.onversionchange = () => { try { d.close(); } catch {} if (db === d) db = null; };
+    return (db = d);
+  }
+  async function una(modo, f) {
+    const d = await abrir();
+    return conTiempo(new Promise((ok, no) => { const t = d.transaction("k", modo), r = f(t.objectStore("k")); t.oncomplete = () => ok(r && r.result); t.onerror = () => no(t.error || new Error("transacción")); t.onabort = () => no(t.error || new Error("transacción cancelada")); }), ESPERA, modo);
+  }
+  async function pedir(modo, f) {
+    let ultimo = null;
+    for (let i = 0; i < 3; i++) {
+      try { return await una(modo, f); }
+      catch (e) { ultimo = e; if (e && e.name === "DataCloneError") break; try { if (db) db.close(); } catch {} db = null; await new Promise((r) => setTimeout(r, 300 * (i + 1))); }
+    }
+    const e = new Error("No pude usar el almacenamiento seguro del teléfono (" + String((ultimo && (ultimo.message || ultimo.name)) || ultimo).slice(0, 80) + ")"); e.idb = true; e.nombre = ultimo && ultimo.name; throw e;
+  }
   // «datos» = la llave de datos de ella; «pimienta» = la llave HMAC no extraíble que se mezcla con el PIN del dueño
-  return { get: (k) => pedir("readonly", (s) => s.get(k || "datos")).catch(() => null), put: (v, k) => pedir("readwrite", (s) => s.put(v, k || "datos")), del: () => pedir("readwrite", (s) => { s.delete("datos"); s.delete("pimienta"); }).catch(() => {}) };
+  return { get: (k) => pedir("readonly", (s) => s.get(k || "datos")), put: (v, k) => pedir("readwrite", (s) => s.put(v, k || "datos")), del: () => pedir("readwrite", (s) => { s.delete("datos"); s.delete("pimienta"); }).catch(() => {}) };
 })();
 
 const Datos = (() => {
@@ -567,14 +637,14 @@ const Datos = (() => {
   const TOPE_ERR = 20, ESPERA_ERR = 4000, errCola = [], errVistos = new Set();
   let errTimer = 0, errEnviando = false;
   const errHoy = () => { const x = leerJ(PRE + "err"), d = fechaMty(); return x && x.d === d ? x : { d, n: 0 }; };
-  function juntarError(msg, donde) {
+  function juntarError(msg, donde, callado) {
     try {
       msg = String(msg == null ? "" : msg).slice(0, 300); donde = String(donde || "").slice(0, 200);
       if (!msg) return;
       const k = msg + "|" + donde; if (errVistos.has(k) || errVistos.size > 100) return;
       errVistos.add(k);
       const L = leerJ(PRE + "errores_local") || []; L.unshift({ t: Date.now(), msg, donde }); ls.set(PRE + "errores_local", JSON.stringify(L.slice(0, 20)));   // para verlos en «Mi cuenta»
-      errFns.forEach((f) => { try { f(msg, donde); } catch {} });   // se le enseña a quien usa la app
+      if (!callado) errFns.forEach((f) => { try { f(msg, donde); } catch {} });   // se le enseña a quien usa la app
       if (errEnviando || sinCred() || errHoy().n + errCola.length >= TOPE_ERR || errCola.length >= 10) return;
       errCola.push({ msg, donde, ua: String(navigator.userAgent || "").slice(0, 150), version: "s" + servidor });   // solo el texto del error: nunca datos
       if (!errTimer) errTimer = setTimeout(enviarErrores, ESPERA_ERR);
@@ -587,8 +657,11 @@ const Datos = (() => {
     errEnviando = true;
     try { await api({ accion: "error", errores: lote }, 15000); } catch {} finally { errEnviando = false; }
   }
-  addEventListener("error", (e) => { if (e && e.message) juntarError(e.message, (e.filename ? String(e.filename).split("/").pop() || "página" : "página") + ":" + (e.lineno || 0)); });
-  addEventListener("unhandledrejection", (e) => { const r = e && e.reason; juntarError(r && r.message ? r.message : String(r), "promesa"); });
+  const etapa = () => (typeof Vigia !== "undefined" ? " · " + Vigia.etapa : "");
+  addEventListener("error", (e) => { if (e && e.message) juntarError(e.message, (e.filename ? String(e.filename).split("/").pop() || "página" : "página") + ":" + (e.lineno || 0) + ":" + (e.colno || 0) + etapa() + (e.error && e.error.stack ? " · " + String(e.error.stack).split("\n").slice(0, 2).join(" ") : "")); });
+  addEventListener("unhandledrejection", (e) => { const r = e && e.reason; juntarError(r && r.message ? r.message : String(r), "promesa" + etapa()); });
+  // los errores que el vigía del arranque guardó cuando todavía no había llave abierta se mandan en cuanto la haya
+  function erroresPendientes() { const l = leerJ(PRE + "err_pend"); if (!Array.isArray(l) || !l.length) return; ls.del(PRE + "err_pend"); l.slice(0, 10).forEach((x) => juntarError(x && x.msg, "vigía · " + ((x && x.donde) || ""), true)); }
   // ---- respaldo diario (solo el dueño): una vez al día, después de leer, sin esperar ni avisar ----
   let respaldoPedido = false, respaldoReintento = 0;
   async function respaldoSiToca() {
@@ -634,7 +707,7 @@ const Datos = (() => {
         COLS.forEach((c) => { raw[c] = (r.datos || {})[(rol === "pareja" ? "p_" : "") + c] || {}; });
         await rawAMem();
         if (cambios !== c0) return false;
-        guardarCache(); ultimo = Date.now(); sincronizado = true; avisarEstado();
+        guardarCache(); ultimo = Date.now(); sincronizado = true; avisarEstado(); erroresPendientes();
         COLS.forEach(emitir); sincFns.forEach((f) => f());
         setTimeout(respaldoSiToca, 3000);
         return true;
@@ -692,7 +765,7 @@ const Datos = (() => {
   // ---- pantallas de entrada (la primera vez, o cuando la llave o la sesión ya no sirven) ----
   const Acceso = (() => {
     let raiz = null, listo = null;
-    const ver = (html) => { if (!raiz) { raiz = document.createElement("div"); raiz.id = "acceso"; document.body.appendChild(raiz); } raiz.innerHTML = html; raiz.scrollTop = 0; return raiz; };
+    const ver = (html) => { if (typeof Vigia !== "undefined") Vigia.listo(); if (!raiz) { raiz = document.createElement("div"); raiz.id = "acceso"; document.body.appendChild(raiz); } raiz.innerHTML = html; raiz.scrollTop = 0; return raiz; };
     const cerrar = () => { if (raiz) { raiz.remove(); raiz = null; } };
     const pie = '<p class="err" role="alert" aria-live="polite"></p>';
     const cab = (t, s) => `<div class="acc"><div class="icono">$</div><h1>${esc(t)}</h1><p class="sub">${esc(s || "")}</p>`;
@@ -831,7 +904,7 @@ const Datos = (() => {
     }
     async function guardarAcceso() {
       ls.set(PRE + "api", url); ls.set(PRE + "token", token); ls.set(PRE + "rol", "pareja"); ls.set(PRE + "usuario", usuario); ls.set(PRE + "perfil", JSON.stringify(perfil)); ls.del(PRE + "llave"); llave = null;
-      await LlaveLocal.put(keyDatos);
+      try { await LlaveLocal.put(keyDatos); } catch (e) { juntarError(e.message, "guardar llave de datos"); }   // si el teléfono no deja guardarla, sirve en esta sesión y la próxima vez pide la contraseña
     }
     function terminar() { cerrar(); const f = listo; listo = null; if (f) f(); }
     // `modo`: «dueno» | «pareja» | undefined (primera vez: elegir)
@@ -854,7 +927,22 @@ const Datos = (() => {
   const Boveda = (() => {
     const BOV = PRE + "bov", BOVF = PRE + "bov_face", LLC = PRE + "llave_c";
     let kc = null;
-    const pimienta = async () => { let k = await LlaveLocal.get("pimienta"); if (!k) { k = await crypto.subtle.generateKey({ name: "HMAC", hash: "SHA-256" }, false, ["sign"]); await LlaveLocal.put(k, "pimienta"); } return k; };
+    // La pimienta se lee una vez y se queda en memoria (al volver del segundo plano no hace falta IndexedDB). Solo se CREA al configurar la bóveda:
+    // si la bóveda ya existe y la pimienta no aparece, es un error (nunca se inventa otra: el PIN dejaría de abrir para siempre).
+    let pimMem = null;
+    const hmac = (raw) => crypto.subtle.importKey("raw", raw, { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+    async function pimienta(crear) {
+      if (pimMem) return pimMem;
+      let k = await LlaveLocal.get("pimienta");   // lanza si IndexedDB falla
+      if (k && !(k instanceof CryptoKey)) k = await hmac(k instanceof ArrayBuffer ? new Uint8Array(k) : k);   // guardada como bytes (WebKit que no deja guardar una CryptoKey)
+      if (!k) {
+        if (!crear) { const e = new Error("Este teléfono ya no tiene su pimienta (la parte de la llave que vive en el aparato)."); e.sinPimienta = true; throw e; }
+        k = await crypto.subtle.generateKey({ name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+        try { await LlaveLocal.put(k, "pimienta"); }
+        catch (e) { if (e.nombre !== "DataCloneError") throw e; const raw = Cripto.azarBytes(32); await LlaveLocal.put(raw, "pimienta"); k = await hmac(raw); }
+      }
+      return (pimMem = k);
+    }
     const duenoYa = () => rol === "dueno";
     const configurada = () => duenoYa() && !!ls.get(BOV);
     // guarda lo que haya en claro (llave, caché, cola de versiones anteriores) cifrado y borra el claro
@@ -865,7 +953,7 @@ const Datos = (() => {
       const q = leerJ(PRE + "cola"); if (q) { ls.set(PRE + "cola_c", await Cripto.cifrar(kc, q, "fin|" + PRE + "cola_c")); } ls.del(PRE + "cola");
     }
     async function envolver(pin, rawKc) {
-      const sal = Cripto.azarHex(16), kek = await Cripto.kekPin(pin, sal, Cripto.ITER_PIN, await pimienta());
+      const sal = Cripto.azarHex(16), kek = await Cripto.kekPin(pin, sal, Cripto.ITER_PIN, await pimienta(!configurada()));
       ls.set(BOV, JSON.stringify({ v: 1, sal, it: Cripto.ITER_PIN, kc: await Cripto.cifrarBytes(kek, rawKc) }));
     }
     async function configurar(pin) {   // PIN nuevo (primera vez, o versión anterior que guardaba todo en claro: migra en silencio)
@@ -878,12 +966,13 @@ const Datos = (() => {
     }
     async function desenvolver(pin) { const b = leerJ(BOV); return Cripto.descifrarBytes(await Cripto.kekPin(pin, b.sal, b.it, await pimienta()), b.kc); }
     async function cargarLlave() { const t = ls.get(LLC); if (t && kc) llave = await Cripto.descifrar(kc, t, "fin|llave"); }
+    // Revisa el PIN abriendo la bóveda (una sola pasada de PBKDF2). false = PIN equivocado; lanza (idb / sinPimienta) si el teléfono no deja leer.
     async function abrirPin(pin) {
       if (!duenoYa()) return true;
       if (!configurada()) return configurar(pin);
-      if (kc) return true;
-      kc = await Cripto.llaveAes(await desenvolver(pin));
-      await cargarLlave(); await guardarTodo();   // por si quedó algo en claro
+      let raw;
+      try { raw = await desenvolver(pin); } catch (e) { if (e && (e.idb || e.sinPimienta)) throw e; return false; }
+      if (!kc) { kc = await Cripto.llaveAes(raw); await cargarLlave(); await guardarTodo(); }   // por si quedó algo en claro
       return true;
     }
     async function abrirFace(prf) {
@@ -896,7 +985,7 @@ const Datos = (() => {
     async function guardarLlave() {   // la llave que acaba de escribir el dueño
       if (configurada() && kc) { ls.set(LLC, await Cripto.cifrar(kc, llave, "fin|llave")); ls.del(PRE + "llave"); } else ls.set(PRE + "llave", llave);
     }
-    async function probar(pin) { if (!configurada()) return false; try { await desenvolver(pin); return true; } catch { return false; } }
+    async function probar(pin) { if (!configurada()) return false; return abrirPin(pin); }
     return { configurada, probar, configurar, abrirPin, abrirFace, envolverFace, cambiarPin, guardarLlave, llaveCache: () => kc,
       quitarFace: () => ls.del(BOVF), tieneFacePrf: () => !!ls.get(BOVF), puedeFace: () => !duenoYa() || !configurada() || !!kc || !!ls.get(BOVF) };
   })();
@@ -913,8 +1002,8 @@ const Datos = (() => {
     if (rol === "dueno" && Boveda.configurada() && !llave) { await Acceso.pedir("dueno", "Escribe tu llave otra vez."); }
     await cargarCache();
     if (rol === "pareja") {
-      keyDatos = await LlaveLocal.get();
-      if (!keyDatos) { await Acceso.pedir("pareja", "Escribe tu contraseña para abrir tus datos en este teléfono."); keyDatos = await LlaveLocal.get(); await cargarCache(); }
+      if (!keyDatos) { try { keyDatos = await LlaveLocal.get(); } catch (e) { keyDatos = null; juntarError(e.message, "llave de datos"); } }
+      if (!keyDatos) { await Acceso.pedir("pareja", "Escribe tu contraseña para abrir tus datos en este teléfono."); await cargarCache(); }
     }
     await rawAMem(); COLS.forEach(emitir); avisarEstado();
     refrescar();
@@ -1016,7 +1105,7 @@ const Candado = (() => {
   async function probarPin(pin) {
     const p = leerJ(K_PIN); if (!p) return false;
     if (espera()) return false;
-    if (p.hash ? igual(await hashPin(pin, p.sal, p.it || IT), p.hash) : await Datos.boveda.probar(pin)) { ls.del(K_FALLOS); return true; }
+    if (p.hash ? igual(await hashPin(pin, p.sal, p.it || IT), p.hash) : await Datos.boveda.probar(pin)) { ls.del(K_FALLOS); return true; }   // (si el teléfono no deja leer la bóveda, `probar` lanza y NO cuenta como fallo)
     const f = leerJ(K_FALLOS) || { n: 0 }; f.n++;
     if (f.n >= 5) f.hasta = Date.now() + Math.min(3600, 30 * Math.pow(2, f.n - 5)) * 1000;   // 30 s, 60 s, 2 min, 4 min… hasta 1 hora
     ls.set(K_FALLOS, JSON.stringify(f)); return false;
@@ -1026,7 +1115,7 @@ const Candado = (() => {
   const deB64u = (t) => Uint8Array.from(atob(String(t).replace(/-/g, "+").replace(/_/g, "/")), (c) => c.charCodeAt(0));
   async function faceDisponible() {
     if (faceOk !== null) return faceOk;
-    try { faceOk = !!(window.PublicKeyCredential && navigator.credentials && PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable && (await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable())); } catch { faceOk = false; }
+    try { faceOk = !!(window.PublicKeyCredential && navigator.credentials && PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable && (await Promise.race([PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable(), new Promise((r) => setTimeout(() => r(false), 2500))]))); } catch { faceOk = false; }   // con tiempo límite: si el teléfono no contesta, solo PIN
     return faceOk;
   }
   const tieneFace = () => !!ls.get(K_FACE);
@@ -1052,6 +1141,7 @@ const Candado = (() => {
   // ---- pantalla con teclado numérico ----
   function leerPin(c) {   // c: {titulo, sub, len (fijo) | null (de 4 a 6, con «OK»), face, olvide, error}; resuelve con el PIN, «FACE» u «OLVIDE»
     return new Promise((res) => {
+      Vigia.listo();   // esperando a la persona
       let v = $("#bloqueo"); if (!v) { v = document.createElement("div"); v.id = "bloqueo"; document.body.appendChild(v); }
       let pin = "", tick = 0;
       const max = c.len || 6;
@@ -1087,6 +1177,9 @@ const Candado = (() => {
     });
   }
   const cerrarPantalla = () => { const v = $("#bloqueo"); if (v) v.remove(); };
+  // mientras se revisa el PIN (PBKDF2 de 600 000 vueltas, puede tardar un poco en el teléfono) se ve que algo pasa y el teclado no responde
+  const abriendo = (etapa) => { const v = $("#bloqueo"); if (v) { const e = $("[data-err]", v); if (e) { e.textContent = "Abriendo…"; e.classList.add("ok"); } v.querySelectorAll("button").forEach((b) => { b.disabled = true; }); } Vigia.poner(etapa, 30); };
+  const errorDelTelefono = (e) => { Vigia.reportar((e && e.message) || String(e)); return e && e.sinPimienta ? "Este teléfono perdió la parte de la llave que guarda (pimienta). Usa «Olvidé mi PIN» y entra otra vez con tu llave." : "El teléfono no dejó abrir su almacenamiento seguro. Escribe tu PIN otra vez; si sigue igual, cierra la app y ábrela de nuevo."; };
   const saludo = () => (Datos.rol === "pareja" ? "Hola 👋" : "Hola, " + (ls.get("fin_nombre") || "Marcelo"));
   async function crearPin() {   // devuelve el PIN nuevo
     let error = "", a;
@@ -1107,33 +1200,38 @@ const Candado = (() => {
   async function ofrecerFace(pin) {
     if (!(await faceDisponible()) || tieneFace()) return;
     const v = $("#bloqueo");
+    Vigia.listo();
     v.innerHTML = `<div class="acc"><div class="icono">$</div><h1>¿Face ID?</h1><p class="sub">Quita la pantalla de bloqueo con tu cara o tu huella.</p><button class="btn" data-si type="button">Activar Face ID</button><button class="enlace" data-no type="button">Ahora no</button></div>`;
     await new Promise((ok) => { $("[data-si]", v).onclick = async () => { await activarFaceConPin(pin); ok(); }; $("[data-no]", v).onclick = ok; });
   }
   async function desbloquear() {
     if (corriendo) return; corriendo = true;
     try {
-      if (!hayPin()) { const pin = await crearPin(); await Datos.boveda.configurar(pin); soloBoveda(); await ofrecerFace(pin); }
+      if (!hayPin()) { const pin = await crearPin(); abriendo("preparar tu bóveda"); await Datos.boveda.configurar(pin); soloBoveda(); await ofrecerFace(pin); }
       else {
         const p = leerJ(K_PIN); let error = "";
         for (;;) {
           const face = (await faceDisponible()) && tieneFace() && Datos.boveda.puedeFace();
           const x = await leerPin({ titulo: "Finanzas", sub: saludo(), len: p.len, face, olvide: true, error });
-          if (x === "FACE") { const f = await probarFace(); if (f && (await Datos.boveda.abrirFace(f.prf))) break; error = "No se pudo con Face ID. Usa tu PIN."; continue; }
+          if (x === "FACE") { const f = await probarFace(); abriendo("abrir con Face ID"); let ok = false; try { ok = !!f && (await Datos.boveda.abrirFace(f.prf)); } catch (e) { Vigia.reportar(e.message); } if (ok) break; error = "No se pudo con Face ID. Usa tu PIN."; continue; }
           if (x === "OLVIDE") {
-            const v = $("#bloqueo");
+            const v = $("#bloqueo"); Vigia.listo();
             v.innerHTML = `<div class="acc"><div class="icono">$</div><h1>¿Olvidaste tu PIN?</h1><p class="sub">Se sale de la cuenta en este teléfono y se borra lo guardado aquí (la llave y los datos del dueño están cifrados con tu PIN). Tus datos siguen en la hoja: al volver a entrar los recuperas. El dueño necesita su llave; la pareja, su contraseña (y su código si se la reiniciaron).</p><button class="btn rojo" data-si type="button">Salir y borrar de este teléfono</button><button class="enlace" data-no type="button">Volver</button></div>`;
             const r = await new Promise((ok) => { $("[data-si]", v).onclick = () => ok(true); $("[data-no]", v).onclick = () => ok(false); });
             if (r) { Datos.salir(); await new Promise(() => {}); }
             continue;
           }
-          if (await probarPin(x)) {
-            try { await Datos.boveda.abrirPin(x); soloBoveda(); break; } catch (e) { error = "No se pudo abrir lo guardado en este teléfono. Usa «Olvidé mi PIN» y entra otra vez con tu llave."; continue; }
+          abriendo("abrir con tu PIN");
+          let bien;
+          try { bien = await probarPin(x); } catch (e) { error = errorDelTelefono(e); continue; }
+          if (bien) {
+            try { if (await Datos.boveda.abrirPin(x)) { soloBoveda(); break; } error = "No se pudo abrir lo guardado en este teléfono. Usa «Olvidé mi PIN» y entra otra vez con tu llave."; continue; }
+            catch (e) { error = errorDelTelefono(e); continue; }
           }
           error = espera() ? "" : "PIN incorrecto.";
         }
       }
-      bloqueado = false; cerrarPantalla();
+      bloqueado = false; cerrarPantalla(); Vigia.listo();
     } finally { corriendo = false; }
   }
   // pide el PIN actual (para cambiarlo o para activar Face ID); devuelve el PIN o null si cancela
@@ -1143,7 +1241,9 @@ const Candado = (() => {
       for (let error = ""; ;) {
         const x = await leerPin({ titulo, sub, len: p.len, cancelar: true, error });
         if (x === "CANCELAR") return null;
-        if (await probarPin(x)) return x;
+        let bien; try { bien = await probarPin(x); } catch (e) { error = errorDelTelefono(e); continue; }
+        Vigia.listo();
+        if (bien) return x;
         error = espera() ? "" : "PIN incorrecto.";
       }
     } finally { cerrarPantalla(); }
@@ -1860,11 +1960,13 @@ Datos.alSincronizar(() => { sembrar(); render(); });
     if (!Datos.hayAcceso()) await Datos.pantallaAcceso();
     rolApp = Datos.rol;
     await Candado.desbloquear();
+    Vigia.poner("cargar tus datos", 30);
     await Datos.abrir();
     rolApp = Datos.rol;
     render(true);
+    Vigia.listo();
     if (Datos.modo === "demo" || Datos.sincronizado) sembrar();   // sin señal y sin nada guardado no se siembra (para no duplicar)
-  } catch (e) { bandaError(e && e.message ? e.message : e); }
+  } catch (e) { Vigia.mostrar("No se pudo abrir: " + (e && e.message ? e.message : e)); }
 })();
 </script>
 <script>if (top !== self) throw 0;
