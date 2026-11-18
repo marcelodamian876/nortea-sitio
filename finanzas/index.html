@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#050706">
 <title>Finanzas</title>
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-E0FINn7+2aPWl//sGe6VccsSdeSkc5i1Jujdbp7bd9g=' 'sha256-TEKXqOue7pp4s7aHY+TgyyqYSqkPBE02iAlxfe4ZM00=' 'sha256-gzydpReMaHGWhS/A6B/HKyYVw7c3a9QsTrGPIbnzw9c=' 'sha256-dEjgz9JkXnEBHJ2ECCWnYVv7Swt8RxOk3B+R0PxFpG0=' 'sha256-HqIGCnVfKouHqVTR7BVFUk2XjJS65NZ4IcyEWLmbHek='; worker-src 'self'; connect-src https://script.google.com https://script.googleusercontent.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-E0FINn7+2aPWl//sGe6VccsSdeSkc5i1Jujdbp7bd9g=' 'sha256-TEKXqOue7pp4s7aHY+TgyyqYSqkPBE02iAlxfe4ZM00=' 'sha256-gzydpReMaHGWhS/A6B/HKyYVw7c3a9QsTrGPIbnzw9c=' 'sha256-+0iNLvK1D3kvfrCrepCgrY6LbGo7yCVBrIjhap1gZIY=' 'sha256-HqIGCnVfKouHqVTR7BVFUk2XjJS65NZ4IcyEWLmbHek='; worker-src 'self'; connect-src https://script.google.com https://script.googleusercontent.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="robots" content="noindex,nofollow">
 <script>if (top !== self) { try { top.location.replace(self.location.href); } catch (e) {} document.documentElement.textContent = ""; document.documentElement.style.cssText = "display:none!important"; }</script>
 <link rel="manifest" href="/finanzas/manifest.webmanifest">
@@ -121,6 +121,16 @@ label.et { display: block; font-size: 12.5px; color: var(--muted); margin: 12px 
 .tj-corte { background: var(--panel2); border: 1px solid var(--line); color: var(--muted); border-radius: 14px; padding: 9px 12px; margin-bottom: 8px; font-size: 14px; }
 .tj { margin-bottom: 10px; }
 .tj .t { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 16px; margin-bottom: 4px; }
+.chart.apilada { gap: 2px; margin-top: 10px; }
+.chart.apilada .mes { background: none; border: 0; padding: 0 0 2px; border-radius: 8px; min-height: 150px; justify-content: flex-end; }
+.chart.apilada .mes.sel { background: var(--panel2); }
+.chart.apilada .mes.sel span:last-child { color: var(--fg); font-weight: 700; }
+.chart.apilada .mes .apil { display: flex; flex-direction: column-reverse; width: 16px; height: 128px; border-radius: 3px 3px 0 0; overflow: hidden; color: inherit; }   /* (le gana a «.mes span», que es para la etiqueta) */
+.chart.apilada .apil i { display: block; width: 100%; flex: none; }
+.mes-info { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); font-size: 14px; }
+.mes-info b { display: block; }
+.mes-info small { display: inline-block; margin: 4px 10px 0 0; color: var(--muted); font-size: 12.5px; }
+.mes-info small i { display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 4px; }
 .ingr { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 14.5px; }
 .ingr > span { overflow-wrap: anywhere; }
 .ingr small { display: block; color: var(--muted); font-size: 12.5px; }
@@ -1333,7 +1343,7 @@ const Candado = (() => {
 const N = Nucleo, { pesos } = N;
 const D = { cuentas: {}, movimientos: {}, valuaciones: {}, categorias: {}, config: {}, metas: {} };
 const A = { vista: "inicio", mes: N.hoyMty().slice(0, 7), busca: "", rango: 6, anio: N.hoyMty().slice(0, 4), tarjeta: null, verArchivadas: false,
-  ing: { modo: "mes", ym: N.sumarMeses(N.hoyMty().slice(0, 7), -1), anio: Number(N.hoyMty().slice(0, 4)), vista: "lista" } };   // resumen de ingresos del Inicio
+  ing: { modo: "mes", ym: N.sumarMeses(N.hoyMty().slice(0, 7), -1), anio: Number(N.hoyMty().slice(0, 4)), gAnio: Number(N.hoyMty().slice(0, 4)), gMes: null } };   // resumen de ingresos del Inicio
 const hoy = () => N.hoyMty();
 const iso = () => new Date().toISOString();
 const lista = (c) => Object.values(D[c]);
@@ -1396,7 +1406,36 @@ function tarjetaAlertas() {
   const t = { llave_equivocada: "Llave equivocada", bloqueo_llave: "Llaves bloqueadas", aparato_nuevo: "Aparato nuevo", aparato_sin_id: "Llave usada sin aparato", aparato_revocado: "Aparato quitado intentó entrar", pareja_bloqueo: "Cuenta de pareja bloqueada", coleccion_invalida: "Colección no válida", peticion_rara: "Petición rara", errores_servidor: "Errores del servidor", respaldo_fallo: "Falló el respaldo" };
   return `<div class="alerta" data-alertas role="alert"><b>🚨 Alertas de seguridad</b>${l.map((a) => `<div class="al"><span>${esc(t[a.tipo] || a.tipo)}${a.n > 1 ? " ×" + esc(a.n) : ""} <small>${esc(fechaCorta(String(a.ultima || a.fecha).slice(0, 10)))}</small></span><small>${esc(a.texto)}</small></div>`).join("")}<button type="button" class="btn2" data-a="alertasVistas">Ya lo vi</button></div>`;
 }
-// ---------- Resumen de ingresos (al final del Inicio): este mes, otro mes o el año; en lista o en gráfica ----------
+// ---------- Ingresos (al final del Inicio) ----------
+// Arriba: gráfica de barras del año (una barra por mes, apilada por negocio con los colores del panel), con el total del año y su selector.
+// Tocar un mes enseña su total y filtra la lista de abajo a ese mes. Abajo: la lista, con su propio filtro (este mes, otro mes o el año).
+function graficaIngresosAnio() {
+  const I = A.ing, todos = movs().filter((m) => m.tipo === "ingreso");
+  const anios = [...new Set(todos.map((m) => Number(String(m.fecha).slice(0, 4))).filter((x) => x > 2000).concat([Number(hoy().slice(0, 4))]))].sort();
+  if (!anios.includes(I.gAnio)) I.gAnio = anios[anios.length - 1];
+  const anio = String(I.gAnio), l = todos.filter((m) => String(m.fecha).slice(0, 4) === anio);
+  const negs = cfg().negocios.map((x) => x.id);
+  const meses = Array.from({ length: 12 }, () => ({ total: 0, por: {} }));
+  l.forEach((m) => { const k = m.negocio || "otro", i = Number(String(m.fecha).slice(5, 7)) - 1, v = Number(m.monto) || 0; if (i < 0 || i > 11) return; if (!negs.includes(k)) negs.push(k); meses[i].total += v; meses[i].por[k] = (meses[i].por[k] || 0) + v; });
+  const total = N.r2(meses.reduce((x, m) => x + m.total, 0)), mx = Math.max(1, ...meses.map((m) => m.total));
+  const color = (k) => PAL[negs.indexOf(k) % PAL.length];
+  const presentes = negs.filter((k) => meses.some((m) => m.por[k]));
+  const porAnio = {}; meses.forEach((m) => Object.entries(m.por).forEach(([k, v]) => { porAnio[k] = (porAnio[k] || 0) + v; }));
+  const barras = meses.map((m, i) => {
+    const h = m.total > 0 ? Math.max(3, Math.round((m.total / mx) * 128)) : 0;
+    const segs = presentes.filter((k) => m.por[k]).map((k) => `<i style="height:${Math.max(1, Math.round((m.por[k] / m.total) * h))}px;background:${color(k)}"></i>`).join("");
+    return `<button type="button" class="mes ${I.gMes === i ? "sel" : ""}" data-a="ingGMes" data-i="${i}" aria-label="${N.MESES[i]}: ${pesos(m.total)}"><span class="apil">${segs}</span><span>${N.MESES_CORTO[i].slice(0, 1).toUpperCase()}</span></button>`;
+  }).join("");
+  const sel = I.gMes != null ? meses[I.gMes] : null;
+  const info = sel ? `<div class="mes-info" data-mes-info><b>${esc(N.cap(N.MESES[I.gMes]))} ${esc(anio)}: <span class="ok num">${pesos(sel.total)}</span></b>${presentes.filter((k) => sel.por[k]).map((k) => `<small><i style="background:${color(k)}"></i>${esc(negPor(k).emoji)} ${esc(negPor(k).nombre)} ${pesos(sel.por[k])}</small>`).join("")}</div>`
+    : `<p class="nota" style="margin:8px 0 0">Toca un mes para ver su total y su lista.</p>`;
+  return `<h2>Ingresos del año</h2>
+  <div class="chips" style="margin-bottom:8px">${anios.map((a) => `<button type="button" class="chip ${a === I.gAnio ? "sel" : ""}" data-a="ingGAnio" data-v="${a}">${a}</button>`).join("")}</div>
+  <div class="card" data-grafica-anio><span class="sub">Total ${esc(anio)}</span><br><b class="num ok" style="font-size:24px" data-anio-total>${pesos(total)}</b>
+  <div class="chart apilada">${barras}</div>
+  ${presentes.length ? `<div class="ley">${presentes.map((k) => `<span><i style="background:${color(k)}"></i>${esc(negPor(k).emoji)} ${esc(negPor(k).nombre)} ${pesos(porAnio[k])}</span>`).join("")}</div>` : `<p class="sub">Sin ingresos en ${esc(anio)}.</p>`}
+  ${info}</div>`;
+}
 function seccionIngresos() {
   const I = A.ing, ym = I.modo === "mes" ? hoy().slice(0, 7) : I.ym, anio = String(I.anio);
   const l = movs().filter((m) => m.tipo === "ingreso" && (I.modo === "anio" ? String(m.fecha).slice(0, 4) === anio : N.mesDe(m.fecha) === ym))
@@ -1406,24 +1445,13 @@ function seccionIngresos() {
   const modos = [["mes", "Este mes"], ["otro", "Otro mes"], ["anio", "Año"]];
   const nav = I.modo === "otro" ? `<div class="nav"><button type="button" data-a="ingMes" data-d="-1" aria-label="Mes anterior">‹</button><b>${esc(mesLargo(ym))}</b><button type="button" data-a="ingMes" data-d="1" aria-label="Mes siguiente">›</button></div>`
     : I.modo === "anio" ? `<div class="nav"><button type="button" data-a="ingAnio" data-d="-1" aria-label="Año anterior">‹</button><b>${esc(anio)}</b><button type="button" data-a="ingAnio" data-d="1" aria-label="Año siguiente">›</button></div>` : "";
-  let cuerpo;
-  if (!l.length) cuerpo = `<p class="sub" style="padding:8px 0">Sin ingresos en ${esc(periodo)}.</p>`;
-  else if (I.vista === "lista") {
-    cuerpo = l.slice(0, 200).map((m) => { const n = negPor(m.negocio); return `<div class="ingr" data-ingreso><span><small>${esc(fechaCorta(m.fecha))} · ${esc(n.emoji)} ${esc(n.nombre)}</small>${esc(m.concepto || n.nombre)}</span><b class="num ok">${pesos(m.monto)}</b></div>`; }).join("")
+  const cuerpo = !l.length ? `<p class="sub" style="padding:8px 0">Sin ingresos en ${esc(periodo)}.</p>`
+    : l.slice(0, 200).map((m) => { const n = negPor(m.negocio); return `<div class="ingr" data-ingreso><span><small>${esc(fechaCorta(m.fecha))} · ${esc(n.emoji)} ${esc(n.nombre)}</small>${esc(m.concepto || n.nombre)}</span><b class="num ok">${pesos(m.monto)}</b></div>`; }).join("")
       + (l.length > 200 ? `<p class="nota">Se muestran los 200 más recientes.</p>` : "");
-  } else {
-    const negs = cfg().negocios.map((x) => x.id), por = {};
-    l.forEach((m) => { const k = m.negocio || "otro"; por[k] = N.r2((por[k] || 0) + (Number(m.monto) || 0)); if (!negs.includes(k)) negs.push(k); });
-    const max = Math.max(1, ...Object.values(por));
-    const porNegocio = `<p class="nota" style="margin:0 0 6px">Por negocio</p>` + Object.keys(por).sort((a, b) => por[b] - por[a]).map((k) => `<div class="hb"><div class="t"><span>${esc(negPor(k).emoji)} ${esc(negPor(k).nombre)}</span><span class="num">${pesos(por[k])} <small class="mut">${Math.round((por[k] / total) * 100)} %</small></span></div><div class="bar"><i style="width:${(por[k] / max) * 100}%;background:${PAL[negs.indexOf(k) % PAL.length]}"></i></div></div>`).join("");
-    if (I.modo === "anio") {
-      const meses = Array.from({ length: 12 }, (_, i) => anio + "-" + String(i + 1).padStart(2, "0")), pm = meses.map((k) => N.r2(l.filter((m) => N.mesDe(m.fecha) === k).reduce((x, m) => x + (Number(m.monto) || 0), 0))), mx = Math.max(1, ...pm);
-      cuerpo = `<p class="nota" style="margin:0 0 6px">Por mes</p><div class="chart" data-grafica-mes>${pm.map((v, i) => `<div class="mes"><div class="cols"><i style="height:${v > 0 ? Math.max(2, Math.round((v / mx) * 128)) : 0}px;background:var(--verde)"></i></div><span>${N.MESES_CORTO[i].slice(0, 1).toUpperCase()}</span></div>`).join("")}</div><div style="margin-top:14px">${porNegocio}</div>`;
-    } else cuerpo = porNegocio;
-  }
-  return `<h2>Ingresos · ${esc(periodo)}</h2>
+  return `${graficaIngresosAnio()}
+  <h2 data-lista-titulo>Ingresos · ${esc(periodo)}</h2>
   <div class="seg">${modos.map(([v, t]) => `<button type="button" class="${I.modo === v ? "on" : ""}" data-a="ingModo" data-v="${v}">${t}</button>`).join("")}</div>${nav}
-  <div class="card" data-ingresos><div class="row" style="padding-top:0"><span><span class="sub">Total${l.length ? " · " + l.length + (l.length === 1 ? " ingreso" : " ingresos") : ""}</span><br><b class="num ok" style="font-size:24px" data-ing-total>${pesos(total)}</b></span>${l.length ? `<button type="button" class="mini-b" data-a="ingVista">${I.vista === "lista" ? "📊 Gráfica" : "☰ Lista"}</button>` : ""}</div>${cuerpo}</div>`;
+  <div class="card" data-ingresos><div class="row" style="padding-top:0"><span><span class="sub">Total${l.length ? " · " + l.length + (l.length === 1 ? " ingreso" : " ingresos") : ""}</span><br><b class="num ok" style="font-size:24px" data-ing-total>${pesos(total)}</b></span></div>${cuerpo}</div>`;
 }
 function vInicio() {
   const E = estado(), mes = hoy().slice(0, 7), R = resumen(mes), cs = cuentas().filter((c) => c.tipo !== "tarjeta");   // las tarjetas no llevan monto: van en ☰ → Tarjetas
@@ -1991,7 +2019,12 @@ const ACC = {
   ingModo(el) { A.ing.modo = el.dataset.v; if (A.ing.modo === "otro" && A.ing.ym >= hoy().slice(0, 7)) A.ing.ym = N.sumarMeses(hoy().slice(0, 7), -1); render(true); },
   ingMes(el) { A.ing.ym = N.sumarMeses(A.ing.ym, Number(el.dataset.d)); render(true); },
   ingAnio(el) { A.ing.anio += Number(el.dataset.d); render(true); },
-  ingVista() { A.ing.vista = A.ing.vista === "lista" ? "grafica" : "lista"; render(true); },
+  ingGAnio(el) { A.ing.gAnio = Number(el.dataset.v); A.ing.gMes = null; render(true); },
+  ingGMes(el) {   // tocar un mes de la gráfica: su total, y la lista de abajo filtrada a ese mes (atajo)
+    const i = Number(el.dataset.i); A.ing.gMes = A.ing.gMes === i ? null : i;
+    if (A.ing.gMes != null) { const ym = A.ing.gAnio + "-" + String(i + 1).padStart(2, "0"); if (ym === hoy().slice(0, 7)) A.ing.modo = "mes"; else { A.ing.modo = "otro"; A.ing.ym = ym; } }
+    render(true);
+  },
   async alertasVistas() { const r = await Datos.alertasVistas(); if (r !== "ok") toast("No se pudo: " + r); render(true); },
   async respaldarAhora(el) { el.disabled = true; el.textContent = "Respaldando…"; const r = await Datos.respaldarAhora(); toast(r === "ok" ? "Respaldo hecho" : "No se pudo respaldar: " + r); render(true); },
   async aparatos() {
