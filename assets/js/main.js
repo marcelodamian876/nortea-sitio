@@ -118,6 +118,7 @@
       "@type": "GeneralContractor",
       "@id": dominio + "/#negocio",
       name: SITE.nombre,
+      description: "Constructora en Monterrey, N.L.: obra civil, construcción, remodelación y ampliación de casas, acabados, tablaroca y Durock, adecuación de locales comerciales y oficinas, y proyectos ejecutivos.",
       url: dominio + "/",
       logo: dominio + "/assets/img/marca/icon-512.png",
       image: dominio + "/assets/img/marca/og-nortea.jpg",
@@ -139,7 +140,9 @@
       },
       areaServed: (SITE.zonaServicio || []).map(function (c) { return { "@type": "City", name: c }; }),
       slogan: "Construimos para quienes construyen.",
-      knowsAbout: ["Obra civil", "Naves industriales", "Firmes y losas", "Acabados", "Porcelanato", "Fachadas", "Tablaroca", "Durock", "Plafones", "Ampliaciones", "Remodelaciones"],
+      knowsAbout: ["Obra civil", "Construcción de casas", "Remodelación de casas", "Ampliación de casas", "Naves industriales", "Firmes y losas",
+        "Acabados", "Instalación de porcelanato", "Mármol", "Estuco", "Pintura", "Fachadas", "Tablaroca", "Durock", "Plafones de tablaroca",
+        "Adecuación de locales comerciales", "Adecuación de oficinas", "Proyectos ejecutivos", "Levantamiento topográfico", "Mecánica de suelos"],
     };
     if (SITE.horarioSchema && SITE.horarioSchema.length) ld.openingHours = SITE.horarioSchema;
     var same = [];

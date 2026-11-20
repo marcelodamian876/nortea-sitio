@@ -82,3 +82,9 @@
 @media (prefers-reduced-motion: reduce) {
   #obras .work__media img, #servicios .service__media img { transition: none; transform: none; }
 }
+
+/* Etiqueta dentro del título (h1/h2): se ve igual que la etiqueta suelta de antes,
+   pero Google la lee como parte del título ("Constructora en Monterrey", "Servicios de construcción"…). */
+.hero__title > .eyebrow, .section-title > .eyebrow { display: flex; line-height: 1.65; }
+/* En celular la etiqueta de la portada sigue oculta, como antes, para no invadir el video */
+@media (max-width: 639px) { .hero__title > .eyebrow { display: none; } }
