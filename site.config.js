@@ -36,6 +36,12 @@ window.SITE = {
   },
   responsable: "Ing. Marcelo Cantú", // aparece en contacto y en la sección de cotizar
 
+  // Google Analytics 4: pega aquí el "ID de medición" (empieza con G-, p. ej. "G-AB12CD34EF").
+  // Vacío = apagado. Al encenderlo, actualiza también "Estadísticas del sitio" en aviso-de-privacidad.html.
+  analytics: {
+    ga4: "",
+  },
+
   direccion: {
     calle: "Av. Garza Sada 3001",
     ciudad: "Monterrey",

@@ -35,6 +35,23 @@
   })();
   NORTEA.origen = origen;
 
+  /* ---------- Google Analytics 4 ----------
+     Se enciende solo con poner el "ID de medición" (G-...) en site.config.js → analytics.ga4.
+     Vacío = apagado: no se carga nada de Google. Los clics a WhatsApp, el formulario y las
+     categorías del portafolio le llegan como eventos por medio de NORTEA.track (abajo). */
+  (function () {
+    var id = String((SITE.analytics && SITE.analytics.ga4) || "").trim();
+    if (!/^G-[A-Z0-9]{4,}$/.test(id)) return;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    window.gtag("config", id);
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+  })();
+
   /* ---------- Analítica ----------
      Cada evento se envía a:
        1) window.dataLayer (Google Tag Manager / GA4)
