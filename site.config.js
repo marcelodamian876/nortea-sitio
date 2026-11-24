@@ -22,15 +22,13 @@ window.SITE = {
   correo: "nortea.ic@gmail.com",
 
   // Formulario de cotización (sección "Hablemos de tu próximo proyecto"): cada solicitud llega por correo
-  // a nortea.ic@gmail.com. Primero se intenta con Web3Forms; si falla, con FormSubmit; si los dos fallan,
-  // el sitio ofrece mandar el mismo mensaje por WhatsApp para no perder la solicitud.
+  // a nortea.ic@gmail.com con Web3Forms; si falla, el sitio ofrece mandar el mismo mensaje por WhatsApp.
+  // Contra spam (en assets/js/rediseno.js): campo trampa, tiempo mínimo para llenarlo y una solicitud por
+  // correo cada 24 horas desde el mismo navegador. Ya no se usa FormSubmit: era otra puerta para mandar correos.
   formulario: {
     // Web3Forms (web3forms.com, formulario "NORTEA Contacto" de la cuenta nortea.ic@gmail.com). La llave es
     // pública por diseño (va en la página). Si la cambias, cámbiala también en el <form> de index.html.
     web3formsKey: "813ac67a-112e-466f-b460-bd08d8b3d775",
-    // FormSubmit (respaldo): envía directo a este correo; la primera vez pide activarlo desde ese correo
-    // ("Activate Form"). Mientras no esté activado, si Web3Forms falla se ofrece WhatsApp.
-    destino: "nortea.ic@gmail.com",
     asunto: "Nueva solicitud de cotización · NORTEA",
   },
   responsable: "Ing. Marcelo Cantú", // aparece en contacto y en la sección de cotizar
@@ -45,9 +43,9 @@ window.SITE = {
   },
 
   // Horario: escríbelo como quieres que se vea, ej. "Lunes a viernes, 8:00 a 18:00 · Sábado, 9:00 a 14:00"
-  horario: "TODO_HORARIO",
+  horario: "Lunes a sábado, 8:00 a 18:00",
   // Horario para Google (opcional). Ejemplo: ["Mo-Fr 08:00-18:00", "Sa 09:00-14:00"]
-  horarioSchema: [],
+  horarioSchema: ["Mo-Sa 08:00-18:00"],
 
   // Solo el usuario, sin @. Ejemplo: "nortea.mx"
   instagram: "nortea.mx_",

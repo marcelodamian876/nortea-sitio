@@ -462,6 +462,7 @@ def escribir_llms(datos):
                "## Contacto",
                f"- Sitio: {DOMINIO}/",
                "- WhatsApp: +52 81 2034 8618 (https://wa.me/528120348618)",
+               "- Horario: lunes a sábado, de 8:00 a 18:00",
                "- Correo: nortea.ic@gmail.com",
                "- Instagram: https://www.instagram.com/nortea.mx_/",
                f"- Formulario de cotización: {DOMINIO}/#cotizar", ""]

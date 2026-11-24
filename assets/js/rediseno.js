@@ -1,9 +1,13 @@
 /* =====================================================================
    NORTEA · Formulario de cotización
    ---------------------------------------------------------------------
-   · "Enviar solicitud": la manda al correo de site.config.js con Web3Forms (si hay llave en
-     formulario.web3formsKey) y, si ese falla, con FormSubmit (formulario.destino). Si ninguno
-     la puede enviar, ofrece mandar el mismo mensaje por WhatsApp para no perder la solicitud.
+   · "Enviar solicitud": la manda al correo con Web3Forms (llave en formulario.web3formsKey de
+     site.config.js). Si no se puede enviar, ofrece mandar el mismo mensaje por WhatsApp para no
+     perder la solicitud.
+   · Contra spam, sin molestar al cliente: campo trampa, un tiempo mínimo desde que abre la página,
+     que alguien de verdad haya escrito en el formulario, y una solicitud por correo cada 24 horas desde
+     el mismo navegador (después se ofrece WhatsApp). Los intentos frenados se cuentan en Analytics
+     como "formulario_bloqueado".
    · "Enviar por WhatsApp": abre WhatsApp con el mensaje armado con lo que se llenó.
    · Las tarjetas "Para tu casa / negocio / constructora" dejan elegido para quién es
      el proyecto y el tipo de trabajo más probable.
@@ -105,14 +109,37 @@
     }
   }
 
+  // ---- protección contra robots y envíos repetidos ----
+  var ABIERTA = Date.now();
+  var MINIMO_MS = 4000;                      // nadie llena nombre, teléfono, ubicación y mensaje en menos de 4 s
+  var ESPERA_MS = 24 * 60 * 60 * 1000;       // una solicitud por correo cada 24 horas desde el mismo navegador
+  var LLAVE = "nortea-solicitud-enviada";
+  var escrito = false;                       // se vuelve true cuando una persona escribe o pega algo en el formulario
+  ["keydown", "paste", "input"].forEach(function (tipo) {
+    form.addEventListener(tipo, function (e) { if (e.isTrusted !== false) escrito = true; }, { passive: true });
+  });
+  function enviadaHace() {
+    try { var t = Number(localStorage.getItem(LLAVE)); return t ? Date.now() - t : Infinity; } catch (e) { return Infinity; }
+  }
+  function marcarEnviada() { try { localStorage.setItem(LLAVE, String(Date.now())); } catch (e) { /* sin almacenamiento: no se limita */ } }
+
   // ---- envío por correo ----
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     if (!form.reportValidity()) return;
     var d = datos();
-    if (valor("_honey")) { form.reset(); mostrar("¡Gracias! Recibimos tu solicitud.", "ok"); return; }   // robot: no se envía
-    var cfg = SITE.formulario || {}, destino = cfg.destino || SITE.correo;
-    if (!window.fetch || (!cfg.web3formsKey && !destino)) { mostrar("No pudimos enviarla por correo. Envíanos tu solicitud por WhatsApp:", "error", true); return; }
+    var motivo = valor("_honey") ? "campo_trampa" : !escrito ? "sin_escribir" : Date.now() - ABIERTA < MINIMO_MS ? "muy_rapido" : "";
+    if (motivo) {   // robot: no se envía nada, pero se le responde igual que a una persona
+      track("formulario_bloqueado", { motivo: motivo });
+      form.reset(); mostrar("¡Gracias! Recibimos tu solicitud.", "ok"); return;
+    }
+    if (enviadaHace() < ESPERA_MS) {
+      track("formulario_bloqueado", { motivo: "repetido" });
+      mostrar("Ya recibimos una solicitud tuya hoy y te vamos a contactar. Si quieres agregar algo, escríbenos por WhatsApp:", "ok", true);
+      return;
+    }
+    var cfg = SITE.formulario || {};
+    if (!window.fetch || !cfg.web3formsKey) { mostrar("No pudimos enviarla por correo. Envíanos tu solicitud por WhatsApp:", "error", true); return; }
     var textoBoton = enviar.textContent;
     enviar.disabled = true; enviar.textContent = "Enviando…";
     estado.hidden = true;
@@ -137,29 +164,17 @@
         .then(function (r) { return r.json(); })
         .then(function (res) { clearTimeout(reloj); return res || {}; }, function (e) { clearTimeout(reloj); throw e; });
     }
-    // servicios de correo en orden: si uno falla se intenta el siguiente; si todos fallan, se ofrece WhatsApp
-    var servicios = [];
-    if (cfg.web3formsKey) servicios.push(function () {
-      var cuerpo = Object.assign({ access_key: cfg.web3formsKey, subject: asunto, from_name: "Sitio web NORTEA", botcheck: false }, campos);
-      if (d.correo) cuerpo.replyto = d.correo;
-      return post("https://api.web3forms.com/submit", cuerpo).then(function (res) {
+    // Web3Forms manda el correo; si falla, se ofrece WhatsApp con el mismo mensaje
+    var errores = [];
+    var cuerpo = Object.assign({ access_key: cfg.web3formsKey, subject: asunto, from_name: "Sitio web NORTEA", botcheck: false }, campos);
+    if (d.correo) cuerpo.replyto = d.correo;
+    post("https://api.web3forms.com/submit", cuerpo)
+      .then(function (res) {
         if (res.success !== true && String(res.success) !== "true") throw new Error("web3forms: " + (res.message || "sin confirmar"));
         return "web3forms";
-      });
-    });
-    if (destino) servicios.push(function () {
-      var cuerpo = Object.assign({ _subject: asunto, _template: "table", _captcha: "false" }, campos);
-      if (d.correo) cuerpo._replyto = d.correo;
-      return post("https://formsubmit.co/ajax/" + destino, cuerpo).then(function (res) {
-        if (String(res.success) !== "true") throw new Error("formsubmit: " + (res.message || "sin confirmar"));
-        return "formsubmit";
-      });
-    });
-    var errores = [];
-    servicios.reduce(function (cadena, intento) {
-      return cadena.catch(function (err) { if (err) errores.push(String(err.message || err)); return intento(); });
-    }, Promise.reject(null))
+      })
       .then(function (servicio) {
+        marcarEnviada();
         track("formulario_enviado", { canal: "correo", servicio_correo: servicio, servicio: d.servicio, cliente: d.cliente });
         form.reset(); actualizarWa();
         mostrar("¡Gracias" + (d.nombre ? ", " + d.nombre.split(" ")[0] : "") + "! Recibimos tu solicitud y te contactaremos muy pronto.", "ok");
