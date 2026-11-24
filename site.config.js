@@ -67,6 +67,7 @@ window.SITE = {
     general: "Hola, vi su página de NORTEA y quiero cotizar una obra.",
     // En orden de prioridad: obra civil, acabados, tablaroca.
     servicios: {
+      casa: "Hola, vi su página de NORTEA y quiero cotizar la construcción de una casa.",
       obraCivil: "Hola, vi su página de NORTEA y quiero cotizar una obra civil (naves, firmes, losas, demoliciones o albañilería).",
       proyectoEjecutivo: "Hola, vi su página de NORTEA y quiero cotizar un proyecto ejecutivo (levantamiento topográfico, mecánica de suelos o planos).",
       acabados: "Hola, vi su página de NORTEA y quiero cotizar acabados (porcelanato, mármol, estuco, empastado, pintura o fachada).",
