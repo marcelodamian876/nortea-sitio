@@ -68,6 +68,9 @@ window.SITE = {
     // En orden de prioridad: obra civil, acabados, tablaroca.
     servicios: {
       casa: "Hola, vi su página de NORTEA y quiero cotizar la construcción de una casa.",
+      remodelacion: "Hola, vi su página de NORTEA y quiero cotizar la remodelación de mi casa.",
+      ampliacionCasa: "Hola, vi su página de NORTEA y quiero cotizar la ampliación de mi casa (cuarto, segundo nivel o terraza).",
+      industrial: "Hola, vi su página de NORTEA y quiero cotizar una obra industrial (nave, firmes o muros de gran altura).",
       obraCivil: "Hola, vi su página de NORTEA y quiero cotizar una obra civil (naves, firmes, losas, demoliciones o albañilería).",
       proyectoEjecutivo: "Hola, vi su página de NORTEA y quiero cotizar un proyecto ejecutivo (levantamiento topográfico, mecánica de suelos o planos).",
       acabados: "Hola, vi su página de NORTEA y quiero cotizar acabados (porcelanato, mármol, estuco, empastado, pintura o fachada).",

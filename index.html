@@ -55,7 +55,7 @@
   <script src="site.config.js?v=20261124c" defer></script>
   <script src="assets/js/main.js?v=20261124a" defer></script>
   <script src="assets/js/obras.js?v=20261103b" defer></script>
-  <script src="assets/js/rediseno.js?v=20261103a" defer></script>
+  <script src="assets/js/rediseno.js?v=20261124a" defer></script>
 
   <!-- ANALÍTICA
        Google Analytics 4 va arriba, al principio del <head> (también en aviso-de-privacidad.html y 404.html).
@@ -186,10 +186,16 @@
         </div>
 
       </div>
-    <div class="container"><div class="audiences">
-      <a href="#cotizar" data-cliente="Mi casa"><span>Para tu casa</span><h3>Quiero construir, remodelar o ampliar mi casa.</h3><p>Ampliaciones, remodelaciones, cuartos adicionales, cierres de terraza y construcción de vivienda.</p><span class="audiences__link">Cotizar mi casa ↗</span></a>
-      <a href="#cotizar" data-cliente="Mi negocio"><span>Para tu negocio</span><h3>Quiero adecuar mi local u oficina.</h3><p>Adecuación de locales comerciales, oficinas y espacios de trabajo, de la obra negra al acabado.</p><span class="audiences__link">Cotizar mi negocio ↗</span></a>
-      <a href="#capacidad" data-cliente="Constructora o empresa"><span>Para constructoras y empresas</span><h3>Busco contratista para mi obra.</h3><p>Partidas de obra civil y acabados para constructoras, desarrolladoras, despachos e industria.</p><span class="audiences__link">Conocer nuestra capacidad ↗</span></a>
+    <div class="container">
+      <h2 class="section-title audiences__titulo"><span class="eyebrow">Elige tu proyecto</span> ¿Qué quieres hacer?</h2>
+      <!-- Cada tarjeta lleva a su página (contenido en data/servicios.json; se generan con herramientas/paginas/generar.py) -->
+      <div class="audiences audiences--6">
+      <a href="/construccion-de-casas/"><span>Para tu casa</span><h3>Quiero construir mi casa.</h3><p>Del estudio del terreno y la cimentación a los acabados y la entrega.</p><span class="audiences__link">Ver construcción de casas ↗</span></a>
+      <a href="/remodelacion-de-casas/"><span>Para tu casa</span><h3>Quiero remodelar mi casa.</h3><p>Fachada, pisos, muros, plafones y acabados para renovarla por dentro y por fuera.</p><span class="audiences__link">Ver remodelación de casas ↗</span></a>
+      <a href="/ampliacion-de-casas/"><span>Para tu casa</span><h3>Quiero ampliar mi casa.</h3><p>Cuartos adicionales, segundo nivel y cierres de terraza.</p><span class="audiences__link">Ver ampliación de casas ↗</span></a>
+      <a href="/adecuacion-de-locales/"><span>Para tu negocio</span><h3>Quiero adecuar o remodelar mi local u oficina.</h3><p>Locales comerciales y oficinas listos para operar, de la obra negra al acabado.</p><span class="audiences__link">Ver locales y oficinas ↗</span></a>
+      <a href="/obra-industrial/"><span>Para la industria</span><h3>Necesito obra industrial.</h3><p>Naves, firmes de concreto, muros de gran altura y trabajo en altura.</p><span class="audiences__link">Ver obra industrial ↗</span></a>
+      <a href="/constructoras/"><span>Para constructoras y despachos</span><h3>Busco contratista para mi obra.</h3><p>Partidas de obra civil, tablaroca y acabados para constructoras, desarrolladoras y despachos de arquitectura.</p><span class="audiences__link">Ver servicio para empresas ↗</span></a>
     </div></div></section>
 
     <!-- 4. SERVICIOS -->
@@ -233,7 +239,7 @@
             <div class="service__body">
               <h3>Ampliaciones y sistemas ligeros</h3>
               <p>Ampliación y remodelación de casas y negocios. Muros y plafones de <a href="/tablaroca-y-durock/">tablaroca</a>, fachadas de <a href="/tablaroca-y-durock/">Durock</a>, cajillos y cierres de terraza.</p>
-              <a class="service__mas" href="/remodelacion-y-ampliacion/">Ver más de ampliaciones</a>
+              <a class="service__mas" href="/ampliacion-de-casas/">Ver más de ampliaciones</a>
               <a class="link-cta" data-wa="ampliacion" data-wa-place="servicio" href="https://wa.me/528120348618" target="_blank" rel="noopener">Cotizar ampliación <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg><span class="sr-only"> (abre WhatsApp)</span></a>
             </div>
           </li>
@@ -384,13 +390,15 @@
       <h2 class="footer__title">Servicios</h2>
       <ul role="list">
         <li><a href="/construccion-de-casas/">Construcción de casas</a></li>
+        <li><a href="/remodelacion-de-casas/">Remodelación de casas</a></li>
+        <li><a href="/ampliacion-de-casas/">Ampliación de casas</a></li>
+        <li><a href="/adecuacion-de-locales/">Locales comerciales y oficinas</a></li>
+        <li><a href="/obra-industrial/">Obra industrial</a></li>
+        <li><a href="/constructoras/">Constructoras y despachos</a></li>
         <li><a href="/obra-civil/">Obra civil</a></li>
-        <li><a href="/remodelacion-y-ampliacion/">Remodelación y ampliación</a></li>
         <li><a href="/tablaroca-y-durock/">Tablaroca y Durock</a></li>
         <li><a href="/acabados/">Acabados</a></li>
-        <li><a href="/adecuacion-de-locales/">Locales comerciales y oficinas</a></li>
         <li><a href="/proyectos-ejecutivos/">Topografía y mecánica de suelos</a></li>
-        <li><a href="/constructoras/">Partidas para constructoras</a></li>
       </ul>
     </nav>
     <div class="container footer__bottom">

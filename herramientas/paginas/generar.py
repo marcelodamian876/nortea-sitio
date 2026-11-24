@@ -200,7 +200,7 @@ def main():
           <p class="svc-hero__lead">{esc(p["lead"])}</p>
           <div class="svc-hero__acciones">
             <a class="btn btn--gold btn--lg" data-wa="{p["wa"]}" data-wa-place="servicio-{p["slug"]}" href="{WA}" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-wa"/></svg> Cotizar por WhatsApp</a>
-            <a class="btn btn--outline btn--lg" href="/#cotizar">Llenar el formulario</a>
+            <a class="btn btn--outline btn--lg" href="/?cotizar={p.get("form", "")}#cotizar">Llenar el formulario</a>
           </div>
           <p class="svc-hero__nota">Cotización formal por escrito</p>
         </div>
@@ -248,7 +248,7 @@ def main():
         <p class="cta__lead">Trabajamos en {esc(zonas_txt)}. Mándanos medidas aproximadas y fotos por WhatsApp, o llena el formulario.</p>
         <div class="svc-cta__acciones">
           <a class="btn btn--gold btn--xl" data-wa="{p["wa"]}" data-wa-place="servicio-{p["slug"]}-cierre" href="{WA}" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-wa"/></svg> Cotizar por WhatsApp</a>
-          <a class="btn btn--outline btn--xl" href="/#cotizar">Llenar el formulario</a>
+          <a class="btn btn--outline btn--xl" href="/?cotizar={p.get("form", "")}#cotizar">Llenar el formulario</a>
         </div>
         <p class="cta__note">Cotización formal por escrito.</p>
       </div>
@@ -292,7 +292,11 @@ def escribir_sitemap(paginas, cambiadas):
     previas = dict(re.findall(r"<loc>([^<]+)</loc>\s*<lastmod>([^<]+)</lastmod>", actual))
     servicios = {f"{DOMINIO}/{p['slug']}/" for p in paginas}
     otras = re.findall(r"  <url>[\s\S]*?</url>\n", actual)
-    otras = [u for u in otras if re.search(r"<loc>([^<]+)</loc>", u).group(1) not in servicios]
+    def existe(loc):   # quita del sitemap las páginas que ya no existen (por ejemplo, un servicio que se renombró)
+        ruta = loc.replace(DOMINIO, "").lstrip("/")
+        return os.path.exists(os.path.join(RAIZ, ruta + "index.html" if (ruta == "" or ruta.endswith("/")) else ruta))
+    otras = [u for u in otras if re.search(r"<loc>([^<]+)</loc>", u).group(1) not in servicios
+             and existe(re.search(r"<loc>([^<]+)</loc>", u).group(1))]
     nuevas = []
     for p in paginas:
         loc = f"{DOMINIO}/{p['slug']}/"

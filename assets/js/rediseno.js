@@ -35,6 +35,28 @@
     "Mi negocio": "Adecuación de local comercial u oficina",
     "Constructora o empresa": "Partidas para mi empresa",
   };
+  // Desde las páginas de servicio se llega con /?cotizar=<clave>#cotizar y el formulario ya viene elegido.
+  var DESDE_PAGINA = {
+    casa: ["Mi casa", "Construcción, remodelación o ampliación de casa"],
+    remodelacion: ["Mi casa", "Construcción, remodelación o ampliación de casa"],
+    ampliacion: ["Mi casa", "Construcción, remodelación o ampliación de casa"],
+    local: ["Mi negocio", "Adecuación de local comercial u oficina"],
+    industrial: ["Constructora o empresa", "Obra civil"],
+    constructora: ["Constructora o empresa", "Partidas para mi empresa"],
+    "obra-civil": [null, "Obra civil"],
+    tablaroca: [null, "Tablaroca y Durock"],
+    acabados: [null, "Acabados"],
+    proyecto: [null, "Proyecto ejecutivo (topografía, mecánica de suelos y planos)"],
+  };
+  try {
+    var elegido = DESDE_PAGINA[new URLSearchParams(location.search).get("cotizar")];
+    if (elegido) {
+      if (elegido[0]) elegir(el.cliente, elegido[0]);
+      elegir(el.servicio, elegido[1]);
+      track("formulario_desde_pagina", { cotizar: new URLSearchParams(location.search).get("cotizar") });
+    }
+  } catch (e) { /* navegador sin URLSearchParams: el formulario queda como siempre */ }
+
   document.querySelectorAll(".audiences a[data-cliente]").forEach(function (a) {
     a.addEventListener("click", function () {
       var c = a.dataset.cliente;
