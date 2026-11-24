@@ -35,7 +35,7 @@ def entre(texto, inicio, fin, incluir_fin=True):
 def a_raiz(fragmento):
     """Enlaces de la portada → enlaces que funcionan desde cualquier carpeta."""
     f = fragmento.replace('href="#inicio"', 'href="/"')
-    f = re.sub(r'(<a\b[^>]*?\bhref=")#', r'\1/#', f)   # solo enlaces <a>; los íconos <use href="#i-..."> se quedan igual
+    f = re.sub(r'(<a\b[^>]*?\bhref=")#(?=[\w-])', r'\1/#', f)   # solo enlaces <a> a una sección; ni href="#" ni los íconos <use href="#i-...">
     f = re.sub(r'(src|srcset)="assets/', r'\1="/assets/', f)
     f = f.replace('href="aviso-de-privacidad.html"', 'href="/aviso-de-privacidad.html"')
     return f
