@@ -94,15 +94,31 @@ def frase(nombre):
     return nombre[0].lower() + nombre[1:]
 
 
+def principales(paginas, grupo):
+    """Servicios principales de un grupo (los que no tienen "padre")."""
+    return [p for p in paginas if p["grupo"] == grupo and not p.get("padre")]
+
+
+def hijos_de(paginas):
+    """{slug del principal: [páginas secundarias, en orden]}."""
+    hijos = {}
+    for p in paginas:
+        if p.get("padre"):
+            hijos.setdefault(p["padre"], []).append(p)
+    return hijos
+
+
 def pie_servicios(grupos, paginas):
-    """Lista agrupada de servicios para el pie de todas las páginas (se escribe en index.html)."""
+    """Servicios principales por grupo para el pie de todas las páginas (se escribe en index.html).
+    Las páginas secundarias no van en el pie: se llega a ellas desde /servicios/ y desde su servicio principal."""
     bloques = []
     for g in grupos:
-        items = "".join(f'<li><a href="/{p["slug"]}/">{esc(p["nombre"])}</a></li>' for p in paginas if p["grupo"] == g["id"])
+        items = "".join(f'<li><a href="/{p["slug"]}/">{esc(p["nombre"])}</a></li>' for p in principales(paginas, g["id"]))
         bloques.append(f'        <div><h3>{esc(g["nombre"])}</h3><ul role="list">{items}</ul></div>')
     return ('<nav class="container footer__servicios" aria-label="Servicios">\n'
             '      <h2 class="footer__title"><a href="/servicios/">Servicios</a></h2>\n'
-            '      <div class="footer__grupos">\n' + "\n".join(bloques) + '\n      </div>\n    </nav>')
+            '      <div class="footer__grupos">\n' + "\n".join(bloques) + '\n      </div>\n'
+            '      <p class="footer__todos"><a href="/servicios/">Ver todos los servicios</a></p>\n    </nav>')
 
 
 def cabeza(titulo, descripcion, url, og_titulo, ga, v, ld):
@@ -153,6 +169,8 @@ def main():
     propios = {f["src"]: f["srcset"] for c in obras.get("categorias", []) for f in c.get("fotos", []) if f.get("srcset")}
     zonas, paginas, grupos = datos["zonas"], datos["paginas"], datos["grupos"]
     nombre_grupo = {g["id"]: g["nombre"] for g in grupos}
+    por_slug = {p["slug"]: p for p in paginas}
+    hijos = hijos_de(paginas)
 
     # 1) La lista agrupada de servicios va en el pie de la portada (y de ahí a todas las páginas)
     portada = leer("index.html")
@@ -211,24 +229,28 @@ def main():
     # 2) Una página por servicio
     for p in paginas:
         url = f"{DOMINIO}/{p['slug']}/"
+        padre = por_slug.get(p.get("padre"))
+        migas = [("Inicio", f"{DOMINIO}/"), ("Servicios", f"{DOMINIO}/servicios/")]
+        if padre:
+            migas.append((padre["nombre"], f"{DOMINIO}/{padre['slug']}/"))
+        migas.append((p["nombre"], url))
         ld = {
             "@context": "https://schema.org",
             "@graph": [
                 {"@type": "BreadcrumbList", "itemListElement": [
-                    {"@type": "ListItem", "position": 1, "name": "Inicio", "item": f"{DOMINIO}/"},
-                    {"@type": "ListItem", "position": 2, "name": "Servicios", "item": f"{DOMINIO}/servicios/"},
-                    {"@type": "ListItem", "position": 3, "name": p["nombre"], "item": url}]},
+                    {"@type": "ListItem", "position": i + 1, "name": n, "item": u} for i, (n, u) in enumerate(migas)]},
                 {"@type": "Service", "@id": url + "#servicio", "name": p["h1"], "serviceType": p["nombre"],
                  "description": p["descripcion"], "url": url,
                  "provider": {"@type": "GeneralContractor", "@id": f"{DOMINIO}/#negocio", "name": "NORTEA Ingeniería y Construcción", "url": f"{DOMINIO}/"},
                  "areaServed": [{"@type": "City", "name": z} for z in zonas],
-                 "image": f"{DOMINIO}/{p['fotos'][0]['src']}"},
+                 "image": f"{DOMINIO}/{p['fotos'][0]['src']}" if p["fotos"] else f"{DOMINIO}/assets/img/marca/og-nortea.jpg"},
                 {"@type": "FAQPage", "mainEntity": [
                     {"@type": "Question", "name": q["p"], "acceptedAnswer": {"@type": "Answer", "text": q["r"]}} for q in p["faq"]]},
             ],
         }
-        principal = p["fotos"][0]
-        resto = p["fotos"][1:]   # la principal ya va arriba; la galería muestra las demás
+        # Fotos: la primera va arriba y la galería muestra hasta 3 más. Sin fotos propias, el encabezado va sin foto.
+        principal = p["fotos"][0] if p["fotos"] else None
+        resto = p["fotos"][1:4]
         galeria = "\n".join(
             f'          <figure class="svc-foto reveal">{img(f, propios, "(min-width: 1000px) 33vw, (min-width: 640px) 50vw, 100vw")}'
             f'<figcaption>{esc(f["pie"])}</figcaption></figure>' for f in resto)
@@ -246,17 +268,27 @@ def main():
         intro = "\n".join(f"            <p>{esc(t)}</p>" for t in p["intro"])
         preguntas = "\n".join(
             f'          <details class="svc-faq__item"><summary>{esc(q["p"])}</summary><p>{esc(q["r"])}</p></details>' for q in p["faq"])
-        hermanos = [o for o in paginas if o["grupo"] == p["grupo"] and o["slug"] != p["slug"]]
+        # Relacionados: su servicio principal y las páginas hermanas (o, si es principal, sus páginas secundarias),
+        # después los demás servicios principales del grupo.
+        if padre:
+            hermanos = [padre] + [h for h in hijos.get(padre["slug"], []) if h["slug"] != p["slug"]]
+        else:
+            hermanos = list(hijos.get(p["slug"], []))
+        hermanos += [o for o in principales(paginas, p["grupo"]) if o["slug"] not in (p["slug"], p.get("padre"))]
         otros = "\n".join(
             f'          <li><a href="/{o["slug"]}/"><span>{esc(o["nombre"])}</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>'
             for o in hermanos)
         otros += '\n          <li><a class="svc-otros__todos" href="/servicios/"><span>Ver todos los servicios</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>'
         form = p.get("form", "")
 
+        miga_padre = (f'<a href="/{padre["slug"]}/">{esc(padre["nombre"])}</a><span aria-hidden="true">/</span>' if padre else "")
+        foto_hero = ("" if not principal else
+                     f'\n        <figure class="svc-hero__foto">{img(principal, propios, "(min-width: 900px) 45vw, 100vw", lazy=False, prioridad=True)}'
+                     f'<figcaption>{esc(principal["pie"])}</figcaption></figure>')
         main_html = f"""    <section class="svc-hero" aria-labelledby="svc-titulo">
-      <div class="container svc-hero__grid">
+      <div class="container svc-hero__grid{'' if principal else ' svc-hero__grid--solo'}">
         <div class="svc-hero__texto">
-          <nav class="migas" aria-label="Ruta"><a href="/">Inicio</a><span aria-hidden="true">/</span><a href="/servicios/">Servicios</a><span aria-hidden="true">/</span><span aria-current="page">{esc(p["nombre"])}</span></nav>
+          <nav class="migas" aria-label="Ruta"><a href="/">Inicio</a><span aria-hidden="true">/</span><a href="/servicios/">Servicios</a><span aria-hidden="true">/</span>{miga_padre}<span aria-current="page">{esc(p["nombre"])}</span></nav>
           <h1 class="svc-hero__titulo" id="svc-titulo">{esc(p["h1"])}</h1>
           <p class="svc-hero__lead">{esc(p["lead"])}</p>
           <div class="svc-hero__acciones">
@@ -264,8 +296,7 @@ def main():
             <a class="btn btn--outline btn--lg" href="/?cotizar={form}#cotizar">Llenar el formulario</a>
           </div>
           <p class="svc-hero__nota">Cotización formal por escrito</p>
-        </div>
-        <figure class="svc-hero__foto">{img(principal, propios, "(min-width: 900px) 45vw, 100vw", lazy=False, prioridad=True)}<figcaption>{esc(principal["pie"])}</figcaption></figure>
+        </div>{foto_hero}
       </div>
     </section>
 
@@ -307,7 +338,7 @@ def main():
 
     <section class="section" aria-labelledby="svc-otros">
       <div class="container">
-        <h2 class="section-title reveal" id="svc-otros"><span class="eyebrow">{esc(nombre_grupo[p["grupo"]])}</span> Otros servicios</h2>
+        <h2 class="section-title reveal" id="svc-otros"><span class="eyebrow">{esc(nombre_grupo[p["grupo"]])}</span> Servicios relacionados</h2>
         <ul class="svc-otros" role="list">
 {otros}
         </ul>
@@ -322,7 +353,7 @@ def main():
     # 3) /servicios/: todos los servicios por grupo
     url = f"{DOMINIO}/servicios/"
     titulo = "Servicios de construcción en Monterrey | NORTEA"
-    descripcion = "Todos los servicios de NORTEA en Monterrey: construcción, remodelación y ampliación de casas, locales, oficinas, naves, tablaroca, Durock, acabados y estudios."
+    descripcion = "Servicios de NORTEA en Monterrey: casas, locales, oficinas, naves, obra civil, tablaroca, Durock, acabados, proyecto ejecutivo, planos y estudios."
     ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Inicio", "item": f"{DOMINIO}/"},
@@ -330,18 +361,30 @@ def main():
         {"@type": "ItemList", "name": "Servicios de NORTEA", "itemListElement": [
             {"@type": "ListItem", "position": i + 1, "name": p["h1"], "url": f"{DOMINIO}/{p['slug']}/"} for i, p in enumerate(paginas)]},
     ]}
+    # Una tarjeta por servicio principal, con su foto; sus páginas secundarias van como enlaces dentro de la tarjeta.
     secciones = []
     for g in grupos:
-        tarjetas = "\n".join(
-            f'          <li><a href="/{p["slug"]}/"><h3>{esc(p["nombre"])}</h3><p>{esc(p["lead"])}</p>'
-            f'<span class="svc-tarjetas__ir">Ver servicio <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span></a></li>'
-            for p in paginas if p["grupo"] == g["id"])
+        tarjetas = []
+        mains = principales(paginas, g["id"])
+        for p in mains:
+            foto = (f'<div class="svc-tarjeta__foto">{img(p["fotos"][0], propios, "(min-width: 1000px) 30vw, (min-width: 640px) 45vw, 100vw")}</div>'
+                    if p["fotos"] else "")
+            subs = hijos.get(p["slug"], [])
+            subs_html = ("" if not subs else
+                         '<div class="svc-tarjeta__subs"><p>También:</p><ul role="list">'
+                         + "".join(f'<li><a href="/{h["slug"]}/">{esc(h["nombre"])}</a></li>' for h in subs)
+                         + "</ul></div>")
+            tarjetas.append(
+                f'          <li class="svc-tarjeta reveal"><a class="svc-tarjeta__enlace" href="/{p["slug"]}/">{foto}'
+                f'<div class="svc-tarjeta__texto"><h3>{esc(p["nombre"])}</h3><p>{esc(p["lead"])}</p>'
+                f'<span class="svc-tarjetas__ir">Ver servicio <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span></div></a>'
+                f'{subs_html}</li>')
         fondo = " section--light" if len(secciones) % 2 else ""
         secciones.append(f"""    <section class="section{fondo}" aria-labelledby="grupo-{g['id']}">
       <div class="container">
         <h2 class="section-title reveal" id="grupo-{g['id']}">{esc(g['nombre'])}</h2>
-        <ul class="svc-tarjetas" role="list">
-{tarjetas}
+        <ul class="svc-tarjetas svc-tarjetas--{len(mains)}" role="list">
+{chr(10).join(tarjetas)}
         </ul>
       </div>
     </section>""")
@@ -375,7 +418,7 @@ def escribir_sitemap(paginas, cambiadas):
     hoy = datetime.date.today().isoformat()
     actual = leer("sitemap.xml")
     previas = dict(re.findall(r"<loc>([^<]+)</loc>\s*<lastmod>([^<]+)</lastmod>", actual))
-    generadas = [("servicios", 0.9)] + [(p["slug"], 0.8) for p in paginas]
+    generadas = [("servicios", 0.9)] + [(p["slug"], 0.7 if p.get("padre") else 0.8) for p in paginas]
     propias = {f"{DOMINIO}/{s}/" for s, _ in generadas}
 
     def existe(loc):   # quita del sitemap las páginas que ya no existen (por ejemplo, un servicio que se renombró)
@@ -400,17 +443,20 @@ def escribir_llms(datos):
     z = datos["zonas"]
     lineas = [
         "# NORTEA Ingeniería y Construcción", "",
-        "> Constructora en Monterrey, Nuevo León (México). Obra civil, construcción, remodelación y ampliación de casas, "
-        "locales comerciales, oficinas y naves industriales, tablaroca y Durock, acabados, y estudios de topografía y mecánica "
-        "de suelos. Atiende a particulares, negocios, constructoras y despachos de arquitectura en Monterrey y su área "
+        "> Constructora en Monterrey, Nuevo León (México). Obra civil, construcción, remodelación y ampliación de casas "
+        "(segundo y tercer piso), locales comerciales, oficinas y naves industriales, tablaroca y Durock, acabados, y proyecto "
+        "ejecutivo: planos arquitectónicos, renders, levantamiento topográfico, mecánica de suelos, cálculo estructural y estudio "
+        "hidrológico. Atiende a particulares, negocios, constructoras y despachos de arquitectura en Monterrey y su área "
         "metropolitana, en obra. Cotización formal por escrito.", "",
         f"Todos los servicios: {DOMINIO}/servicios/", "",
     ]
+    hijos = hijos_de(datos["paginas"])
     for g in datos["grupos"]:
         lineas.append(f"## {g['nombre']}")
-        for p in datos["paginas"]:
-            if p["grupo"] == g["id"]:
-                lineas.append(f"- [{p['h1']}]({DOMINIO}/{p['slug']}/): {p['lead']}")
+        for p in principales(datos["paginas"], g["id"]):
+            lineas.append(f"- [{p['h1']}]({DOMINIO}/{p['slug']}/): {p['lead']}")
+            for h in hijos.get(p["slug"], []):
+                lineas.append(f"  - [{h['h1']}]({DOMINIO}/{h['slug']}/): {h['lead']}")
         lineas.append("")
     lineas += ["## Zona de servicio", ", ".join(z[:-1]) + " y " + z[-1] + " (Nuevo León, México).", "",
                "## Contacto",

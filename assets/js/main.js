@@ -141,14 +141,19 @@
       },
       areaServed: (SITE.zonaServicio || []).map(function (c) { return { "@type": "City", name: c }; }),
       slogan: "Construimos para quienes construyen.",
-      knowsAbout: ["Obra civil", "Construcción de casas", "Remodelación de casas", "Ampliación de casas", "Naves industriales", "Firmes y losas",
-        "Acabados", "Instalación de porcelanato", "Mármol", "Estuco", "Pintura", "Fachadas", "Tablaroca", "Durock", "Plafones de tablaroca",
-        "Adecuación de locales comerciales", "Adecuación de oficinas", "Proyectos ejecutivos", "Levantamiento topográfico", "Mecánica de suelos"],
+      knowsAbout: ["Obra civil", "Construcción de casas", "Remodelación de casas", "Ampliación de casas", "Construcción de segundo y tercer piso",
+        "Construcción ligera (steel frame)", "Remodelación de baños", "Remodelación de cocinas", "Naves industriales", "Firmes y losas",
+        "Acabados", "Instalación de porcelanato", "Instalación de mármol", "Estuco", "Pintura", "Fachadas", "Tablaroca", "Durock", "Plafones de tablaroca",
+        "Adecuación de locales comerciales", "Adecuación de oficinas", "Proyectos ejecutivos", "Planos arquitectónicos", "Renders arquitectónicos",
+        "Cálculo estructural", "Levantamiento topográfico", "Mecánica de suelos", "Estudio hidrológico"],
+      // Ficha de NORTEA en Google Maps (Perfil de Negocio), para que Google relacione el sitio con la ficha.
+      hasMap: "https://maps.google.com/maps?cid=8380302862410455410",
     };
     if (SITE.horarioSchema && SITE.horarioSchema.length) ld.openingHours = SITE.horarioSchema;
     var same = [];
     if (!pendiente(SITE.instagram)) same.push("https://www.instagram.com/" + SITE.instagram + "/");
     if (SITE.facebook) same.push(SITE.facebook);
+    same.push(ld.hasMap);
     if (same.length) ld.sameAs = same;
     var s = document.createElement("script");
     s.type = "application/ld+json";

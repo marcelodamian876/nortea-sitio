@@ -21,6 +21,21 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://nortea.mx/remodelacion-de-banos/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/remodelacion-de-cocinas/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/remodelacion-de-fachadas/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://nortea.mx/ampliacion-de-casas/</loc>
     <lastmod>2026-11-24</lastmod>
     <priority>0.8</priority>
@@ -28,27 +43,12 @@
   <url>
     <loc>https://nortea.mx/construccion-de-segundo-piso/</loc>
     <lastmod>2026-11-24</lastmod>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://nortea.mx/construccion-ligera/</loc>
     <lastmod>2026-11-24</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nortea.mx/remodelacion-de-fachadas/</loc>
-    <lastmod>2026-11-24</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nortea.mx/remodelacion-de-banos/</loc>
-    <lastmod>2026-11-24</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nortea.mx/remodelacion-de-cocinas/</loc>
-    <lastmod>2026-11-24</lastmod>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://nortea.mx/adecuacion-de-locales/</loc>
@@ -56,27 +56,27 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://nortea.mx/construccion-de-locales-comerciales/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/remodelacion-de-oficinas/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://nortea.mx/obra-industrial/</loc>
     <lastmod>2026-11-24</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nortea.mx/constructoras/</loc>
-    <lastmod>2026-11-24</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nortea.mx/construccion-de-locales-comerciales/</loc>
-    <lastmod>2026-11-24</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://nortea.mx/remodelacion-de-oficinas/</loc>
-    <lastmod>2026-11-24</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://nortea.mx/naves-industriales/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/constructoras/</loc>
     <lastmod>2026-11-24</lastmod>
     <priority>0.8</priority>
   </url>
@@ -91,29 +91,34 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nortea.mx/acabados/</loc>
-    <lastmod>2026-11-24</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://nortea.mx/muros-de-tablaroca/</loc>
     <lastmod>2026-11-24</lastmod>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://nortea.mx/plafones-de-tablaroca/</loc>
     <lastmod>2026-11-24</lastmod>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://nortea.mx/muros-de-durock/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/acabados/</loc>
     <lastmod>2026-11-24</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://nortea.mx/instalacion-de-porcelanato/</loc>
     <lastmod>2026-11-24</lastmod>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/instalacion-de-marmol/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://nortea.mx/proyectos-ejecutivos/</loc>
@@ -121,14 +126,34 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nortea.mx/estudio-de-mecanica-de-suelos/</loc>
+    <loc>https://nortea.mx/planos-arquitectonicos/</loc>
     <lastmod>2026-11-24</lastmod>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/renders-arquitectonicos/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/calculo-estructural/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://nortea.mx/levantamiento-topografico/</loc>
     <lastmod>2026-11-24</lastmod>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/estudio-de-mecanica-de-suelos/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/estudio-hidrologico/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://nortea.mx/aviso-de-privacidad.html</loc>

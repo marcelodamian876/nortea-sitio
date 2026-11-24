@@ -47,7 +47,7 @@
     tablaroca: [null, "Tablaroca y Durock"],
     acabados: [null, "Acabados"],
     fachadas: [null, "Fachadas"],
-    proyecto: [null, "Proyecto ejecutivo (topografía, mecánica de suelos y planos)"],
+    proyecto: [null, "Proyecto ejecutivo, planos o estudios"],
   };
   try {
     var elegido = DESDE_PAGINA[new URLSearchParams(location.search).get("cotizar")];

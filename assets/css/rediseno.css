@@ -210,19 +210,50 @@
 /* /servicios/: todos los servicios por grupo */
 .svc-hero--indice .svc-hero__titulo { max-width: 20ch; }
 .svc-hero--indice .svc-hero__lead { max-width: 60ch; }
-.svc-tarjetas { list-style: none; margin-top: 28px; display: grid; gap: 16px; }
-.svc-tarjetas a {
-  display: flex; flex-direction: column; gap: 8px; height: 100%; padding: 22px 22px 20px;
+.svc-tarjetas { list-style: none; margin-top: 28px; display: grid; gap: 20px; }
+/* Una tarjeta por servicio principal: foto, texto y, abajo, sus páginas secundarias como enlaces */
+.svc-tarjeta {
+  display: flex; flex-direction: column; overflow: hidden;
   border: 1px solid var(--line); border-radius: var(--radius); background: var(--white);
-  color: var(--ink); text-decoration: none; transition: border-color .2s, box-shadow .2s;
+  transition: border-color .2s, box-shadow .2s;
 }
-.svc-tarjetas a:hover { border-color: var(--gold); box-shadow: var(--shadow); }
+.svc-tarjeta:hover { border-color: var(--gold); box-shadow: var(--shadow); }
+.svc-tarjeta__enlace { display: flex; flex-direction: column; color: var(--ink); text-decoration: none; }
+.svc-tarjeta__foto img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; background: var(--navy-2); }
+.svc-tarjeta__texto { display: flex; flex-direction: column; gap: 8px; padding: 20px 22px 18px; }
 .svc-tarjetas h3 { font-size: 1.12rem; color: var(--navy); }
-.svc-tarjetas p { color: var(--ink-soft); font-size: .95rem; }
-.svc-tarjetas__ir { margin-top: auto; padding-top: 6px; display: inline-flex; align-items: center; gap: 8px; font-family: var(--f-head); font-weight: 600; font-size: .82rem; letter-spacing: .08em; text-transform: uppercase; color: var(--navy); }
+.svc-tarjetas .svc-tarjeta__texto p { color: var(--ink-soft); font-size: .95rem; }
+.svc-tarjetas__ir { margin-top: 2px; padding-top: 6px; display: inline-flex; align-items: center; gap: 8px; font-family: var(--f-head); font-weight: 600; font-size: .82rem; letter-spacing: .08em; text-transform: uppercase; color: var(--navy); }
 .svc-tarjetas__ir .icon { color: var(--gold); }
+.svc-tarjeta__enlace:hover .svc-tarjetas__ir { text-decoration: underline; text-underline-offset: 3px; }
+.svc-tarjeta__subs { margin-top: auto; padding: 14px 22px 20px; border-top: 1px solid var(--line); }
+.svc-tarjeta__subs p { font-family: var(--f-head); font-weight: 600; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+.svc-tarjeta__subs ul { list-style: none; margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; }
+.svc-tarjeta__subs a {
+  display: inline-flex; align-items: center; min-height: 40px; padding: 8px 14px;
+  border: 1px solid var(--line); border-radius: 999px; background: var(--cream);
+  font-size: .9rem; color: var(--navy); text-decoration: none; transition: border-color .2s;
+}
+.svc-tarjeta__subs a:hover { border-color: var(--gold); }
 @media (min-width: 640px) { .svc-tarjetas { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1000px) { .svc-tarjetas { grid-template-columns: repeat(3, 1fr); } }
+/* Grupo con un solo servicio principal (Estudios y proyectos): tarjeta a lo ancho, foto a un lado */
+@media (min-width: 640px) { .svc-tarjetas--1 { grid-template-columns: 1fr; } }
+@media (min-width: 900px) {
+  .svc-tarjetas--1 .svc-tarjeta__enlace { flex-direction: row; }
+  .svc-tarjetas--1 .svc-tarjeta__foto { flex: 0 0 42%; position: relative; min-height: 280px; }
+  .svc-tarjetas--1 .svc-tarjeta__foto img { position: absolute; inset: 0; height: 100%; aspect-ratio: auto; }
+  .svc-tarjetas--1 .svc-tarjeta__texto { flex: 1; padding: 28px 32px; justify-content: center; }
+  .svc-tarjetas--1 .svc-tarjeta__subs { padding: 16px 32px 24px; }
+}
+
+/* Encabezado sin foto: páginas que todavía no tienen fotos propias */
+@media (min-width: 900px) { .svc-hero__grid--solo { grid-template-columns: minmax(0, 780px); } }
+.svc-hero__grid--solo .svc-hero__titulo { max-width: 22ch; }
+
+/* Pie: enlace a todos los servicios debajo de los grupos */
+.footer__todos { margin-top: 18px; }
+.footer__servicios .footer__todos a { color: var(--gold-light); font-weight: 600; }
 
 /* Portada: enlace a todos los servicios bajo las tarjetas de Servicios */
 .servicios__todos { margin-top: 28px; text-align: center; }
