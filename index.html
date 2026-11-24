@@ -316,7 +316,7 @@
           <input type="hidden" name="subject" value="Nueva solicitud de cotización · NORTEA">
           <input type="hidden" name="from_name" value="Sitio web NORTEA">
           <div><label for="q-nombre">Nombre</label><input id="q-nombre" name="nombre" required maxlength="80" autocomplete="name" placeholder="Tu nombre"></div>
-          <div><label for="q-tel">WhatsApp o teléfono</label><input id="q-tel" name="telefono" type="tel" inputmode="tel" required maxlength="20" pattern="[0-9 +()\-]{8,20}" autocomplete="tel" placeholder="Ej. 81 1234 5678"></div>
+          <div><label for="q-tel">WhatsApp o teléfono</label><input id="q-tel" name="telefono" type="tel" inputmode="tel" required maxlength="20" pattern="[0-9 +\(\)\-]{8,20}" autocomplete="tel" placeholder="Ej. 81 1234 5678"></div>
           <div><label for="q-correo">Correo <span class="quote-form__opcional">(opcional)</span></label><input id="q-correo" name="correo" type="email" maxlength="120" autocomplete="email" placeholder="tucorreo@ejemplo.com"></div>
           <div><label for="quote-city">Municipio o colonia</label><input id="quote-city" name="ubicacion" required maxlength="120" autocomplete="address-level2" placeholder="Ej. Monterrey, Centro"></div>
           <div><label for="quote-client">¿Para quién es el proyecto?</label><select id="quote-client" name="cliente"><option>Mi casa</option><option>Mi negocio</option><option>Constructora o empresa</option></select></div>
