@@ -61,7 +61,7 @@ window.SITE = {
 
   // Mapa: true muestra un botón "Ver mapa" que carga Google Maps solo al tocarlo
   // (así no hace lento el sitio). false lo oculta.
-  mostrarMapa: true,
+  mostrarMapa: false, // sin dirección pública: se trabaja en obra (no se reciben clientes en un local)
 
   whatsapp: {
     general: "Hola, vi su página de NORTEA y quiero cotizar una obra.",

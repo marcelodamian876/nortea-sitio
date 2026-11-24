@@ -132,12 +132,11 @@
         url: "https://wa.me/" + (SITE.whatsappNumero || "528120348618"),
         availableLanguage: "es",
       },
+      // Sin calle ni código postal: negocio que trabaja en obra, con dirección oculta en su Perfil de Negocio.
       address: {
         "@type": "PostalAddress",
-        streetAddress: dir.calle,
         addressLocality: dir.ciudad,
         addressRegion: dir.estadoCompleto || dir.estado,
-        postalCode: dir.cp,
         addressCountry: dir.pais || "MX",
       },
       areaServed: (SITE.zonaServicio || []).map(function (c) { return { "@type": "City", name: c }; }),

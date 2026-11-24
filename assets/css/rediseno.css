@@ -190,3 +190,6 @@
 .audiences__titulo { margin-top: 64px; }
 .audiences--6 { margin-top: 28px; }
 @media (min-width: 640px) and (max-width: 899px) { .audiences--6 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Pie: zona de servicio en lugar de dirección y mapa */
+.footer__zona p { color: var(--on-dark-soft); font-size: .95rem; max-width: 40ch; }

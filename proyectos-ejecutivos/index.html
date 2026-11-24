@@ -40,8 +40,8 @@
   <link rel="stylesheet" href="/assets/css/styles.css?v=20261030a">
   <link rel="stylesheet" href="/assets/css/rediseno.css?v=20261124a">
   <script>document.documentElement.classList.add('js')</script>
-  <script src="/site.config.js?v=20261124c" defer></script>
-  <script src="/assets/js/main.js?v=20261124a" defer></script>
+  <script src="/site.config.js?v=20261124d" defer></script>
+  <script src="/assets/js/main.js?v=20261124b" defer></script>
   <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://nortea.mx/"}, {"@type": "ListItem", "position": 2, "name": "Servicios", "item": "https://nortea.mx/#servicios"}, {"@type": "ListItem", "position": 3, "name": "Topografía y mecánica de suelos", "item": "https://nortea.mx/proyectos-ejecutivos/"}]}, {"@type": "Service", "@id": "https://nortea.mx/proyectos-ejecutivos/#servicio", "name": "Topografía, mecánica de suelos y proyecto ejecutivo en Monterrey", "serviceType": "Topografía y mecánica de suelos", "description": "Levantamiento topográfico con estación total, estudio de mecánica de suelos y planos ejecutivos en Monterrey, para empezar tu obra con medidas y datos reales.", "url": "https://nortea.mx/proyectos-ejecutivos/", "provider": {"@type": "GeneralContractor", "@id": "https://nortea.mx/#negocio", "name": "NORTEA Ingeniería y Construcción", "url": "https://nortea.mx/"}, "areaServed": [{"@type": "City", "name": "Monterrey"}, {"@type": "City", "name": "San Pedro Garza García"}, {"@type": "City", "name": "San Nicolás de los Garza"}, {"@type": "City", "name": "Guadalupe"}, {"@type": "City", "name": "Apodaca"}, {"@type": "City", "name": "Santa Catarina"}, {"@type": "City", "name": "General Escobedo"}, {"@type": "City", "name": "Juárez"}, {"@type": "City", "name": "García"}, {"@type": "City", "name": "Santiago"}], "image": "https://nortea.mx/obras/proyectos-ejecutivos/levantamiento-topografico.webp"}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Para qué sirve un levantamiento topográfico?", "acceptedAnswer": {"@type": "Answer", "text": "Para conocer las medidas, los niveles y los límites reales del terreno. Con eso se dibujan los planos y se calcula la obra sin sorpresas."}}, {"@type": "Question", "name": "¿Qué es un estudio de mecánica de suelos?", "acceptedAnswer": {"@type": "Answer", "text": "Es un estudio del terreno, con perforaciones y pruebas, que indica qué tan resistente es el suelo y qué cimentación conviene. Es la base para diseñar la cimentación de una casa, una nave o un edificio."}}, {"@type": "Question", "name": "¿Lo necesito si voy a construir mi casa?", "acceptedAnswer": {"@type": "Answer", "text": "Es lo más recomendable antes de diseñar la cimentación, porque el tipo de suelo cambia de una zona a otra del área metropolitana."}}, {"@type": "Question", "name": "¿Cómo lo cotizo?", "acceptedAnswer": {"@type": "Answer", "text": "Mándanos por WhatsApp la ubicación del terreno, sus medidas aproximadas y qué piensas construir. Te enviamos una cotización formal por escrito."}}]}]}</script>
 </head>
 <body class="pagina-servicio">
@@ -203,18 +203,15 @@
         <ul class="contact-list" role="list">
           <li><svg class="icon" aria-hidden="true"><use href="#i-wa"/></svg><a data-wa="general" data-wa-place="pie" href="https://wa.me/528120348618" target="_blank" rel="noopener">WhatsApp <span data-site="telefonoVisible">81 2034 8618</span></a></li>
           <li><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg><a data-site-href="mailto" href="mailto:nortea.ic@gmail.com"><span data-site="correo">nortea.ic@gmail.com</span></a></li>
-          <li><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><address data-site="direccionTexto">Av. Garza Sada 3001, Monterrey, N.L. 66417</address></li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><span>Damos servicio en Monterrey y su área metropolitana</span></li>
           <li data-site-row="horario"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg><span data-site="horario">TODO_HORARIO</span></li>
           <li data-site-row="instagram"><svg class="icon" aria-hidden="true"><use href="#i-ig"/></svg><a data-site-href="instagram" href="#" target="_blank" rel="noopener">@<span data-site="instagram">TODO_INSTAGRAM</span></a></li>
         </ul>
       </div>
-      <div class="footer__map" id="mapa">
-        <h2 class="footer__title">Ubicación</h2>
-        <div class="map-facade" id="map-facade">
-          <p>Av. Garza Sada 3001, Monterrey</p>
-          <button type="button" class="btn btn--outline btn--sm" id="map-load">Ver mapa</button>
-          <a class="map-facade__link" id="map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Av.%20Garza%20Sada%203001%2C%20Monterrey%2C%20N.L.%2066417" target="_blank" rel="noopener">Abrir en Google Maps</a>
-        </div>
+      <!-- Sin dirección pública: NORTEA trabaja en obra, no recibe clientes en un local (igual que en su Perfil de Negocio de Google). -->
+      <div class="footer__zona">
+        <h2 class="footer__title">Zona de servicio</h2>
+        <p>Trabajamos en obra en Monterrey, San Pedro Garza García, San Nicolás de los Garza, Guadalupe, Apodaca, Santa Catarina, General Escobedo, Juárez, García y Santiago.</p>
       </div>
     </div>
     <nav class="container footer__servicios" aria-label="Servicios">
