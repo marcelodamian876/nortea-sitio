@@ -21,16 +21,15 @@ window.SITE = {
 
   correo: "nortea.ic@gmail.com",
 
-  // Formulario de cotización (sección "Hablemos de tu próximo proyecto"): cada solicitud llega por correo,
-  // enviada con FormSubmit (formsubmit.co, gratuito). La PRIMERA vez que alguien lo use, FormSubmit manda a
-  // este correo un aviso para activarlo ("Activate Form"): se abre y se da clic una sola vez; desde ahí
-  // todas las solicitudes llegan solas. Mientras no esté activado, el sitio ofrece mandarla por WhatsApp.
-  // (Opcional) Ya activado, FormSubmit da un código para no mostrar el correo: puede ponerse en "destino".
+  // Formulario de cotización (sección "Hablemos de tu próximo proyecto"): cada solicitud llega por correo
+  // a nortea.ic@gmail.com. Primero se intenta con Web3Forms; si falla, con FormSubmit; si los dos fallan,
+  // el sitio ofrece mandar el mismo mensaje por WhatsApp para no perder la solicitud.
   formulario: {
-    // Web3Forms (web3forms.com, gratuito): la llave se crea con el correo nortea.ic@gmail.com y llega a ese
-    // mismo correo. Es pública por diseño (va en la página). Con llave, éste es el envío principal.
-    web3formsKey: "",
-    // FormSubmit (respaldo): envía directo a este correo; la primera vez pide activarlo desde ese correo.
+    // Web3Forms (web3forms.com, formulario "NORTEA Contacto" de la cuenta nortea.ic@gmail.com). La llave es
+    // pública por diseño (va en la página). Si la cambias, cámbiala también en el <form> de index.html.
+    web3formsKey: "813ac67a-112e-466f-b460-bd08d8b3d775",
+    // FormSubmit (respaldo): envía directo a este correo; la primera vez pide activarlo desde ese correo
+    // ("Activate Form"). Mientras no esté activado, si Web3Forms falla se ofrece WhatsApp.
     destino: "nortea.ic@gmail.com",
     asunto: "Nueva solicitud de cotización · NORTEA",
   },

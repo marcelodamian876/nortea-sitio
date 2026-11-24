@@ -52,7 +52,7 @@
   <link rel="stylesheet" href="assets/css/rediseno.css?v=20261120a">
   <script>document.documentElement.classList.add('js')</script>
 
-  <script src="site.config.js?v=20261124a" defer></script>
+  <script src="site.config.js?v=20261124b" defer></script>
   <script src="assets/js/main.js?v=20261124a" defer></script>
   <script src="assets/js/obras.js?v=20261103b" defer></script>
   <script src="assets/js/rediseno.js?v=20261103a" defer></script>
@@ -296,9 +296,13 @@
       <div class="container cta__inner reveal">
         <h2 class="section-title section-title--light" id="cotizar-title"><span class="eyebrow eyebrow--light">Cotiza tu obra en Monterrey</span> Hablemos de tu próximo proyecto.</h2>
         <p class="cta__lead">Déjanos tus datos y cuéntanos qué necesitas. Tu solicitud nos llega directo al correo y te respondemos por WhatsApp o por correo.</p>
-        <!-- El formulario se envía al correo de site.config.js (formulario.destino) con FormSubmit.
-             Si el envío por correo falla, ofrece mandar el mismo mensaje por WhatsApp. -->
-        <form class="quote-form" id="quote-form">
+        <!-- El formulario llega a nortea.ic@gmail.com. assets/js/rediseno.js lo envía con Web3Forms (llave en
+             site.config.js), luego FormSubmit, y si los dos fallan ofrece WhatsApp, sin salir de la página.
+             action, method y los campos ocultos son el respaldo por si el JavaScript no carga. -->
+        <form class="quote-form" id="quote-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="813ac67a-112e-466f-b460-bd08d8b3d775">
+          <input type="hidden" name="subject" value="Nueva solicitud de cotización · NORTEA">
+          <input type="hidden" name="from_name" value="Sitio web NORTEA">
           <div><label for="q-nombre">Nombre</label><input id="q-nombre" name="nombre" required maxlength="80" autocomplete="name" placeholder="Tu nombre"></div>
           <div><label for="q-tel">WhatsApp o teléfono</label><input id="q-tel" name="telefono" type="tel" inputmode="tel" required maxlength="20" pattern="[0-9 +()\-]{8,20}" autocomplete="tel" placeholder="Ej. 81 1234 5678"></div>
           <div><label for="q-correo">Correo <span class="quote-form__opcional">(opcional)</span></label><input id="q-correo" name="correo" type="email" maxlength="120" autocomplete="email" placeholder="tucorreo@ejemplo.com"></div>
