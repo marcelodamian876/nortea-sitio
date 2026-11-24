@@ -49,13 +49,13 @@
   <link rel="preload" as="image" href="assets/video/v12/portada-v12-1920x1080.jpg?v=1" media="(min-aspect-ratio: 4/5) and (min-width: 640px)" fetchpriority="high">
   <link rel="preload" as="image" href="assets/video/v12/portada-v12-movil-720x1280.jpg?v=1" media="(max-aspect-ratio: 4/5), (max-width: 639px)" fetchpriority="high">
   <link rel="stylesheet" href="assets/css/styles.css?v=20261030a">
-  <link rel="stylesheet" href="assets/css/rediseno.css?v=20261124a">
+  <link rel="stylesheet" href="assets/css/rediseno.css?v=20261124b">
   <script>document.documentElement.classList.add('js')</script>
 
-  <script src="site.config.js?v=20261124d" defer></script>
+  <script src="site.config.js?v=20261124e" defer></script>
   <script src="assets/js/main.js?v=20261124b" defer></script>
   <script src="assets/js/obras.js?v=20261103b" defer></script>
-  <script src="assets/js/rediseno.js?v=20261124a" defer></script>
+  <script src="assets/js/rediseno.js?v=20261124b" defer></script>
 
   <!-- ANALÍTICA
        Google Analytics 4 va arriba, al principio del <head> (también en aviso-de-privacidad.html y 404.html).
@@ -268,6 +268,7 @@
             </div>
           </li>
         </ul>
+        <p class="servicios__todos"><a class="btn btn--outline-dark" href="/servicios/">Ver todos los servicios</a></p>
       </div>
     </section>
 
@@ -384,19 +385,13 @@
       </div>
     </div>
     <nav class="container footer__servicios" aria-label="Servicios">
-      <h2 class="footer__title">Servicios</h2>
-      <ul role="list">
-        <li><a href="/construccion-de-casas/">Construcción de casas</a></li>
-        <li><a href="/remodelacion-de-casas/">Remodelación de casas</a></li>
-        <li><a href="/ampliacion-de-casas/">Ampliación de casas</a></li>
-        <li><a href="/adecuacion-de-locales/">Locales comerciales y oficinas</a></li>
-        <li><a href="/obra-industrial/">Obra industrial</a></li>
-        <li><a href="/constructoras/">Constructoras y despachos</a></li>
-        <li><a href="/obra-civil/">Obra civil</a></li>
-        <li><a href="/tablaroca-y-durock/">Tablaroca y Durock</a></li>
-        <li><a href="/acabados/">Acabados</a></li>
-        <li><a href="/proyectos-ejecutivos/">Topografía y mecánica de suelos</a></li>
-      </ul>
+      <h2 class="footer__title"><a href="/servicios/">Servicios</a></h2>
+      <div class="footer__grupos">
+        <div><h3>Para tu casa</h3><ul role="list"><li><a href="/construccion-de-casas/">Construcción de casas</a></li><li><a href="/remodelacion-de-casas/">Remodelación de casas</a></li><li><a href="/ampliacion-de-casas/">Ampliación de casas</a></li><li><a href="/construccion-de-segundo-piso/">Segundo piso</a></li><li><a href="/construccion-ligera/">Construcción ligera (steel frame)</a></li><li><a href="/remodelacion-de-fachadas/">Fachadas</a></li><li><a href="/remodelacion-de-banos/">Remodelación de baños</a></li><li><a href="/remodelacion-de-cocinas/">Remodelación de cocinas</a></li></ul></div>
+        <div><h3>Para tu negocio e industria</h3><ul role="list"><li><a href="/adecuacion-de-locales/">Adecuación de locales y oficinas</a></li><li><a href="/obra-industrial/">Obra industrial</a></li><li><a href="/constructoras/">Constructoras y despachos</a></li><li><a href="/construccion-de-locales-comerciales/">Construcción de locales comerciales</a></li><li><a href="/remodelacion-de-oficinas/">Remodelación de oficinas</a></li><li><a href="/naves-industriales/">Naves industriales y bodegas</a></li></ul></div>
+        <div><h3>Especialidades</h3><ul role="list"><li><a href="/obra-civil/">Obra civil</a></li><li><a href="/tablaroca-y-durock/">Tablaroca y Durock</a></li><li><a href="/acabados/">Acabados</a></li><li><a href="/muros-de-tablaroca/">Muros de tablaroca</a></li><li><a href="/plafones-de-tablaroca/">Plafones y cajillos</a></li><li><a href="/muros-de-durock/">Muros de Durock</a></li><li><a href="/instalacion-de-porcelanato/">Instalación de porcelanato</a></li></ul></div>
+        <div><h3>Estudios y proyecto</h3><ul role="list"><li><a href="/proyectos-ejecutivos/">Proyecto ejecutivo</a></li><li><a href="/estudio-de-mecanica-de-suelos/">Mecánica de suelos</a></li><li><a href="/levantamiento-topografico/">Levantamiento topográfico</a></li></ul></div>
+      </div>
     </nav>
     <div class="container footer__bottom">
       <p>© <span id="year">2026</span> NORTEA Ingeniería y Construcción. Todos los derechos reservados.</p>

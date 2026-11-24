@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://nortea.mx/servicios/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://nortea.mx/construccion-de-casas/</loc>
     <lastmod>2026-11-24</lastmod>
     <priority>0.8</priority>
@@ -17,6 +22,31 @@
   </url>
   <url>
     <loc>https://nortea.mx/ampliacion-de-casas/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/construccion-de-segundo-piso/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/construccion-ligera/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/remodelacion-de-fachadas/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/remodelacion-de-banos/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/remodelacion-de-cocinas/</loc>
     <lastmod>2026-11-24</lastmod>
     <priority>0.8</priority>
   </url>
@@ -36,6 +66,21 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://nortea.mx/construccion-de-locales-comerciales/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/remodelacion-de-oficinas/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/naves-industriales/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://nortea.mx/obra-civil/</loc>
     <lastmod>2026-11-24</lastmod>
     <priority>0.8</priority>
@@ -51,7 +96,37 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://nortea.mx/muros-de-tablaroca/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/plafones-de-tablaroca/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/muros-de-durock/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/instalacion-de-porcelanato/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://nortea.mx/proyectos-ejecutivos/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/estudio-de-mecanica-de-suelos/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nortea.mx/levantamiento-topografico/</loc>
     <lastmod>2026-11-24</lastmod>
     <priority>0.8</priority>
   </url>

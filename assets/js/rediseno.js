@@ -46,6 +46,7 @@
     "obra-civil": [null, "Obra civil"],
     tablaroca: [null, "Tablaroca y Durock"],
     acabados: [null, "Acabados"],
+    fachadas: [null, "Fachadas"],
     proyecto: [null, "Proyecto ejecutivo (topografía, mecánica de suelos y planos)"],
   };
   try {

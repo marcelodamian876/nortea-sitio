@@ -17,7 +17,7 @@
       "slug": "construccion-de-casas",
       "nombre": "Construcción de casas",
       "titulo": "Construcción de casas en Monterrey | NORTEA",
-      "descripcion": "Construimos tu casa en Monterrey y su área metropolitana: estudios del terreno, cimentación, estructura, losas, albañilería y acabados. Cotización formal por escrito.",
+      "descripcion": "Construimos tu casa en Monterrey: estudios del terreno, cimentación, estructura, losas, albañilería y acabados. Cotización formal por escrito.",
       "h1": "Construcción de casas en Monterrey",
       "lead": "Construimos tu casa de principio a fin: del estudio del terreno y la cimentación a los acabados y la entrega, con una sola empresa responsable de la obra.",
       "wa": "casa",
@@ -84,13 +84,14 @@
           "r": "Sí. Si ya tienes casa y quieres renovarla o crecerla, revisa nuestras páginas de remodelación de casas y de ampliación de casas."
         }
       ],
-      "form": "casa"
+      "form": "casa",
+      "grupo": "casa"
     },
     {
       "slug": "remodelacion-de-casas",
       "nombre": "Remodelación de casas",
       "titulo": "Remodelación de casas en Monterrey | NORTEA",
-      "descripcion": "Remodelamos casas en Monterrey: fachadas, pisos, muros y plafones de tablaroca, demoliciones, estuco y pintura, de la obra negra a los acabados. Cotización formal por escrito.",
+      "descripcion": "Remodelamos casas en Monterrey: fachadas, pisos, muros y plafones de tablaroca, estuco y pintura, de la obra negra a los acabados. Cotización por escrito.",
       "h1": "Remodelación de casas en Monterrey",
       "lead": "Renovamos tu casa por dentro y por fuera: fachada, pisos, muros, plafones y acabados, con una sola empresa responsable de la obra.",
       "wa": "remodelacion",
@@ -156,13 +157,14 @@
           "p": "¿También hacen ampliaciones?",
           "r": "Sí. Si además necesitas más espacio, revisa nuestra página de ampliación de casas."
         }
-      ]
+      ],
+      "grupo": "casa"
     },
     {
       "slug": "ampliacion-de-casas",
       "nombre": "Ampliación de casas",
-      "titulo": "Ampliación de casas en Monterrey: cuartos, segundo nivel y terrazas | NORTEA",
-      "descripcion": "Ampliamos casas en Monterrey: cuartos adicionales, segundo nivel y cierres de terraza, con concreto o sistemas ligeros de Durock y tablaroca. Cotización formal por escrito.",
+      "titulo": "Ampliación de casas en Monterrey: cuartos y segundo nivel | NORTEA",
+      "descripcion": "Ampliamos casas en Monterrey: cuartos adicionales, segundo nivel y cierres de terraza, con concreto o construcción ligera. Cotización formal por escrito.",
       "h1": "Ampliación de casas en Monterrey",
       "lead": "Cuartos adicionales, ampliaciones en segundo nivel y cierres de terraza, con concreto o con sistemas ligeros de Durock y tablaroca.",
       "wa": "ampliacionCasa",
@@ -219,11 +221,328 @@
           "p": "¿Pueden cerrar mi terraza?",
           "r": "Sí. Cerramos terrazas para convertirlas en un cuarto o un área techada, con muros, plafón y acabados."
         }
+      ],
+      "grupo": "casa"
+    },
+    {
+      "slug": "construccion-de-segundo-piso",
+      "grupo": "casa",
+      "nombre": "Segundo piso",
+      "wa": "segundoPiso",
+      "form": "ampliacion",
+      "titulo": "Construcción de segundo piso en Monterrey | NORTEA",
+      "descripcion": "Construimos el segundo piso de tu casa en Monterrey, con concreto o con construcción ligera de steel frame, Durock y tablaroca. Cotización formal por escrito.",
+      "h1": "Construcción de segundo piso en Monterrey",
+      "lead": "Ampliamos tu casa hacia arriba: recámaras, estudio o terraza en un segundo nivel, con concreto o con construcción ligera.",
+      "intro": [
+        "Construir hacia arriba te da más espacio sin perder patio. Antes de cotizar hay que revisar la cimentación y la estructura de tu casa para saber qué carga soportan; con eso te recomendamos construir con concreto o con un sistema ligero de perfiles metálicos, Durock y tablaroca, que pesa mucho menos.",
+        "Hacemos la obra completa, de la estructura a los acabados, y te entregamos una cotización formal por escrito con conceptos y alcances definidos."
+      ],
+      "incluye": [
+        "Revisión de la estructura existente",
+        "Estructura de concreto o de perfiles metálicos",
+        "Losa o cubierta del nuevo nivel",
+        "Muros exteriores de Durock",
+        "Muros y plafones de tablaroca",
+        "Fachada del nuevo nivel",
+        "Pisos, estuco, empastado y pintura"
+      ],
+      "fotos": [
+        {
+          "src": "obras/fachada-residencial-monterrey/02.webp",
+          "alt": "Fachada con andamios y volumen ligero en altura",
+          "pie": "Volumen ligero en fachada · Monterrey"
+        },
+        {
+          "src": "obras/tablaroca-durock/durock.webp",
+          "alt": "Muros forrados con placas de Durock",
+          "pie": "Muros forrados con Durock"
+        },
+        {
+          "src": "obras/obra-civil/armado-acero.webp",
+          "alt": "Armado de acero de columnas y trabes antes del colado",
+          "pie": "Armado de acero de columnas y trabes"
+        },
+        {
+          "src": "obras/habitaciones/habitacion-ventanal.webp",
+          "alt": "Habitación terminada con plafón liso, muros y ventanal de piso a techo",
+          "pie": "Habitación terminada con plafón liso y ventanal"
+        }
+      ],
+      "faq": [
+        {
+          "p": "¿Mi casa aguanta un segundo piso?",
+          "r": "Depende de la cimentación y de la estructura actual, por eso primero se revisan. Si no conviene cargar más concreto, la construcción ligera pesa mucho menos y suele ser la mejor opción."
+        },
+        {
+          "p": "¿Qué es mejor para el segundo piso, concreto o construcción ligera?",
+          "r": "El concreto es lo tradicional; la construcción ligera con steel frame pesa menos y se instala más rápido. Te recomendamos la opción adecuada después de revisar tu casa."
+        },
+        {
+          "p": "¿Cuánto cuesta construir un segundo piso?",
+          "r": "Depende de los metros, del sistema de construcción y de los acabados. Mándanos fotos y medidas por WhatsApp y te enviamos una cotización formal por escrito con cada concepto."
+        },
+        {
+          "p": "¿Tengo que salirme de la casa durante la obra?",
+          "r": "En muchos casos no, porque el trabajo es arriba. Lo platicamos al revisar tu proyecto para organizar la obra por etapas."
+        }
+      ]
+    },
+    {
+      "slug": "construccion-ligera",
+      "grupo": "casa",
+      "nombre": "Construcción ligera (steel frame)",
+      "wa": "construccionLigera",
+      "form": "ampliacion",
+      "titulo": "Construcción ligera con steel frame en Monterrey | NORTEA",
+      "descripcion": "Construcción ligera con steel frame en Monterrey: segundos pisos, cuartos en azotea, volúmenes de fachada y ampliaciones con Durock y tablaroca.",
+      "h1": "Construcción ligera con steel frame en Monterrey",
+      "lead": "Segundos pisos, cuartos en la azotea, ampliaciones y volúmenes de fachada con perfiles de acero, Durock y tablaroca: menos peso y obra más rápida.",
+      "intro": [
+        "La construcción ligera, o steel frame, forma muros y techos con perfiles de acero galvanizado. Por fuera se forra con Durock, que resiste la intemperie, y por dentro con tablaroca, con aislante entre ambas caras.",
+        "Pesa mucho menos que el concreto, así que es ideal para construir sobre una casa existente o en la azotea. La calculamos para el uso de tu proyecto y te entregamos una cotización formal por escrito."
+      ],
+      "incluye": [
+        "Estructura de perfiles de acero galvanizado",
+        "Muros exteriores de Durock",
+        "Muros interiores y plafones de tablaroca",
+        "Aislante en muros",
+        "Cubierta del nuevo espacio",
+        "Juntas, estuco, empastado y pintura"
+      ],
+      "fotos": [
+        {
+          "src": "obras/fachada-residencial-monterrey/02.webp",
+          "alt": "Fachada con andamios y volumen ligero en altura",
+          "pie": "Volumen ligero en fachada · Monterrey"
+        },
+        {
+          "src": "obras/tablaroca-durock/durock.webp",
+          "alt": "Muros forrados con placas de Durock",
+          "pie": "Muros forrados con Durock"
+        },
+        {
+          "src": "assets/img/nosotros/fachada-edificio.webp",
+          "alt": "Estructura para fachada de edificio en altura",
+          "pie": "Estructura para fachada en altura"
+        },
+        {
+          "src": "obras/fachadas/edificio-plataforma.webp",
+          "alt": "Plataforma colgante y forro exterior en la fachada de un edificio",
+          "pie": "Forro exterior de fachada con plataforma colgante"
+        }
+      ],
+      "faq": [
+        {
+          "p": "¿Qué es el steel frame?",
+          "r": "Es un sistema de construcción con perfiles de acero galvanizado ligero que forman la estructura de muros y techos. Se forra con Durock por fuera y con tablaroca por dentro."
+        },
+        {
+          "p": "¿Es resistente?",
+          "r": "Sí, cuando se calcula para las cargas del proyecto y se instala correctamente. Por eso revisamos el uso que le darás antes de cotizar."
+        },
+        {
+          "p": "¿Sirve para un segundo piso o un cuarto en la azotea?",
+          "r": "Sí, es de sus usos más comunes, porque carga mucho menos peso sobre la casa que una construcción de concreto."
+        },
+        {
+          "p": "¿Cuánto cuesta el metro cuadrado de construcción ligera?",
+          "r": "Depende del tamaño, del uso y de los acabados. Mándanos medidas y fotos por WhatsApp y te enviamos una cotización formal por escrito."
+        },
+        {
+          "p": "¿Es más rápida que el concreto?",
+          "r": "Por lo general sí: no hay que esperar a que fragüe el concreto y los materiales llegan listos para armar."
+        }
+      ]
+    },
+    {
+      "slug": "remodelacion-de-fachadas",
+      "grupo": "casa",
+      "nombre": "Fachadas",
+      "wa": "fachadas",
+      "form": "fachadas",
+      "titulo": "Remodelación de fachadas en Monterrey | NORTEA",
+      "descripcion": "Remodelación de fachadas de casas y negocios en Monterrey: volúmenes ligeros, recubrimientos de gran formato, piedra, estuco, jardineras y pintura.",
+      "h1": "Remodelación de fachadas en Monterrey",
+      "lead": "Cambiamos la cara de tu casa o tu negocio: volúmenes ligeros, recubrimientos, estuco, jardineras y pintura.",
+      "intro": [
+        "La fachada es lo primero que se ve. La renovamos con volúmenes de perfiles metálicos y Durock, recubrimientos de gran formato, piedra, estuco, jardineras y pintura, en casas, locales y edificios.",
+        "Casi todo el trabajo es por fuera, así que puedes seguir usando tu casa o tu negocio. Te entregamos una cotización formal por escrito con conceptos y alcances definidos."
+      ],
+      "incluye": [
+        "Volúmenes y molduras ligeras con Durock",
+        "Recubrimientos de gran formato",
+        "Piedra y recubrimientos de madera",
+        "Estuco y pintura",
+        "Jardineras",
+        "Fachadas de locales y edificios en altura"
+      ],
+      "fotos": [
+        {
+          "src": "obras/remodelaciones/casa-terminada.webp",
+          "alt": "Fachada residencial terminada con celosía de madera, piedra y puerta de madera",
+          "pie": "Adecuación de fachada residencial terminada · Monterrey"
+        },
+        {
+          "src": "obras/fachada-residencial-monterrey/02.webp",
+          "alt": "Fachada con andamios y volumen ligero en altura",
+          "pie": "La misma fachada durante la obra · Monterrey"
+        },
+        {
+          "src": "obras/adecuaciones-edificio-san-nicolas/01.webp",
+          "alt": "Fachada con jardineras y recubrimiento en tono madera",
+          "pie": "Fachadas y acabados · San Nicolás de los Garza"
+        },
+        {
+          "src": "assets/img/servicios/acabados.webp",
+          "alt": "Fachada terminada con recubrimiento de gran formato en tono arena",
+          "pie": "Recubrimiento de gran formato en fachada"
+        },
+        {
+          "src": "obras/acabados/aplicacion-estuco.webp",
+          "alt": "Dos trabajadores con casco aplicando estuco en la fachada de un edificio",
+          "pie": "Aplicación de estuco en fachada"
+        }
+      ],
+      "faq": [
+        {
+          "p": "¿Pueden cambiar la fachada sin tocar el interior?",
+          "r": "Sí. En la mayoría de los casos el trabajo es por fuera: volúmenes ligeros, recubrimientos, estuco y pintura."
+        },
+        {
+          "p": "¿Qué materiales usan?",
+          "r": "Volúmenes de perfiles metálicos con Durock, recubrimientos de gran formato, piedra, recubrimientos en tono madera, estuco, pintura y jardineras, según el estilo que busques."
+        },
+        {
+          "p": "¿Hacen fachadas de locales y edificios?",
+          "r": "Sí, también en altura, con plataformas, como la aplicación de estuco en la fachada de un edificio que ves en esta página."
+        },
+        {
+          "p": "¿Cuánto cuesta remodelar una fachada?",
+          "r": "Depende de los metros, de los materiales y de lo que haya que construir. Mándanos fotos de tu fachada por WhatsApp y te enviamos una cotización formal por escrito."
+        }
+      ]
+    },
+    {
+      "slug": "remodelacion-de-banos",
+      "grupo": "casa",
+      "nombre": "Remodelación de baños",
+      "wa": "banos",
+      "form": "remodelacion",
+      "titulo": "Remodelación de baños en Monterrey | NORTEA",
+      "descripcion": "Remodelación de baños en Monterrey: demolición, muros de Durock para zonas húmedas, pisos y muros de porcelanato o mármol, plafones e iluminación.",
+      "h1": "Remodelación de baños en Monterrey",
+      "lead": "Renovamos tu baño completo o por partes: demolición, muros para zonas húmedas, pisos y muros de porcelanato o mármol, plafón e iluminación.",
+      "intro": [
+        "Un baño bien remodelado se nota todos los días. Demolemos lo que haya que cambiar, levantamos muros de Durock donde hay humedad, colocamos pisos y muros de porcelanato o mármol, hacemos plafones y dejamos los detalles terminados.",
+        "Si tu remodelación incluye cambios de instalaciones, los revisamos contigo al cotizar. Recibes una cotización formal por escrito con conceptos y alcances definidos."
+      ],
+      "incluye": [
+        "Demolición de pisos y recubrimientos",
+        "Muros de Durock para zonas húmedas",
+        "Pisos y muros de porcelanato o mármol",
+        "Plafón e iluminación",
+        "Nichos y repisas de obra",
+        "Detalles y remates finales"
+      ],
+      "fotos": [
+        {
+          "src": "obras/acabados/marmol-instalacion.webp",
+          "alt": "Placas de mármol en muro con niveladores durante la instalación",
+          "pie": "Instalación de mármol en muro"
+        },
+        {
+          "src": "obras/acabados/marmol-muro.webp",
+          "alt": "Muro con recubrimiento de mármol recién instalado",
+          "pie": "Muro de mármol"
+        },
+        {
+          "src": "obras/tablaroca-durock/durock.webp",
+          "alt": "Muros forrados con placas de Durock",
+          "pie": "Muros forrados con Durock"
+        }
+      ],
+      "faq": [
+        {
+          "p": "¿Cuánto cuesta remodelar un baño?",
+          "r": "Depende del tamaño, de lo que haya que demoler y de los materiales que elijas. Mándanos fotos y medidas por WhatsApp y te enviamos una cotización formal por escrito."
+        },
+        {
+          "p": "¿Qué material conviene en las zonas que se mojan?",
+          "r": "En muros húmedos conviene Durock, un panel de cemento, en lugar de tablaroca, y recubrimientos como porcelanato o mármol bien sellados."
+        },
+        {
+          "p": "¿Remodelan baños pequeños?",
+          "r": "Sí. En un baño pequeño un recubrimiento de gran formato y un buen nicho hacen que se vea más amplio y ordenado."
+        },
+        {
+          "p": "¿Cuánto tiempo estaré sin baño?",
+          "r": "Depende del alcance. Al cotizar te decimos cómo organizamos la obra para que estés el menor tiempo posible sin él."
+        }
+      ]
+    },
+    {
+      "slug": "remodelacion-de-cocinas",
+      "grupo": "casa",
+      "nombre": "Remodelación de cocinas",
+      "wa": "cocinas",
+      "form": "remodelacion",
+      "titulo": "Remodelación de cocinas en Monterrey | NORTEA",
+      "descripcion": "Remodelación de cocinas en Monterrey: demolición, muros y plafones de tablaroca, cajillos con iluminación, pisos y recubrimientos, lista para tus muebles.",
+      "h1": "Remodelación de cocinas en Monterrey",
+      "lead": "Renovamos tu cocina: demolición, muros y plafones, cajillos con iluminación, pisos y recubrimientos, y el espacio listo para tus muebles.",
+      "intro": [
+        "Remodelamos cocinas completas o por partes: demolemos lo que haya que cambiar, hacemos muros y plafones de tablaroca, cajillos para iluminación, pisos y recubrimientos de porcelanato o mármol, y pintura.",
+        "Si ya tienes proveedor de muebles de cocina, dejamos el espacio listo para su instalación. Recibes una cotización formal por escrito con conceptos y alcances definidos."
+      ],
+      "incluye": [
+        "Demolición de muros, pisos y recubrimientos",
+        "Muros y plafones de tablaroca",
+        "Cajillos con iluminación",
+        "Pisos de porcelanato o mármol",
+        "Recubrimientos de muros",
+        "Espacio listo para muebles de cocina",
+        "Empastado y pintura"
+      ],
+      "fotos": [
+        {
+          "src": "obras/tablaroca-durock/plafon-ventanal.webp",
+          "alt": "Plafón y muro de tablaroca terminados junto a un ventanal con vista a la ciudad",
+          "pie": "Plafón y muros de tablaroca terminados"
+        },
+        {
+          "src": "obras/locales-comerciales/local-piso-marmol.webp",
+          "alt": "Local comercial con muros de tablaroca, iluminación colgante y piso de mármol",
+          "pie": "Local comercial con piso de mármol"
+        },
+        {
+          "src": "obras/acabados/marmol-muro.webp",
+          "alt": "Muro con recubrimiento de mármol recién instalado",
+          "pie": "Muro de mármol"
+        }
+      ],
+      "faq": [
+        {
+          "p": "¿Cuánto cuesta remodelar una cocina?",
+          "r": "Depende del tamaño, de lo que haya que demoler y de los acabados. Mándanos fotos y medidas por WhatsApp y te enviamos una cotización formal por escrito."
+        },
+        {
+          "p": "¿Instalan los muebles de cocina?",
+          "r": "Hacemos la obra: demolición, muros, plafones, iluminación, pisos y recubrimientos. Si ya tienes proveedor de muebles, dejamos el espacio listo para que los instale."
+        },
+        {
+          "p": "¿Pueden abrir la cocina hacia la sala?",
+          "r": "Si el muro no es de carga, se puede demoler; si lo es, hay que revisarlo con un cálculo estructural antes de quitarlo."
+        },
+        {
+          "p": "¿Remodelan cocinas pequeñas?",
+          "r": "Sí. En una cocina pequeña el plafón con cajillo, la iluminación y los recubrimientos claros ayudan mucho a que se vea más amplia."
+        }
       ]
     },
     {
       "slug": "adecuacion-de-locales",
-      "nombre": "Locales comerciales y oficinas",
+      "nombre": "Adecuación de locales y oficinas",
       "titulo": "Adecuación y remodelación de locales comerciales en Monterrey | NORTEA",
       "descripcion": "Adecuación y remodelación de locales comerciales y oficinas en Monterrey: muros y plafones de tablaroca, instalaciones eléctricas, pisos, acabados y pintura.",
       "h1": "Adecuación y remodelación de locales comerciales en Monterrey",
@@ -290,13 +609,14 @@
           "r": "Depende del tamaño y del alcance. Al cotizar te damos el alcance por escrito y programamos el inicio de la obra contigo."
         }
       ],
-      "form": "local"
+      "form": "local",
+      "grupo": "negocio"
     },
     {
       "slug": "obra-industrial",
       "nombre": "Obra industrial",
-      "titulo": "Obra industrial en Monterrey: naves, firmes y muros de gran altura | NORTEA",
-      "descripcion": "Obra industrial en Monterrey y su área metropolitana: naves, firmes y losas de concreto, muros de panel de gran altura y trabajo en altura, con personal en regla.",
+      "titulo": "Obra industrial en Monterrey: naves, firmes y muros | NORTEA",
+      "descripcion": "Obra industrial en Monterrey: naves, firmes y losas de concreto, muros de panel de gran altura y trabajo en altura, con personal en regla.",
       "h1": "Obra industrial en Monterrey",
       "lead": "Naves, firmes y losas de concreto, muros de panel de gran altura y trabajo en altura para la industria, con personal en regla y coordinación en obra.",
       "wa": "industrial",
@@ -358,13 +678,14 @@
           "p": "¿Cómo cotizan una obra industrial?",
           "r": "Con planos, catálogo de conceptos o el alcance de la obra. Revisamos cantidades y condiciones y te enviamos una cotización formal por escrito."
         }
-      ]
+      ],
+      "grupo": "negocio"
     },
     {
       "slug": "constructoras",
       "nombre": "Constructoras y despachos",
-      "titulo": "Contratista para constructoras y despachos de arquitectura en Monterrey | NORTEA",
-      "descripcion": "Ejecutamos partidas de obra civil, tablaroca, Durock y acabados para constructoras, desarrolladoras y despachos de arquitectura en Monterrey, con personal en regla.",
+      "titulo": "Contratista para constructoras y despachos en Monterrey | NORTEA",
+      "descripcion": "Partidas de obra civil, tablaroca, Durock y acabados para constructoras, desarrolladoras y despachos de arquitectura en Monterrey, con personal en regla.",
       "h1": "Contratista para constructoras y despachos de arquitectura en Monterrey",
       "lead": "Ejecutamos partidas de obra civil, acabados, tablaroca y Durock dentro de tu proyecto, con personal en regla y coordinación en obra.",
       "wa": "subcontratacion",
@@ -424,13 +745,203 @@
           "r": "Directa, para definir partidas y condiciones de ejecución, y coordinada con tu residente o tu equipo en obra."
         }
       ],
-      "form": "constructora"
+      "form": "constructora",
+      "grupo": "negocio"
+    },
+    {
+      "slug": "construccion-de-locales-comerciales",
+      "grupo": "negocio",
+      "nombre": "Construcción de locales comerciales",
+      "wa": "localNuevo",
+      "form": "local",
+      "titulo": "Construcción de locales comerciales en Monterrey | NORTEA",
+      "descripcion": "Construcción de locales comerciales en Monterrey: obra civil, muros, fachada, plafones, pisos y acabados, entregados en obra gris o terminados.",
+      "h1": "Construcción de locales comerciales en Monterrey",
+      "lead": "Construimos tu local comercial: obra civil, muros, fachada, plafones, pisos y acabados, en obra gris o terminado y listo para operar.",
+      "intro": [
+        "Construimos locales comerciales en Monterrey y su área metropolitana, de la obra civil a los acabados: firmes, estructura y muros, fachada, plafones, pisos e instalaciones eléctricas e iluminación.",
+        "Te lo entregamos en obra gris o terminado, según lo que necesites, con una cotización formal por escrito con conceptos y alcances definidos."
+      ],
+      "incluye": [
+        "Obra civil: firmes, estructura y muros",
+        "Fachada del local",
+        "Muros y plafones de tablaroca",
+        "Instalaciones eléctricas e iluminación",
+        "Pisos de porcelanato o mármol",
+        "Entrega en obra gris o terminado"
+      ],
+      "fotos": [
+        {
+          "src": "obras/locales-comerciales/local-piso-marmol.webp",
+          "alt": "Local comercial con muros de tablaroca, iluminación colgante y piso de mármol",
+          "pie": "Local comercial con piso de mármol"
+        },
+        {
+          "src": "obras/locales-comerciales/local-tablaroca.webp",
+          "alt": "Local comercial con muros y plafón de tablaroca en proceso",
+          "pie": "Adecuación de local comercial: muros y plafón"
+        },
+        {
+          "src": "obras/adecuaciones-edificio-san-nicolas/01.webp",
+          "alt": "Fachada con jardineras y recubrimiento en tono madera",
+          "pie": "Fachadas y acabados · San Nicolás de los Garza"
+        },
+        {
+          "src": "obras/obra-civil-particulares/01.webp",
+          "alt": "Colado con camión revolvedor en obra civil",
+          "pie": "Colado de concreto · Monterrey"
+        }
+      ],
+      "faq": [
+        {
+          "p": "¿Construyen el local desde cero?",
+          "r": "Sí, desde la obra civil hasta los acabados. Si ya tienes proyecto, lo revisamos; si no, te ayudamos con el levantamiento topográfico y los planos ejecutivos."
+        },
+        {
+          "p": "¿Lo entregan terminado o en obra gris?",
+          "r": "Como lo necesites: en obra gris para que cada inquilino lo termine, o terminado y listo para operar."
+        },
+        {
+          "p": "¿Cuánto cuesta construir un local comercial?",
+          "r": "Depende de los metros, del terreno y del nivel de acabados. Mándanos tu proyecto o tu idea por WhatsApp y te enviamos una cotización formal por escrito."
+        },
+        {
+          "p": "¿También adecuan locales que ya existen?",
+          "r": "Sí. Si tu local ya está construido, revisa nuestra página de adecuación y remodelación de locales comerciales."
+        }
+      ]
+    },
+    {
+      "slug": "remodelacion-de-oficinas",
+      "grupo": "negocio",
+      "nombre": "Remodelación de oficinas",
+      "wa": "oficinas",
+      "form": "local",
+      "titulo": "Remodelación de oficinas en Monterrey | NORTEA",
+      "descripcion": "Remodelación de oficinas en Monterrey: divisiones de tablaroca, plafones registrables, iluminación, pisos, acabados y pintura, sin detener tu operación.",
+      "h1": "Remodelación de oficinas en Monterrey",
+      "lead": "Divisiones de tablaroca, plafones registrables, iluminación, pisos, acabados y pintura para oficinas corporativas y administrativas.",
+      "intro": [
+        "Remodelamos y habilitamos oficinas: dividimos espacios con muros de tablaroca, hacemos plafones registrables para llegar a las instalaciones, colocamos iluminación, pisos, acabados y pintura.",
+        "Organizamos la obra contigo para afectar lo menos posible tu operación y te entregamos una cotización formal por escrito con conceptos y alcances definidos."
+      ],
+      "incluye": [
+        "Divisiones y muros de tablaroca",
+        "Plafones registrables y corridos",
+        "Iluminación",
+        "Pisos y recubrimientos",
+        "Acabados y pintura",
+        "Obra por etapas para no detener tu operación"
+      ],
+      "fotos": [
+        {
+          "src": "obras/oficinas-edificio-medico/01.webp",
+          "alt": "Oficina con plafón registrable en proceso y muros de panel de yeso",
+          "pie": "Habilitado de oficinas · San Nicolás de los Garza"
+        },
+        {
+          "src": "obras/locales-comerciales/local-tablaroca.webp",
+          "alt": "Local comercial con muros y plafón de tablaroca en proceso",
+          "pie": "Adecuación de local comercial: muros y plafón"
+        },
+        {
+          "src": "obras/tablaroca-durock/plafon-ventanal.webp",
+          "alt": "Plafón y muro de tablaroca terminados junto a un ventanal con vista a la ciudad",
+          "pie": "Plafón y muros de tablaroca terminados"
+        },
+        {
+          "src": "assets/img/servicios/tablaroca.webp",
+          "alt": "Muros de panel de yeso en el cubo de una escalera",
+          "pie": "Muros de panel de yeso"
+        }
+      ],
+      "faq": [
+        {
+          "p": "¿Pueden remodelar mientras seguimos trabajando?",
+          "r": "Sí. Organizamos la obra por áreas o en horarios que afecten menos tu operación; lo definimos contigo al cotizar."
+        },
+        {
+          "p": "¿Qué es un plafón registrable?",
+          "r": "Es un plafón de placas que se pueden quitar para llegar a cables, ductos o tuberías. Es el más práctico para oficinas."
+        },
+        {
+          "p": "¿Hacen divisiones para salas de juntas y privados?",
+          "r": "Sí, con muros de tablaroca; si se necesita privacidad de sonido, se les pone aislante acústico."
+        },
+        {
+          "p": "¿Cuánto cuesta remodelar una oficina?",
+          "r": "Depende de los metros y del alcance. Mándanos el plano o fotos por WhatsApp y te enviamos una cotización formal por escrito."
+        }
+      ]
+    },
+    {
+      "slug": "naves-industriales",
+      "grupo": "negocio",
+      "nombre": "Naves industriales y bodegas",
+      "wa": "naves",
+      "form": "industrial",
+      "titulo": "Construcción de naves industriales y bodegas en Monterrey | NORTEA",
+      "descripcion": "Obra civil para naves industriales y bodegas en Monterrey: compactación, firmes y losas de concreto y muros de panel de gran altura, con personal en regla.",
+      "h1": "Construcción de naves industriales y bodegas en Monterrey",
+      "lead": "Compactación del terreno, firmes y losas de concreto, armados y muros de panel de gran altura para naves industriales y bodegas.",
+      "intro": [
+        "Hacemos la obra civil de naves industriales y bodegas en Monterrey y su área metropolitana: compactación del terreno, firmes de concreto, armados y losas, y muros de panel de gran altura, con plataformas de elevación.",
+        "Trabajamos con personal en regla, organizamos frentes de trabajo y proveedores, y cada partida va con su cotización formal y alcance por escrito."
+      ],
+      "incluye": [
+        "Compactación de terreno",
+        "Firmes de concreto para naves y bodegas",
+        "Armados y losas de concreto",
+        "Muros de panel de gran altura",
+        "Trabajo en altura con plataformas",
+        "Personal en regla"
+      ],
+      "fotos": [
+        {
+          "src": "obras/obra-civil-particulares/02.webp",
+          "alt": "Estructura metálica de nave con firme de concreto",
+          "pie": "Nave y firme de concreto · Monterrey"
+        },
+        {
+          "src": "obras/obra-civil-particulares/03.webp",
+          "alt": "Compactación de terreno para firme",
+          "pie": "Compactación para firme · Monterrey"
+        },
+        {
+          "src": "obras/obra-civil-particulares/01.webp",
+          "alt": "Colado con camión revolvedor en obra civil",
+          "pie": "Colado de concreto · Monterrey"
+        },
+        {
+          "src": "obras/muros-20m-apodaca/01.webp",
+          "alt": "Trabajador en plataforma de elevación junto a un muro de panel de yeso de gran altura",
+          "pie": "Muros de 20 m de altura · Apodaca"
+        }
+      ],
+      "faq": [
+        {
+          "p": "¿Qué parte de la obra de una nave hacen?",
+          "r": "La obra civil: compactación, firmes y losas de concreto, armados, y los muros de panel de gran altura, como partidas o como obra completa."
+        },
+        {
+          "p": "¿Hacen firmes para bodegas?",
+          "r": "Sí, con compactación del terreno, armado y colado del firme."
+        },
+        {
+          "p": "¿Trabajan a gran altura?",
+          "r": "Sí. Hemos hecho muros de panel de yeso de 20 metros de altura en Apodaca, con plataforma de elevación."
+        },
+        {
+          "p": "¿Cómo cotizan una nave o bodega?",
+          "r": "Con planos, catálogo de conceptos o el alcance de la obra. Revisamos cantidades y condiciones y te enviamos una cotización formal por escrito."
+        }
+      ]
     },
     {
       "slug": "obra-civil",
       "nombre": "Obra civil",
       "titulo": "Obra civil en Monterrey: naves, firmes y losas | NORTEA",
-      "descripcion": "Obra civil en Monterrey para casas, negocios e industria: naves, firmes y losas de concreto, armados, zarpeos, demoliciones y albañilería. Cotización formal por escrito.",
+      "descripcion": "Obra civil en Monterrey para casas, negocios e industria: naves, firmes y losas, armados, zarpeos, demoliciones y albañilería. Cotización formal por escrito.",
       "h1": "Obra civil en Monterrey",
       "lead": "Naves, firmes y losas de concreto, armados de acero, zarpeos, demoliciones y albañilería para casas, negocios e industria.",
       "wa": "obraCivil",
@@ -493,13 +1004,14 @@
           "r": "Sí. Para firmes, losas y cimentaciones conviene partir de un estudio de mecánica de suelos; lo hacemos junto con el levantamiento topográfico."
         }
       ],
-      "form": "obra-civil"
+      "form": "obra-civil",
+      "grupo": "especialidad"
     },
     {
       "slug": "tablaroca-y-durock",
       "nombre": "Tablaroca y Durock",
       "titulo": "Tablaroca y Durock en Monterrey: muros, plafones y fachadas | NORTEA",
-      "descripcion": "Instalación de tablaroca y Durock en Monterrey: muros, plafones corridos y registrables, cajillos, nichos y fachadas, con empastado y pintura. Cotización formal por escrito.",
+      "descripcion": "Tablaroca y Durock en Monterrey: muros, plafones corridos y registrables, cajillos, nichos y fachadas, con empastado y pintura. Cotización por escrito.",
       "h1": "Tablaroca y Durock en Monterrey",
       "lead": "Muros y plafones de tablaroca, muros y fachadas de Durock, cajillos y nichos, entregados con empastado y pintura.",
       "wa": "tablaroca",
@@ -570,7 +1082,8 @@
           "r": "Sí, podemos entregar los muros y plafones terminados, con juntas, empastado y pintura."
         }
       ],
-      "form": "tablaroca"
+      "form": "tablaroca",
+      "grupo": "especialidad"
     },
     {
       "slug": "acabados",
@@ -637,11 +1150,275 @@
           "r": "Mándanos por WhatsApp las medidas, fotos del lugar y el tipo de material que quieres. Te enviamos una cotización formal por escrito con conceptos y alcances."
         }
       ],
-      "form": "acabados"
+      "form": "acabados",
+      "grupo": "especialidad"
+    },
+    {
+      "slug": "muros-de-tablaroca",
+      "grupo": "especialidad",
+      "nombre": "Muros de tablaroca",
+      "wa": "murosTablaroca",
+      "form": "tablaroca",
+      "titulo": "Muros de tablaroca en Monterrey: a una y dos caras | NORTEA",
+      "descripcion": "Muros de tablaroca en Monterrey: divisiones a una y dos caras, con puerta, con aislante acústico, curvos y de gran altura, con empastado y pintura.",
+      "h1": "Muros de tablaroca en Monterrey",
+      "lead": "Divisiones de tablaroca a una y dos caras, con puerta, con aislante acústico, curvas o de gran altura, entregadas con empastado y pintura.",
+      "intro": [
+        "Un muro de tablaroca divide espacios rápido y sin la obra pesada de un muro de block. Lo armamos con estructura metálica y placa de panel de yeso, en casas, locales, oficinas y obras de gran altura.",
+        "Lo entregamos terminado, con juntas, empastado y pintura, y con los refuerzos para puertas o para colgar repisas o pantallas si lo planeamos desde el principio."
+      ],
+      "incluye": [
+        "Muros a una y dos caras",
+        "Vanos para puertas",
+        "Aislante acústico",
+        "Refuerzos para colgar pantallas o repisas",
+        "Muros curvos y nichos",
+        "Muros de gran altura",
+        "Juntas, empastado y pintura"
+      ],
+      "fotos": [
+        {
+          "src": "obras/muros-20m-apodaca/01.webp",
+          "alt": "Trabajador en plataforma de elevación junto a un muro de panel de yeso de gran altura",
+          "pie": "Muros de 20 m de altura · Apodaca"
+        },
+        {
+          "src": "assets/img/servicios/tablaroca.webp",
+          "alt": "Muros de panel de yeso en el cubo de una escalera",
+          "pie": "Muros de panel de yeso"
+        },
+        {
+          "src": "obras/tablaroca-durock/muro-curvo-local.webp",
+          "alt": "Local comercial con muro curvo, nicho circular y plafón de tablaroca con juntas empastadas",
+          "pie": "Muro curvo y plafón de tablaroca en local comercial"
+        },
+        {
+          "src": "obras/locales-comerciales/local-tablaroca.webp",
+          "alt": "Local comercial con muros y plafón de tablaroca en proceso",
+          "pie": "Adecuación de local comercial: muros y plafón"
+        },
+        {
+          "src": "obras/oficinas-edificio-medico/01.webp",
+          "alt": "Oficina con plafón registrable en proceso y muros de panel de yeso",
+          "pie": "Habilitado de oficinas · San Nicolás de los Garza"
+        }
+      ],
+      "faq": [
+        {
+          "p": "¿Qué es un muro de tablaroca a dos caras?",
+          "r": "Es un muro con placa de tablaroca en ambos lados de la estructura metálica; es el más común para dividir espacios. A una cara se usa para forrar un muro que ya existe."
+        },
+        {
+          "p": "¿Se puede colgar una pantalla o repisas?",
+          "r": "Sí, con refuerzos dentro del muro y taquetes adecuados. Conviene planearlo antes de cerrar el muro."
+        },
+        {
+          "p": "¿Aíslan el ruido?",
+          "r": "Con aislante acústico dentro del muro mejora mucho el aislamiento entre cuartos u oficinas."
+        },
+        {
+          "p": "¿Cuánto cuesta el metro de muro de tablaroca?",
+          "r": "Depende de si es a una o dos caras, de la altura, del aislante y del acabado. Mándanos medidas por WhatsApp y te enviamos una cotización formal por escrito."
+        }
+      ]
+    },
+    {
+      "slug": "plafones-de-tablaroca",
+      "grupo": "especialidad",
+      "nombre": "Plafones y cajillos",
+      "wa": "plafones",
+      "form": "tablaroca",
+      "titulo": "Plafones y cajillos de tablaroca en Monterrey | NORTEA",
+      "descripcion": "Plafones y techos de tablaroca en Monterrey: corridos, registrables y con cajillo para luz indirecta, en salas, recámaras, cocinas, oficinas y locales.",
+      "h1": "Plafones y cajillos de tablaroca en Monterrey",
+      "lead": "Plafones corridos y registrables, cajillos con luz indirecta y techos de tablaroca para salas, recámaras, cocinas, oficinas y locales.",
+      "intro": [
+        "Un plafón de tablaroca esconde instalaciones, nivela el techo y permite iluminar mejor. Hacemos plafones corridos, lisos y continuos, para casas, y registrables, de placas desmontables, para oficinas y locales.",
+        "Los cajillos con luz indirecta le dan otro ambiente a una sala, una recámara o una cocina. Entregamos el trabajo terminado, con juntas, empastado y pintura."
+      ],
+      "incluye": [
+        "Plafones corridos",
+        "Plafones registrables",
+        "Cajillos con luz indirecta",
+        "Cajillos para cortinas",
+        "Plafones en cocinas y baños con placa para humedad",
+        "Juntas, empastado y pintura"
+      ],
+      "fotos": [
+        {
+          "src": "obras/tablaroca-durock/plafon-ventanal.webp",
+          "alt": "Plafón y muro de tablaroca terminados junto a un ventanal con vista a la ciudad",
+          "pie": "Plafón y muros de tablaroca terminados"
+        },
+        {
+          "src": "obras/tablaroca-durock/muro-curvo-local.webp",
+          "alt": "Local comercial con muro curvo, nicho circular y plafón de tablaroca con juntas empastadas",
+          "pie": "Muro curvo y plafón de tablaroca en local comercial"
+        },
+        {
+          "src": "obras/habitaciones/habitacion-ventanal.webp",
+          "alt": "Habitación terminada con plafón liso, muros y ventanal de piso a techo",
+          "pie": "Habitación terminada con plafón liso y ventanal"
+        },
+        {
+          "src": "obras/oficinas-edificio-medico/01.webp",
+          "alt": "Oficina con plafón registrable en proceso y muros de panel de yeso",
+          "pie": "Habilitado de oficinas · San Nicolás de los Garza"
+        },
+        {
+          "src": "obras/locales-comerciales/local-tablaroca.webp",
+          "alt": "Local comercial con muros y plafón de tablaroca en proceso",
+          "pie": "Adecuación de local comercial: muros y plafón"
+        }
+      ],
+      "faq": [
+        {
+          "p": "¿Qué es un cajillo con luz indirecta?",
+          "r": "Es un escalón o canal de tablaroca en el plafón donde se esconde una tira de luz, de modo que ilumina el techo sin que se vea el foco."
+        },
+        {
+          "p": "¿Plafón corrido o registrable?",
+          "r": "El corrido es liso y continuo, ideal para casas. El registrable tiene placas que se quitan para llegar a las instalaciones; es el más práctico en oficinas y locales."
+        },
+        {
+          "p": "¿Se puede poner plafón en la cocina o el baño?",
+          "r": "Sí; en zonas húmedas se usa una placa resistente a la humedad."
+        },
+        {
+          "p": "¿Cuánto cuesta el metro de plafón?",
+          "r": "Depende del tipo de plafón, de los cajillos y del acabado. Mándanos medidas y fotos por WhatsApp y te enviamos una cotización formal por escrito."
+        }
+      ]
+    },
+    {
+      "slug": "muros-de-durock",
+      "grupo": "especialidad",
+      "nombre": "Muros de Durock",
+      "wa": "durock",
+      "form": "tablaroca",
+      "titulo": "Muros de Durock en Monterrey: exterior y zonas húmedas | NORTEA",
+      "descripcion": "Muros de Durock en Monterrey a una y dos caras, para exterior, fachadas y zonas húmedas, con basecoat, malla y acabado final.",
+      "h1": "Muros de Durock en Monterrey",
+      "lead": "Muros de Durock a una y dos caras para exteriores, fachadas, baños y otras zonas húmedas, con su acabado final.",
+      "intro": [
+        "El Durock es un panel de cemento que resiste el agua y la intemperie. Lo usamos en muros exteriores, volúmenes de fachada, ampliaciones ligeras y en baños y zonas húmedas, donde la tablaroca no conviene.",
+        "Lo instalamos sobre estructura metálica, tratamos las juntas con basecoat y malla y le damos el acabado final: estuco, pintura o recubrimiento."
+      ],
+      "incluye": [
+        "Muros de Durock a una y dos caras",
+        "Muros exteriores y de fachada",
+        "Volúmenes y molduras de fachada",
+        "Muros para baños y zonas húmedas",
+        "Basecoat y malla en juntas",
+        "Estuco, pintura o recubrimiento"
+      ],
+      "fotos": [
+        {
+          "src": "obras/tablaroca-durock/durock.webp",
+          "alt": "Muros forrados con placas de Durock",
+          "pie": "Muros forrados con Durock"
+        },
+        {
+          "src": "obras/fachada-residencial-monterrey/02.webp",
+          "alt": "Fachada con andamios y volumen ligero en altura",
+          "pie": "Volumen ligero en fachada · Monterrey"
+        },
+        {
+          "src": "obras/fachadas/edificio-plataforma.webp",
+          "alt": "Plataforma colgante y forro exterior en la fachada de un edificio",
+          "pie": "Forro exterior de fachada con plataforma colgante"
+        },
+        {
+          "src": "assets/img/nosotros/fachada-edificio.webp",
+          "alt": "Estructura para fachada de edificio en altura",
+          "pie": "Estructura para fachada en altura"
+        }
+      ],
+      "faq": [
+        {
+          "p": "¿Qué es el Durock?",
+          "r": "Es un panel de cemento que resiste el agua y la intemperie. Se usa en exteriores, fachadas y zonas húmedas."
+        },
+        {
+          "p": "¿Muro de Durock a una o a dos caras?",
+          "r": "A dos caras es un muro completo, con panel en ambos lados de la estructura. A una cara se usa para forrar o cuando el otro lado lleva otro material, como tablaroca en el interior."
+        },
+        {
+          "p": "¿Qué acabado lleva?",
+          "r": "Las juntas se tratan con basecoat y malla, y luego va estuco, pintura o un recubrimiento."
+        },
+        {
+          "p": "¿Cuánto cuesta el metro de muro de Durock?",
+          "r": "Depende de si es a una o dos caras, de la altura y del acabado. Mándanos medidas por WhatsApp y te enviamos una cotización formal por escrito."
+        }
+      ]
+    },
+    {
+      "slug": "instalacion-de-porcelanato",
+      "grupo": "especialidad",
+      "nombre": "Instalación de porcelanato",
+      "wa": "porcelanato",
+      "form": "acabados",
+      "titulo": "Instalación de porcelanato en Monterrey: gran formato 60x120 | NORTEA",
+      "descripcion": "Instalación de porcelanato en Monterrey: pisos y muros, gran formato como 60x120, con niveladores, en casas, locales y oficinas. También mármol.",
+      "h1": "Instalación de porcelanato en Monterrey",
+      "lead": "Pisos y muros de porcelanato, también de gran formato como 60x120, colocados parejos y con niveladores. También instalamos mármol.",
+      "intro": [
+        "Instalamos porcelanato en pisos y muros de casas, locales y oficinas, incluido el de gran formato, como 60x120, que necesita una base pareja y buena técnica para que no queden piezas desniveladas.",
+        "Preparamos la superficie, usamos niveladores y entregamos el trabajo con juntas y remates limpios. También instalamos mármol en pisos y muros."
+      ],
+      "incluye": [
+        "Porcelanato en pisos",
+        "Porcelanato en muros y baños",
+        "Gran formato, como 60x120",
+        "Niveladores para un acabado parejo",
+        "Preparación de la superficie",
+        "Instalación de mármol"
+      ],
+      "fotos": [
+        {
+          "src": "obras/locales-comerciales/local-piso-marmol.webp",
+          "alt": "Local comercial con muros de tablaroca, iluminación colgante y piso de mármol",
+          "pie": "Local comercial con piso de mármol"
+        },
+        {
+          "src": "obras/acabados/marmol-instalacion.webp",
+          "alt": "Placas de mármol en muro con niveladores durante la instalación",
+          "pie": "Instalación de mármol en muro"
+        },
+        {
+          "src": "obras/acabados/marmol-muro.webp",
+          "alt": "Muro con recubrimiento de mármol recién instalado",
+          "pie": "Muro de mármol"
+        },
+        {
+          "src": "assets/img/servicios/acabados.webp",
+          "alt": "Fachada terminada con recubrimiento de gran formato en tono arena",
+          "pie": "Recubrimiento de gran formato en fachada"
+        }
+      ],
+      "faq": [
+        {
+          "p": "¿Instalan porcelanato de 60x120?",
+          "r": "Sí, instalamos porcelanato de gran formato, como 60x120, con niveladores para que quede parejo."
+        },
+        {
+          "p": "¿Qué necesita el piso antes de instalar?",
+          "r": "Un firme limpio, nivelado y seco. Si no lo está, lo preparamos antes de colocar las piezas."
+        },
+        {
+          "p": "¿Cuánto cuesta la instalación de porcelanato por metro?",
+          "r": "Depende del formato de la pieza, de la preparación que necesite el piso y de los metros. Mándanos medidas y fotos por WhatsApp y te enviamos una cotización formal por escrito."
+        },
+        {
+          "p": "¿También instalan mármol?",
+          "r": "Sí, en pisos y muros, como los que ves en las fotos de esta página."
+        }
+      ]
     },
     {
       "slug": "proyectos-ejecutivos",
-      "nombre": "Topografía y mecánica de suelos",
+      "nombre": "Proyecto ejecutivo",
       "titulo": "Levantamiento topográfico y mecánica de suelos en Monterrey | NORTEA",
       "descripcion": "Levantamiento topográfico con estación total, estudio de mecánica de suelos y planos ejecutivos en Monterrey, para empezar tu obra con medidas y datos reales.",
       "h1": "Topografía, mecánica de suelos y proyecto ejecutivo en Monterrey",
@@ -682,7 +1459,120 @@
           "r": "Mándanos por WhatsApp la ubicación del terreno, sus medidas aproximadas y qué piensas construir. Te enviamos una cotización formal por escrito."
         }
       ],
-      "form": "proyecto"
+      "form": "proyecto",
+      "grupo": "estudio"
+    },
+    {
+      "slug": "estudio-de-mecanica-de-suelos",
+      "grupo": "estudio",
+      "nombre": "Mecánica de suelos",
+      "wa": "mecanicaSuelos",
+      "form": "proyecto",
+      "titulo": "Estudio de mecánica de suelos en Monterrey | NORTEA",
+      "descripcion": "Estudio de mecánica de suelos en Monterrey para casa habitación, locales y naves: sondeos, pruebas de laboratorio y recomendación de cimentación.",
+      "h1": "Estudio de mecánica de suelos en Monterrey",
+      "lead": "Sondeos en tu terreno, pruebas de laboratorio y la recomendación de cimentación para tu casa, local o nave.",
+      "intro": [
+        "El estudio de mecánica de suelos dice qué tan resistente es tu terreno y qué cimentación necesita lo que vas a construir. En el área metropolitana de Monterrey el suelo cambia mucho de una zona a otra, así que no conviene suponerlo.",
+        "Hacemos el estudio para casas, locales y naves, y si después construimos contigo, la misma empresa que estudió el terreno lleva la obra."
+      ],
+      "incluye": [
+        "Sondeos o perforaciones en el terreno",
+        "Muestras y pruebas de laboratorio",
+        "Capacidad de carga del suelo",
+        "Recomendación de cimentación",
+        "Informe del estudio"
+      ],
+      "fotos": [
+        {
+          "src": "obras/proyectos-ejecutivos/levantamiento-topografico.webp",
+          "alt": "Equipo de topografía en tripié con perforadora de mecánica de suelos al fondo",
+          "pie": "Levantamiento topográfico y mecánica de suelos"
+        }
+      ],
+      "faq": [
+        {
+          "p": "¿Para qué sirve un estudio de mecánica de suelos?",
+          "r": "Para saber qué tan resistente es el terreno y qué tipo de cimentación necesita la construcción. Así se evitan grietas y hundimientos."
+        },
+        {
+          "p": "¿Lo necesito para una casa habitación?",
+          "r": "Es lo más recomendable antes de diseñar la cimentación de tu casa, porque el tipo de suelo cambia de una zona a otra."
+        },
+        {
+          "p": "¿Qué incluye el estudio?",
+          "r": "Sondeos en el terreno, pruebas de laboratorio de las muestras y un informe con la capacidad de carga del suelo y la recomendación de cimentación."
+        },
+        {
+          "p": "¿Cuánto cuesta?",
+          "r": "Depende del tamaño del terreno y de lo que vas a construir. Mándanos la ubicación y tu proyecto por WhatsApp y te enviamos una cotización formal por escrito."
+        }
+      ]
+    },
+    {
+      "slug": "levantamiento-topografico",
+      "grupo": "estudio",
+      "nombre": "Levantamiento topográfico",
+      "wa": "topografia",
+      "form": "proyecto",
+      "titulo": "Levantamiento topográfico en Monterrey | NORTEA",
+      "descripcion": "Levantamiento topográfico con estación total en Monterrey: medidas, niveles y límites reales de tu terreno para proyectar y cotizar tu obra.",
+      "h1": "Levantamiento topográfico en Monterrey",
+      "lead": "Medimos tu terreno con estación total: medidas, niveles y límites reales para proyectar y cotizar tu obra sin sorpresas.",
+      "intro": [
+        "El levantamiento topográfico es el punto de partida de cualquier obra: dice cuánto mide de verdad tu terreno, qué desniveles tiene y dónde están sus límites. Lo hacemos con estación total.",
+        "Con esa información se dibujan los planos y se calcula la obra con datos reales. Si después construimos contigo, la misma empresa que midió el terreno lleva la obra."
+      ],
+      "incluye": [
+        "Levantamiento con estación total",
+        "Medidas y límites del terreno",
+        "Niveles y desniveles",
+        "Plano del terreno para proyectar",
+        "Apoyo para el proyecto ejecutivo"
+      ],
+      "fotos": [
+        {
+          "src": "obras/proyectos-ejecutivos/levantamiento-topografico.webp",
+          "alt": "Equipo de topografía en tripié con perforadora de mecánica de suelos al fondo",
+          "pie": "Levantamiento topográfico y mecánica de suelos"
+        }
+      ],
+      "faq": [
+        {
+          "p": "¿Qué es un levantamiento topográfico?",
+          "r": "Es la medición precisa de un terreno: sus medidas, niveles y límites. Con eso se dibujan los planos y se calcula la obra."
+        },
+        {
+          "p": "¿Con qué equipo lo hacen?",
+          "r": "Con estación total, un equipo de topografía que mide ángulos y distancias con precisión."
+        },
+        {
+          "p": "¿Qué me entregan?",
+          "r": "Un plano con las medidas, los niveles y los límites del terreno, listo para proyectar tu obra."
+        },
+        {
+          "p": "¿Cuánto cuesta un levantamiento topográfico?",
+          "r": "Depende del tamaño del terreno y de lo que necesites medir. Mándanos la ubicación por WhatsApp y te enviamos una cotización formal por escrito."
+        }
+      ]
+    }
+  ],
+  "grupos": [
+    {
+      "id": "casa",
+      "nombre": "Para tu casa"
+    },
+    {
+      "id": "negocio",
+      "nombre": "Para tu negocio e industria"
+    },
+    {
+      "id": "especialidad",
+      "nombre": "Especialidades"
+    },
+    {
+      "id": "estudio",
+      "nombre": "Estudios y proyecto"
     }
   ]
 }
