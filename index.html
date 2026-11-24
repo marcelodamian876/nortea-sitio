@@ -8,6 +8,16 @@
   <link rel="canonical" href="https://nortea.mx/">
   <meta name="theme-color" content="#0B1D2F">
   <meta name="robots" content="index, follow">
+  <!-- Verificación de Google Search Console (propiedad https://nortea.mx/) -->
+  <meta name="google-site-verification" content="fmw35YiRARByF-tJliCq3Xe3_Ipl5c1T3ghXSFkEttE">
+  <!-- Google Analytics 4 (cuenta NORTEA). Los clics a WhatsApp, el formulario y las categorías se envían como eventos desde assets/js. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WWRW9HJB27"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WWRW9HJB27');
+  </script>
 
   <!-- Open Graph / vista previa al compartir (WhatsApp, Facebook, Instagram) -->
   <meta property="og:type" content="website">
@@ -42,16 +52,15 @@
   <link rel="stylesheet" href="assets/css/rediseno.css?v=20261120a">
   <script>document.documentElement.classList.add('js')</script>
 
-  <script src="site.config.js?v=20261123a" defer></script>
-  <script src="assets/js/main.js?v=20261123a" defer></script>
+  <script src="site.config.js?v=20261124a" defer></script>
+  <script src="assets/js/main.js?v=20261124a" defer></script>
   <script src="assets/js/obras.js?v=20261103b" defer></script>
   <script src="assets/js/rediseno.js?v=20261103a" defer></script>
 
   <!-- ANALÍTICA
-       Google Analytics 4 se enciende poniendo su ID (G-...) en site.config.js → analytics.ga4;
-       main.js lo carga. Los clics a WhatsApp ("whatsapp_click"), el formulario y las categorías
-       del portafolio se envían como eventos. Meta Pixel: pega aquí su código si algún día lo usas
-       (main.js llama a fbq() automáticamente si existe). -->
+       Google Analytics 4 va arriba, al principio del <head> (también en aviso-de-privacidad.html y 404.html).
+       Los clics a WhatsApp ("whatsapp_click"), el formulario y las categorías del portafolio se envían
+       como eventos. Meta Pixel: pega aquí su código si algún día lo usas (main.js llama a fbq() si existe). -->
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>

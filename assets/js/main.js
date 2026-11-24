@@ -35,28 +35,13 @@
   })();
   NORTEA.origen = origen;
 
-  /* ---------- Google Analytics 4 ----------
-     Se enciende solo con poner el "ID de medición" (G-...) en site.config.js → analytics.ga4.
-     Vacío = apagado: no se carga nada de Google. Los clics a WhatsApp, el formulario y las
-     categorías del portafolio le llegan como eventos por medio de NORTEA.track (abajo). */
-  (function () {
-    var id = String((SITE.analytics && SITE.analytics.ga4) || "").trim();
-    if (!/^G-[A-Z0-9]{4,}$/.test(id)) return;
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function () { window.dataLayer.push(arguments); };
-    window.gtag("js", new Date());
-    window.gtag("config", id);
-    var s = document.createElement("script");
-    s.async = true;
-    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
-    document.head.appendChild(s);
-  })();
-
   /* ---------- Analítica ----------
+     Google Analytics 4 (G-WWRW9HJB27) se carga en el <head> de cada página.
      Cada evento se envía a:
        1) window.dataLayer (Google Tag Manager / GA4)
        2) un evento del navegador "nortea:track" (para conectar lo que quieras)
-       3) gtag() y fbq() si ya están instalados en la página. */
+       3) gtag() y fbq() si ya están instalados en la página.
+     Los eventos solo llevan el tipo de botón, de servicio o de cliente: nunca nombre, teléfono ni mensaje. */
   NORTEA.track = function (nombre, datos) {
     var payload = Object.assign({ event: nombre, utm_source: origen.source, utm_medium: origen.medium, utm_campaign: origen.campaign }, datos || {});
     window.dataLayer = window.dataLayer || [];
