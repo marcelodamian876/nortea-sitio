@@ -154,6 +154,7 @@
     if (!pendiente(SITE.instagram)) same.push("https://www.instagram.com/" + SITE.instagram + "/");
     if (SITE.facebook) same.push(SITE.facebook);
     same.push(ld.hasMap);
+    (SITE.perfiles || []).forEach(function (u) { if (u) same.push(u); });
     if (same.length) ld.sameAs = same;
     var s = document.createElement("script");
     s.type = "application/ld+json";

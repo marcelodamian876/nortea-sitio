@@ -465,6 +465,10 @@ def escribir_llms(datos):
                "- Horario: lunes a sábado, de 8:00 a 18:00",
                "- Correo: nortea.ic@gmail.com",
                "- Instagram: https://www.instagram.com/nortea.mx_/",
+               "- Facebook: https://www.facebook.com/Norteamx0",
+               "- Ficha en Google Maps: https://maps.google.com/maps?cid=8380302862410455410",
+               "- Perfil en Cronoshare: https://www.cronoshare.com.mx/croner-754862-nortea-ingenieria-y-construccion",
+               "- Perfil en Habitissimo: https://empresas.habitissimo.com.mx/pro/nortea-ingenieria-y-construccion",
                f"- Formulario de cotización: {DOMINIO}/#cotizar", ""]
     escribir_si_cambia("llms.txt", "\n".join(lineas))
     print("ok llms.txt")

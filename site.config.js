@@ -49,7 +49,12 @@ window.SITE = {
 
   // Solo el usuario, sin @. Ejemplo: "nortea.mx"
   instagram: "nortea.mx_",
-  facebook: "", // opcional: URL completa de tu página de Facebook
+  facebook: "https://www.facebook.com/Norteamx0", // página de Facebook (URL completa)
+  // Otros perfiles oficiales del negocio: van en los datos para Google y las IA (sameAs), para que sepan que son el mismo negocio.
+  perfiles: [
+    "https://www.cronoshare.com.mx/croner-754862-nortea-ingenieria-y-construccion",
+    "https://empresas.habitissimo.com.mx/pro/nortea-ingenieria-y-construccion",
+  ],
 
   zonaServicio: [
     "Monterrey", "San Pedro Garza García", "San Nicolás de los Garza",
